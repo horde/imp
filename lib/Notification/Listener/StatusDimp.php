@@ -1,12 +1,8 @@
 <?php
-
-require_once IMP_BASE . '/lib/Notification/Listener/status.php';
-require_once 'Horde/Notification/Event.php';
-
 /**
- * The Notification_Listener_status_dimp:: class extends the
- * Notification_Listener_status_imp:: class to return all messages instead of
- * printing them.
+ * The IMP_Notification_Listener_StatusDimp:: class extends the
+ * IMP_Notification_Listener_StatusImp:: class to return all messages instead
+ * of printing them.
  *
  * Copyright 2005-2009 The Horde Project (http://www.horde.org/)
  *
@@ -16,14 +12,14 @@ require_once 'Horde/Notification/Event.php';
  * @author  Jan Schneider <jan@horde.org>
  * @package Horde_Notification
  */
-class Notification_Listener_status_dimp extends Notification_Listener_status_imp {
-
+class IMP_Notification_Listener_StatusDimp extends IMP_Notification_Listener_StatusImp
+{
     /**
      * The notified message stack.
      *
      * @var array
      */
-    var $_messageStack = array();
+    protected $_messageStack = array();
 
     /**
      * Returns all status message if there are any on the 'status' message
@@ -32,7 +28,7 @@ class Notification_Listener_status_dimp extends Notification_Listener_status_imp
      * @param array &$messageStack  The stack of messages.
      * @param array $options        An array of options.
      */
-    function notify(&$messageStack, $options = array())
+    public function notify(&$messageStack, $options = array())
     {
         while ($message = array_shift($messageStack)) {
             $event = @unserialize($message['event']);
@@ -52,12 +48,9 @@ class Notification_Listener_status_dimp extends Notification_Listener_status_imp
      *
      * @return boolean  Whether this listener handles the type.
      */
-    function handles($type)
+    public function handles($type)
     {
-        if (substr($type, 0, 5) == 'dimp.') {
-            return true;
-        }
-        return parent::handles($type);
+        return (substr($type, 0, 5) == 'dimp.') || parent::handles($type);
     }
 
     /**
@@ -68,7 +61,7 @@ class Notification_Listener_status_dimp extends Notification_Listener_status_imp
      *
      * @return array  List of message hashes.
      */
-    function getStack($encode = false)
+    public function getStack($encode = false)
     {
         $msgs = $this->_messageStack;
         if (!$encode) {
