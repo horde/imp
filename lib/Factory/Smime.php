@@ -1,6 +1,6 @@
 <?php
 /**
- * A Horde_Injector based factory for IMP's identity object.
+ * A Horde_Injector based factory for the IMP_Crypt_Smime object.
  *
  * PHP version 5
  *
@@ -12,7 +12,7 @@
  */
 
 /**
- * A Horde_Injector based factory for IMP's identity object.
+ * A Horde_Injector based factory for the IMP_Crypt_Smime object.
  *
  * Copyright 2010 The Horde Project (http://www.horde.org/)
  *
@@ -25,16 +25,16 @@
  * @link     http://pear.horde.org/index.php?package=IMP
  * @package  IMP
  */
-class IMP_Injector_Factory_Identity
+class IMP_Factory_Smime
 {
     /**
-     * Return the IMP identity instance.
+     * Return the IMP_Crypt_Smime instance.
      *
-     * @return IMP_Prefs_Identity  The singleton instance.
+     * @return IMP_Crypt_Smime  The singleton instance.
      */
     public function create(Horde_Injector $injector)
     {
-        return $injector->getInstance('Horde_Core_Factory_Identity')->create(null, 'imp');
+        return $injector->getInstance('Horde_Core_Factory_Crypt')->create('IMP_Crypt_Smime');
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * A Horde_Injector based factory for the IMP_Crypt_Smime object.
+ * A Horde_Injector:: based IMP_Contents:: factory.
  *
  * PHP version 5
  *
@@ -12,7 +12,7 @@
  */
 
 /**
- * A Horde_Injector based factory for the IMP_Crypt_Smime object.
+ * A Horde_Injector:: based IMP_Contents:: factory.
  *
  * Copyright 2010 The Horde Project (http://www.horde.org/)
  *
@@ -25,16 +25,32 @@
  * @link     http://pear.horde.org/index.php?package=IMP
  * @package  IMP
  */
-class IMP_Injector_Factory_Smime
+class IMP_Factory_Contents
 {
     /**
-     * Return the IMP_Crypt_Smime instance.
+     * Instances.
      *
-     * @return IMP_Crypt_Smime  The singleton instance.
+     * @var array
      */
-    public function create(Horde_Injector $injector)
+    private $_instances = array();
+
+    /**
+     * Return the IMP_Contents:: instance.
+     *
+     * @param IMP_Indices $indices  An indices object.
+     *
+     * @return IMP_Contents  The singleton contents instance.
+     * @throws IMP_Exception
+     */
+    public function create($indices)
     {
-        return $injector->getInstance('Horde_Core_Factory_Crypt')->create('IMP_Crypt_Smime');
+        $key = strval($indices);
+
+        if (!isset($this->_instances[$key])) {
+            $this->_instances[$key] = new IMP_Contents($indices);
+        }
+
+        return $this->_instances[$key];
     }
 
 }

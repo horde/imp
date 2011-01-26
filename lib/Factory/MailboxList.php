@@ -25,7 +25,7 @@
  * @link     http://pear.horde.org/index.php?package=IMP
  * @package  IMP
  */
-class IMP_Injector_Factory_MailboxList
+class IMP_Factory_MailboxList
 {
     /**
      * Instances.

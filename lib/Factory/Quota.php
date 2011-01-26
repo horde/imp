@@ -25,7 +25,7 @@
  * @link     http://pear.horde.org/index.php?package=IMP
  * @package  IMP
  */
-class IMP_Injector_Factory_Quota
+class IMP_Factory_Quota
 {
     /**
      * Return the IMP_Quota instance.
@@ -52,7 +52,7 @@ class IMP_Injector_Factory_Quota
             $params['password'] = $secret->read($secret->getKey('imp'), $params['password']);
         }
 
-        $imap_ob = $injector->getInstance('IMP_Injector_Factory_Imap')->create();
+        $imap_ob = $injector->getInstance('IMP_Factory_Imap')->create();
 
         switch (Horde_String::lower($driver)) {
         case 'imap':

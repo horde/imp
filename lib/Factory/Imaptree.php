@@ -25,7 +25,7 @@
  * @link     http://pear.horde.org/index.php?package=IMP
  * @package  IMP
  */
-class IMP_Injector_Factory_Imaptree
+class IMP_Factory_Imaptree
 {
     /**
      * Return the IMP_Imap_Tree object.

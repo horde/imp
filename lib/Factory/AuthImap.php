@@ -25,7 +25,7 @@
  * @link     http://pear.horde.org/index.php?package=IMP
  * @package  IMP
  */
-class IMP_Injector_Factory_AuthImap
+class IMP_Factory_AuthImap
 {
     /**
      * Return the Horde_Auth_Imap:: instance that uses IMP configuration.

@@ -25,7 +25,7 @@
  * @license  http://www.fsf.org/copyleft/gpl.html GPL
  * @link     http://pear.horde.org/index.php?package=IMP
  */
-class IMP_Injector_Factory_MimeViewer
+class IMP_Factory_MimeViewer
 {
     /**
      * The injector.

@@ -1,6 +1,6 @@
 <?php
 /**
- * A Horde_Injector:: based IMP_Contents:: factory.
+ * A Horde_Injector based factory for IMP's identity object.
  *
  * PHP version 5
  *
@@ -12,7 +12,7 @@
  */
 
 /**
- * A Horde_Injector:: based IMP_Contents:: factory.
+ * A Horde_Injector based factory for IMP's identity object.
  *
  * Copyright 2010 The Horde Project (http://www.horde.org/)
  *
@@ -25,32 +25,16 @@
  * @link     http://pear.horde.org/index.php?package=IMP
  * @package  IMP
  */
-class IMP_Injector_Factory_Contents
+class IMP_Factory_Identity
 {
     /**
-     * Instances.
+     * Return the IMP identity instance.
      *
-     * @var array
+     * @return IMP_Prefs_Identity  The singleton instance.
      */
-    private $_instances = array();
-
-    /**
-     * Return the IMP_Contents:: instance.
-     *
-     * @param IMP_Indices $indices  An indices object.
-     *
-     * @return IMP_Contents  The singleton contents instance.
-     * @throws IMP_Exception
-     */
-    public function create($indices)
+    public function create(Horde_Injector $injector)
     {
-        $key = strval($indices);
-
-        if (!isset($this->_instances[$key])) {
-            $this->_instances[$key] = new IMP_Contents($indices);
-        }
-
-        return $this->_instances[$key];
+        return $injector->getInstance('Horde_Core_Factory_Identity')->create(null, 'imp');
     }
 
 }
