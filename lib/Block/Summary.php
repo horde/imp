@@ -12,30 +12,46 @@
  * @license  http://www.fsf.org/copyleft/gpl.html GPL
  * @package  IMP
  */
-
-$block_name = _("Folder Summary");
-
-class Horde_Block_imp_summary extends Horde_Block
+class IMP_Block_Summary extends Horde_Block
 {
+    /**
+     */
     public $updateable = true;
-    protected $_app = 'imp';
 
+    /**
+     */
+    public function getName()
+    {
+        return _("Folder Summary");
+    }
+
+    /**
+     */
     protected function _title()
     {
         return Horde::link(Horde::url($GLOBALS['registry']->getInitialPage(), true)) . $GLOBALS['registry']->get('name') . '</a>';
     }
 
+    /**
+     */
     protected function _params()
     {
-        return array('show_unread' => array('type' => 'boolean',
-                                            'name' => _("Only display folders with unread messages in them?"),
-                                            'default' => 0),
-                     'show_total' => array('type' => 'boolean',
-                                           'name' => _("Show total number of mails in folder?"),
-                                           'default' => 0)
-                     );
+        return array(
+            'show_unread' => array(
+                'type' => 'boolean',
+                'name' => _("Only display folders with unread messages in them?"),
+                'default' => 0
+            ),
+            'show_total' => array(
+                'type' => 'boolean',
+                'name' => _("Show total number of mails in folder?"),
+                'default' => 0
+            )
+        );
     }
 
+    /**
+     */
     protected function _content()
     {
         $imp_ui = new IMP_Ui_Block();
