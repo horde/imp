@@ -6,6 +6,10 @@
  * All drivers configured in that file, but not configured here, will also
  * be used to display MIME content.
  *
+ * IMPORTANT: Local overrides should be placed in mime_drivers.local.php, or
+ * mime_drivers-servername.php if the 'vhosts' setting has been enabled in
+ * Horde's configuration.
+ *
  * Additional settings for IMP:
  * + If you want to limit the display of message data inline for large
  *   messages of a certain type, add a 'limit_inline_size' parameter to the
@@ -13,8 +17,6 @@
  *   (see example under text/plain below).  If set, the user will only be able
  *   to download the part.  Don't set the parameter, or set to 0, to disable
  *   this check.
- *
- * $Id$
  */
 
 $mime_drivers = array(
@@ -241,3 +243,8 @@ $mime_drivers = array(
         )
     )
 );
+
+/* Local overrides. */
+if (file_exists(dirname(__FILE__) . '/mime_drivers.local.php')) {
+    include dirname(__FILE__) . '/mime_drivers.local.php';
+}

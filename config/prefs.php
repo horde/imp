@@ -2,7 +2,9 @@
 /**
  * See horde/config/prefs.php for documentation on the structure of this file.
  *
- * $Id$
+ * IMPORTANT: Local overrides should be placed in prefs.local.php, or
+ * prefs-servername.php if the 'vhosts' setting has been enabled in Horde's
+ * configuration.
  */
 
 // *** Personal Information Preferences ***
@@ -1606,3 +1608,8 @@ $_prefs['dimp_splitbar'] = array(
 $_prefs['dimp_toggle_headers'] = array(
     'value' => 0
 );
+
+/* Local overrides. */
+if (file_exists(dirname(__FILE__) . '/prefs.local.php')) {
+    include dirname(__FILE__) . '/prefs.local.php';
+}

@@ -2,6 +2,10 @@
 /**
  * Dynamic portal configuration page.
  *
+ * IMPORTANT: Local overrides should be placed in portal.local.php, or
+ * portal-servername.php if the 'vhosts' setting has been enabled in Horde's
+ * configuration.
+ *
  * Format: An array named $dimp_block_list
  *     KEY: Block label text
  *     VALUE: An array with the following entries:
@@ -14,8 +18,6 @@
  *            'domid' => A DOM ID to assign to the containing block
  *            'tag' => A tag name to add to the template array. Allows
  *                     the use of <if:block.tag> in custom template files.
- *
- * $Id$
  */
 
 $collection = new Horde_Block_Collection();
@@ -47,3 +49,8 @@ try {
         'ob' => $collection->getBlock('kronolith', 'Summary', array())
     );
 } catch (Horde_Exception $e) {}
+
+/* Local overrides. */
+if (file_exists(dirname(__FILE__) . '/portal.local.php')) {
+    include dirname(__FILE__) . '/portal.local.php';
+}
