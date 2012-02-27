@@ -1,10 +1,10 @@
 /**
- * Javascript API used to import a public encryption key from the message
- * display.
+ * Javascript API used to store preference that the sender's images should
+ * never be blocked.
  *
  * Events triggered:
  * -----------------
- * IMPImportEncryptKey:success
+ * IMPImageUnblock:success
  *   params: NONE
  *
  * Copyright 2012 Horde LLC (http://www.horde.org/)
@@ -15,16 +15,12 @@
  * @author Michael Slusarz <slusarz@horde.org>
  */
 
-var IMPImportEncryptKey = {
+var IMPImageUnblock = {
 
     handles: {},
 
     clickHandler: function(e)
     {
-        if (!Object.isElement(e.element())) {
-            return false;
-        }
-
         var id = e.element().readAttribute('id');
 
         if (this.handles[id]) {
@@ -39,7 +35,7 @@ var IMPImportEncryptKey = {
     {
         if (r.responseJSON.response) {
             elt.up('TR').remove();
-            elt.fire('IMPImportEncryptKey:success');
+            elt.fire('IMPImageUnblock:success');
         }
         if (HordeCore &&
             HordeCore.showNotifications &&
@@ -50,4 +46,4 @@ var IMPImportEncryptKey = {
 
 };
 
-document.observe('click', IMPImportEncryptKey.clickHandler.bindAsEventListener(IMPImportEncryptKey));
+document.observe('click', IMPImageUnblock.clickHandler.bindAsEventListener(IMPImageUnblock));
