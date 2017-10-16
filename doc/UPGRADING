@@ -680,7 +680,7 @@ your preference backend::
 Hooks (hooks.php)
 -----------------
 
-The format of hooks.php has changed.  See horde/docs/UPGRADING for more
+The format of hooks.php has changed.  See horde/doc/UPGRADING for more
 information.
 
 The 'vinfo' hook has been removed.  Use Horde's 'authusername' and/or IMP's

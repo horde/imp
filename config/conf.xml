@@ -42,7 +42,7 @@
    <configinteger name="attach_size_limit" desc="The maximum total size of
    attachments allowed per message (in bytes)? Set to 0 for no limit. [The
    maximum allowable size of any individual attachment is set via the PHP
-   'upload_max_filesize' parameter; see imp/docs/INSTALL]">0</configinteger>
+   'upload_max_filesize' parameter; see imp/doc/INSTALL]">0</configinteger>
    <configinteger name="attach_count_limit" desc="The maximum total number of
    attachments allowed per message? Set to 0 for no limit.">0</configinteger>
 

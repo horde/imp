@@ -3983,8 +3983,8 @@ CHANGE: The top and bottom mailbox listing navbars are now symmetrical (jon)
 CHANGE: removed deprecated Errors-To: header (cjh)
 CHANGE: Changed X-Mailer to User-Agent (ref: draft-ietf-usefor-article-02) (jon)
 CHANGE: Removed some more unused files and cleaned up build scripts accordingly. (cjh)
-CHANGE: Moved config/README to docs/CONFIGS
-CHANGE: Removed old config/scripts/*.txt files in leiu of docs/DATABASE
+CHANGE: Moved config/README to doc/CONFIGS
+CHANGE: Removed old config/scripts/*.txt files in leiu of doc/DATABASE
 CHANGE: Went back to $h->udate for message dates (cjh)
 BUG: 8bit headers should now be properly encoded (Roy-Magne Mo & cjh)
 BUG: Poppassd should work now ("Charles P. Wright" <cpwright@cpwright.com>)

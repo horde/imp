@@ -5,7 +5,7 @@
 :Contact: imp@lists.horde.org
 
 
-Tips on performance tuning systems for IMP.  See `horde/docs/PERFORMANCE`_
+Tips on performance tuning systems for IMP.  See `horde/doc/PERFORMANCE`_
 for general performance tips for Horde.
 
 
@@ -72,5 +72,5 @@ for general performance tips for Horde.
 
 .. _Cyrus: http://www.cyrusimap.org/
 .. _Dovecot: http://www.dovecot.org/
-.. _`horde/docs/PERFORMANCE`: ../../horde/docs/PERFORMANCE
+.. _`horde/doc/PERFORMANCE`: ../../horde/doc/PERFORMANCE
 .. _imapproxy: http://www.imapproxy.org/

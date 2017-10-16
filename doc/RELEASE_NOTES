@@ -23,10 +23,10 @@ tracking system.  Updated translations are very welcome, though some strings
 might still change before the final release.
 
 For upgrading instructions, please see
-http://www.horde.org/apps/imp/docs/UPGRADING
+http://www.horde.org/apps/imp/doc/UPGRADING
 
 For detailed installation and configuration instructions, please see
-http://www.horde.org/apps/imp/docs/INSTALL
+http://www.horde.org/apps/imp/doc/INSTALL
 
 The major changes compared to IMP version H5 (6.2.0beta1) are:
     * Allow dragging of text to HTML compose body.
