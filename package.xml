@@ -22,7 +22,7 @@
   <email>chuck@horde.org</email>
   <active>no</active>
  </lead>
- <date>2017-10-13</date>
+ <date>2017-10-16</date>
  <version>
   <release>7.0.0</release>
   <api>7.0.0</api>
@@ -1206,7 +1206,7 @@
    <file name="COPYING" role="doc" />
    <file name="dynamic.php" role="horde" />
    <file name="index.php" role="horde" />
-   <file name="README" role="doc" />
+   <file name="README.rst" role="doc" />
    <file name="smartmobile.php" role="horde" />
    <file name="view.php" role="horde" />
   </dir> <!-- / -->
@@ -1550,7 +1550,7 @@
    <install as="COPYING" name="COPYING" />
    <install as="imp/dynamic.php" name="dynamic.php" />
    <install as="imp/index.php" name="index.php" />
-   <install as="README" name="README" />
+   <install as="README.rst" name="README.rst" />
    <install as="imp/smartmobile.php" name="smartmobile.php" />
    <install as="imp/view.php" name="view.php" />
    <install as="imp-admin-upgrade" name="bin/imp-admin-upgrade" />
@@ -4044,7 +4044,7 @@
    </notes>
   </release>
   <release>
-   <date>2017-10-13</date>
+   <date>2017-10-16</date>
    <version>
     <release>7.0.0</release>
     <api>7.0.0</api>
