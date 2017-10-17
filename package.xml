@@ -22,7 +22,7 @@
   <email>chuck@horde.org</email>
   <active>no</active>
  </lead>
- <date>2017-10-16</date>
+ <date>2017-10-17</date>
  <version>
   <release>7.0.0</release>
   <api>7.0.0</api>
@@ -1203,9 +1203,9 @@
    </dir> <!-- /themes -->
    <file name="attachment.php" role="horde" />
    <file name="basic.php" role="horde" />
-   <file name="COPYING" role="doc" />
    <file name="dynamic.php" role="horde" />
    <file name="index.php" role="horde" />
+   <file name="LICENSE" role="doc" />
    <file name="README.rst" role="doc" />
    <file name="smartmobile.php" role="horde" />
    <file name="view.php" role="horde" />
@@ -1547,12 +1547,6 @@
   <filelist>
    <install as="imp/attachment.php" name="attachment.php" />
    <install as="imp/basic.php" name="basic.php" />
-   <install as="COPYING" name="COPYING" />
-   <install as="imp/dynamic.php" name="dynamic.php" />
-   <install as="imp/index.php" name="index.php" />
-   <install as="README.rst" name="README.rst" />
-   <install as="imp/smartmobile.php" name="smartmobile.php" />
-   <install as="imp/view.php" name="view.php" />
    <install as="imp-admin-upgrade" name="bin/imp-admin-upgrade" />
    <install as="imp-bounce-spam" name="bin/imp-bounce-spam" />
    <install as="imp-mailbox-decode" name="bin/imp-mailbox-decode" />
@@ -1571,36 +1565,33 @@
    <install as="RELEASE_NOTES" name="doc/RELEASE_NOTES" />
    <install as="RFCS" name="doc/RFCS" />
    <install as="UPGRADING" name="doc/UPGRADING" />
+   <install as="imp/dynamic.php" name="dynamic.php" />
+   <install as="imp/index.php" name="index.php" />
    <install as="imp/js/autocomplete.js" name="js/autocomplete.js" />
    <install as="imp/js/base.js" name="js/base.js" />
+   <install as="imp/js/ckeditor/images.js" name="js/ckeditor/images.js" />
+   <install as="imp/js/ckeditor/imageupload.js" name="js/ckeditor/imageupload.js" />
+   <install as="imp/js/ckeditor/pasteattachment.js" name="js/ckeditor/pasteattachment.js" />
+   <install as="imp/js/ckeditor/pasteignore.js" name="js/ckeditor/pasteignore.js" />
    <install as="imp/js/compose.js" name="js/compose.js" />
    <install as="imp/js/contacts.js" name="js/contacts.js" />
    <install as="imp/js/core.js" name="js/core.js" />
    <install as="imp/js/draghandler.js" name="js/draghandler.js" />
    <install as="imp/js/editor.js" name="js/editor.js" />
-   <install as="imp/js/imp.js" name="js/imp.js" />
-   <install as="imp/js/login.js" name="js/login.js" />
-   <install as="imp/js/maillog.js" name="js/maillog.js" />
-   <install as="imp/js/message.js" name="js/message.js" />
-   <install as="imp/js/passphrase.js" name="js/passphrase.js" />
-   <install as="imp/js/search.js" name="js/search.js" />
-   <install as="imp/js/smartmobile.js" name="js/smartmobile.js" />
-   <install as="imp/js/syntaxhighlighter.js" name="js/syntaxhighlighter.js" />
-   <install as="imp/js/viewport.js" name="js/viewport.js" />
-   <install as="imp/js/viewport_utils.js" name="js/viewport_utils.js" />
-   <install as="imp/js/ckeditor/images.js" name="js/ckeditor/images.js" />
-   <install as="imp/js/ckeditor/imageupload.js" name="js/ckeditor/imageupload.js" />
-   <install as="imp/js/ckeditor/pasteattachment.js" name="js/ckeditor/pasteattachment.js" />
-   <install as="imp/js/ckeditor/pasteignore.js" name="js/ckeditor/pasteignore.js" />
    <install as="imp/js/external/base64.js" name="js/external/base64.js" />
    <install as="imp/js/external/CustomElements.js" name="js/external/CustomElements.js" />
    <install as="imp/js/external/latinize.js" name="js/external/latinize.js" />
    <install as="imp/js/external/load-image.all.min.js" name="js/external/load-image.all.min.js" />
    <install as="imp/js/external/time-elements.js" name="js/external/time-elements.js" />
    <install as="imp/js/external/tinycon.js" name="js/external/tinycon.js" />
+   <install as="imp/js/imp.js" name="js/imp.js" />
    <install as="imp/js/jquery.mobile/plugins/listviewtaphold.js" name="js/jquery.mobile/plugins/listviewtaphold.js" />
    <install as="imp/js/jquery.mobile/plugins/textchange.js" name="js/jquery.mobile/plugins/textchange.js" />
    <install as="imp/js/jquery.mobile/plugins/unveil.js" name="js/jquery.mobile/plugins/unveil.js" />
+   <install as="imp/js/login.js" name="js/login.js" />
+   <install as="imp/js/maillog.js" name="js/maillog.js" />
+   <install as="imp/js/message.js" name="js/message.js" />
+   <install as="imp/js/passphrase.js" name="js/passphrase.js" />
    <install as="imp/js/prefs/acl.js" name="js/prefs/acl.js" />
    <install as="imp/js/prefs/flag.js" name="js/prefs/flag.js" />
    <install as="imp/js/prefs/folder.js" name="js/prefs/folder.js" />
@@ -1608,39 +1599,15 @@
    <install as="imp/js/prefs/remote.js" name="js/prefs/remote.js" />
    <install as="imp/js/prefs/searches.js" name="js/prefs/searches.js" />
    <install as="imp/js/prefs/signaturehtml.js" name="js/prefs/signaturehtml.js" />
+   <install as="imp/js/search.js" name="js/search.js" />
+   <install as="imp/js/smartmobile.js" name="js/smartmobile.js" />
+   <install as="imp/js/syntaxhighlighter.js" name="js/syntaxhighlighter.js" />
+   <install as="imp/js/viewport.js" name="js/viewport.js" />
+   <install as="imp/js/viewport_utils.js" name="js/viewport_utils.js" />
    <install as="imp/lib/.htaccess" name="lib/.htaccess" />
-   <install as="imp/lib/Api.php" name="lib/Api.php" />
-   <install as="imp/lib/Application.php" name="lib/Application.php" />
-   <install as="imp/lib/Auth.php" name="lib/Auth.php" />
-   <install as="imp/lib/Compose.php" name="lib/Compose.php" />
-   <install as="imp/lib/Contacts.php" name="lib/Contacts.php" />
-   <install as="imp/lib/Contents.php" name="lib/Contents.php" />
-   <install as="imp/lib/Exception.php" name="lib/Exception.php" />
-   <install as="imp/lib/Filter.php" name="lib/Filter.php" />
-   <install as="imp/lib/Flags.php" name="lib/Flags.php" />
-   <install as="imp/lib/Ftree.php" name="lib/Ftree.php" />
-   <install as="imp/lib/Images.php" name="lib/Images.php" />
-   <install as="imp/lib/Imap.php" name="lib/Imap.php" />
-   <install as="imp/lib/IMP.php" name="lib/IMP.php" />
-   <install as="imp/lib/Indices.php" name="lib/Indices.php" />
-   <install as="imp/lib/Mailbox.php" name="lib/Mailbox.php" />
-   <install as="imp/lib/Maillog.php" name="lib/Maillog.php" />
-   <install as="imp/lib/Perms.php" name="lib/Perms.php" />
-   <install as="imp/lib/Pgp.php" name="lib/Pgp.php" />
-   <install as="imp/lib/Quota.php" name="lib/Quota.php" />
-   <install as="imp/lib/Remote.php" name="lib/Remote.php" />
-   <install as="imp/lib/Search.php" name="lib/Search.php" />
-   <install as="imp/lib/Sentmail.php" name="lib/Sentmail.php" />
-   <install as="imp/lib/Smartmobile.php" name="lib/Smartmobile.php" />
-   <install as="imp/lib/Smime.php" name="lib/Smime.php" />
-   <install as="imp/lib/Spam.php" name="lib/Spam.php" />
-   <install as="imp/lib/Test.php" name="lib/Test.php" />
    <install as="imp/lib/Ajax/Addresses.php" name="lib/Ajax/Addresses.php" />
    <install as="imp/lib/Ajax/Application.php" name="lib/Ajax/Application.php" />
-   <install as="imp/lib/Ajax/Queue.php" name="lib/Ajax/Queue.php" />
    <install as="imp/lib/Ajax/Application/Compose.php" name="lib/Ajax/Application/Compose.php" />
-   <install as="imp/lib/Ajax/Application/ListMessages.php" name="lib/Ajax/Application/ListMessages.php" />
-   <install as="imp/lib/Ajax/Application/Viewport.php" name="lib/Ajax/Application/Viewport.php" />
    <install as="imp/lib/Ajax/Application/Handler/Common.php" name="lib/Ajax/Application/Handler/Common.php" />
    <install as="imp/lib/Ajax/Application/Handler/ComposeAttach.php" name="lib/Ajax/Application/Handler/ComposeAttach.php" />
    <install as="imp/lib/Ajax/Application/Handler/Contacts.php" name="lib/Ajax/Application/Handler/Contacts.php" />
@@ -1653,11 +1620,17 @@
    <install as="imp/lib/Ajax/Application/Handler/RemotePrefs.php" name="lib/Ajax/Application/Handler/RemotePrefs.php" />
    <install as="imp/lib/Ajax/Application/Handler/Search.php" name="lib/Ajax/Application/Handler/Search.php" />
    <install as="imp/lib/Ajax/Application/Handler/Smartmobile.php" name="lib/Ajax/Application/Handler/Smartmobile.php" />
+   <install as="imp/lib/Ajax/Application/ListMessages.php" name="lib/Ajax/Application/ListMessages.php" />
+   <install as="imp/lib/Ajax/Application/Viewport.php" name="lib/Ajax/Application/Viewport.php" />
    <install as="imp/lib/Ajax/Application/Viewport/Error.php" name="lib/Ajax/Application/Viewport/Error.php" />
    <install as="imp/lib/Ajax/Imple/ImportEncryptKey.php" name="lib/Ajax/Imple/ImportEncryptKey.php" />
    <install as="imp/lib/Ajax/Imple/ItipRequest.php" name="lib/Ajax/Imple/ItipRequest.php" />
    <install as="imp/lib/Ajax/Imple/PassphraseDialog.php" name="lib/Ajax/Imple/PassphraseDialog.php" />
    <install as="imp/lib/Ajax/Imple/VcardImport.php" name="lib/Ajax/Imple/VcardImport.php" />
+   <install as="imp/lib/Ajax/Queue.php" name="lib/Ajax/Queue.php" />
+   <install as="imp/lib/Api.php" name="lib/Api.php" />
+   <install as="imp/lib/Application.php" name="lib/Application.php" />
+   <install as="imp/lib/Auth.php" name="lib/Auth.php" />
    <install as="imp/lib/Basic/Base.php" name="lib/Basic/Base.php" />
    <install as="imp/lib/Basic/Contacts.php" name="lib/Basic/Contacts.php" />
    <install as="imp/lib/Basic/Error.php" name="lib/Basic/Error.php" />
@@ -1669,38 +1642,42 @@
    <install as="imp/lib/Basic/Thread.php" name="lib/Basic/Thread.php" />
    <install as="imp/lib/Block/Newmail.php" name="lib/Block/Newmail.php" />
    <install as="imp/lib/Block/Summary.php" name="lib/Block/Summary.php" />
+   <install as="imp/lib/Compose.php" name="lib/Compose.php" />
    <install as="imp/lib/Compose/Attachment.php" name="lib/Compose/Attachment.php" />
+   <install as="imp/lib/Compose/Attachment/Linked.php" name="lib/Compose/Attachment/Linked.php" />
+   <install as="imp/lib/Compose/Attachment/Linked/Metadata.php" name="lib/Compose/Attachment/Linked/Metadata.php" />
+   <install as="imp/lib/Compose/Attachment/Metadata.php" name="lib/Compose/Attachment/Metadata.php" />
+   <install as="imp/lib/Compose/Attachment/Storage.php" name="lib/Compose/Attachment/Storage.php" />
+   <install as="imp/lib/Compose/Attachment/Storage/AutoDetermine.php" name="lib/Compose/Attachment/Storage/AutoDetermine.php" />
+   <install as="imp/lib/Compose/Attachment/Storage/Temp.php" name="lib/Compose/Attachment/Storage/Temp.php" />
+   <install as="imp/lib/Compose/Attachment/Storage/VfsLinked.php" name="lib/Compose/Attachment/Storage/VfsLinked.php" />
    <install as="imp/lib/Compose/Exception.php" name="lib/Compose/Exception.php" />
+   <install as="imp/lib/Compose/Exception/Address.php" name="lib/Compose/Exception/Address.php" />
    <install as="imp/lib/Compose/HtmlSignature.php" name="lib/Compose/HtmlSignature.php" />
    <install as="imp/lib/Compose/Link.php" name="lib/Compose/Link.php" />
    <install as="imp/lib/Compose/LinkedAttachment.php" name="lib/Compose/LinkedAttachment.php" />
    <install as="imp/lib/Compose/Ui.php" name="lib/Compose/Ui.php" />
    <install as="imp/lib/Compose/View.php" name="lib/Compose/View.php" />
-   <install as="imp/lib/Compose/Attachment/Linked.php" name="lib/Compose/Attachment/Linked.php" />
-   <install as="imp/lib/Compose/Attachment/Metadata.php" name="lib/Compose/Attachment/Metadata.php" />
-   <install as="imp/lib/Compose/Attachment/Storage.php" name="lib/Compose/Attachment/Storage.php" />
-   <install as="imp/lib/Compose/Attachment/Linked/Metadata.php" name="lib/Compose/Attachment/Linked/Metadata.php" />
-   <install as="imp/lib/Compose/Attachment/Storage/AutoDetermine.php" name="lib/Compose/Attachment/Storage/AutoDetermine.php" />
-   <install as="imp/lib/Compose/Attachment/Storage/Temp.php" name="lib/Compose/Attachment/Storage/Temp.php" />
-   <install as="imp/lib/Compose/Attachment/Storage/VfsLinked.php" name="lib/Compose/Attachment/Storage/VfsLinked.php" />
-   <install as="imp/lib/Compose/Exception/Address.php" name="lib/Compose/Exception/Address.php" />
-   <install as="imp/lib/Contacts/Image.php" name="lib/Contacts/Image.php" />
+   <install as="imp/lib/Contacts.php" name="lib/Contacts.php" />
    <install as="imp/lib/Contacts/Avatar/Addressbook.php" name="lib/Contacts/Avatar/Addressbook.php" />
    <install as="imp/lib/Contacts/Avatar/Backend.php" name="lib/Contacts/Avatar/Backend.php" />
    <install as="imp/lib/Contacts/Avatar/Gravatar.php" name="lib/Contacts/Avatar/Gravatar.php" />
    <install as="imp/lib/Contacts/Avatar/Unknown.php" name="lib/Contacts/Avatar/Unknown.php" />
    <install as="imp/lib/Contacts/Flag/Backend.php" name="lib/Contacts/Flag/Backend.php" />
    <install as="imp/lib/Contacts/Flag/Host.php" name="lib/Contacts/Flag/Host.php" />
+   <install as="imp/lib/Contacts/Image.php" name="lib/Contacts/Image.php" />
+   <install as="imp/lib/Contents.php" name="lib/Contents.php" />
    <install as="imp/lib/Contents/Message.php" name="lib/Contents/Message.php" />
    <install as="imp/lib/Contents/View.php" name="lib/Contents/View.php" />
    <install as="imp/lib/Dynamic/AddressList.php" name="lib/Dynamic/AddressList.php" />
    <install as="imp/lib/Dynamic/Base.php" name="lib/Dynamic/Base.php" />
    <install as="imp/lib/Dynamic/Compose.php" name="lib/Dynamic/Compose.php" />
+   <install as="imp/lib/Dynamic/Compose/Common.php" name="lib/Dynamic/Compose/Common.php" />
+   <install as="imp/lib/Dynamic/Helper/Base.php" name="lib/Dynamic/Helper/Base.php" />
    <install as="imp/lib/Dynamic/Mailbox.php" name="lib/Dynamic/Mailbox.php" />
    <install as="imp/lib/Dynamic/Maillog.php" name="lib/Dynamic/Maillog.php" />
    <install as="imp/lib/Dynamic/Message.php" name="lib/Dynamic/Message.php" />
-   <install as="imp/lib/Dynamic/Compose/Common.php" name="lib/Dynamic/Compose/Common.php" />
-   <install as="imp/lib/Dynamic/Helper/Base.php" name="lib/Dynamic/Helper/Base.php" />
+   <install as="imp/lib/Exception.php" name="lib/Exception.php" />
    <install as="imp/lib/Factory/AuthImap.php" name="lib/Factory/AuthImap.php" />
    <install as="imp/lib/Factory/Compose.php" name="lib/Factory/Compose.php" />
    <install as="imp/lib/Factory/ComposeAtc.php" name="lib/Factory/ComposeAtc.php" />
@@ -1724,9 +1701,9 @@
    <install as="imp/lib/Factory/Sentmail.php" name="lib/Factory/Sentmail.php" />
    <install as="imp/lib/Factory/Smime.php" name="lib/Factory/Smime.php" />
    <install as="imp/lib/Factory/Spam.php" name="lib/Factory/Spam.php" />
+   <install as="imp/lib/Filter.php" name="lib/Filter.php" />
    <install as="imp/lib/Flag/Base.php" name="lib/Flag/Base.php" />
    <install as="imp/lib/Flag/Imap.php" name="lib/Flag/Imap.php" />
-   <install as="imp/lib/Flag/User.php" name="lib/Flag/User.php" />
    <install as="imp/lib/Flag/Imap/Answered.php" name="lib/Flag/Imap/Answered.php" />
    <install as="imp/lib/Flag/Imap/Deleted.php" name="lib/Flag/Imap/Deleted.php" />
    <install as="imp/lib/Flag/Imap/Draft.php" name="lib/Flag/Imap/Draft.php" />
@@ -1748,18 +1725,19 @@
    <install as="imp/lib/Flag/System/Personal.php" name="lib/Flag/System/Personal.php" />
    <install as="imp/lib/Flag/System/Signed.php" name="lib/Flag/System/Signed.php" />
    <install as="imp/lib/Flag/System/Unseen.php" name="lib/Flag/System/Unseen.php" />
+   <install as="imp/lib/Flag/User.php" name="lib/Flag/User.php" />
+   <install as="imp/lib/Flags.php" name="lib/Flags.php" />
+   <install as="imp/lib/Ftree.php" name="lib/Ftree.php" />
    <install as="imp/lib/Ftree/Account.php" name="lib/Ftree/Account.php" />
-   <install as="imp/lib/Ftree/Element.php" name="lib/Ftree/Element.php" />
-   <install as="imp/lib/Ftree/Eltdiff.php" name="lib/Ftree/Eltdiff.php" />
-   <install as="imp/lib/Ftree/Iterator.php" name="lib/Ftree/Iterator.php" />
-   <install as="imp/lib/Ftree/IteratorFilter.php" name="lib/Ftree/IteratorFilter.php" />
-   <install as="imp/lib/Ftree/Prefs.php" name="lib/Ftree/Prefs.php" />
-   <install as="imp/lib/Ftree/Select.php" name="lib/Ftree/Select.php" />
    <install as="imp/lib/Ftree/Account/Imap.php" name="lib/Ftree/Account/Imap.php" />
    <install as="imp/lib/Ftree/Account/Inboxonly.php" name="lib/Ftree/Account/Inboxonly.php" />
    <install as="imp/lib/Ftree/Account/Remote.php" name="lib/Ftree/Account/Remote.php" />
    <install as="imp/lib/Ftree/Account/Vfolder.php" name="lib/Ftree/Account/Vfolder.php" />
+   <install as="imp/lib/Ftree/Element.php" name="lib/Ftree/Element.php" />
+   <install as="imp/lib/Ftree/Eltdiff.php" name="lib/Ftree/Eltdiff.php" />
+   <install as="imp/lib/Ftree/Iterator.php" name="lib/Ftree/Iterator.php" />
    <install as="imp/lib/Ftree/Iterator/Ancestors.php" name="lib/Ftree/Iterator/Ancestors.php" />
+   <install as="imp/lib/Ftree/IteratorFilter.php" name="lib/Ftree/IteratorFilter.php" />
    <install as="imp/lib/Ftree/IteratorFilter/Children.php" name="lib/Ftree/IteratorFilter/Children.php" />
    <install as="imp/lib/Ftree/IteratorFilter/Containers.php" name="lib/Ftree/IteratorFilter/Containers.php" />
    <install as="imp/lib/Ftree/IteratorFilter/Expanded.php" name="lib/Ftree/IteratorFilter/Expanded.php" />
@@ -1770,19 +1748,25 @@
    <install as="imp/lib/Ftree/IteratorFilter/Special.php" name="lib/Ftree/IteratorFilter/Special.php" />
    <install as="imp/lib/Ftree/IteratorFilter/Subscribed.php" name="lib/Ftree/IteratorFilter/Subscribed.php" />
    <install as="imp/lib/Ftree/IteratorFilter/Vfolder.php" name="lib/Ftree/IteratorFilter/Vfolder.php" />
+   <install as="imp/lib/Ftree/Prefs.php" name="lib/Ftree/Prefs.php" />
    <install as="imp/lib/Ftree/Prefs/Expanded.php" name="lib/Ftree/Prefs/Expanded.php" />
    <install as="imp/lib/Ftree/Prefs/Poll.php" name="lib/Ftree/Prefs/Poll.php" />
+   <install as="imp/lib/Ftree/Select.php" name="lib/Ftree/Select.php" />
+   <install as="imp/lib/Images.php" name="lib/Images.php" />
+   <install as="imp/lib/Imap.php" name="lib/Imap.php" />
    <install as="imp/lib/Imap/Acl.php" name="lib/Imap/Acl.php" />
+   <install as="imp/lib/Imap/Cache/Wrapper.php" name="lib/Imap/Cache/Wrapper.php" />
    <install as="imp/lib/Imap/Config.php" name="lib/Imap/Config.php" />
    <install as="imp/lib/Imap/Exception.php" name="lib/Imap/Exception.php" />
    <install as="imp/lib/Imap/Password.php" name="lib/Imap/Password.php" />
    <install as="imp/lib/Imap/PermanentFlags.php" name="lib/Imap/PermanentFlags.php" />
    <install as="imp/lib/Imap/Remote.php" name="lib/Imap/Remote.php" />
-   <install as="imp/lib/Imap/Cache/Wrapper.php" name="lib/Imap/Cache/Wrapper.php" />
+   <install as="imp/lib/IMP.php" name="lib/IMP.php" />
+   <install as="imp/lib/Indices.php" name="lib/Indices.php" />
    <install as="imp/lib/Indices/Copy.php" name="lib/Indices/Copy.php" />
-   <install as="imp/lib/Indices/Mailbox.php" name="lib/Indices/Mailbox.php" />
    <install as="imp/lib/Indices/Copy/Notepad.php" name="lib/Indices/Copy/Notepad.php" />
    <install as="imp/lib/Indices/Copy/Tasklist.php" name="lib/Indices/Copy/Tasklist.php" />
+   <install as="imp/lib/Indices/Mailbox.php" name="lib/Indices/Mailbox.php" />
    <install as="imp/lib/LoginTasks/SystemTask/GarbageCollection.php" name="lib/LoginTasks/SystemTask/GarbageCollection.php" />
    <install as="imp/lib/LoginTasks/SystemTask/Upgrade.php" name="lib/LoginTasks/SystemTask/Upgrade.php" />
    <install as="imp/lib/LoginTasks/SystemTask/UpgradeAuth.php" name="lib/LoginTasks/SystemTask/UpgradeAuth.php" />
@@ -1795,14 +1779,14 @@
    <install as="imp/lib/LoginTasks/Task/PurgeTrash.php" name="lib/LoginTasks/Task/PurgeTrash.php" />
    <install as="imp/lib/LoginTasks/Task/RecoverDraft.php" name="lib/LoginTasks/Task/RecoverDraft.php" />
    <install as="imp/lib/LoginTasks/Task/RenameSentmailMonthly.php" name="lib/LoginTasks/Task/RenameSentmailMonthly.php" />
+   <install as="imp/lib/Mailbox.php" name="lib/Mailbox.php" />
    <install as="imp/lib/Mailbox/List.php" name="lib/Mailbox/List.php" />
-   <install as="imp/lib/Mailbox/SessionCache.php" name="lib/Mailbox/SessionCache.php" />
-   <install as="imp/lib/Mailbox/Ui.php" name="lib/Mailbox/Ui.php" />
    <install as="imp/lib/Mailbox/List/Pop3.php" name="lib/Mailbox/List/Pop3.php" />
    <install as="imp/lib/Mailbox/List/Thread.php" name="lib/Mailbox/List/Thread.php" />
    <install as="imp/lib/Mailbox/List/Virtual.php" name="lib/Mailbox/List/Virtual.php" />
-   <install as="imp/lib/Maillog/Message.php" name="lib/Maillog/Message.php" />
-   <install as="imp/lib/Maillog/Messages.php" name="lib/Maillog/Messages.php" />
+   <install as="imp/lib/Mailbox/SessionCache.php" name="lib/Mailbox/SessionCache.php" />
+   <install as="imp/lib/Mailbox/Ui.php" name="lib/Mailbox/Ui.php" />
+   <install as="imp/lib/Maillog.php" name="lib/Maillog.php" />
    <install as="imp/lib/Maillog/Log/Base.php" name="lib/Maillog/Log/Base.php" />
    <install as="imp/lib/Maillog/Log/Forward.php" name="lib/Maillog/Log/Forward.php" />
    <install as="imp/lib/Maillog/Log/Mdn.php" name="lib/Maillog/Log/Mdn.php" />
@@ -1811,6 +1795,8 @@
    <install as="imp/lib/Maillog/Log/Replyall.php" name="lib/Maillog/Log/Replyall.php" />
    <install as="imp/lib/Maillog/Log/Replylist.php" name="lib/Maillog/Log/Replylist.php" />
    <install as="imp/lib/Maillog/Log/Sentmail.php" name="lib/Maillog/Log/Sentmail.php" />
+   <install as="imp/lib/Maillog/Message.php" name="lib/Maillog/Message.php" />
+   <install as="imp/lib/Maillog/Messages.php" name="lib/Maillog/Messages.php" />
    <install as="imp/lib/Maillog/Storage/Base.php" name="lib/Maillog/Storage/Base.php" />
    <install as="imp/lib/Maillog/Storage/Composite.php" name="lib/Maillog/Storage/Composite.php" />
    <install as="imp/lib/Maillog/Storage/History.php" name="lib/Maillog/Storage/History.php" />
@@ -1849,6 +1835,8 @@
    <install as="imp/lib/Mime/Viewer/Zip.php" name="lib/Mime/Viewer/Zip.php" />
    <install as="imp/lib/Notification/Event/Status.php" name="lib/Notification/Event/Status.php" />
    <install as="imp/lib/Notification/Handler/Decorator/NewmailNotify.php" name="lib/Notification/Handler/Decorator/NewmailNotify.php" />
+   <install as="imp/lib/Perms.php" name="lib/Perms.php" />
+   <install as="imp/lib/Pgp.php" name="lib/Pgp.php" />
    <install as="imp/lib/Prefs/AttribText.php" name="lib/Prefs/AttribText.php" />
    <install as="imp/lib/Prefs/Identity.php" name="lib/Prefs/Identity.php" />
    <install as="imp/lib/Prefs/Sort.php" name="lib/Prefs/Sort.php" />
@@ -1877,21 +1865,20 @@
    <install as="imp/lib/Prefs/Special/Spam.php" name="lib/Prefs/Special/Spam.php" />
    <install as="imp/lib/Prefs/Special/SpecialMboxes.php" name="lib/Prefs/Special/SpecialMboxes.php" />
    <install as="imp/lib/Prefs/Special/Trash.php" name="lib/Prefs/Special/Trash.php" />
+   <install as="imp/lib/Quota.php" name="lib/Quota.php" />
    <install as="imp/lib/Quota/Hook.php" name="lib/Quota/Hook.php" />
    <install as="imp/lib/Quota/Imap.php" name="lib/Quota/Imap.php" />
    <install as="imp/lib/Quota/Null.php" name="lib/Quota/Null.php" />
    <install as="imp/lib/Quota/Ui.php" name="lib/Quota/Ui.php" />
+   <install as="imp/lib/Remote.php" name="lib/Remote.php" />
    <install as="imp/lib/Remote/Account.php" name="lib/Remote/Account.php" />
    <install as="imp/lib/Script/Package/Autocomplete.php" name="lib/Script/Package/Autocomplete.php" />
    <install as="imp/lib/Script/Package/Compose.php" name="lib/Script/Package/Compose.php" />
    <install as="imp/lib/Script/Package/DynamicBase.php" name="lib/Script/Package/DynamicBase.php" />
    <install as="imp/lib/Script/Package/Editor.php" name="lib/Script/Package/Editor.php" />
    <install as="imp/lib/Script/Package/Imp.php" name="lib/Script/Package/Imp.php" />
+   <install as="imp/lib/Search.php" name="lib/Search.php" />
    <install as="imp/lib/Search/Element.php" name="lib/Search/Element.php" />
-   <install as="imp/lib/Search/Filter.php" name="lib/Search/Filter.php" />
-   <install as="imp/lib/Search/IteratorFilter.php" name="lib/Search/IteratorFilter.php" />
-   <install as="imp/lib/Search/Query.php" name="lib/Search/Query.php" />
-   <install as="imp/lib/Search/Vfolder.php" name="lib/Search/Vfolder.php" />
    <install as="imp/lib/Search/Element/Attachment.php" name="lib/Search/Element/Attachment.php" />
    <install as="imp/lib/Search/Element/Autogenerated.php" name="lib/Search/Element/Autogenerated.php" />
    <install as="imp/lib/Search/Element/Bulk.php" name="lib/Search/Element/Bulk.php" />
@@ -1907,6 +1894,7 @@
    <install as="imp/lib/Search/Element/Size.php" name="lib/Search/Element/Size.php" />
    <install as="imp/lib/Search/Element/Text.php" name="lib/Search/Element/Text.php" />
    <install as="imp/lib/Search/Element/Within.php" name="lib/Search/Element/Within.php" />
+   <install as="imp/lib/Search/Filter.php" name="lib/Search/Filter.php" />
    <install as="imp/lib/Search/Filter/Attachment.php" name="lib/Search/Filter/Attachment.php" />
    <install as="imp/lib/Search/Filter/Autogenerated.php" name="lib/Search/Filter/Autogenerated.php" />
    <install as="imp/lib/Search/Filter/Builtin.php" name="lib/Search/Filter/Builtin.php" />
@@ -1914,21 +1902,29 @@
    <install as="imp/lib/Search/Filter/Contacts.php" name="lib/Search/Filter/Contacts.php" />
    <install as="imp/lib/Search/Filter/Mailinglist.php" name="lib/Search/Filter/Mailinglist.php" />
    <install as="imp/lib/Search/Filter/Personal.php" name="lib/Search/Filter/Personal.php" />
+   <install as="imp/lib/Search/IteratorFilter.php" name="lib/Search/IteratorFilter.php" />
+   <install as="imp/lib/Search/Query.php" name="lib/Search/Query.php" />
+   <install as="imp/lib/Search/Vfolder.php" name="lib/Search/Vfolder.php" />
    <install as="imp/lib/Search/Vfolder/Builtin.php" name="lib/Search/Vfolder/Builtin.php" />
    <install as="imp/lib/Search/Vfolder/Vinbox.php" name="lib/Search/Vfolder/Vinbox.php" />
    <install as="imp/lib/Search/Vfolder/Vtrash.php" name="lib/Search/Vfolder/Vtrash.php" />
+   <install as="imp/lib/Sentmail.php" name="lib/Sentmail.php" />
    <install as="imp/lib/Sentmail/Mongo.php" name="lib/Sentmail/Mongo.php" />
    <install as="imp/lib/Sentmail/Null.php" name="lib/Sentmail/Null.php" />
    <install as="imp/lib/Sentmail/Sql.php" name="lib/Sentmail/Sql.php" />
+   <install as="imp/lib/Smartmobile.php" name="lib/Smartmobile.php" />
+   <install as="imp/lib/Smime.php" name="lib/Smime.php" />
+   <install as="imp/lib/Spam.php" name="lib/Spam.php" />
    <install as="imp/lib/Spam/Base.php" name="lib/Spam/Base.php" />
    <install as="imp/lib/Spam/Email.php" name="lib/Spam/Email.php" />
    <install as="imp/lib/Spam/Null.php" name="lib/Spam/Null.php" />
    <install as="imp/lib/Spam/Program.php" name="lib/Spam/Program.php" />
+   <install as="imp/lib/Test.php" name="lib/Test.php" />
    <install as="imp/lib/Tree/Flist.php" name="lib/Tree/Flist.php" />
    <install as="imp/lib/Tree/Jquerymobile.php" name="lib/Tree/Jquerymobile.php" />
    <install as="imp/lib/View/Subinfo.php" name="lib/View/Subinfo.php" />
+   <install as="LICENSE" name="LICENSE" />
    <install as="imp/locale/.htaccess" name="locale/.htaccess" />
-   <install as="imp/locale/imp.pot" name="locale/imp.pot" />
    <install as="imp/locale/ar/LC_MESSAGES/imp.mo" name="locale/ar/LC_MESSAGES/imp.mo" />
    <install as="imp/locale/ar/LC_MESSAGES/imp.po" name="locale/ar/LC_MESSAGES/imp.po" />
    <install as="imp/locale/ar_OM/LC_MESSAGES/imp.mo" name="locale/ar_OM/LC_MESSAGES/imp.mo" />
@@ -1983,6 +1979,7 @@
    <install as="imp/locale/hu/LC_MESSAGES/imp.po" name="locale/hu/LC_MESSAGES/imp.po" />
    <install as="imp/locale/id/LC_MESSAGES/imp.mo" name="locale/id/LC_MESSAGES/imp.mo" />
    <install as="imp/locale/id/LC_MESSAGES/imp.po" name="locale/id/LC_MESSAGES/imp.po" />
+   <install as="imp/locale/imp.pot" name="locale/imp.pot" />
    <install as="imp/locale/is/LC_MESSAGES/imp.mo" name="locale/is/LC_MESSAGES/imp.mo" />
    <install as="imp/locale/is/LC_MESSAGES/imp.po" name="locale/is/LC_MESSAGES/imp.po" />
    <install as="imp/locale/it/help.xml" name="locale/it/help.xml" />
@@ -2050,6 +2047,8 @@
    <install as="imp/migration/1_imp_base_tables.php" name="migration/1_imp_base_tables.php" />
    <install as="imp/migration/2_imp_autoincrement_sentmail.php" name="migration/2_imp_autoincrement_sentmail.php" />
    <install as="imp/migration/3_imp_maillog_update.php" name="migration/3_imp_maillog_update.php" />
+   <install as="README.rst" name="README.rst" />
+   <install as="imp/smartmobile.php" name="smartmobile.php" />
    <install as="imp/templates/.htaccess" name="templates/.htaccess" />
    <install as="imp/templates/contacts/contacts.html.php" name="templates/contacts/contacts.html.php" />
    <install as="imp/templates/dynamic/compose-base.html.php" name="templates/dynamic/compose-base.html.php" />
@@ -2112,16 +2111,11 @@
    <install as="Imp/Stub/Imap.php" name="test/Imp/Stub/Imap.php" />
    <install as="Imp/Stub/ItipRequest.php" name="test/Imp/Stub/ItipRequest.php" />
    <install as="Imp/Unit/ComposeTest.php" name="test/Imp/Unit/ComposeTest.php" />
-   <install as="Imp/Unit/QuotaTest.php" name="test/Imp/Unit/QuotaTest.php" />
    <install as="Imp/Unit/Mime/Viewer/HtmlTest.php" name="test/Imp/Unit/Mime/Viewer/HtmlTest.php" />
    <install as="Imp/Unit/Mime/Viewer/ItipTest.php" name="test/Imp/Unit/Mime/Viewer/ItipTest.php" />
-   <install as="imp/themes/default/contacts.css" name="themes/default/contacts.css" />
-   <install as="imp/themes/default/mime.css" name="themes/default/mime.css" />
-   <install as="imp/themes/default/prefs.css" name="themes/default/prefs.css" />
-   <install as="imp/themes/default/screen.css" name="themes/default/screen.css" />
-   <install as="imp/themes/default/search.css" name="themes/default/search.css" />
-   <install as="imp/themes/default/thread.css" name="themes/default/thread.css" />
+   <install as="Imp/Unit/QuotaTest.php" name="test/Imp/Unit/QuotaTest.php" />
    <install as="imp/themes/default/block/screen.css" name="themes/default/block/screen.css" />
+   <install as="imp/themes/default/contacts.css" name="themes/default/contacts.css" />
    <install as="imp/themes/default/dynamic/compose.css" name="themes/default/dynamic/compose.css" />
    <install as="imp/themes/default/dynamic/mailbox.css" name="themes/default/dynamic/mailbox.css" />
    <install as="imp/themes/default/dynamic/message.css" name="themes/default/dynamic/message.css" />
@@ -2156,50 +2150,6 @@
    <install as="imp/themes/default/graphics/fetchmail.png" name="themes/default/graphics/fetchmail.png" />
    <install as="imp/themes/default/graphics/filters.png" name="themes/default/graphics/filters.png" />
    <install as="imp/themes/default/graphics/flagged.png" name="themes/default/graphics/flagged.png" />
-   <install as="imp/themes/default/graphics/forward.png" name="themes/default/graphics/forward.png" />
-   <install as="imp/themes/default/graphics/forwarded.png" name="themes/default/graphics/forwarded.png" />
-   <install as="imp/themes/default/graphics/gallery.png" name="themes/default/graphics/gallery.png" />
-   <install as="imp/themes/default/graphics/group.png" name="themes/default/graphics/group.png" />
-   <install as="imp/themes/default/graphics/ico_message_off.png" name="themes/default/graphics/ico_message_off.png" />
-   <install as="imp/themes/default/graphics/imp.png" name="themes/default/graphics/imp.png" />
-   <install as="imp/themes/default/graphics/info_icon.png" name="themes/default/graphics/info_icon.png" />
-   <install as="imp/themes/default/graphics/innocent.png" name="themes/default/graphics/innocent.png" />
-   <install as="imp/themes/default/graphics/locked-inv.png" name="themes/default/graphics/locked-inv.png" />
-   <install as="imp/themes/default/graphics/locked.png" name="themes/default/graphics/locked.png" />
-   <install as="imp/themes/default/graphics/logo.png" name="themes/default/graphics/logo.png" />
-   <install as="imp/themes/default/graphics/logout.png" name="themes/default/graphics/logout.png" />
-   <install as="imp/themes/default/graphics/message_source.png" name="themes/default/graphics/message_source.png" />
-   <install as="imp/themes/default/graphics/mini-error.png" name="themes/default/graphics/mini-error.png" />
-   <install as="imp/themes/default/graphics/newmail.png" name="themes/default/graphics/newmail.png" />
-   <install as="imp/themes/default/graphics/newwin.png" name="themes/default/graphics/newwin.png" />
-   <install as="imp/themes/default/graphics/plus.png" name="themes/default/graphics/plus.png" />
-   <install as="imp/themes/default/graphics/popdown.png" name="themes/default/graphics/popdown.png" />
-   <install as="imp/themes/default/graphics/prefs.png" name="themes/default/graphics/prefs.png" />
-   <install as="imp/themes/default/graphics/preview.png" name="themes/default/graphics/preview.png" />
-   <install as="imp/themes/default/graphics/print.png" name="themes/default/graphics/print.png" />
-   <install as="imp/themes/default/graphics/progress.png" name="themes/default/graphics/progress.png" />
-   <install as="imp/themes/default/graphics/reload.gif" name="themes/default/graphics/reload.gif" />
-   <install as="imp/themes/default/graphics/reload.png" name="themes/default/graphics/reload.png" />
-   <install as="imp/themes/default/graphics/reply.png" name="themes/default/graphics/reply.png" />
-   <install as="imp/themes/default/graphics/replyall.png" name="themes/default/graphics/replyall.png" />
-   <install as="imp/themes/default/graphics/sbcursor_bottom.png" name="themes/default/graphics/sbcursor_bottom.png" />
-   <install as="imp/themes/default/graphics/sbcursor_top.png" name="themes/default/graphics/sbcursor_top.png" />
-   <install as="imp/themes/default/graphics/scroller.png" name="themes/default/graphics/scroller.png" />
-   <install as="imp/themes/default/graphics/scroller_back.png" name="themes/default/graphics/scroller_back.png" />
-   <install as="imp/themes/default/graphics/search.png" name="themes/default/graphics/search.png" />
-   <install as="imp/themes/default/graphics/seen.png" name="themes/default/graphics/seen.png" />
-   <install as="imp/themes/default/graphics/shared.png" name="themes/default/graphics/shared.png" />
-   <install as="imp/themes/default/graphics/sortdown.png" name="themes/default/graphics/sortdown.png" />
-   <install as="imp/themes/default/graphics/sortup.png" name="themes/default/graphics/sortup.png" />
-   <install as="imp/themes/default/graphics/spacer_red.png" name="themes/default/graphics/spacer_red.png" />
-   <install as="imp/themes/default/graphics/spam.png" name="themes/default/graphics/spam.png" />
-   <install as="imp/themes/default/graphics/spellcheck.png" name="themes/default/graphics/spellcheck.png" />
-   <install as="imp/themes/default/graphics/thread.png" name="themes/default/graphics/thread.png" />
-   <install as="imp/themes/default/graphics/undelete.png" name="themes/default/graphics/undelete.png" />
-   <install as="imp/themes/default/graphics/unknown_contact.jpg" name="themes/default/graphics/unknown_contact.jpg" />
-   <install as="imp/themes/default/graphics/unseen.png" name="themes/default/graphics/unseen.png" />
-   <install as="imp/themes/default/graphics/warning.png" name="themes/default/graphics/warning.png" />
-   <install as="imp/themes/default/graphics/whitelist.png" name="themes/default/graphics/whitelist.png" />
    <install as="imp/themes/default/graphics/flags/answered-inv.png" name="themes/default/graphics/flags/answered-inv.png" />
    <install as="imp/themes/default/graphics/flags/answered.png" name="themes/default/graphics/flags/answered.png" />
    <install as="imp/themes/default/graphics/flags/attachment-inv.png" name="themes/default/graphics/flags/attachment-inv.png" />
@@ -2243,9 +2193,23 @@
    <install as="imp/themes/default/graphics/folders/sent.png" name="themes/default/graphics/folders/sent.png" />
    <install as="imp/themes/default/graphics/folders/spam.png" name="themes/default/graphics/folders/spam.png" />
    <install as="imp/themes/default/graphics/folders/trash.png" name="themes/default/graphics/folders/trash.png" />
+   <install as="imp/themes/default/graphics/forward.png" name="themes/default/graphics/forward.png" />
+   <install as="imp/themes/default/graphics/forwarded.png" name="themes/default/graphics/forwarded.png" />
+   <install as="imp/themes/default/graphics/gallery.png" name="themes/default/graphics/gallery.png" />
+   <install as="imp/themes/default/graphics/group.png" name="themes/default/graphics/group.png" />
+   <install as="imp/themes/default/graphics/ico_message_off.png" name="themes/default/graphics/ico_message_off.png" />
+   <install as="imp/themes/default/graphics/imp.png" name="themes/default/graphics/imp.png" />
+   <install as="imp/themes/default/graphics/info_icon.png" name="themes/default/graphics/info_icon.png" />
+   <install as="imp/themes/default/graphics/innocent.png" name="themes/default/graphics/innocent.png" />
+   <install as="imp/themes/default/graphics/locked-inv.png" name="themes/default/graphics/locked-inv.png" />
+   <install as="imp/themes/default/graphics/locked.png" name="themes/default/graphics/locked.png" />
+   <install as="imp/themes/default/graphics/logo.png" name="themes/default/graphics/logo.png" />
+   <install as="imp/themes/default/graphics/logout.png" name="themes/default/graphics/logout.png" />
+   <install as="imp/themes/default/graphics/message_source.png" name="themes/default/graphics/message_source.png" />
    <install as="imp/themes/default/graphics/mime/apple.png" name="themes/default/graphics/mime/apple.png" />
    <install as="imp/themes/default/graphics/mime/compressed.png" name="themes/default/graphics/mime/compressed.png" />
    <install as="imp/themes/default/graphics/mime/itip.png" name="themes/default/graphics/mime/itip.png" />
+   <install as="imp/themes/default/graphics/mini-error.png" name="themes/default/graphics/mini-error.png" />
    <install as="imp/themes/default/graphics/nav/first-grey.png" name="themes/default/graphics/nav/first-grey.png" />
    <install as="imp/themes/default/graphics/nav/first.png" name="themes/default/graphics/nav/first.png" />
    <install as="imp/themes/default/graphics/nav/last-grey.png" name="themes/default/graphics/nav/last-grey.png" />
@@ -2254,7 +2218,43 @@
    <install as="imp/themes/default/graphics/nav/left.png" name="themes/default/graphics/nav/left.png" />
    <install as="imp/themes/default/graphics/nav/right-grey.png" name="themes/default/graphics/nav/right-grey.png" />
    <install as="imp/themes/default/graphics/nav/right.png" name="themes/default/graphics/nav/right.png" />
+   <install as="imp/themes/default/graphics/newmail.png" name="themes/default/graphics/newmail.png" />
+   <install as="imp/themes/default/graphics/newwin.png" name="themes/default/graphics/newwin.png" />
+   <install as="imp/themes/default/graphics/plus.png" name="themes/default/graphics/plus.png" />
+   <install as="imp/themes/default/graphics/popdown.png" name="themes/default/graphics/popdown.png" />
+   <install as="imp/themes/default/graphics/prefs.png" name="themes/default/graphics/prefs.png" />
+   <install as="imp/themes/default/graphics/preview.png" name="themes/default/graphics/preview.png" />
+   <install as="imp/themes/default/graphics/print.png" name="themes/default/graphics/print.png" />
+   <install as="imp/themes/default/graphics/progress.png" name="themes/default/graphics/progress.png" />
+   <install as="imp/themes/default/graphics/reload.gif" name="themes/default/graphics/reload.gif" />
+   <install as="imp/themes/default/graphics/reload.png" name="themes/default/graphics/reload.png" />
+   <install as="imp/themes/default/graphics/reply.png" name="themes/default/graphics/reply.png" />
+   <install as="imp/themes/default/graphics/replyall.png" name="themes/default/graphics/replyall.png" />
+   <install as="imp/themes/default/graphics/sbcursor_bottom.png" name="themes/default/graphics/sbcursor_bottom.png" />
+   <install as="imp/themes/default/graphics/sbcursor_top.png" name="themes/default/graphics/sbcursor_top.png" />
+   <install as="imp/themes/default/graphics/scroller.png" name="themes/default/graphics/scroller.png" />
+   <install as="imp/themes/default/graphics/scroller_back.png" name="themes/default/graphics/scroller_back.png" />
+   <install as="imp/themes/default/graphics/search.png" name="themes/default/graphics/search.png" />
+   <install as="imp/themes/default/graphics/seen.png" name="themes/default/graphics/seen.png" />
+   <install as="imp/themes/default/graphics/shared.png" name="themes/default/graphics/shared.png" />
+   <install as="imp/themes/default/graphics/sortdown.png" name="themes/default/graphics/sortdown.png" />
+   <install as="imp/themes/default/graphics/sortup.png" name="themes/default/graphics/sortup.png" />
+   <install as="imp/themes/default/graphics/spacer_red.png" name="themes/default/graphics/spacer_red.png" />
+   <install as="imp/themes/default/graphics/spam.png" name="themes/default/graphics/spam.png" />
+   <install as="imp/themes/default/graphics/spellcheck.png" name="themes/default/graphics/spellcheck.png" />
+   <install as="imp/themes/default/graphics/thread.png" name="themes/default/graphics/thread.png" />
+   <install as="imp/themes/default/graphics/undelete.png" name="themes/default/graphics/undelete.png" />
+   <install as="imp/themes/default/graphics/unknown_contact.jpg" name="themes/default/graphics/unknown_contact.jpg" />
+   <install as="imp/themes/default/graphics/unseen.png" name="themes/default/graphics/unseen.png" />
+   <install as="imp/themes/default/graphics/warning.png" name="themes/default/graphics/warning.png" />
+   <install as="imp/themes/default/graphics/whitelist.png" name="themes/default/graphics/whitelist.png" />
+   <install as="imp/themes/default/mime.css" name="themes/default/mime.css" />
+   <install as="imp/themes/default/prefs.css" name="themes/default/prefs.css" />
+   <install as="imp/themes/default/screen.css" name="themes/default/screen.css" />
+   <install as="imp/themes/default/search.css" name="themes/default/search.css" />
    <install as="imp/themes/default/smartmobile/screen.css" name="themes/default/smartmobile/screen.css" />
+   <install as="imp/themes/default/thread.css" name="themes/default/thread.css" />
+   <install as="imp/view.php" name="view.php" />
   </filelist>
  </phprelease>
  <changelog>
@@ -4044,7 +4044,7 @@
    </notes>
   </release>
   <release>
-   <date>2017-10-16</date>
+   <date>2017-10-17</date>
    <version>
     <release>7.0.0</release>
     <api>7.0.0</api>
