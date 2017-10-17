@@ -114,12 +114,12 @@
    </dir> <!-- /config -->
    <dir name="doc">
     <file name="CHANGES" role="doc" />
-    <file name="CREDITS" role="doc" />
-    <file name="INSTALL" role="doc" />
+    <file name="CREDITS.rst" role="doc" />
+    <file name="INSTALL.rst" role="doc" />
     <file name="PERFORMANCE" role="doc" />
     <file name="RELEASE_NOTES" role="doc" />
     <file name="RFCS" role="doc" />
-    <file name="UPGRADING" role="doc" />
+    <file name="UPGRADING.rst" role="doc" />
    </dir> <!-- /doc -->
    <dir name="js">
     <dir name="ckeditor">
@@ -1559,12 +1559,12 @@
    <install as="imp/config/mime_drivers.php" name="config/mime_drivers.php" />
    <install as="imp/config/prefs.php" name="config/prefs.php" />
    <install as="CHANGES" name="doc/CHANGES" />
-   <install as="CREDITS" name="doc/CREDITS" />
-   <install as="INSTALL" name="doc/INSTALL" />
+   <install as="CREDITS.rst" name="doc/CREDITS.rst" />
+   <install as="INSTALL.rst" name="doc/INSTALL.rst" />
    <install as="PERFORMANCE" name="doc/PERFORMANCE" />
    <install as="RELEASE_NOTES" name="doc/RELEASE_NOTES" />
    <install as="RFCS" name="doc/RFCS" />
-   <install as="UPGRADING" name="doc/UPGRADING" />
+   <install as="UPGRADING.rst" name="doc/UPGRADING.rst" />
    <install as="imp/dynamic.php" name="dynamic.php" />
    <install as="imp/index.php" name="index.php" />
    <install as="imp/js/autocomplete.js" name="js/autocomplete.js" />
