@@ -13,7 +13,7 @@
  * Copyright 2004-2007 Andrew Coleman <mercury@appisolutions.net>
  * Copyright 2008-2017 Horde LLC (http://www.horde.org/)
  *
- * See the enclosed file COPYING for license information (GPL). If you
+ * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
  *
  * @author    Andrew Coleman <mercury@appisolutions.net>
