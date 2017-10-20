@@ -22,7 +22,7 @@
   <email>chuck@horde.org</email>
   <active>no</active>
  </lead>
- <date>2017-10-17</date>
+ <date>2017-10-20</date>
  <version>
   <release>7.0.0</release>
   <api>7.0.0</api>
@@ -1038,7 +1038,6 @@
      <file name="AllTests.php" role="test" />
      <file name="Autoload.php" role="test" />
      <file name="bootstrap.php" role="test" />
-     <file name="phpunit.xml" role="test" />
     </dir> <!-- /test/Imp -->
    </dir> <!-- /test -->
    <dir name="themes">
@@ -2106,7 +2105,6 @@
    <install as="Imp/AllTests.php" name="test/Imp/AllTests.php" />
    <install as="Imp/Autoload.php" name="test/Imp/Autoload.php" />
    <install as="Imp/bootstrap.php" name="test/Imp/bootstrap.php" />
-   <install as="Imp/phpunit.xml" name="test/Imp/phpunit.xml" />
    <install as="Imp/Stub/HtmlViewer.php" name="test/Imp/Stub/HtmlViewer.php" />
    <install as="Imp/Stub/Imap.php" name="test/Imp/Stub/Imap.php" />
    <install as="Imp/Stub/ItipRequest.php" name="test/Imp/Stub/ItipRequest.php" />
@@ -4044,7 +4042,7 @@
    </notes>
   </release>
   <release>
-   <date>2017-10-17</date>
+   <date>2017-10-20</date>
    <version>
     <release>7.0.0</release>
     <api>7.0.0</api>
