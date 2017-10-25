@@ -22,7 +22,7 @@
         }
     ],
     "version": "7.0.0",
-    "time": "2016-12-05",
+    "time": "2017-10-20",
     "repositories": [
         {
             "type": "pear",
@@ -30,7 +30,7 @@
         }
     ],
     "require": {
-        "php": "^5.3",
+        "php": "^5.3 || ^7",
         "pear-pear.horde.org/horde": "^5",
         "pear-pear.horde.org/Horde_Auth": "^2",
         "pear-pear.horde.org/Horde_Browser": "^2",
@@ -51,7 +51,7 @@
         "pear-pear.horde.org/Horde_LoginTasks": "^2",
         "pear-pear.horde.org/Horde_Mail": "^2.5",
         "pear-pear.horde.org/Horde_Mail_Autoconfig": "^1",
-        "pear-pear.horde.org/Horde_Mime": "^2.1",
+        "pear-pear.horde.org/Horde_Mime": "^2.10",
         "pear-pear.horde.org/Horde_Mime_Viewer": "^2",
         "pear-pear.horde.org/Horde_Nls": "^2",
         "pear-pear.horde.org/Horde_Notification": "^2",
@@ -81,5 +81,14 @@
         "pear-pear.horde.org/Horde_Service_Gravatar": "^1",
         "pear-phpseclib.sourceforge.net/File_ASN1": "*",
         "ext-openssl": "*"
+    },
+    "replace": {
+        "pear-pear.horde.org/imp": "7.*",
+        "pear-horde/imp": "7.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "IMP": "lib/"
+        }
     }
 }
