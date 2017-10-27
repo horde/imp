@@ -10,3 +10,86 @@ description: >
   clients.
 list:
 type: application
+homepage: https://www.horde.org/apps/imp
+authors:
+  -
+    name: Michael Slusarz
+    user: slusarz
+    email: slusarz@horde.org
+    active: true
+    role: lead
+  -
+    name: Jan Schneider
+    user: jan
+    email: jan@horde.org
+    active: true
+    role: lead
+  -
+    name: Chuck Hagenbuch
+    user: chuck
+    email: chuck@horde.org
+    active: false
+    role: lead
+version:
+  release: 6.2.22
+  api: 6.2.0
+state:
+  release: stable
+  api: stable
+license:
+  identifier: GPL-2.0
+  uri: http://www.horde.org/licenses/gpl
+dependencies:
+  required:
+    php: ^5.3 || ^7
+    pear:
+      pear.horde.org/horde: ^5
+      pear.horde.org/Horde_Auth: ^2
+      pear.horde.org/Horde_Browser: ^2
+      pear.horde.org/Horde_Cache: ^2
+      pear.horde.org/Horde_Compress: ^2
+      pear.horde.org/Horde_Core: ^2.17
+      pear.horde.org/Horde_Crypt: ^2.5
+      pear.horde.org/Horde_Css_Parser: ^1
+      pear.horde.org/Horde_Date: ^2
+      pear.horde.org/Horde_Editor: ^2.0.4
+      pear.horde.org/Horde_Exception: ^2
+      pear.horde.org/Horde_Icalendar: ^2
+      pear.horde.org/Horde_Image: ^2
+      pear.horde.org/Horde_Imap_Client: ^2.23
+      pear.horde.org/Horde_Itip: ^2
+      pear.horde.org/Horde_ListHeaders: ^1.1
+      pear.horde.org/Horde_LoginTasks: ^2
+      pear.horde.org/Horde_Mail: ^2.2
+      pear.horde.org/Horde_Mail_Autoconfig: ^1
+      pear.horde.org/Horde_Mime: ^2.3
+      pear.horde.org/Horde_Mime_Viewer: ^2
+      pear.horde.org/Horde_Nls: ^2
+      pear.horde.org/Horde_Notification: ^2
+      pear.horde.org/Horde_Pack: ^1
+      pear.horde.org/Horde_Perms: ^2
+      pear.horde.org/Horde_SpellChecker: ^2
+      pear.horde.org/Horde_Stream: ^1.4
+      pear.horde.org/Horde_Stream_Filter: ^2
+      pear.horde.org/Horde_Stream_Wrapper: ^2.1
+      pear.horde.org/Horde_Support: ^2.0.5
+      pear.horde.org/Horde_Text_Filter: ^2.1
+      pear.horde.org/Horde_Text_Flowed: ^2
+      pear.horde.org/Horde_Tree: ^2
+      pear.horde.org/Horde_Url: ^2.2
+      pear.horde.org/Horde_Util: ^2.4
+      pear.horde.org/Horde_Vfs: ^2
+      pear.horde.org/Horde_View: ^2
+    ext:
+      dom: '*'
+      gettext: '*'
+      hash: '*'
+      json: '*'
+  optional:
+    pear:
+      pear.horde.org/Horde_History: ^2
+      pear.horde.org/Horde_Http: ^2
+      pear.horde.org/Horde_Service_Gravatar: ^1
+      phpseclib.sourceforge.net/File_ASN1: '*'
+    ext:
+      openssl: '*'
