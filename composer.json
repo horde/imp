@@ -1,8 +1,8 @@
 {
     "name": "horde/imp",
-    "description": "A web based webmail system",
-    "type": "library",
-    "homepage": "https://pear.horde.org",
+    "description": "Webmail application",
+    "type": "project",
+    "homepage": "https://www.horde.org/apps/imp",
     "license": "GPL-2.0",
     "authors": [
         {
@@ -22,7 +22,7 @@
         }
     ],
     "version": "7.0.0",
-    "time": "2017-10-20",
+    "time": "2017-11-11",
     "repositories": [
         {
             "type": "pear",

@@ -2,7 +2,7 @@
 <package packagerversion="1.9.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
  <name>imp</name>
  <channel>pear.horde.org</channel>
- <summary>A web based webmail system</summary>
+ <summary>Webmail application</summary>
  <description>IMP, the Internet Mail Program, is one of the most popular and widely deployed open source webmail applications in the world. It allows universal, web-based access to IMAP and POP3 mail servers and provides Ajax, mobile and traditional interfaces with a rich range of features normally found only in desktop email clients.</description>
  <lead>
   <name>Michael Slusarz</name>
@@ -22,7 +22,7 @@
   <email>chuck@horde.org</email>
   <active>no</active>
  </lead>
- <date>2017-10-20</date>
+ <date>2017-11-11</date>
  <version>
   <release>7.0.0</release>
   <api>7.0.0</api>
@@ -1415,8 +1415,8 @@
     <min>1.4.0</min>
     <max>2.0.0alpha1</max>
     <exclude>2.0.0alpha1</exclude>
-  </package>
-  <package>
+   </package>
+   <package>
     <name>Horde_Stream_Filter</name>
     <channel>pear.horde.org</channel>
     <min>2.0.0</min>
@@ -4208,7 +4208,7 @@
    </notes>
   </release>
   <release>
-   <date>2017-10-20</date>
+   <date>2017-11-11</date>
    <version>
     <release>7.0.0</release>
     <api>7.0.0</api>
