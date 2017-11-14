@@ -1033,7 +1033,6 @@
      <file name="AllTests.php" role="test" />
      <file name="Autoload.php" role="test" />
      <file name="bootstrap.php" role="test" />
-     <file name="phpunit.xml" role="test" />
     </dir> <!-- /test/Imp -->
    </dir> <!-- /test -->
    <dir name="themes">
@@ -2114,7 +2113,6 @@
    <install as="Imp/AllTests.php" name="test/Imp/AllTests.php" />
    <install as="Imp/Autoload.php" name="test/Imp/Autoload.php" />
    <install as="Imp/bootstrap.php" name="test/Imp/bootstrap.php" />
-   <install as="Imp/phpunit.xml" name="test/Imp/phpunit.xml" />
    <install as="Imp/fixtures/test.eml" name="test/Imp/fixtures/test.eml" />
    <install as="Imp/fixtures/test.mbox" name="test/Imp/fixtures/test.mbox" />
    <install as="Imp/Stub/HtmlViewer.php" name="test/Imp/Stub/HtmlViewer.php" />
