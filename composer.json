@@ -1,18 +1,18 @@
 {
     "name": "horde/imp",
-    "description": "A web based webmail system",
-    "type": "library",
-    "homepage": "https://pear.horde.org",
+    "description": "Webmail application",
+    "type": "project",
+    "homepage": "https://www.horde.org/apps/imp",
     "license": "GPL-2.0",
     "authors": [
         {
-            "name": "Michael Slusarz",
-            "email": "slusarz@horde.org",
+            "name": "Jan Schneider",
+            "email": "jan@horde.org",
             "role": "lead"
         },
         {
-            "name": "Jan Schneider",
-            "email": "jan@horde.org",
+            "name": "Michael Slusarz",
+            "email": "slusarz@horde.org",
             "role": "lead"
         },
         {
@@ -22,7 +22,7 @@
         }
     ],
     "version": "6.2.22",
-    "time": "2017-09-19",
+    "time": "2017-11-14",
     "repositories": [
         {
             "type": "pear",
