@@ -72,6 +72,7 @@
     identifier: GPL-2.0
     uri: http://www.horde.org/licenses/gpl
   notes: |
+    [jan] Fix unprocessed placeholder when show recurring event's end dates (Bug #14768).
     [jan] Fix retrieving one of multiple public PGP keys (mh <mh@immerda.ch>).
     [jan] Fix generating PDF thumbnails with imagick extension 3.3.0+ (arjen+horde@de-korte.org, Bug #14697).
 6.2.21:
