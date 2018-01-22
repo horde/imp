@@ -472,7 +472,7 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                 }
             } catch (Horde_ICalendar_Exception $e) {}
 
-            $view->recurrence = $recurrence->toString($prefs->getValue('date_format'));
+            $view->recurrence = $recurrence->toString($prefs->getValue('date_format'), $prefs->getValue('time_format'));
             $view->exceptions = array();
             foreach ($components as $key => $component) {
                 try {
