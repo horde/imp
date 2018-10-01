@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: IMP H5 (6.2-git)\n"
 "Report-Msgid-Bugs-To: dev@lists.horde.org\n"
 "POT-Creation-Date: 2017-07-26 11:56+0200\n"
-"PO-Revision-Date: 2017-07-26 12:01+0200\n"
+"PO-Revision-Date: 2018-10-17 15:59+0200\n"
 "Last-Translator: Jan Schneider <jan@horde.org>\n"
 "Language-Team: German <dev@lists.horde.org>\n"
 "Language: de\n"
@@ -5903,7 +5903,7 @@ msgstr "Persönlichen öffentlichen Schlüssel anzeigen"
 #: lib/Dynamic/Mailbox.php:331 lib/Dynamic/Mailbox.php:470
 #: templates/dynamic/message.html.php:43
 msgid "View Source"
-msgstr "Nachrichtenquelle anzeigen"
+msgstr "Nachrichtenquelltext anzeigen"
 
 #: lib/Dynamic/Mailbox.php:472
 msgid "View Thread"
