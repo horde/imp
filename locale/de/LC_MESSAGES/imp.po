@@ -549,7 +549,7 @@ msgstr "Zugriff auf externe Konten erlauben?"
 
 #: lib/Perms.php:103
 msgid "Allow viewing of message source?"
-msgstr "Anzeigen der Nachrichtenquelle erlauben?"
+msgstr "Anzeigen des Nachrichtenquelltextes erlauben?"
 
 #: config/prefs.php:1097
 msgid "Always prompt"
@@ -5148,7 +5148,7 @@ msgstr "Zweites persönliches öffentliches Zertifikat anzeigen"
 #: lib/Dynamic/Mailbox.php:333 lib/Dynamic/Mailbox.php:468
 #: templates/dynamic/message.html.php:41 templates/dynamic/message.html.php:43
 msgid "View Source"
-msgstr "Nachrichtenquelle anzeigen"
+msgstr "Nachrichtenquelltext anzeigen"
 
 #: lib/Dynamic/Mailbox.php:470
 msgid "View Thread"
