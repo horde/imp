@@ -802,6 +802,9 @@ class IMP_Contents
         );
 
         $mime_part = $this->getMIMEPart($id, array('nocontents' => true));
+        if (empty($mime_part)) {
+            throw new IMP_Exception('MIME Part not found.');
+        }
         $mime_type = $mime_part->getType();
 
         /* If this is an attachment that has no specific MIME type info, see

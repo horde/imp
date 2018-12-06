@@ -32,8 +32,11 @@ class IMP_Minimal_Messagepart extends IMP_Minimal_Base
         }
 
         if (isset($this->vars->atc)) {
-            $summary = $imp_contents->getSummary($this->vars->atc, IMP_Contents::SUMMARY_SIZE | IMP_Contents::SUMMARY_DESCRIP | IMP_Contents::SUMMARY_DOWNLOAD);
-
+            try {
+                $summary = $imp_contents->getSummary($this->vars->atc, IMP_Contents::SUMMARY_SIZE | IMP_Contents::SUMMARY_DESCRIP | IMP_Contents::SUMMARY_DOWNLOAD);
+            } catch (IMP_Exception $e) {
+                IMP_Minimal_Mailbox::url(array('mailbox' => $this->indices->mailbox))->add('a', 'm')->redirect();
+            }
             $this->title = _("Download Attachment");
 
             $this->view->descrip = $summary['description_raw'];
