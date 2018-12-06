@@ -33,7 +33,7 @@
  </stability>
  <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
  <notes>
-* 
+* [mjr] Fix fatal error when requested attachment not found in minimal mode.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -2286,32 +2286,32 @@
    <notes>
 * Several pieces of IMP have been moved into the Horde module.  They include the
 * signup feature, problem reporting, the help functions, and faq management.
-* 
+*
 * A new motd feature has been added.  You can now use the file called MOTD.html
 * and put in information you want shown under the login screen.  This file sits
 * in the config directory.
-* 
+*
 * Extendable menus.  You can now easily add menu items by adding items to the
 * menu.txt file which resides in the config directory.
-* 
+*
 * You can now set your session language at login.
-* 
+*
 * A "new-user information" piece has been added to the login screen.  This
 * function provides new users with some basic background on using IMP.
-* 
+*
 * A function was added to the compose window which does not allow you to send
 * a piece of email if you have browsed a file attachment but haven&apos;t attached
 * it yet.
-* 
+*
 * Help items were added to the compose window.
-* 
+*
 * Fixed several issues with multiple read/write imap openings. Now only
 * calls that require read/write use read/write.
-* 
+*
 * Fixed multiple append trailer/footer bugs.
-* 
+*
 * Localized the setup.php3 process.
-* 
+*
 * Updated lynx pages so lynx works again with IMP
    </notes>
   </release>
@@ -2367,37 +2367,37 @@
    <license uri=""></license>
    <notes>
 * cjh: whomp. here we go.
-* 
+*
 * Biggest change: session support through dbm files. YOU MUST touch the dbm
 * file (by default imp/lib/sessions) and give the webserver user read/write
 * permissions to it (actually, you don&apos;t have to create it if the webserver
 * has write access to the lib/ directory).
-* 
+*
 * I&apos;ve tested this will everything I can think of - server list, languages,
 * every page, etc. I think it works. I probably missed something. So please,
 * pound on it, fix it, make suggestions.
-* 
-* 
+*
+*
 * Also: I&apos;ve taken a lot of cruft that wasn&apos;t being used out. imp.lib was
 * under 1000 lines for the first time in a while after this! I may prune more
 * v2 stuff if it&apos;s not used soon; that would trim us even more. I didn&apos;t trim
 * a whole lot from horde.
-* 
-* 
+*
+*
 * Cosmetic: the &apos;check inbox&apos; option on the menu is gone (should probably
 * remove the lang strings - haven&apos;t done that) and it&apos;s replaced with a cute
 * little reload graphic at the top left of mailbox pages that lets you refresh
 * any mailbox that you&apos;re in. this is more consistent from a ui point of view.
-* 
-* 
+*
+*
 * Everything else: reformatting, minor changes/fixes/etc. Nothing noteworthy
 * enough to remember off of the top of my head.
-* 
-* 
+*
+*
 * To do: dump the mailbox_list functions into the new ImapSession object, or
 * *at least* rewrite them to take advantage of the new namespace objects that
 * are available. I haven&apos;t touched this one yet.
-* 
+*
 * Comments?
    </notes>
   </release>
@@ -6759,7 +6759,7 @@
    <date>2018-07-04</date>
    <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
    <notes>
-* 
+* [mjr] Fix fatal error when requested attachment not found in minimal mode.
    </notes>
   </release>
   <release>

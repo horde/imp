@@ -2,8 +2,7 @@
 v6.2.23
 -------
 
-
-
+[mjr] Fix fatal error when requested attachment not found in minimal mode.
 
 -------
 v6.2.22
