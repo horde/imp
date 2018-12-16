@@ -410,7 +410,8 @@ class IMP_Minimal_Compose extends IMP_Minimal_Base
             if ($attach_upload) {
                 $this->view->attach = true;
                 if (count($imp_compose)) {
-                    $atc_part = $imp_compose[0]->getPart();
+                    $imp_compose->getIterator()->rewind();
+                    $atc_part = $imp_compose->getIterator()->current()->getPart();
                     $this->view->attach_name = $atc_part->getName();
                     $this->view->attach_size = IMP::sizeFormat($atc_part->getBytes());
                     $this->view->attach_type = $atc_part->getType();
