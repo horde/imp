@@ -48,7 +48,7 @@ class IMP_Contents_View
         global $page_output, $session;
 
         $headers = $this->_contents->getHeader();
-        $zipfile = trim(preg_replace('/[^\pL\pN-+_. ]/u', '_', $headers->getValue('subject')), ' _');
+        $zipfile = trim(preg_replace('/[^\pL\pN\-+_. ]/u', '_', $headers->getValue('subject')), ' _');
         if (empty($zipfile)) {
             $zipfile = _("attachments.zip");
         } else {
@@ -197,7 +197,7 @@ class IMP_Contents_View
         $session->close();
 
         $name = ($subject = $this->_contents->getHeader()->getValue('subject'))
-            ? trim(preg_replace('/[^\pL\pN-+_. ]/u', '_', $subject), ' _')
+            ? trim(preg_replace('/[^\pL\pN\-+_. ]/u', '_', $subject), ' _')
             : 'saved_message';
 
         return array(
