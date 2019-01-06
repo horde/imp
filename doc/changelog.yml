@@ -72,6 +72,7 @@
     identifier: GPL-2.0
     uri: http://www.horde.org/licenses/gpl
   notes: |
+    [mjr] Fix attachment handling in minimal mode (PR #3, Thorsten Kahler).
     [mjr] Fix regular expression error with PHP 7.3.
     [mjr] Fix fatal error when requested attachment not found in minimal mode.
 6.2.22:
