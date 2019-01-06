@@ -5,7 +5,7 @@ $notes['security'] = false;
 /* Mailing list release notes. */
 $notes['changes'] = <<<ML
 The Horde Team is pleased to announce the final release of the Internet Mail
-Program (IMP) version H5 (6.2.22).
+Program (IMP) version H5 (6.2.23).
 
 IMP, the Internet Mail Program, is one of the most popular and widely deployed
 open source webmail applications in the world. It allows universal, web-based
@@ -20,10 +20,9 @@ http://www.horde.org/apps/imp/docs/UPGRADING
 For detailed installation and configuration instructions, please see
 http://www.horde.org/apps/imp/docs/INSTALL
 
-The major changes compared to IMP version H5 (6.2.21) are:
-    * Fix unprocessed placeholder when show recurring event's end dates.
-    * Fix retrieving one of multiple public PGP keys
-    * Fix generating PDF thumbnails with imagick extension 3.3.0+
+The major changes compared to IMP version H5 (6.2.22) are:
+    * Fix attachment handling in minimal mode.
+    * Improve PHP 7.3 support.
 ML;
 
 $notes['name'] = 'IMP';
