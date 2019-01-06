@@ -33,6 +33,7 @@
  </stability>
  <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
  <notes>
+* [mjr] Fix attachment handling in minimal mode (PR #3, Thorsten Kahler).
 * [mjr] Fix regular expression error with PHP 7.3.
 * [mjr] Fix fatal error when requested attachment not found in minimal mode.
  </notes>
@@ -6760,6 +6761,7 @@
    <date>2018-07-04</date>
    <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
    <notes>
+* [mjr] Fix attachment handling in minimal mode (PR #3, Thorsten Kahler).
 * [mjr] Fix regular expression error with PHP 7.3.
 * [mjr] Fix fatal error when requested attachment not found in minimal mode.
    </notes>

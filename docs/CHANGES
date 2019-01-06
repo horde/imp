@@ -2,6 +2,7 @@
 v6.2.23
 -------
 
+[mjr] Fix attachment handling in minimal mode (PR #3, Thorsten Kahler).
 [mjr] Fix regular expression error with PHP 7.3.
 [mjr] Fix fatal error when requested attachment not found in minimal mode.
 
