@@ -31,7 +31,7 @@ authors:
     active: false
     role: lead
 version:
-  release: 6.2.23
+  release: 6.2.24
   api: 6.2.0
 state:
   release: stable
