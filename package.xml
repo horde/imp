@@ -34,7 +34,6 @@
  <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
  <notes>
 * [mjr] Fix/improve generation of PDF preview images.
-* |+
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -6778,7 +6777,6 @@
    <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
    <notes>
 * [mjr] Fix/improve generation of PDF preview images.
-* |+
    </notes>
   </release>
   <release>
