@@ -71,8 +71,9 @@
   license:
     identifier: GPL-2.0
     uri: http://www.horde.org/licenses/gpl
-  notes: |+
-    
+  notes: |
+    [mjr] Fix/improve generation of PDF preview images.
+    |+
 6.2.23:
   api: 6.2.0
   state:
