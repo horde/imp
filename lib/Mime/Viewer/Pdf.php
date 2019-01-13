@@ -130,16 +130,7 @@ class IMP_Mime_Viewer_Pdf extends Horde_Mime_Viewer_Pdf
         }
 
         try {
-            if ($img instanceof Horde_Image_Imagick) {
-                /* Get rid of PDF transparency. */
-                $img->imagick->setImageBackgroundColor('white');
-                $img->imagick->setImageAlphaChannel(imagick::ALPHACHANNEL_REMOVE);
-                return $GLOBALS['injector']->getInstance('Horde_Core_Factory_Image')->create(array(
-                    'data' => $img->imagick->mergeImageLayers(imagick::LAYERMETHOD_FLATTEN)->getImageBlob()
-                ));
-            }
-
-            return $img->getImageAtIndex(0);
+            return $img->getImageAtIndex(0, true, 'white');
         } catch (Horde_Image_Exception $e) {
             return false;
         }
