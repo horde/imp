@@ -198,8 +198,8 @@ extends Horde_Core_Ajax_Application_Handler
         if (!$mbox->access_empty) {
             $GLOBALS['notification']->push(sprintf(_("The mailbox \"%s\" may not be emptied."), $mbox->display), 'horde.error');
         } else {
-            $poll_info = $mbox->poll_info;
-            if (!($res->result = $poll_info->msgs)) {
+            $msg_count = $mbox->vtrash ? count ($mbox->list_ob) : $mbox->poll_info->msgs;
+            if (!($res->result = $msg_count)) {
                 $GLOBALS['notification']->push(sprintf(_("The mailbox \"%s\" is already empty."), $mbox->display), 'horde.message');
             }
         }

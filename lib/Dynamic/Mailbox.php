@@ -275,6 +275,11 @@ class IMP_Dynamic_Mailbox extends IMP_Dynamic_Base
                 '_sep1' => null,
                 'edit' => _("Edit Virtual Folders")
             ),
+            'ctx_vtrash' => array(
+                '_mbox' => '',
+                '_sep1' => null,
+                'empty' => _("Empty"),
+            ),
             'ctx_vfolder' => array(
                 '_mbox' => '',
                 '_sep1' => null,

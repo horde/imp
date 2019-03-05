@@ -924,6 +924,7 @@ var DimpBase = {
             break;
 
         case 'ctx_mbox_empty':
+        case 'ctx_vtrash_empty':
             tmp = this.flist.getMbox(e);
             RedBox.loading();
             DimpCore.doAction('emptyMailboxPrepare', {
@@ -1369,6 +1370,7 @@ var DimpBase = {
         case 'ctx_container':
         case 'ctx_noactions':
         case 'ctx_remoteauth':
+        case 'ctx_vtrash':
         case 'ctx_vfolder':
             $(ctx_id).down('DIV.mboxName').update(this.flist.getMbox(e).fullMboxDisplay());
             break;
@@ -3655,7 +3657,11 @@ var DimpBase = {
 
         case 'vfolder':
             if (e.memo.virtual()) {
-                ftype = 'noactions';
+                if (e.memo.title() == 'impsearch\0vtrash') {
+                    ftype = 'vtrash';
+                } else {
+                    ftype = 'noactions';
+                }
             }
             break;
         }
@@ -4497,6 +4503,11 @@ var IMP_Flist_Mbox = Class.create({
     label: function()
     {
         return this.data.l;
+    },
+
+    title: function()
+    {
+        return this.data.t;
     },
 
     fs: function()
