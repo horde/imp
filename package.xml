@@ -33,6 +33,7 @@
  </stability>
  <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
  <notes>
+* [mjr] Don&apos;t indicate success if MDN fails (Bug #14920).
 * [mjr] Fix/improve generation of PDF preview images.
  </notes>
  <contents>
@@ -2367,37 +2368,26 @@
    <license uri=""></license>
    <notes>
 * cjh: whomp. here we go.
-* 
 * Biggest change: session support through dbm files. YOU MUST touch the dbm
 * file (by default imp/lib/sessions) and give the webserver user read/write
 * permissions to it (actually, you don&apos;t have to create it if the webserver
 * has write access to the lib/ directory).
-* 
 * I&apos;ve tested this will everything I can think of - server list, languages,
 * every page, etc. I think it works. I probably missed something. So please,
 * pound on it, fix it, make suggestions.
-* 
-* 
 * Also: I&apos;ve taken a lot of cruft that wasn&apos;t being used out. imp.lib was
 * under 1000 lines for the first time in a while after this! I may prune more
 * v2 stuff if it&apos;s not used soon; that would trim us even more. I didn&apos;t trim
 * a whole lot from horde.
-* 
-* 
 * Cosmetic: the &apos;check inbox&apos; option on the menu is gone (should probably
 * remove the lang strings - haven&apos;t done that) and it&apos;s replaced with a cute
 * little reload graphic at the top left of mailbox pages that lets you refresh
 * any mailbox that you&apos;re in. this is more consistent from a ui point of view.
-* 
-* 
 * Everything else: reformatting, minor changes/fixes/etc. Nothing noteworthy
 * enough to remember off of the top of my head.
-* 
-* 
 * To do: dump the mailbox_list functions into the new ImapSession object, or
 * *at least* rewrite them to take advantage of the new namespace objects that
 * are available. I haven&apos;t touched this one yet.
-* 
 * Comments?
    </notes>
   </release>
@@ -6776,6 +6766,7 @@
    <date>2019-01-06</date>
    <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
    <notes>
+* [mjr] Don&apos;t indicate success if MDN fails (Bug #14920).
 * [mjr] Fix/improve generation of PDF preview images.
    </notes>
   </release>
