@@ -881,10 +881,15 @@ extends Horde_Core_Ajax_Application_Handler
             return false;
         }
 
-        $this->_base->indices->mdnCheck(
-            $contents->getHeaderAndMarkAsSeen(),
-            true
-        );
+        try {
+            $this->_base->indices->mdnCheck(
+                $contents->getHeaderAndMarkAsSeen(),
+                true
+            );
+        } catch (Horde_Exception $e) {
+            $notification->push(_("The Message Disposition Notification was not sent. This is what the server said") . ': ' . $e->getMessage(), 'horde.warning');
+            return false;
+        }
 
         $notification->push(_("The Message Disposition Notification was sent successfully."), 'horde.success');
 

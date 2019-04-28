@@ -834,18 +834,18 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
                     'from_addr' => $from
                 )
             );
-
             $maillog->log($log_msg, $log_ob);
-
             $success = true;
-        } catch (Exception $e) {}
-
-        $injector->getInstance('IMP_Sentmail')->log(
-            IMP_Sentmail::MDN,
-            '',
-            $return_addr,
-            $success
-        );
+        } catch (Exception $e) {
+            throw $e;
+        } finally {
+            $injector->getInstance('IMP_Sentmail')->log(
+                IMP_Sentmail::MDN,
+                '',
+                $return_addr,
+                $success
+            );
+        }
 
         return false;
     }
