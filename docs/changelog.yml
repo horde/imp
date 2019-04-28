@@ -72,6 +72,7 @@
     identifier: GPL-2.0
     uri: http://www.horde.org/licenses/gpl
   notes: |
+    [mjr] Don't indicate success if MDN fails (Bug #14920).
     [mjr] Fix/improve generation of PDF preview images.
 6.2.23:
   api: 6.2.0
@@ -3279,37 +3280,26 @@
 2.1.2:
   notes: |
     cjh: whomp. here we go.
-    
     Biggest change: session support through dbm files. YOU MUST touch the dbm
     file (by default imp/lib/sessions) and give the webserver user read/write
     permissions to it (actually, you don't have to create it if the webserver
     has write access to the lib/ directory).
-    
     I've tested this will everything I can think of - server list, languages,
     every page, etc. I think it works. I probably missed something. So please,
     pound on it, fix it, make suggestions.
-    
-    
     Also: I've taken a lot of cruft that wasn't being used out. imp.lib was
     under 1000 lines for the first time in a while after this! I may prune more
     v2 stuff if it's not used soon; that would trim us even more. I didn't trim
     a whole lot from horde.
-    
-    
     Cosmetic: the 'check inbox' option on the menu is gone (should probably
     remove the lang strings - haven't done that) and it's replaced with a cute
     little reload graphic at the top left of mailbox pages that lets you refresh
     any mailbox that you're in. this is more consistent from a ui point of view.
-    
-    
     Everything else: reformatting, minor changes/fixes/etc. Nothing noteworthy
     enough to remember off of the top of my head.
-    
-    
     To do: dump the mailbox_list functions into the new ImapSession object, or
     *at least* rewrite them to take advantage of the new namespace objects that
     are available. I haven't touched this one yet.
-    
     Comments?
 2.1.1:
   notes: |
@@ -3363,66 +3353,45 @@ extra: |
   ==================
   OLD DIMP CHANGELOG
   ==================
-  
   ----------
   v1.1.7-cvs
   ----------
-  
-  
-  
-  
   ------
   v1.1.6
   ------
-  
   [jan] Fix redirecting to login screen if session times out (Bug #9281).
-  
-  
   ------
   v1.1.5
   ------
-  
   [mms] SECURITY: XSS - Make sure mailbox name displayed on mailbox page is
   properly encoded (Bug #9240).
   [jan] Fix notices with certain output buffer configurations
   (Valentin.Vidic@CARNet.hr, Bug #7851).
   [mms] Turn DNS prefetching off when displaying untrusted message content
   (Request #8836).
-  
-  
   ------
   v1.1.4
   ------
-  
   [jan] Add Basque translation (Euskal Herriko Unibertsitatea <webmaster@ehu.es>).
   [jan] Add Croatian translation (Matej Vela <matej.vela@carnet.hr>).
   [mms] Fix sizing fckeditor compose editor frame in IE (Bug #8616).
-  
-  
   ------
   v1.1.3
   ------
-  
   [mms] Fix deleting messages after undeleting (Bug #8298).
   [mms] Fix renaming folders with non-7bit characters
   (rainer.groesslinger@gmail.com, Bug #8286).
-  
-  
   ------
   v1.1.2
   ------
-  
   [mms] Make dimp work with IE 8 (uses IE 7 compatibility mode) (requires IMP
   4.3.4+).
   [mms] Add confirmation box if attempting to send message without subject
   (Request #8076).
   [mms] Fix address autocomplete display on IE (Bug #7982).
-  
-  
   ------
   v1.1.1
   ------
-  
   [mms] Shift-Delete on multiple messages will move selection to next message
   (Request #7533).
   [mms] Fix occasional buggy behavior with drag/drop folders (Bug #7414).
@@ -3434,15 +3403,10 @@ extra: |
   [mms] Fix portal display in IE (Bug #7398).
   [mms] Correctly show 'To' header when doing searches in sentmail and drafts
   mailboxes (Bug #7650).
-  
-  
   ----
   v1.1
   ----
-  
   [jan] Show spam and ham buttons according to IMP's configuration.
-  
-  
   --------
   v1.1-RC2
   --------
