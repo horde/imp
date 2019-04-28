@@ -854,11 +854,16 @@ extends Horde_Core_Ajax_Application_Handler
         }
 
         list($mbox, $uid) = $this->_base->indices->getSingle();
-        $injector->getInstance('IMP_Message_Ui')->MDNCheck(
-            new IMP_Indices($mbox, $uid),
-            $contents->getHeaderAndMarkAsSeen(),
-            true
-        );
+        try {
+            $injector->getInstance('IMP_Message_Ui')->MDNCheck(
+                new IMP_Indices($mbox, $uid),
+                $contents->getHeaderAndMarkAsSeen(),
+                true
+            );
+        } catch (Horde_Exception $e) {
+            $notification->push(_("The Message Disposition Notification was not sent. This is what the server said") . ': ' . $e->getMessage(), 'horde.warning');
+            return false;
+        }
 
         $notification->push(_("The Message Disposition Notification was sent successfully."), 'horde.success');
 

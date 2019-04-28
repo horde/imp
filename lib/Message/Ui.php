@@ -138,14 +138,16 @@ class IMP_Message_Ui
             $maillog->log($log_msg, new IMP_Maillog_Log_Mdn());
 
             $success = true;
-        } catch (Exception $e) {}
-
-        $injector->getInstance('IMP_Sentmail')->log(
-            IMP_Sentmail::MDN,
-            '',
-            $return_addr,
-            $success
-        );
+        } catch (Exception $e) {
+            throw $e;
+        } finally {
+            $injector->getInstance('IMP_Sentmail')->log(
+                IMP_Sentmail::MDN,
+                '',
+                $return_addr,
+                $success
+            );
+        }
 
         return false;
     }
