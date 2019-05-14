@@ -55,7 +55,7 @@ dependencies:
       pear.horde.org/Horde_Editor: ^2.0.4
       pear.horde.org/Horde_Exception: ^2
       pear.horde.org/Horde_Icalendar: ^2
-      pear.horde.org/Horde_Image: ^2
+      pear.horde.org/Horde_Image: ^2.6
       pear.horde.org/Horde_Imap_Client: ^2.23
       pear.horde.org/Horde_Itip: ^2
       pear.horde.org/Horde_ListHeaders: ^1.1
