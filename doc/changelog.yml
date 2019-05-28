@@ -72,6 +72,7 @@
     identifier: GPL-2.0
     uri: http://www.horde.org/licenses/gpl
   notes: |
+    [mjr] Fix errors on initial quick search breaking subsequent searches (Bug #14838).
     [mjr] Don't indicate success if MDN fails (Bug #14920).
     [mjr] Fix/improve generation of PDF preview images.
 6.2.23:
