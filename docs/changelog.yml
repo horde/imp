@@ -62,6 +62,17 @@
     [mms] Don't send empty text part if a message contains attachments.
     [mms] Add button to allow folder tree to be rebuilt in smartmobile view.
     [mms] Add option to poll mailbox for new mailbox when creating a mailbox (Request #13227).
+6.2.25:
+  api: 6.2.0
+  state:
+    release: stable
+    api: stable
+  date: 2019-05-28
+  license:
+    identifier: GPL-2.0
+    uri: http://www.horde.org/licenses/gpl
+  notes: |+
+    
 6.2.24:
   api: 6.2.0
   state:
