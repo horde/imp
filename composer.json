@@ -21,8 +21,8 @@
             "role": "lead"
         }
     ],
-    "version": "6.2.23",
-    "time": "2019-01-06",
+    "version": "6.2.24",
+    "time": "2019-05-28",
     "repositories": [
         {
             "type": "pear",
@@ -43,7 +43,7 @@
         "pear-pear.horde.org/Horde_Editor": "^2.0.4",
         "pear-pear.horde.org/Horde_Exception": "^2",
         "pear-pear.horde.org/Horde_Icalendar": "^2",
-        "pear-pear.horde.org/Horde_Image": "^2",
+        "pear-pear.horde.org/Horde_Image": "^2.6",
         "pear-pear.horde.org/Horde_Imap_Client": "^2.23",
         "pear-pear.horde.org/Horde_Itip": "^2",
         "pear-pear.horde.org/Horde_ListHeaders": "^1.1",
