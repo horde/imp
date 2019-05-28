@@ -51,7 +51,7 @@ class IMP_Ajax_Application_Viewport_Error
         $ob->error = true;
         $ob->label = $this->_mbox->label;
         $ob->view = $this->_mbox->form_to;
-
+        $ob->metadata->search = strpos((string)$this->_mbox, IMP_Search::MBOX_PREFIX) === 0;
         return $ob;
     }
 
