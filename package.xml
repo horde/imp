@@ -33,6 +33,7 @@
  </stability>
  <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
  <notes>
+* [mjr] Fix errors on initial quick search breaking subsequent searches (Bug #14838).
 * [mjr] Don&apos;t indicate success if MDN fails (Bug #14920).
 * [mjr] Fix/improve generation of PDF preview images.
  </notes>
@@ -6766,6 +6767,7 @@
    <date>2019-01-06</date>
    <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
    <notes>
+* [mjr] Fix errors on initial quick search breaking subsequent searches (Bug #14838).
 * [mjr] Don&apos;t indicate success if MDN fails (Bug #14920).
 * [mjr] Fix/improve generation of PDF preview images.
    </notes>
