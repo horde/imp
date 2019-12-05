@@ -977,7 +977,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
              ($prefs->isLocked('save_sent_mail') &&
               $prefs->getValue('save_sent_mail')))) {
             /* Keep Bcc: headers on saved messages. */
-            if (count($header['bcc'])) {
+            if (is_array($header['bcc']) && count($header['bcc'])) {
                 $headers->addHeader('Bcc', $header['bcc']);
             }
 
