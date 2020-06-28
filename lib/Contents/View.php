@@ -93,8 +93,13 @@ class IMP_Contents_View
 
         $session->close();
 
-        $mime = $this->_getRawDownloadPart($id);
-        $name = $this->_contents->getPartName($mime);
+        if (!($mime = $this->_getRawDownloadPart($id))) {
+            return array();
+        }
+
+        if (!($name = $this->_contents->getPartName($mime)) {
+            $name = '';
+        }
 
         /* Compress output? */
         if ($zip) {
