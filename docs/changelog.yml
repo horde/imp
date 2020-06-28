@@ -73,7 +73,6 @@
     uri: http://www.horde.org/licenses/gpl
   notes: |
     [mjr] Fix syntax error.
-    |+
 6.2.25:
   api: 6.2.0
   state:
