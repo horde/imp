@@ -22,7 +22,7 @@
   <email>chuck@horde.org</email>
   <active>no</active>
  </lead>
- <date>2019-05-28</date>
+ <date>2020-06-28</date>
  <version>
   <release>6.2.25</release>
   <api>6.2.0</api>
@@ -33,7 +33,7 @@
  </stability>
  <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
  <notes>
-* 
+* [mjr] Fix some null reference errors due to edge case broken messages.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -6779,10 +6779,10 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2019-05-28</date>
+   <date>2020-06-29</date>
    <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
    <notes>
-* 
+* [mjr] Fix some null reference errors due to edge case broken messages.
    </notes>
   </release>
   <release>
