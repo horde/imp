@@ -71,7 +71,8 @@
   license:
     identifier: GPL-2.0
     uri: http://www.horde.org/licenses/gpl
-  notes: |+
+  notes: |
+    [mjr] Fix some null reference errors due to edge case broken messages.
 6.2.24:
   api: 6.2.0
   state:
@@ -3331,36 +3332,36 @@
   notes: |+
     Several pieces of IMP have been moved into the Horde module.  They include the
     signup feature, problem reporting, the help functions, and faq management.
-
+    
     A new motd feature has been added.  You can now use the file called MOTD.html
     and put in information you want shown under the login screen.  This file sits
     in the config directory.
-
+    
     Extendable menus.  You can now easily add menu items by adding items to the
     menu.txt file which resides in the config directory.
-
+    
     You can now set your session language at login.
-
+    
     A "new-user information" piece has been added to the login screen.  This
     function provides new users with some basic background on using IMP.
-
+    
     A function was added to the compose window which does not allow you to send
     a piece of email if you have browsed a file attachment but haven't attached
     it yet.
-
+    
     Help items were added to the compose window.
-
+    
     Fixed several issues with multiple read/write imap openings. Now only
     calls that require read/write use read/write.
-
+    
     Fixed multiple append trailer/footer bugs.
-
+    
     Localized the setup.php3 process.
-
+    
     Updated lynx pages so lynx works again with IMP
-
-
-extra: |2
+    
+    
+extra: |
   ==================
   OLD DIMP CHANGELOG
   ==================
@@ -3375,11 +3376,11 @@ extra: |2
   v1.1.5
   ------
   [mms] SECURITY: XSS - Make sure mailbox name displayed on mailbox page is
-        properly encoded (Bug #9240).
+  properly encoded (Bug #9240).
   [jan] Fix notices with certain output buffer configurations
-        (Valentin.Vidic@CARNet.hr, Bug #7851).
+  (Valentin.Vidic@CARNet.hr, Bug #7851).
   [mms] Turn DNS prefetching off when displaying untrusted message content
-        (Request #8836).
+  (Request #8836).
   ------
   v1.1.4
   ------
@@ -3391,29 +3392,29 @@ extra: |2
   ------
   [mms] Fix deleting messages after undeleting (Bug #8298).
   [mms] Fix renaming folders with non-7bit characters
-        (rainer.groesslinger@gmail.com, Bug #8286).
+  (rainer.groesslinger@gmail.com, Bug #8286).
   ------
   v1.1.2
   ------
   [mms] Make dimp work with IE 8 (uses IE 7 compatibility mode) (requires IMP
-        4.3.4+).
+  4.3.4+).
   [mms] Add confirmation box if attempting to send message without subject
-        (Request #8076).
+  (Request #8076).
   [mms] Fix address autocomplete display on IE (Bug #7982).
   ------
   v1.1.1
   ------
   [mms] Shift-Delete on multiple messages will move selection to next message
-        (Request #7533).
+  (Request #7533).
   [mms] Fix occasional buggy behavior with drag/drop folders (Bug #7414).
   [mms] The UP key will start at the bottom of the mailbox, if no current
-        message is selected (Request #7532).
+  message is selected (Request #7532).
   [mms] Add 'undelete' to Other Actions menu (Bug #7496).
   [mms] Display quota on startup (Bug #7718).
   [jan] Fix portal link text in tab bar (Bug #7719).
   [mms] Fix portal display in IE (Bug #7398).
   [mms] Correctly show 'To' header when doing searches in sentmail and drafts
-        mailboxes (Bug #7650).
+  mailboxes (Bug #7650).
   ----
   v1.1
   ----
@@ -3428,26 +3429,26 @@ extra: |2
   [mms] Catch unwanted keypress submits in the compose screen (Bug #7162).
   [mms] UI enhancement to indicate that RTE component is loading.
   [mms] Correctly close popup compose windows when opened from a page other than
-        the base DIMP page.
+  the base DIMP page.
   [mms] Remove border from iframe on IE (Bug #7136,
-        benjamin.kostner@tirol.gv.at).
+  benjamin.kostner@tirol.gv.at).
   ---------------------------------
   v1.1-RC1 (released as v1.0.1-RC1)
   ---------------------------------
   [mms] Improved dynamic resizing of page elements on IE 6.
   [mms] Add arrow buttons to message list scrollbar.
   [jan] Add Brazilian Portuguese translation (Luis Felipe Marzagao
-        <duli@fedoraproject.org>, Eduardo de Carli <carliedu@ig.com.br>).
+  <duli@fedoraproject.org>, Eduardo de Carli <carliedu@ig.com.br>).
   [mms] Correctly apply filters to INBOX if 'filter_on_display' pref is true.
   [mms] Update drafts folder in mailbox list if saving draft.
   [mms] Fixes to allow Opera 9.5 to display correctly.
   [mms] Fix mousewheel on Safari.
   [mms] Use correctly formatted signature when replying from a popup message
-        window (Bug #6932).
+  window (Bug #6932).
   [mms] Allow multiple compose/message popup windows to be open (Request #6915).
   [mms] Double clicking splitbar returns preview window to default size.
   [mms] Highlight search matches if the search criteria is displayed in the
-        mailbox screen.
+  mailbox screen.
   [mms] Add ability to move folders to base level (Request #6881).
   [mms] Add ability to move folders via drag/drop (Request #6347).
   [mms] Use new drag/drop library to handle message and splitbar drags.
@@ -3458,7 +3459,7 @@ extra: |2
   [jan] Improve design of message list scrollbar.
   [mms] Fix error when purging deleted messages.
   [mms] Fix issues with adding user-defined JS using the previewview hook
-        (Carlos Pires <acmpires@co.sapo.pt>).
+  (Carlos Pires <acmpires@co.sapo.pt>).
   [mms] Fix loading viewport slice in background when scrolling up.
   ----
   v1.0
@@ -3488,7 +3489,7 @@ extra: |2
   [mms] Add configuration option to disallow searching all mailboxes.
   [mms] Auto-resize address inputs in compose screen.
   [mms] Add hook for adding formatting information to a message list row
-        (Request #5234).
+  (Request #5234).
   --------
   v1.0-RC1
   --------
@@ -3510,10 +3511,10 @@ extra: |2
   [mms] Honor IMP's 'compose_cursor' preference.
   [mms] Add purge deleted button (Request #5561).
   [mms] Only scroll folder list when dragged messages are directly above or
-        below the list.
+  below the list.
   [mms] Fix nested folder positioning problems in IE.
   [mms] Fix message list generation when using the Horde JSON encoder
-        (Bug #5604, vokac@kmlinux.fjfi.cvut.cz).
+  (Bug #5604, vokac@kmlinux.fjfi.cvut.cz).
   [cjh] Fix switching signatures when using HTML composition (Bug #5594).
   ----------
   v1.0-ALPHA
@@ -3521,9 +3522,9 @@ extra: |2
   [jan] Add preferences interface.
   [jan] Allow loading of any applications from the menu.
   [jan] Add Polish translation (Tadeusz Lesiecki <lesiecki@tmtsystem.pl>, Piotr
-        Tarnowski <drfugazi@drfugazi.eu.org>).
+  Tarnowski <drfugazi@drfugazi.eu.org>).
   [mms] Inline PHP-generated javascript to avoid cross-domain leaking
-        (Bug #5307).
+  (Bug #5307).
   [jan] Add quota bar.
   [jan] Allow to add custom menu items.
   [jan] Add blacklist, whitelist, and ham buttons.
@@ -3531,13 +3532,13 @@ extra: |2
   [mms] Add configuration file for portal blocks.
   [mms] Implement full mailbox list caching on browser.
   [mms] Mailbox changes on IMAP actions are now handled in a single call to the
-        server.
+  server.
   [mms] Use a unique IMAP cache identifier to check for new messages in mailbox.
   [mms] Add asynchronous upload of attachments.
   [mms] Clicking Get Mail now does a Fetch Mail check also.
   [mms] Added support for keyboard shortcuts (Request #5139).
   [mms] No need for separate DraggableMail implementation - simply extend
-        scriptaculous' dragdrop.js as needed.
+  scriptaculous' dragdrop.js as needed.
   [mms] No need for separate HTML load on IE for storing history (Request #4693).
   [mms] Load folder list through an AJAX call.
   [mms] Cache mailbox listings.
@@ -3556,12 +3557,12 @@ extra: |2
   [mms] Fix updating unseen message status in folder list.
   [mms] Honor IMP's spam reporting configuration parameter (Bug #3971).
   [cjh] Load IMP's preferences in the ContactAutoCompleter so all address
-        books are searched (Bug #3810).
+  books are searched (Bug #3810).
   [mms] Fix spellcheck UI when in HTML composition mode.
   [mms] DIMP now honors IMP's sortlimit configuration option and IMP's
-        configurable sorting by folder.
+  configurable sorting by folder.
   [cjh] Implement persistent preference for the state of the
-        preview pane.
+  preview pane.
   [mms] Implement UI for resume from draft.
   [mms] Organize code/layout to Horde application specifications.
   ==================
@@ -3582,9 +3583,9 @@ extra: |2
   ------
   [mms] Added a MIME_Viewer to display mail system admin messages.
   [jan] Add Basque translation (Euskal Herriko Unibertsitatea EHU/UPV
-        <xabier.arrieta@ehu.es>).
+  <xabier.arrieta@ehu.es>).
   [jan] Add Brazilian Portuguese translation (Luis Felipe Marzagao
-        <duli@fedoraproject.org>, Eduardo de Carli <carliedu@ig.com.br>).
+  <duli@fedoraproject.org>, Eduardo de Carli <carliedu@ig.com.br>).
   ----
   v1.1
   ----
@@ -3606,20 +3607,20 @@ extra: |2
   v1.1-ALPHA
   ----------
   [mms] MIMP now requires an IMP 4.2 installation - MIMP uses all of IMP's base
-        libraries to provide its core functionality.
+  libraries to provide its core functionality.
   ------
   v1.0.1
   ------
   [jan] Add Catalan translation (Jordi Giralt <projecte.k2@upcnet.es>).
   [jan] Add Portuguese translation (Manuel Menezes de Sequeira
-        <Manuel.Sequeira@iscte.pt>).
+  <Manuel.Sequeira@iscte.pt>).
   [jan] Add Dutch translation (Jan Kuipers <jrkuipers@lauwerscollege.nl>).
   ----
   v1.0
   ----
   [mms] Don't show prefs page unless authenticated to MIMP (Bug #3756).
   [mms] Fix overriding smtphost/smtpport from servers.php (phyre@rogers.com,
-        Bug #3571).
+  Bug #3571).
   --------
   v1.0-RC1
   --------
@@ -3641,16 +3642,16 @@ extra: |2
   v1.0-ALPHA
   ----------
   [mms] Removed 'folders', 'namespace, and 'hierarchies' server config
-        parameters.
+  parameters.
   [mms] Add auto-detection of namespace information from IMAP server.
   [mms] Correctly convert message text from browser charset to sending charset
-        (Bug #2357).
+  (Bug #2357).
   [cjh] Allow basic identity editing through MIMP's preferences when using
-        a full web browser (Bug #1636).
+  a full web browser (Bug #1636).
   [jan] Add French translation (David Hoffmann
-        <david.hoffmann@chru-strasbourg.fr>).
+  <david.hoffmann@chru-strasbourg.fr>).
   [mms] Add preference to only download the first 250 characters of a message
-        on the initial message view.
+  on the initial message view.
   [jan] Add Finnish translation (Leena Heino <liinu@uta.fi>).
   [mms] Determine the default IMAP delimiter according to RFC 3501.
   [jan] Add Lithuanian translation (Vilius Sumskas <vilius@lnk.lt>).
@@ -3664,13 +3665,13 @@ extra: |2
   [cjh] Mailbox views now include paging.
   [cjh] List all attachments that aren't displayed in the headers.
   [cjh] Add an HTML viewer that strips tags and allows at least basic
-        text viewing.
+  text viewing.
   [jan] Add Romanian translation (Eugen Hoanca <eugenh@urban-grafx.ro>).
   [jan] Add German translation.
   [cjh] Add Compose menu item, and making sending mail work.
   [cjh] Add more menu items - Expunge, Refresh
   [cjh] The folder list is now functional.
   [cjh] Seperate menu card now, and successful display of mailboxes, messages,
-        and deletion of messages.
+  and deletion of messages.
   [cjh] Start pruning parts of IMP that don't belong in a mobile application.
   [cjh] Start of work based on IMP.
