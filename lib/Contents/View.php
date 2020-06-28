@@ -97,7 +97,7 @@ class IMP_Contents_View
             return array();
         }
 
-        if (!($name = $this->_contents->getPartName($mime)) {
+        if (!($name = $this->_contents->getPartName($mime))) {
             $name = '';
         }
 
