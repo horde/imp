@@ -88,6 +88,11 @@ class IMP_Mime_Viewer_Status extends Horde_Mime_Viewer_Base
         $action = null;
         $part2 = $this->getConfigParam('imp_contents')->getMIMEPart($part2_id);
 
+        // This would be a broken msg, but don't cause an exception because of it
+        if (is_null($part2)) {
+            return array();
+        }
+
         foreach (explode("\n", $part2->getContents()) as $line) {
             if (stristr($line, 'Action:') !== false) {
                 $action = strtolower(trim(substr($line, strpos($line, ':') + 1)));
