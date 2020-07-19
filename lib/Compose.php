@@ -1074,8 +1074,6 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         if (isset($headers['to']) &&
             (is_object($headers['to']) || strlen($headers['to']))) {
             $ob->addHeader('To', $headers['to']);
-        } elseif (!isset($headers['cc'])) {
-            $ob->addHeader('To', 'undisclosed-recipients:;');
         }
 
         if (isset($headers['cc']) &&
