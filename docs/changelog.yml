@@ -71,8 +71,9 @@
   license:
     identifier: GPL-2.0
     uri: http://www.horde.org/licenses/gpl
-  notes: |+
-    
+  notes: |
+    [mjr] Prevent creating an empty To: header (Bug #15019).
+    |+
 6.2.26:
   api: 6.2.0
   state:
