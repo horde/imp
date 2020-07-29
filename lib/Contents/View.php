@@ -223,6 +223,9 @@ class IMP_Contents_View
             'cc'      =>  _("Cc"),
             'subject' =>  _("Subject")
         );
+        if ($prefs->getValue('add_bcc')) {
+            $header_labels['bcc'] = _("Bcc");
+        }
 
         foreach ($header_labels as $key => $val) {
             if ($hdr_val = $headerob[$key]) {

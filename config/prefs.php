@@ -1387,7 +1387,7 @@ $prefGroups['printing'] = array(
     'column' => _("Message"),
     'label' => _("Printing"),
     'desc' => _("Configure message printing."),
-    'members' => array('add_printedby')
+    'members' => array('add_printedby', 'add_bcc')
 );
 
 $_prefs['add_printedby'] = array(
@@ -1397,6 +1397,12 @@ $_prefs['add_printedby'] = array(
     'desc' => _("Add a \"Printed By\" header to the top of printed messages?")
 );
 
+$_prefs['add_bcc'] = array(
+    'value' => 0,
+    'advanced' => true,
+    'type' => 'checkbox',
+    'desc' => _("Include the \"Bcc\" header when printing a sent email?")
+);
 
 
 // *** Mailbox Display Preferences ***
