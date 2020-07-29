@@ -455,8 +455,7 @@ class IMP_Ajax_Application_ListMessages
         $overview = $list_ob->getMailboxArray($msglist);
 
         /* Display message information. */
-        reset($overview['overview']);
-        while (list(,$ob) = each($overview['overview'])) {
+        foreach ($overview['overview'] as $ob) {
             /* Get all the flag information. */
             $msg = array(
                 'flag' => $flags
