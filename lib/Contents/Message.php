@@ -667,8 +667,7 @@ class IMP_Contents_Message
             uksort($msgtext, 'strnatcmp');
         }
 
-        reset($msgtext);
-        while (list($id, $part) = each($msgtext)) {
+        foreach($msgtext as $id => $part) {
             while (!empty($wrap_ids)) {
                 $id_ob = new Horde_Mime_Id(end($wrap_ids));
                 if ($id_ob->isChild($id)) {
