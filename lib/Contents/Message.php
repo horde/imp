@@ -610,7 +610,7 @@ class IMP_Contents_Message
             }
 
             reset($render_part);
-            while (list($id, $info) = each($render_part)) {
+            foreach ($render_part as $id => $info) {
                 $display_ids[$id] = 1;
 
                 if (empty($info)) {
