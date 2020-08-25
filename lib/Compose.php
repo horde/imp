@@ -3305,14 +3305,19 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
             'stream' => true
         ));
         rewind($stream);
-
-        if (file_put_contents($atc_file, $stream) === false) {
+        $dest_handle = fopen($atc_file, 'w+b');
+        while (!feof($stream)) {
+            fwrite($dest_handle, fread($stream, 1024));
+        }
+        fclose($dest_handle);
+        $size = ftell($stream);
+        if ($size === false) {
             throw new IMP_Compose_Exception(sprintf(_("Could not attach %s to the message."), $part->getName()));
         }
 
         return $this->_addAttachment(
             $atc_file,
-            ftell($stream),
+            $size,
             $part->getName(true),
             $part->getType()
         );
