@@ -72,6 +72,7 @@
     identifier: GPL-2.0
     uri: http://www.horde.org/licenses/gpl
   notes: |
+    [mjr] Fix attachments disappearing when forwarding in PHP 7.4 (Bug #15031).
     [mjr] Prevent creating an empty To: header (Bug #15019).
     |+
 6.2.26:
