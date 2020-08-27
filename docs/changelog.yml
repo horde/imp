@@ -67,7 +67,7 @@
   state:
     release: stable
     api: stable
-  date: 2020-06-28
+  date: 2020-08-27
   license:
     identifier: GPL-2.0
     uri: http://www.horde.org/licenses/gpl

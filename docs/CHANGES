@@ -2,7 +2,9 @@
 v6.2.27
 -------
 
-
+[mjr] Fix attachments disappearing when forwarding in PHP 7.4 (Bug #15031).
+[mjr] Prevent creating an empty To: header (Bug #15019).
+|+
 
 
 -------
