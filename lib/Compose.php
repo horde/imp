@@ -1429,10 +1429,11 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
             Horde::permissionDeniedError('imp', 'max_timelimit');
             throw new IMP_Compose_Exception(sprintf(
                 ngettext(
-                    "You are not allowed to send messages to more than %d recipient within %d hours.",
-                    "You are not allowed to send messages to more than %d recipients within %d hours.",
+                    "You (%s) are not allowed to send messages to more than %d recipient within %d hours.",
+                    "You (%s) are not allowed to send messages to more than %d recipients within %d hours.",
                     $imp_imap->max_compose_timelimit
                 ),
+                $headers['from'],
                 $imp_imap->max_compose_timelimit,
                 $injector->getInstance('IMP_Sentmail')->limit_period
             ));
@@ -1444,10 +1445,11 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
             Horde::permissionDeniedError('imp', 'max_recipients');
             throw new IMP_Compose_Exception(sprintf(
                 ngettext(
-                    "You are not allowed to send messages to more than %d recipient.",
-                    "You are not allowed to send messages to more than %d recipients.",
+                    "You (%s) are not allowed to send messages to more than %d recipient.",
+                    "You (%s) are not allowed to send messages to more than %d recipients.",
                     $imp_imap->max_compose_recipients
                 ),
+                $headers['from'],
                 $imp_imap->max_compose_recipients
             ));
         }
