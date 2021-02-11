@@ -83,6 +83,40 @@
     [mms] Don't send empty text part if a message contains attachments.
     [mms] Add button to allow folder tree to be rebuilt in smartmobile view.
     [mms] Add option to poll mailbox for new mailbox when creating a mailbox (Request #13227).
+6.2.28:
+  api: 6.2.0
+  state:
+    release: stable
+    api: stable
+  date: 2020-08-27
+  license:
+    identifier: GPL-2.0
+    uri: http://www.horde.org/licenses/gpl
+  notes: |
+    [jan] Fix deprecation warnings about each() with PHP 7.2+.
+6.2.27:
+  api: 6.2.0
+  state:
+    release: stable
+    api: stable
+  date: 2020-08-27
+  license:
+    identifier: GPL-2.0
+    uri: http://www.horde.org/licenses/gpl
+  notes: |
+    [mjr] Fix attachments disappearing when forwarding in PHP 7.4 (Bug #15031).
+    [mjr] Prevent creating an empty To: header (Bug #15019).
+6.2.26:
+  api: 6.2.0
+  state:
+    release: stable
+    api: stable
+  date: 2020-06-28
+  license:
+    identifier: GPL-2.0
+    uri: http://www.horde.org/licenses/gpl
+  notes: |
+    [mjr] Fix syntax error.
 6.2.25:
   api: 6.2.0
   state:
