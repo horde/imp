@@ -123,7 +123,7 @@ class IMP_Minimal_Mailbox extends IMP_Minimal_Base
         $mbox_info = $imp_mailbox->getMailboxArray(range($pageOb['begin'], $pageOb['end']), array('headers' => true));
         $msgs = array();
 
-        while (list(,$ob) = each($mbox_info['overview'])) {
+        foreach ($mbox_info['overview'] as $ob) {
             /* Initialize the header fields. */
             $msg = array(
                 'buid' => $imp_mailbox->getBuid($ob['mailbox'], $ob['uid']),

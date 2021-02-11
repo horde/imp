@@ -71,8 +71,9 @@
   license:
     identifier: GPL-2.0
     uri: http://www.horde.org/licenses/gpl
-  notes: |+
-    
+  notes: |
+    [jan] Fix deprecation warnings about each() with PHP 7.2+.
+    |+
 6.2.27:
   api: 6.2.0
   state:

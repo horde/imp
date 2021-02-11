@@ -843,7 +843,7 @@ class IMP_Basic_Mailbox extends IMP_Basic_Base
         $search_view = clone $view;
         $summary_view = clone $view;
 
-        while (list(,$ob) = each($mbox_info['overview'])) {
+        foreach ($mbox_info['overview'] as $ob) {
             if ($search_mbox) {
                 if (empty($lastMbox) || ($ob['mailbox'] != $lastMbox)) {
                     if (!empty($lastMbox)) {

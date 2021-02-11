@@ -1480,8 +1480,7 @@ class IMP_Contents
                 continue;
             }
 
-            reset($render_part);
-            while (list($id, $info) = each($render_part)) {
+            foreach ($render_part as $id => $info) {
                 $display_ids[$id] = 1;
 
                 if (empty($info)) {
@@ -1534,8 +1533,7 @@ class IMP_Contents
             uksort($msgtext, 'strnatcmp');
         }
 
-        reset($msgtext);
-        while (list($id, $part) = each($msgtext)) {
+        foreach ($msgtext as $id => $part) {
             while (!empty($wrap_ids) &&
                    !Horde_Mime::isChild(end($wrap_ids), $id)) {
                 array_pop($wrap_ids);

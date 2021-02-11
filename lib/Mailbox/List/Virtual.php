@@ -94,8 +94,7 @@ class IMP_Mailbox_List_Virtual extends IMP_Mailbox_List
         $this->_buildMailbox();
         $ob = new IMP_Indices();
 
-        reset($this->_sorted);
-        while (list($k, $v) = each($this->_sorted)) {
+        foreach ($this->_sorted as $k => $v) {
             $ob->add($this->_sortedMbox[$k], $v);
         }
 
