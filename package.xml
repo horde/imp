@@ -33,7 +33,59 @@
  </stability>
  <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
  <notes>
-* 
+* [jan] Sort public keys in preferences by name.
+* [jan] Allow to specify a secondary S/MIME certificate for signatures only.
+* [jan] Find logged replies in other than default sent-mail folders too.
+* [mjr] Fix SyntaxHighlighter MIME viewer not rendering part after the initial view of a part (Bug 14337).
+* [mjr] Display comment attribute in iTip viewer (Request #14407).
+* [mjr] Update the user/attendee participation status when accepting/importing an iTip.
+* [jan] Allow to import multiple PGP keys in a single PGP packet (Request #13190).
+* [jan] Add Alt+Home and Alt+End hotkeys to navigate in preview pane (michael.menge@zdv.uni-tuebingen.de, Request #13983).
+* [mjr] Add support for sending MDN via the API.
+* [mjr] Add imap_preauthenticate hook.
+* [mms] Report multiple spam/innocent messages in a single digest.
+* [mms] Remove mailbox from polled list when unsubscribing from it.
+* [mms] Allow remote account passwords to be saved encrypted in user&apos;s preferences (Request #13168).
+* [mms] Send IMP MUA information to IMAP servers that support the ID extension.
+* [mms] Send S/MIME encrypted data to multiple recipients in a single outgoing message.
+* [mms] Sent-mail maillog entries are now linked to a viewable representation of the sent message, if it still exists on the server.
+* [mms] Store message ID of the sent message when saving maillog history.
+* [mms] Add backend configuration option to use body structure data to more accurately determine whether a message contains attachments.
+* [jan] Show warning on S/MIME page if personal certificate has expired.
+* [mjr] Improve support for vTodo iTip handling.
+* [mms] Add resent information to message header display.
+* [mms] Added an option to the mailboxList API call to force inclusion of unsubscribed mailboxes.
+* [mms] Asynchronously load the mailbox list on the advanced search page.
+* [mms] Automatically try to rotate embedded inline images when displaying a message.
+* [mms] Add ability to add email groups to the address book.
+* [mms] Improved contacts loading - all contacts are never shown by default, but provide simple method for user to load all contacts.
+* [mms] Add dynamically updating relative time display for messages in dynamic view.
+* [mms] Add Purge Deleted button in smartmobile view (Request #13155).
+* [mms] Improved display of attachments and message log information in dynamic view.
+* [mms] IMP no longer uses MDN status stored in the maillog backend by default.
+* [mms] Add ability to download individual files from within a .tgz attachment.
+* [mms] Improved display of contents of ZIP attachments.
+* [mms] Contacts popup now does address search dynamically, without the need to reload the page.
+* [mms] Remove &apos;mailboxarray&apos; hook.
+* [mms] Remove &apos;display_folder&apos; hook.
+* [mms] Auto-detect EAI support on mail backends and provide validation feedback without the need to submit to the backend.
+* [mms] Removed basic view.
+* [mms] Do autocomplete search on browser, if sufficient data exists, to save calls to contacts backend.
+* [mms] Removed minimal view.
+* [mms] Allow auto-completed e-mail groups to be expanded on the dynamic compose page.
+* [mms] Add class of message part rendering display errors that aren&apos;t shown to the user by default.
+* [mms] Throttle message list keypresses in dynamic view to prevent avalanche of preview requests sent to server (Request #13574).
+* [mms] Filter out relative image URLs in HTML message data.
+* [mms] Implement lazy loading for images in HTML messages.
+* [mms] Add &apos;dynamic_prefs&apos; hook to allow for changing of default values for browser-based preferences in dynamic view.
+* [mms] Removed compose &apos;use_vfs&apos; configuration option.
+* [mjr] Add IMP_Api::addFlags().
+* [mms] Allow multiple independent attachment actions on the dynamic compose screen.
+* [mms] Add upload progress bar in dynamic compose screen when adding attachments.
+* [mms] Uniquely identify sent-mail mailboxes by identity in main folder tree (Request #12721).
+* [mms] Don&apos;t send empty text part if a message contains attachments.
+* [mms] Add button to allow folder tree to be rebuilt in smartmobile view.
+* [mms] Add option to poll mailbox for new mailbox when creating a mailbox (Request #13227).
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1910,165 +1962,6 @@
   </filelist>
  </phprelease>
  <changelog>
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
   <release>
    <version>
     <release>2.0.1</release>
@@ -2079,7 +1972,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * Several pieces of IMP have been moved into the Horde module.  They include the
 * signup feature, problem reporting, the help functions, and faq management.
@@ -2122,7 +2015,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * There were a bunch of changes, but nobody updated this file
    </notes>
@@ -2137,7 +2030,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * Enhancements:
 * * Imp now undestands French (thanks to Mathieu Clabaut &lt;clabault@multimania.com&gt;)
@@ -2161,7 +2054,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * cjh: whomp. here we go.
 * Biggest change: session support through dbm files. YOU MUST touch the dbm
@@ -2197,7 +2090,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * CHANGE: Changed all of the SQL scripts to use "horde" db instead of "imp" (jch)
 * CHANGE: Fixed German translation bugs in the newuser start file (jch)
@@ -2266,7 +2159,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * NEW: Debian Package mime viewing (iem)
 * NEW: x-tar mime viewing (iem)
@@ -2298,7 +2191,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * BUG: submitting a non-existant file as an attachment is now safely ignored (cjh)
 * BUG: the message select popup in the mailbox view works again now. IE doesn&apos;t let you use "type" as a form element name. (cjh)
@@ -2332,7 +2225,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [cjh] The mailbox selects in the mailbox and message views now update in tandem (ie, if you change one, the other updates to the same selection).
 * [cjh] The login screen does not reload when you choose a new language, if a username or password has been entered.
@@ -2378,7 +2271,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [cjh] Pass attachment types that have been marked viewable on to the browser untouched if there isn&apos;t a custom view function defined.
 * [cjh] Fix bug deleting the most recently selected folder.
@@ -2423,7 +2316,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jon] Added $conf[&apos;compose&apos;][&apos;allow_receipts&apos;] to control whether a user can request a return receipt from the compose screen.
 * [cjh] Revamp the attachment downloading code. At the moment, it works with every browser I can test.
@@ -2600,7 +2493,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jon] Rename the &apos;append_header&apos; configuration variable to &apos;prepend_header&apos;.
 * [cjh] Use "redirect" instead of "bounce".
@@ -2750,7 +2643,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] Add Greek translation (Stefanos I. Dimitriou &lt;sdimitri@teiath.gr&gt;).
 * [jan] Add Korean translation (J.I Kim &lt;aporie@netian.com&gt;).
@@ -2766,7 +2659,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [cjh] Remove onclick events in the mailbox view for consistency and simplicity.
 * [cjh] Better error reporting when an attachment upload fails.
@@ -2786,7 +2679,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [rich] Include rewritten and reorganized documentation.
 * [jan] Add preferences: close window after saving draft, quote prefix.
@@ -2806,7 +2699,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] Use the &apos;use_trash&apos; preference instead of the &apos;expunge_on_move&apos; configuration to decide if we have to expunge the folders.
 * [avsm] Add .htaccess files to deny access to data directories.
@@ -2827,7 +2720,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] Add Hungarian translation (Laszlo L. Tornoci &lt;torlasz@xenia.sote.hu&gt;).
 * [cjh] Clean up the Empty Trash action, and return you to the screen you were on when you clicked the menu item.
@@ -2913,7 +2806,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] Add Catalan translation (Angels Guimerà &lt;angels.Guimera@uab.es&gt;).
 * [mms] Check for invalid 8bit characters in email addresses.
@@ -2954,7 +2847,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Search results page fixed to correctly link to message compose if from_link set to &apos;compose&apos;.
 * [mms] Cancel now works correctly on the redirect screen when not composing in a new window.
@@ -2973,7 +2866,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] XSS vulnerabilities in the HTML viewer fixed (Ulf Harnhammar &lt;ulf@update.uu.se&gt;).
 * [jan] Add Arabic (Syria) translation (Platinum Development Team &lt;devteam@platinum-sy.net&gt;).
@@ -2996,7 +2889,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] Fix the &apos;undefined index direct_access&apos; error still occuring in obscure cases.
 * [jan] Add Indonesian language (Slamin &lt;slamin@unej.ac.id&gt;).
@@ -3016,7 +2909,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [cjh] SECURITY: Close an XSS hole exploited via the Content-type header of malicious emails.
 * [jan] Fix conversion of folder names in some non-ascii charsets with buggy iconv implementations (Wenzhuo Zhang &lt;wenzhuo@zhmail.com&gt;).
@@ -3034,7 +2927,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] SECURITY: Close an XSS hole in the HTML viewer, a variation to the one reported in http://www.greymagic.com/security/advisories/gm005-mc/.
 * [cjh] Fix escaped double quotes on some broken mail servers (Bug #292).
@@ -3051,7 +2944,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] SECURITY: Remove tags with -moz-binding: styles in the HTML MIME viewer.
 * [cjh] SECURITY: Remove scripts from &lt;base&gt; tags in the HTML MIME viewer.
@@ -3068,7 +2961,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Determine the default IMAP delimiter according to RFC 3501.
 * [mms] Fix the folders screen hanging if there was only one folder (Bug #504).
@@ -3087,7 +2980,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] Close XSS when setting the parent frame&apos;s page title by javascript (cjh).
 * [mms] Fix display of MIME parts less than 1K when local number format uses &apos;,&apos; as the decimal separator.
@@ -3105,7 +2998,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Added addressbook lookup and expand names feature to the redirect screen.
 * [jon] Added the ability to create new tasks from received email messages.
@@ -3267,7 +3160,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Added virtual folder support.
 * [mms] Allow all messages in an entire folder to be marked as seen or unseen.
@@ -3310,7 +3203,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] Fix HTML message editor in IE (Bugs #692, #793).
 * [cjh] Search only the preferred address books for senders allowed to send HTML messages with images.
@@ -3332,7 +3225,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Allow more than one recipient for encrypted messages; store encrypted messages locally using the local user&apos;s encryption (Bug #865).
 * [mms] Fix various S/MIME issues and update the code to more closely match the look and feel of the PGP code.
@@ -3349,7 +3242,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] Fix link generation in HTML composer (Bug #941).
 * [cjh] Always honor the login_compose action (Bug #892).
@@ -3371,7 +3264,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Messages sent in HTML format no longer link email addresses to non-existant javascript calls.
 * [jan] Use short, indented folder names in search form.
@@ -3393,7 +3286,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [cjh] Fix columns running in to each other with Safari/KHTML in the mailbox view (requires Horde 3.0.1) (Bug #1026).
 * [mms] Allow signed messages sent via multipart/encrypted to be displayed on non S/MIME enabled installations (Bug #1037).
@@ -3410,7 +3303,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Decode the contents of preview messages.
 * [mms] Fix reload of underlying window after entering PGP or S/MIME passphrase (Bug #1145).
@@ -3442,7 +3335,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Don&apos;t wrap flowed text in print view (Bug #1318).
 * [jan] Don&apos;t append trailer text twice if sending a message resumed from a draft (Bug #1306).
@@ -3459,7 +3352,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [cjh] Validate outgoing email addresses before sending mail (Bug #1543).
 * [mms] Added automatic detection of some mail server parameters to the test script.
@@ -3495,7 +3388,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] Ignore quoted text if spellchecking with aspell (Bug #1673, kevin_myer@iu13.org).
 * [cjh] Fix typo in attachment.php that caused a PHP warning (Xavier Montagutelli &lt;xavier.montagutelli@unilim.fr&gt;).
@@ -3512,7 +3405,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] Decode folder name when importing messages (ddibox@mail.ru, Bug #2479).
 * [jan] Send iTip replies with the correct identity (Bug #1507).
@@ -3561,7 +3454,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Fix additional newlines being added to forwarded messages when using sendmail on *NIX (Bug #2449, t.zell@gmx.de).
 * [mms] Fix BCC addressess disappearing when resuming a message (Bug #2558).
@@ -3582,7 +3475,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Add warning that PGP key generation may take awhile (Bug #2672).
 * [mas] Add confirmation when reporting spam/innocent from message view. (kevin_myer@iu13.org, Bug #2285)
@@ -3599,7 +3492,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [cjh] Correctly escape all folder names.
 * [jan] Fix French translation.
@@ -3615,7 +3508,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Removed &apos;dotfiles&apos; server parameter.
 * [mms] Allow PHP expressions to be executed for user-defined headers (Bug #3093).
@@ -3677,7 +3570,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] Add Khmer translation (Leang Chumsoben &lt;soben@khmeros.info&gt;).
 * [mms] Make Linked attachments work in multipart/alternative messages (Bug #3335).
@@ -3703,7 +3596,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mas] Add Hebrew translation.
 * [mms] Attempt to login to mail server multiple times on non-auth failure to eliminate some "random" session timeouts (ag@netside.de, Bug #3404).
@@ -3722,7 +3615,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Correctly expunge current mailbox when deleting messages on a POP3 server (Bug #3156).
    </notes>
@@ -3737,7 +3630,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Silence some undefined warnings if folders are off (Bug #3755).
 * [cjh] Escape X-color data (Bug #3751).
@@ -3766,7 +3659,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mas] Check Cyrus quota for current mailbox, instead of always showing INBOX. (Eric Garrido &lt;ekg2002@columbia.edu&gt;)
 * [cjh] Send linked attachment notifications in the language of the user who sent the attachment (Bug #3712).
@@ -3788,7 +3681,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Add &apos;login_tries&apos; server configuration option.
 * [jan] Fix toggling compose mode if folders are turned off (Bug #4216).
@@ -3811,7 +3704,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [cjh] "Ignore All" spellchecking fixes (technology@pmi-portland.org, Bug #4922).
 * [cjh] Absolute restriction on the width of the contacts window select elements (Request #1985).
@@ -3838,7 +3731,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] SECURITY: Fix XSS vulnerabilities in the search screen and thread view.
 * [jan] Improve displaying of PGP messages (requires Horde 3.1.4 partially).
@@ -3857,7 +3750,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [cjh] Lower memory usage when downloading folders (Andrew Morgan &lt;morgan@orst.edu&gt;).
 * [mms] Fix detection of default namespace information when no namespaces are defined on the server (Bug #5538).
@@ -3882,7 +3775,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] Fix sentmail folder not being updated in the preference interface after updating to Horde 3.1.5 (Bug #5842).
 * [jan] Fix broken &lt;area&gt; tags in HTML messages.
@@ -3898,7 +3791,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] Add configuration for folders that may not be modified.
 * [mms] Inline PHP-generated javascript to avoid cross-domain leaking (Bug #5307).
@@ -3978,7 +3871,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] Fix broken &lt;area&gt; tags in HTML messages.
 * [mms] When sending notification that linked attachment has been downloaded, correctly set timezone in download time (Bug #4609).
@@ -4011,7 +3904,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] SECURITY: When sending linked attachments, protect against JAR attacks in some Mozilla browsers (Bug #5892).
 * [cjh] Fix the bottom Select: menu in the mailbox view (Bug #6128).
@@ -4033,7 +3926,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mas] Replace %l and %d with the current short username and domain name in spam reporting shell calls. (Bug #6364)
 * [cjh] Add a hook quota driver (Michael.Redinger@uibk.ac.at, Request #6322).
@@ -4066,7 +3959,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Add ability to cache JS/CSS files to static files to improve performance and to fix problems when updating JS/CSS files.
 * [cjh] Apply fix for http://dev.rubyonrails.org/ticket/11473 to prototype.js (Request #6590).
@@ -4095,7 +3988,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [cjh] Fix display of email groups in received messages.
 * [cjh] Fix sending email to contact lists (Bug #6732).
@@ -4114,7 +4007,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] SECURITY: Escape output in test.php.
    </notes>
@@ -4129,7 +4022,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [cjh] SECURITY: Escape output in message.php, pgp.php and smime.php (found by Gunnar Wrobel &lt;p@rdus.de&gt;).
    </notes>
@@ -4144,7 +4037,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * (released as v4.2.1-RC1)
 * [mms] Fix incorrect autocomplete replacement in certain cases (Bug #6819).
@@ -4191,7 +4084,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Fix loading of print stylesheets when printing a message (Bug #7310).
 * [mjr] Fix redirect loop when conf[server][change_server] is true (Bug #6978).
@@ -4215,7 +4108,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] Add compose token to redirect view (Bug #7383).
 * [jan] Don&apos;t resize window if not composing messages in a popup.
@@ -4231,7 +4124,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] SECURITY: Escape output in test.php.
 * [mms] Don&apos;t include Virtual Folder information in when tracking folder tree changes (Bug #7739).
@@ -4252,7 +4145,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Fix prototypejs regression on IE (Bug #6590).
    </notes>
@@ -4267,7 +4160,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [cjh] SECURITY: Escape output in message.php, pgp.php and smime.php (found by Gunnar Wrobel &lt;p@rdus.de&gt;).
 * [jan] Use all credentials and mailer settings for iTip replies (Bug #7388).
@@ -4287,7 +4180,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] SECURITY: Don&apos;t cache local PGP public keys retrieved from the addressbook (found by Peter Meier &lt;peter.meier@immerda.ch&gt;).
 * [mms] If using spellcheck on send, automatically send if no spelling errors exist (Request #6892).
@@ -4311,7 +4204,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Upgrade prototype.js to v1.6.1.
 * [jan] Add example hook for the search_sources preference (dom.lalot@gmail.com, Request #7796).
@@ -4338,7 +4231,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [cjh] Fix the default value for the nav_audio preference (sistemisti-posta@csi.it, Bug #8725).
 * [mms] Make sure sent-mail folders exist if using the drop-down selection list on the compose page (Bug #8520).
@@ -4363,7 +4256,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Fix spellcheck-on-send when using fckeditor and no errors exist (Bug #8833).
 * [mms] Fix authenticate API call and synchronization when using realms (robin.west@dal.ca, Bugs #6749, #8872).
@@ -4382,7 +4275,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] SECURITY: Properly escape user input in Fetchmail configuration.
 * [mms] Fix updating POP3 indices when using mailbox caching (Bug #8035).
@@ -4400,7 +4293,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Fix error if user&apos;s account only contains an INBOX (Bug #9273).
    </notes>
@@ -4415,7 +4308,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [jan] Don&apos;t submit the action form when reloading messages with iTip attachments (Bug #9502).
    </notes>
@@ -5658,7 +5551,7 @@
     <api/>
    </stability>
    <date/>
-   <license uri="" />
+   <license uri=""></license>
    <notes>
 * [mms] Fix displaying some HTML messages that contain blocked CSS rules (Bug #12294).
 * [mms] Catch and ignore errors from contacts backend when determining whether to show images in a message (Bug #12294).
@@ -6594,22 +6487,59 @@
    <date>2021-02-24</date>
    <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
    <notes>
-* 
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>7.0.0alpha1</release>
-    <api>7.0.0alpha1</api>
-   </version>
-   <stability>
-    <release>alpha</release>
-    <api>alpha</api>
-   </stability>
-   <date>2021-02-24</date>
-   <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
-   <notes>
-* 
+* [jan] Sort public keys in preferences by name.
+* [jan] Allow to specify a secondary S/MIME certificate for signatures only.
+* [jan] Find logged replies in other than default sent-mail folders too.
+* [mjr] Fix SyntaxHighlighter MIME viewer not rendering part after the initial view of a part (Bug 14337).
+* [mjr] Display comment attribute in iTip viewer (Request #14407).
+* [mjr] Update the user/attendee participation status when accepting/importing an iTip.
+* [jan] Allow to import multiple PGP keys in a single PGP packet (Request #13190).
+* [jan] Add Alt+Home and Alt+End hotkeys to navigate in preview pane (michael.menge@zdv.uni-tuebingen.de, Request #13983).
+* [mjr] Add support for sending MDN via the API.
+* [mjr] Add imap_preauthenticate hook.
+* [mms] Report multiple spam/innocent messages in a single digest.
+* [mms] Remove mailbox from polled list when unsubscribing from it.
+* [mms] Allow remote account passwords to be saved encrypted in user&apos;s preferences (Request #13168).
+* [mms] Send IMP MUA information to IMAP servers that support the ID extension.
+* [mms] Send S/MIME encrypted data to multiple recipients in a single outgoing message.
+* [mms] Sent-mail maillog entries are now linked to a viewable representation of the sent message, if it still exists on the server.
+* [mms] Store message ID of the sent message when saving maillog history.
+* [mms] Add backend configuration option to use body structure data to more accurately determine whether a message contains attachments.
+* [jan] Show warning on S/MIME page if personal certificate has expired.
+* [mjr] Improve support for vTodo iTip handling.
+* [mms] Add resent information to message header display.
+* [mms] Added an option to the mailboxList API call to force inclusion of unsubscribed mailboxes.
+* [mms] Asynchronously load the mailbox list on the advanced search page.
+* [mms] Automatically try to rotate embedded inline images when displaying a message.
+* [mms] Add ability to add email groups to the address book.
+* [mms] Improved contacts loading - all contacts are never shown by default, but provide simple method for user to load all contacts.
+* [mms] Add dynamically updating relative time display for messages in dynamic view.
+* [mms] Add Purge Deleted button in smartmobile view (Request #13155).
+* [mms] Improved display of attachments and message log information in dynamic view.
+* [mms] IMP no longer uses MDN status stored in the maillog backend by default.
+* [mms] Add ability to download individual files from within a .tgz attachment.
+* [mms] Improved display of contents of ZIP attachments.
+* [mms] Contacts popup now does address search dynamically, without the need to reload the page.
+* [mms] Remove &apos;mailboxarray&apos; hook.
+* [mms] Remove &apos;display_folder&apos; hook.
+* [mms] Auto-detect EAI support on mail backends and provide validation feedback without the need to submit to the backend.
+* [mms] Removed basic view.
+* [mms] Do autocomplete search on browser, if sufficient data exists, to save calls to contacts backend.
+* [mms] Removed minimal view.
+* [mms] Allow auto-completed e-mail groups to be expanded on the dynamic compose page.
+* [mms] Add class of message part rendering display errors that aren&apos;t shown to the user by default.
+* [mms] Throttle message list keypresses in dynamic view to prevent avalanche of preview requests sent to server (Request #13574).
+* [mms] Filter out relative image URLs in HTML message data.
+* [mms] Implement lazy loading for images in HTML messages.
+* [mms] Add &apos;dynamic_prefs&apos; hook to allow for changing of default values for browser-based preferences in dynamic view.
+* [mms] Removed compose &apos;use_vfs&apos; configuration option.
+* [mjr] Add IMP_Api::addFlags().
+* [mms] Allow multiple independent attachment actions on the dynamic compose screen.
+* [mms] Add upload progress bar in dynamic compose screen when adding attachments.
+* [mms] Uniquely identify sent-mail mailboxes by identity in main folder tree (Request #12721).
+* [mms] Don&apos;t send empty text part if a message contains attachments.
+* [mms] Add button to allow folder tree to be rebuilt in smartmobile view.
+* [mms] Add option to poll mailbox for new mailbox when creating a mailbox (Request #13227).
    </notes>
   </release>
  </changelog>
