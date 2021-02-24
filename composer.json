@@ -90,9 +90,6 @@
     "autoload": {
         "psr-0": {
             "IMP": "lib/"
-        },
-        "psr-4": {
-            "Horde\\IMP\\": "src/"
         }
     },
     "bin": [
