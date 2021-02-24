@@ -8,7 +8,7 @@ description: >-
   access to IMAP and POP3 mail servers and provides Ajax, mobile and traditional
   interfaces with a rich range of features normally found only in desktop email
   clients.
-list:
+list: ~
 type: application
 homepage: https://www.horde.org/apps/imp
 authors:
@@ -31,11 +31,11 @@ authors:
     active: false
     role: lead
 version:
-  release: 7.0.0
-  api: 7.0.0
+  release: 7.0.0alpha1
+  api: 7.0.0alpha1
 state:
-  release: beta
-  api: beta
+  release: alpha
+  api: alpha
 license:
   identifier: GPL-2.0
   uri: http://www.horde.org/licenses/gpl

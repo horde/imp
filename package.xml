@@ -5,16 +5,16 @@
  <summary>Webmail application</summary>
  <description>IMP, the Internet Mail Program, is one of the most popular and widely deployed open source webmail applications in the world. It allows universal, web-based access to IMAP and POP3 mail servers and provides Ajax, mobile and traditional interfaces with a rich range of features normally found only in desktop email clients.</description>
  <lead>
-  <name>Michael Slusarz</name>
-  <user>slusarz</user>
-  <email>slusarz@horde.org</email>
-  <active>yes</active>
- </lead>
- <lead>
   <name>Jan Schneider</name>
   <user>jan</user>
   <email>jan@horde.org</email>
   <active>yes</active>
+ </lead>
+ <lead>
+  <name>Michael Slusarz</name>
+  <user>slusarz</user>
+  <email>slusarz@horde.org</email>
+  <active>no</active>
  </lead>
  <lead>
   <name>Chuck Hagenbuch</name>
@@ -22,14 +22,14 @@
   <email>chuck@horde.org</email>
   <active>no</active>
  </lead>
- <date>2017-11-11</date>
+ <date>2021-02-24</date>
  <version>
-  <release>7.0.0</release>
-  <api>7.0.0</api>
+  <release>7.0.0alpha1</release>
+  <api>7.0.0alpha1</api>
  </version>
  <stability>
-  <release>beta</release>
-  <api>beta</api>
+  <release>alpha</release>
+  <api>alpha</api>
  </stability>
  <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
  <notes>
@@ -4208,14 +4208,14 @@
    </notes>
   </release>
   <release>
-   <date>2017-11-11</date>
+   <date>2021-02-24</date>
    <version>
-    <release>7.0.0</release>
-    <api>7.0.0</api>
+    <release>7.0.0alpha1</release>
+    <api>7.0.0alpha1</api>
    </version>
    <stability>
-    <release>beta</release>
-    <api>beta</api>
+    <release>alpha</release>
+    <api>alpha</api>
    </stability>
    <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
    <notes>
