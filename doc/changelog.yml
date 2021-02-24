@@ -4,7 +4,7 @@
   state:
     release: beta
     api: beta
-  date: 2017-10-20
+  date: 2021-02-24
   license:
     identifier: GPL-2.0
     uri: http://www.horde.org/licenses/gpl

@@ -35,7 +35,7 @@
     ],
     "require": {
         "horde/horde-installer-plugin": "*",
-        "php": "^5.3 || ^7",
+        "php": "^7",
         "horde/horde": "^5",
         "horde/auth": "^2",
         "horde/browser": "^2",
@@ -50,7 +50,7 @@
         "horde/exception": "^2",
         "horde/icalendar": "^2.1",
         "horde/image": "^2.6",
-        "horde/imap_client": "^2.27",
+        "horde/imap_Client": "^2.27",
         "horde/itip": "^2.1",
         "horde/listheaders": "^1.1",
         "horde/logintasks": "^2",
