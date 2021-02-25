@@ -1433,7 +1433,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
                     "You (%s) are not allowed to send messages to more than %d recipients within %d hours.",
                     $imp_imap->max_compose_timelimit
                 ),
-                $headers['from'],
+                $GLOBALS['registry']->getAuth(),
                 $imp_imap->max_compose_timelimit,
                 $injector->getInstance('IMP_Sentmail')->limit_period
             ));
@@ -1449,7 +1449,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
                     "You (%s) are not allowed to send messages to more than %d recipients.",
                     $imp_imap->max_compose_recipients
                 ),
-                $headers['from'],
+                $GLOBALS['registry']->getAuth(),
                 $imp_imap->max_compose_recipients
             ));
         }
