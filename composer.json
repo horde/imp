@@ -21,8 +21,7 @@
             "role": "lead"
         }
     ],
-    "version": "7.0.0alpha3",
-    "time": "2021-02-24",
+    "time": "2021-03-13",
     "repositories": [
         {
             "type": "composer",
