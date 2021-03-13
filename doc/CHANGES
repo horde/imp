@@ -2,8 +2,7 @@
 v7.0.0alpha3
 ------------
 
-
-
+|+
 
 ------------
 v7.0.0alpha2
@@ -92,6 +91,28 @@ v7.0.0alpha1
 [mms] Add button to allow folder tree to be rebuilt in smartmobile view.
 [mms] Add option to poll mailbox for new mailbox when creating a mailbox
       (Request #13227).
+
+
+-------
+v6.2.28
+-------
+
+[jan] Fix deprecation warnings about each() with PHP 7.2+.
+
+
+-------
+v6.2.27
+-------
+
+[mjr] Fix attachments disappearing when forwarding in PHP 7.4 (Bug #15031).
+[mjr] Prevent creating an empty To: header (Bug #15019).
+
+
+-------
+v6.2.26
+-------
+
+[mjr] Fix syntax error.
 
 
 -------
