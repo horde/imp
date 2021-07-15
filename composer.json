@@ -50,7 +50,7 @@
         "horde/exception": "^3 || dev-FRAMEWORK_6_0",
         "horde/icalendar": "^3 || dev-FRAMEWORK_6_0",
         "horde/image": "^3 || dev-FRAMEWORK_6_0",
-        "horde/imap_Client": "^3 || dev-FRAMEWORK_6_0",
+        "horde/imap_client": "^3 || dev-FRAMEWORK_6_0",
         "horde/itip": "^3 || dev-FRAMEWORK_6_0",
         "horde/listheaders": "^2 || dev-FRAMEWORK_6_0",
         "horde/logintasks": "^3 || dev-FRAMEWORK_6_0",
