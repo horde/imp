@@ -43,6 +43,7 @@ class IMP_Search_Element_Recipient extends IMP_Search_Element
     public function createQuery($mbox, $queryob)
     {
         $search_ob = new Horde_Imap_Client_Search_Query();
+        $search_ob->charset('UTF-8');
         $and_ob = clone $search_ob;
 
         $ob = clone $search_ob;
