@@ -57,7 +57,7 @@ dependencies:
       horde/exception: ^3
       horde/icalendar: ^3
       horde/image: ^3
-      horde/imap_Client: ^3
+      horde/imap_client: ^3
       horde/itip: ^3
       horde/listheaders: ^2
       horde/logintasks: ^3
