@@ -39,7 +39,7 @@ class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
     {
         global $prefs;
 
-        $sortpref = @unserialize($prefs->getValue(self::SORTPREF));
+        $sortpref = @unserialize($prefs->getValue(self::SORTPREF), array('allowed_classes' => false));
         if (is_array($sortpref)) {
             $this->_sortpref = $sortpref;
         }

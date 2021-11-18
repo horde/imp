@@ -41,7 +41,7 @@ class IMP_Ftree_Prefs_Expanded extends IMP_Ftree_Prefs
     {
         global $prefs;
 
-        if (($folders = @unserialize($prefs->getValue('expanded_folders'))) &&
+        if (($folders = @unserialize($prefs->getValue('expanded_folders'), array('allowed_classes' => false))) &&
             is_array($folders)) {
             $this->_data = $folders;
         }

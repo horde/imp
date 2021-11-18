@@ -47,7 +47,7 @@ class IMP_Ftree_Prefs_Poll extends IMP_Ftree_Prefs
             $this->_data = array('INBOX' => 1);
 
             /* Add the list of polled mailboxes from the prefs. */
-            if ($nav_poll = @unserialize($prefs->getValue('nav_poll'))) {
+            if ($nav_poll = @unserialize($prefs->getValue('nav_poll'), array('allowed_classes' => false))) {
                 $this->_data += $nav_poll;
             }
 
