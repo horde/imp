@@ -811,7 +811,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         ));
 
         /* Add preferred reply language(s). */
-        if ($lang = @unserialize($prefs->getValue('reply_lang'))) {
+        if ($lang = @unserialize($prefs->getValue('reply_lang'), array('allowed_classes' => false))) {
             $headers->addHeader('Accept-Language', implode(',', $lang));
         }
 

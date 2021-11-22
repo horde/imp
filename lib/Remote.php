@@ -37,7 +37,9 @@ class IMP_Remote implements ArrayAccess, IteratorAggregate
      */
     public function __construct()
     {
-        $this->_accounts = @unserialize($GLOBALS['prefs']->getValue('remote')) ?: array();
+        $this->_accounts = @unserialize($GLOBALS['prefs']->getValue('remote'), array('allowed_classes' => array(
+            'IMP_Remote_Account',
+        ))) ?: array();
     }
 
     /**

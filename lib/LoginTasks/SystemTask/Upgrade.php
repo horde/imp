@@ -344,7 +344,10 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
 
         $vfolders = $prefs->getValue('vfolder');
         if (!empty($vfolders)) {
-            $vfolders = @unserialize($vfolders);
+            $vfolders = @unserialize($vfolders, array('allowed_classes' => array(
+                'IMP_Search_Vfolder_Vinbox',
+                'IMP_Search_Vfolder_Vtrash',
+            )));
         }
 
         if (empty($vfolders) || !is_array($vfolders)) {
@@ -577,7 +580,7 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
     {
         global $injector, $prefs;
 
-        $slist = @unserialize($prefs->getValue('stationery'));
+        $slist = @unserialize($prefs->getValue('stationery'), array('allowed_classes' => false));
         if (is_array($slist)) {
             /* Old entry format:
              * 'c' => (string) Content

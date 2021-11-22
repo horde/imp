@@ -39,7 +39,12 @@ class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
     {
         global $prefs;
 
-        $sortpref = @unserialize($prefs->getValue(self::SORTPREF));
+        $value = $prefs->getValue(self::SORTPREF);
+        $sortpref = $value ? json_decode($value, true) : array();
+        if (null === $sortpref && json_last_error() === JSON_ERROR_SYNTAX) {
+            // TODO: Remove backward compatibility with stored values
+            $sortpref = @unserialize($value, array('allowed_classes' => false));
+        }
         if (is_array($sortpref)) {
             $this->_sortpref = $sortpref;
         }
@@ -106,7 +111,7 @@ class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
      */
     protected function _save()
     {
-        $GLOBALS['prefs']->setValue(self::SORTPREF, serialize($this->_sortpref));
+        $GLOBALS['prefs']->setValue(self::SORTPREF, json_encode($this->_sortpref, JSON_FORCE_OBJECT));
     }
 
     /* ArrayAccess methods. */

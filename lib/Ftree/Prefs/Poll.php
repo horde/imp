@@ -47,7 +47,13 @@ class IMP_Ftree_Prefs_Poll extends IMP_Ftree_Prefs
             $this->_data = array('INBOX' => 1);
 
             /* Add the list of polled mailboxes from the prefs. */
-            if ($nav_poll = @unserialize($prefs->getValue('nav_poll'))) {
+            $value = $prefs->getValue('nav_poll');
+            $nav_poll = $value ? json_decode($value, true) : array();
+            if (null === $nav_poll && json_last_error() === JSON_ERROR_SYNTAX) {
+                // TODO: Remove backward compatibility with stored values
+                $nav_poll = @unserialize($value, array('allowed_classes' => false));
+            }
+            if ($nav_poll) {
                 $this->_data += $nav_poll;
             }
 
@@ -59,7 +65,7 @@ class IMP_Ftree_Prefs_Poll extends IMP_Ftree_Prefs
      */
     public function shutdown()
     {
-        $GLOBALS['prefs']->setValue('nav_poll', serialize($this->_data));
+        $GLOBALS['prefs']->setValue('nav_poll', json_encode($this->_data, JSON_FORCE_OBJECT));
     }
 
     /**

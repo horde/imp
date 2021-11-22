@@ -41,8 +41,13 @@ class IMP_Ftree_Prefs_Expanded extends IMP_Ftree_Prefs
     {
         global $prefs;
 
-        if (($folders = @unserialize($prefs->getValue('expanded_folders'))) &&
-            is_array($folders)) {
+        $value = $prefs->getValue('expanded_folders');
+        $folders = $value ? json_decode($value, true) : array();
+        if (null === $folders && json_last_error() === JSON_ERROR_SYNTAX) {
+            // TODO: Remove backward compatibility with stored values
+            $folders = @unserialize($value, array('allowed_classes' => false));
+        }
+        if (is_array($folders)) {
             $this->_data = $folders;
         }
 
@@ -54,7 +59,7 @@ class IMP_Ftree_Prefs_Expanded extends IMP_Ftree_Prefs
      */
     public function shutdown()
     {
-        $GLOBALS['prefs']->setValue('expanded_folders', serialize($this->_data));
+        $GLOBALS['prefs']->setValue('expanded_folders', json_encode($this->_data, JSON_FORCE_OBJECT));
     }
 
     /**
