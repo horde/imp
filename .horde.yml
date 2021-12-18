@@ -37,11 +37,11 @@ state:
   release: alpha
   api: alpha
 license:
-  identifier: GPL-2.0
+  identifier: GPL-2.0-only
   uri: http://www.horde.org/licenses/gpl
 dependencies:
   required:
-    php: ^7
+    php: ^7.4 || ^8
     composer:
       horde/horde: ^6
       horde/auth: ^3
@@ -92,7 +92,7 @@ dependencies:
       horde/http: ^3
       horde/mongo: ^2
       horde/service_gravatar: ^2
-    pear:
-      phpseclib.sourceforge.net/File_ASN1: '*'
+#    pear:
+#      phpseclib.sourceforge.net/File_ASN1: '*'
     ext:
       openssl: '*'

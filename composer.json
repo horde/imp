@@ -4,7 +4,7 @@
     "description": "Webmail application",
     "type": "horde-application",
     "homepage": "https://www.horde.org/apps/imp",
-    "license": "GPL-2.0",
+    "license": "GPL-2.0-only",
     "authors": [
         {
             "name": "Jan Schneider",
@@ -27,15 +27,11 @@
         {
             "type": "composer",
             "url": "https://horde-satis.maintaina.com/"
-        },
-        {
-            "url": "https://phpseclib.sourceforge.net",
-            "type": "pear"
         }
     ],
     "require": {
-        "horde/horde-installer-plugin": "dev-FRAMEWORK_6_0 || *",
-        "php": "^7",
+        "horde/horde-installer-plugin": "^2 || dev-FRAMEWORK_6_0",
+        "php": "^7.4 || ^8",
         "horde/horde": "^6 || dev-FRAMEWORK_6_0",
         "horde/auth": "^3 || dev-FRAMEWORK_6_0",
         "horde/browser": "^3 || dev-FRAMEWORK_6_0",
