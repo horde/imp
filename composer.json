@@ -81,7 +81,6 @@
         "horde/http": "^3 || dev-FRAMEWORK_6_0",
         "horde/mongo": "^2 || dev-FRAMEWORK_6_0",
         "horde/service_gravatar": "^2 || dev-FRAMEWORK_6_0",
-        "pear-phpseclib.sourceforge.net/File_ASN1": "*",
         "ext-openssl": "*"
     },
     "autoload": {
