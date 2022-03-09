@@ -11,6 +11,8 @@
  * @package   IMP
  */
 
+use Horde\Util\HordeString;
+
 /**
  * Contains code related to handling S/MIME messages within IMP.
  *
@@ -104,10 +106,13 @@ class IMP_Smime
      */
     public function addPersonalPublicKey($key, $signkey = false)
     {
-        $GLOBALS['prefs']->setValue(
-            $signkey ? 'smime_public_sign_key' : 'smime_public_key',
-            is_array($key) ? implode('', $key) : $key
-        );
+        $prefName = $signkey ? 'smime_public_sign_key' : 'smime_public_key';
+        $val = is_array($key) ? implode('', $key) : $key;
+        try {
+            $val = HordeString::convertToUtf8($val);
+        } catch (Exception $ex) {
+        }
+        $GLOBALS['prefs']->setValue($prefName, $val);
     }
 
     /**
@@ -118,10 +123,13 @@ class IMP_Smime
      */
     public function addPersonalPrivateKey($key, $signkey = false)
     {
-        $GLOBALS['prefs']->setValue(
-            $signkey ? 'smime_private_sign_key' : 'smime_private_key',
-            is_array($key) ? implode('', $key) : $key
-        );
+        $prefName = $signkey ? 'smime_private_sign_key' : 'smime_private_key';
+        $val = is_array($key) ? implode('', $key) : $key;
+        try {
+            $val = HordeString::convertToUtf8($val);
+        } catch (Exception $ex) {
+        }
+        $GLOBALS['prefs']->setValue($prefName, $val);
     }
 
     /**
@@ -132,10 +140,13 @@ class IMP_Smime
      */
     public function addAdditionalCert($key, $signkey = false)
     {
-        $GLOBALS['prefs']->setValue(
-            $signkey ? 'smime_additional_sign_cert' : 'smime_additional_cert',
-            is_array($key) ? implode('', $key) : $key
-        );
+        $prefName = $signkey ? 'smime_additional_sign_cert' : 'smime_additional_cert';
+        $val = is_array($key) ? implode('', $key) : $key;
+        try {
+            $val = HordeString::convertToUtf8($val);
+        } catch (Exception $ex) {
+        }
+        $GLOBALS['prefs']->setValue($prefName, $val);
     }
 
     /**
