@@ -92,7 +92,5 @@ dependencies:
       horde/http: ^3
       horde/mongo: ^2
       horde/service_gravatar: ^2
-#    pear:
-#      phpseclib.sourceforge.net/File_ASN1: '*'
     ext:
       openssl: '*'

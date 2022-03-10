@@ -1,5 +1,4 @@
 {
-    "minimum-stability": "dev",
     "name": "horde/imp",
     "description": "Webmail application",
     "type": "horde-application",
@@ -22,15 +21,15 @@
             "role": "lead"
         }
     ],
-    "time": "2021-11-30",
+    "time": "2022-03-10",
     "repositories": [
         {
             "type": "composer",
-            "url": "https://horde-satis.maintaina.com/"
+            "url": "https://horde-satis.maintaina.com"
         }
     ],
     "require": {
-        "horde/horde-installer-plugin": "^2 || dev-FRAMEWORK_6_0",
+        "horde/horde-installer-plugin": "dev-FRAMEWORK_6_0 || ^2",
         "php": "^7.4 || ^8",
         "horde/horde": "^6 || dev-FRAMEWORK_6_0",
         "horde/auth": "^3 || dev-FRAMEWORK_6_0",
@@ -94,9 +93,9 @@
         }
     },
     "bin": [
-        "bin/imp-query-imap-cache",
         "bin/imp-mailbox-decode",
         "bin/imp-admin-upgrade",
+        "bin/imp-query-imap-cache",
         "bin/imp-bounce-spam"
     ]
 }

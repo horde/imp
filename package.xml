@@ -22,7 +22,7 @@
   <email>chuck@horde.org</email>
   <active>no</active>
  </lead>
- <date>2021-10-06</date>
+ <date>2022-03-10</date>
  <version>
   <release>7.0.0alpha8</release>
   <api>7.0.0alpha1</api>
@@ -31,14 +31,17 @@
   <release>alpha</release>
   <api>alpha</api>
  </stability>
- <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
+ <license uri="http://www.horde.org/licenses/gpl">GPL-2.0-only</license>
  <notes>
-* 
+* |+
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name=".github">
     <dir name="workflows">
+     <file name="ci.yml" role="horde" />
+     <file name="phpdoc.yml" role="horde" />
+     <file name="release.yml" role="horde" />
      <file name="update-satis.yml" role="horde" />
     </dir> <!-- /.github/workflows -->
    </dir> <!-- /.github -->
@@ -67,6 +70,7 @@
    </dir> <!-- /config -->
    <dir name="doc">
     <file name="CHANGES" role="doc" />
+    <file name="components.conf" role="doc" />
     <file name="CREDITS.rst" role="doc" />
     <file name="INSTALL.rst" role="doc" />
     <file name="PERFORMANCE" role="doc" />
@@ -1153,6 +1157,7 @@
      <file name="thread.css" role="horde" />
     </dir> <!-- /themes/default -->
    </dir> <!-- /themes -->
+   <file name=".php-cs-fixer.dist.php" role="horde" />
    <file name="attachment.php" role="horde" />
    <file name="basic.php" role="horde" />
    <file name="dynamic.php" role="horde" />
@@ -1166,9 +1171,9 @@
  <dependencies>
   <required>
    <php>
-    <min>7.0.0</min>
-    <max>8.0.0alpha1</max>
-    <exclude>8.0.0alpha1</exclude>
+    <min>7.4.0</min>
+    <max>9.0.0alpha1</max>
+    <exclude>9.0.0alpha1</exclude>
    </php>
    <pearinstaller>
     <min>1.7.0</min>
@@ -1187,10 +1192,6 @@
    </extension>
   </required>
   <optional>
-   <package>
-    <name>File_ASN1</name>
-    <channel>phpseclib.sourceforge.net</channel>
-   </package>
    <extension>
     <name>openssl</name>
    </extension>
@@ -1203,7 +1204,11 @@
  </usesrole>
  <phprelease>
   <filelist>
+   <install as="imp/.github/workflows/ci.yml" name=".github/workflows/ci.yml" />
+   <install as="imp/.github/workflows/phpdoc.yml" name=".github/workflows/phpdoc.yml" />
+   <install as="imp/.github/workflows/release.yml" name=".github/workflows/release.yml" />
    <install as="imp/.github/workflows/update-satis.yml" name=".github/workflows/update-satis.yml" />
+   <install as="imp/.php-cs-fixer.dist.php" name=".php-cs-fixer.dist.php" />
    <install as="imp/attachment.php" name="attachment.php" />
    <install as="imp/basic.php" name="basic.php" />
    <install as="imp-admin-upgrade" name="bin/imp-admin-upgrade" />
@@ -1218,6 +1223,7 @@
    <install as="imp/config/mime_drivers.php" name="config/mime_drivers.php" />
    <install as="imp/config/prefs.php" name="config/prefs.php" />
    <install as="CHANGES" name="doc/CHANGES" />
+   <install as="components.conf" name="doc/components.conf" />
    <install as="CREDITS.rst" name="doc/CREDITS.rst" />
    <install as="INSTALL.rst" name="doc/INSTALL.rst" />
    <install as="PERFORMANCE" name="doc/PERFORMANCE" />
@@ -6642,9 +6648,9 @@
     <api>alpha</api>
    </stability>
    <date>2021-10-06</date>
-   <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
+   <license uri="http://www.horde.org/licenses/gpl">GPL-2.0-only</license>
    <notes>
-* 
+* |+
    </notes>
   </release>
  </changelog>
