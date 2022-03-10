@@ -36,3 +36,10 @@ run-tests.log
 /config/*.local.php
 /config/*-*.php
 
+/vendor
+/composer.lock
+/var
+/web
+/.phpunit.cache
+.phpunit.results.cache
+.php-cs-fixer.cache
