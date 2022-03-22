@@ -837,12 +837,14 @@ var ImpMobile = {
             });
         }
 
+        // TODO: Dependency problem with horde imple and prototype + jquery
+        /*
         if (data.js) {
             $.each(data.js, function(k, js) {
                 $.globalEval(js);
             });
         }
-
+        */
         $('#message :jqmData(role=content)').show();
 
         tmp = $('#imp-message-headers');
