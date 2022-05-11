@@ -21,7 +21,7 @@
             "role": "lead"
         }
     ],
-    "time": "2022-03-23",
+    "time": "2022-05-11",
     "repositories": [
         {
             "type": "composer",
@@ -94,8 +94,13 @@
     },
     "bin": [
         "bin/imp-mailbox-decode",
-        "bin/imp-admin-upgrade",
         "bin/imp-query-imap-cache",
-        "bin/imp-bounce-spam"
-    ]
+        "bin/imp-bounce-spam",
+        "bin/imp-admin-upgrade"
+    ],
+    "config": {
+        "allow-plugins": {
+            "horde/horde-installer-plugin": true
+        }
+    }
 }
