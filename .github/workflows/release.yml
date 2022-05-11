@@ -6,6 +6,8 @@ on:
   workflow_dispatch:
     branches:
       - FRAMEWORK_6_0
+env:
+  components: "/home/runner/.composer/web/components/bin/horde-components -c /home/runner/.composer/web/components/config/maintaina.conf.dist"
 
 jobs:
   run:
@@ -37,7 +39,6 @@ jobs:
           composer global config repositories.0 composer https://horde-satis.maintaina.com
           composer global config minimum-stability dev
           composer global require horde/components "dev-FRAMEWORK_6_0"
-          alias horde-components="~/.config/composer/web/components/bin/horde-components"
     - name: write changelog
       run: |
           entries_amount=0; max_entries=100
@@ -50,12 +51,12 @@ jobs:
             if [[ $msg == 'Released'* ]]; then break; fi
             if [[ $msg == 'Development mode for'* ]]; then break; fi
             if [[ $msg =~ $PATTERN ]]; then
-              horde-components -c doc/components.conf changed "$msg"
+              $components changed "$msg"
               let "entries_amount+=1"
             fi
           done
     - name: make release and push
       run: |
-          horde-components -c doc/components.conf release for maintaina
+          $components release for maintaina
           git push
           git push origin --tags
