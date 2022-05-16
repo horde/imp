@@ -752,15 +752,17 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
                     }
                 }
             } catch (Exception $e) {
+                $msg = sprintf(
+                    _("There was an error flagging messages in the mailbox \"%s\": %s."),
+                    $ob->mbox->display, $e->getMessage()
+                );
                 if (empty($opts['silent'])) {
                     $notification->push(
-                        sprintf(
-                            _("There was an error flagging messages in the mailbox \"%s\": %s."),
-                            $ob->mbox->display, $e->getMessage()
-                        ),
+                        $msg,
                         'horde.error'
                     );
                 }
+                Horde::log($msg, 'ERR');
                 $ret = false;
             }
         }
