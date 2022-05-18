@@ -260,7 +260,7 @@ class IMP_Mailbox
      */
     public function __get($key)
     {
-        global $injector;
+        global $injector, $prefs;
 
         switch ($key) {
         case 'abbrev_label':
@@ -668,7 +668,10 @@ class IMP_Mailbox
                 $uidvalid = $status['uidvalidity'];
                 $cache->setUidvalidity($this->_mbox, $uidvalid);
 
-                if (!$first) {
+                if (
+                    !$first
+                    && !$prefs->getValue('ignore_uidvalidity')
+                ) {
                     throw new IMP_Exception(_("Mailbox structure on server has changed."));
                 }
             }

@@ -1587,3 +1587,10 @@ $_prefs['expanded_folders'] = array(
 $_prefs['nav_poll'] = array(
     'value' => ''
 );
+
+// ignore uidvalid changes across sessions
+$_prefs['ignore_uidvalidity'] = array(
+    'value' => 0,
+    'type' => 'checkbox',
+    'locked' => true
+);
