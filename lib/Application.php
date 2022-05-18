@@ -64,7 +64,7 @@ class IMP_Application extends Horde_Registry_Application
 
     /**
      */
-    public $version = 'H5 (7.0.0alpha11)';
+    public $version = 'H5 (7.0.0alpha12)';
 
     /**
      * Server key used in logged out session.
