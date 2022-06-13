@@ -89,7 +89,7 @@ class IMP_Mime_Viewer_Plain extends Horde_Mime_Viewer_Plain
         $type = 'text/html; charset=' . $charset;
 
         // Check for 'flowed' text data.
-        if ($this->_mimepart->getContentTypeParameter('format') == 'flowed') {
+        if (strcasecmp($this->_mimepart->getContentTypeParameter('format'), 'flowed') == 0) {
             $text = $this->_formatFlowed($text, $this->_mimepart->getContentTypeParameter('delsp'));
         } else {
             /* A "From" located at the beginning of a line in the body text
