@@ -745,7 +745,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         $body, $header, IMP_Prefs_Identity $identity, array $opts = array()
     )
     {
-        global $injector, $prefs, $registry, $session;
+        global $injector, $prefs, $registry, $session, $conf;
 
         /* Set up defaults. */
         $opts = array_merge(array(
@@ -798,9 +798,11 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         $headers = $this->_prepareHeaders($header, $opts);
 
         /* Add a Received header for the hop from browser to server. */
-        $headers->addHeaderOb(
-            Horde_Core_Mime_Headers_Received::createHordeHop()
-        );
+        if ($conf['compose']['add_received_header']) {
+            $headers->addHeaderOb(
+                Horde_Core_Mime_Headers_Received::createHordeHop()
+            );
+        }
 
         /* Add the 'User-Agent' header. */
         $headers->addHeaderOb(new Horde_Mime_Headers_UserAgent(
