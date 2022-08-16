@@ -798,7 +798,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         $headers = $this->_prepareHeaders($header, $opts);
 
         /* Add a Received header for the hop from browser to server. */
-        if ($conf['compose']['add_received_header']) {
+        if (!isset($conf['compose']['add_received_header']) || ($conf['compose']['add_received_header'] === true)) {
             $headers->addHeaderOb(
                 Horde_Core_Mime_Headers_Received::createHordeHop()
             );
