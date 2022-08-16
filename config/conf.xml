@@ -60,7 +60,6 @@
    <configinteger name="htmlsig_img_size" desc="The maximum cumulative size of
    image data that can be contained within the signature. 0 will disable
    this limit (NOT RECOMMENDED).">30000</configinteger>
-
    <configheader>Add Received header</configheader>
    <configboolean name="add_received_header" desc="Adds a header to the mail to
    indicate that Horde received the mail via HTTPS, and exposes the client IP
