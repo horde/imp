@@ -1,0 +1,51 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Check connecting to an imap server with imp's present config files
+ *
+ * Copyright 2020-2022 Horde LLC (http://www.horde.org/)
+ *
+ * See the enclosed file LICENSE for license information (GPL). If you
+ * did not receive this file, see http://www.horde.org/licenses/gpl.
+ *
+ * @author    Ralf Lang <ralf.lang@ralf-lang.de>
+ * @category  Horde
+ * @copyright 2021-2022 Horde LLC
+ * @license   http://www.horde.org/licenses/gpl GPL
+ * @package   IMP
+ */
+
+$baseFile = __DIR__ . '/../lib/Application.php';
+if (file_exists($baseFile)) {
+    require_once $baseFile;
+} else {
+    require_once 'PEAR/Config.php';
+    require_once PEAR_Config::singleton()
+        ->get('horde_dir', null, 'pear.horde.org') . '/imp/lib/Application.php';
+}
+Horde_Registry::appInit('imp', array('cli' => true));
+
+$parser = new Horde_Argv_Parser();
+$parser->addOption('-u', '--user', array(
+    'dest' => 'user',
+    'help' => 'User name to authenticate'
+));
+$parser->addOption('-p', '--password', array(
+    'dest' => 'password',
+    'help' => 'Horde User password to authenticate'
+));
+list($values,) = $parser->parseArgs();
+
+if (empty($values['user'])) {
+    $cli->message('No user name provided. This will only work if an auth user is hardcoded in the horde imap config or the imp config', 'cli.warning');
+}
+if (empty($values['password'])) {
+    $cli->message('No user password provided. This will only work if an auth password is hardcoded in the horde imap config or the imp config', 'cli.warning');
+}
+$factoryImap = $GLOBALS['injector']->get('IMP_Factory_Imap');
+$imap = $factoryImap->create();
+$client = $imap->createBaseImapObject($values['user'], $values['password'], $values['serverKey'] ?? 'imap');
+
+$client->login();
+print_r($client->noop());
+print_r($client->getNamespaces());
