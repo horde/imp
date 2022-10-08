@@ -50,7 +50,7 @@ class IMP_Ajax_Application_ListMessages
         $result = new IMP_Ajax_Application_Viewport($mbox);
 
         /* Check for quicksearch request. */
-        if (strlen($args['qsearchmbox'])) {
+        if (strlen($args['qsearchmbox'] ?? '')) {
             $qsearch_mbox = IMP_Mailbox::formFrom($args['qsearchmbox']);
 
             /* Sanity checking: qsearchmbox cannot be a search mailbox

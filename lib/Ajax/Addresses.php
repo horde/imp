@@ -111,10 +111,10 @@ class IMP_Ajax_Addresses
     private function _addAddress(Horde_Mail_Rfc822_Address $addr)
     {
         $tmp = new stdClass;
-        if (strlen($b = $addr->bare_address)) {
+        if (strlen($b = $addr->bare_address ?? '')) {
             $tmp->b = $b;
         }
-        if (strlen($p = $addr->personal)) {
+        if (strlen($p = $addr->personal ?? '')) {
             $tmp->p = $p;
         }
 
