@@ -22,7 +22,7 @@
   <email>chuck@horde.org</email>
   <active>no</active>
  </lead>
- <date>2022-05-18</date>
+ <date>2022-10-08</date>
  <version>
   <release>7.0.0alpha12</release>
   <api>7.0.0alpha1</api>
@@ -33,7 +33,8 @@
  </stability>
  <license uri="http://www.horde.org/licenses/gpl">GPL-2.0-only</license>
  <notes>
-* 
+* [rla] Added config switch to suppress received headers developed by Tobias Wolter, B1 Systems.
+* [rla] Quality: Added modern serialization and  return type and type hint fixes in many places.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -56,6 +57,12 @@
      <tasks:replace from="/usr/bin/env php" to="php_bin" type="pear-config" />
     </file>
     <file name="imp-query-imap-cache" role="script">
+     <tasks:replace from="/usr/bin/env php" to="php_bin" type="pear-config" />
+    </file>
+    <file name="imp-test-imap" role="script">
+     <tasks:replace from="/usr/bin/env php" to="php_bin" type="pear-config" />
+    </file>
+    <file name="imp-test-smtp" role="script">
      <tasks:replace from="/usr/bin/env php" to="php_bin" type="pear-config" />
     </file>
    </dir> <!-- /bin -->
@@ -1215,6 +1222,8 @@
    <install as="imp-bounce-spam" name="bin/imp-bounce-spam" />
    <install as="imp-mailbox-decode" name="bin/imp-mailbox-decode" />
    <install as="imp-query-imap-cache" name="bin/imp-query-imap-cache" />
+   <install as="imp-test-imap" name="bin/imp-test-imap" />
+   <install as="imp-test-smtp" name="bin/imp-test-smtp" />
    <install as="imp/config/.htaccess" name="config/.htaccess" />
    <install as="imp/config/backends.php" name="config/backends.php" />
    <install as="imp/config/conf.xml" name="config/conf.xml" />
@@ -1922,178 +1931,6 @@
   </filelist>
  </phprelease>
  <changelog>
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
   <release>
    <version>
     <release>2.0.1</release>
@@ -6880,9 +6717,10 @@
     <api>alpha</api>
    </stability>
    <date>2022-05-18</date>
-   <license uri="http://www.horde.org/licenses/gpl">GPL-2.0</license>
+   <license uri="http://www.horde.org/licenses/gpl">GPL-2.0-only</license>
    <notes>
-* 
+* [rla] Added config switch to suppress received headers developed by Tobias Wolter, B1 Systems.
+* [rla] Quality: Added modern serialization and  return type and type hint fixes in many places.
    </notes>
   </release>
  </changelog>

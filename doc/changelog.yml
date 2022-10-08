@@ -4,13 +4,13 @@
   state:
     release: alpha
     api: alpha
-  date: 2022-05-18
+  date: 2022-10-08
   license:
     identifier: GPL-2.0
     uri: http://www.horde.org/licenses/gpl
   notes: |
+    [rla] Added config switch to suppress received headers developed by Tobias Wolter, B1 Systems.
     [rla] Quality: Added modern serialization and  return type and type hint fixes in many places.
-    |+
 7.0.0alpha11:
   api: 7.0.0alpha1
   state:
