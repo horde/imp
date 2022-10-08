@@ -81,7 +81,7 @@ class IMP_Maillog_Messages implements IteratorAggregate
 
     /* Iterator methods. */
 
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->getMessageIds());
     }

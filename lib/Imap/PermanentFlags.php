@@ -11,6 +11,8 @@
  * @package   IMP
  */
 
+use Symfony\Component\Console\Input\ArrayInput;
+
 /**
  * Provides an interface to query a mailbox's settable permanent flags.
  *
@@ -76,7 +78,7 @@ class IMP_Imap_PermanentFlags implements IteratorAggregate
 
     /* IteratorAggregate method. */
 
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->_set);
     }

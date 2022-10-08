@@ -439,7 +439,7 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
 
     /* ArrayAccess methods. */
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         $id = $this->_strip($offset);
 
@@ -452,6 +452,7 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
         return false;
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         $id = $this->_strip($offset);
@@ -473,6 +474,7 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
      *
      * @throws InvalidArgumentException
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         if (!($value instanceof IMP_Search_Query)) {
@@ -505,6 +507,7 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
      *
      * @param string $offset  The search query id.
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         $id = $this->_strip($offset);
@@ -528,7 +531,7 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
 
     /**
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         $iterator = new AppendIterator();
         foreach ($this->_search as $val) {
@@ -546,13 +549,19 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
      */
     public function serialize()
     {
-        return $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
-            $this->_search,
-            array(
-                'compression' => false,
-                'phpob' => true
+        return array_shift($this->__serialize());
+    }
+    public function __serialize(): array
+    {
+        return [
+                $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
+                $this->_search,
+                [
+                    'compression' => false,
+                    'phpob' => true
+                ]
             )
-        );
+        ];
     }
 
     /**
@@ -564,7 +573,11 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
      */
     public function unserialize($data)
     {
-        $this->_search = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack($data);
+        $this->__unserialize([$data]);
     }
 
+    public function __unserialize(array $data): void
+    {
+        $this->_search = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack(array_shift($data));
+    }
 }

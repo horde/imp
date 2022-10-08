@@ -52,7 +52,7 @@ class IMP_Ajax_Application_Compose
      *
      * @var IMP_Compose
      */
-    protected $_compose;
+    protected $_composeOb;
 
     /**
      * Compose type.

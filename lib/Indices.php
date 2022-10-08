@@ -856,13 +856,14 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
     /**
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->_indices[$offset]);
     }
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return isset($this->_indices[$offset])
@@ -872,6 +873,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         unset($this->_indices[$offset]);
@@ -880,7 +882,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
     /**
      */
-    public function offsetUnset($offset)
+     public function offsetUnset($offset): void
     {
         unset($this->_indices[$offset]);
     }
@@ -892,7 +894,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
      *
      * @return integer  The number of indices.
      */
-    public function count()
+    public function count(): int
     {
         $count = 0;
 
@@ -910,13 +912,14 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
      *
      * @return string  String representation (IMAP sequence string).
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->_toSequenceString($this->_indices);
     }
 
     /* Iterator methods. */
 
+    #[\ReturnTypeWillChange]
     public function current()
     {
         if (!$this->valid()) {
@@ -930,11 +933,13 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         return $ret;
     }
 
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return key($this->_indices);
     }
 
+    #[\ReturnTypeWillChange]
     public function next()
     {
         if ($this->valid()) {
@@ -942,11 +947,13 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         }
     }
 
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         reset($this->_indices);
     }
 
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         return !is_null(key($this->_indices));

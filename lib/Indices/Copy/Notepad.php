@@ -86,7 +86,7 @@ class IMP_Indices_Copy_Notepad
             );
         } catch (Horde_Exception $e) {
             $notification->push($e);
-            return;
+            return false;
         }
 
         if (!$res) {
@@ -94,6 +94,7 @@ class IMP_Indices_Copy_Notepad
                 _("An unknown error occured while creating the new note."),
                 'horde.error'
             );
+            return false;
         } elseif (!empty($lists)) {
             $name = '"' . htmlspecialchars($subject) . '"';
 
@@ -116,6 +117,7 @@ class IMP_Indices_Copy_Notepad
                 array('content.raw')
             );
         }
+        return true;
     }
 
     /**

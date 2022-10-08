@@ -78,7 +78,7 @@ class IMP_Search_IteratorFilter extends FilterIterator
 
     /**
      */
-    public function accept()
+    public function accept(): bool
     {
         $ob = $this->current();
 

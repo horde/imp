@@ -24,16 +24,16 @@ class IMP_Ftree_IteratorFilter_Expanded extends RecursiveFilterIterator
 {
     /**
      */
-    public function accept()
+    public function accept(): bool
     {
         return true;
     }
 
     /**
      */
-    public function hasChildren()
+    public function hasChildren(): bool
     {
-        return $this->current()->open;
+        return (bool) $this->current()->open;
     }
 
 }

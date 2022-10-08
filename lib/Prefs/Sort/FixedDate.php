@@ -22,7 +22,8 @@
  */
 class IMP_Prefs_Sort_FixedDate extends IMP_Prefs_Sort_None
 {
-    public function offsetGet($offset)
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset): IMP_Prefs_Sort_Sortpref_Locked
     {
         return new IMP_Prefs_Sort_Sortpref_Locked(
             $offset,

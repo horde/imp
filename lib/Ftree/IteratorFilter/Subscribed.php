@@ -42,7 +42,7 @@ class IMP_Ftree_IteratorFilter_Subscribed extends FilterIterator
 
     /**
      */
-    public function accept()
+    public function accept(): bool
     {
         return (!$this->_sub ||
                 $this->current()->subscribed ||

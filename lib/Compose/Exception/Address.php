@@ -65,7 +65,7 @@ implements Countable, IteratorAggregate
      *
      * @return integer  The number of error addresses.
      */
-    public function count()
+    public function count(): int
     {
         return count($this->_addresses);
     }
@@ -74,7 +74,7 @@ implements Countable, IteratorAggregate
 
     /**
      */
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->_addresses);
     }

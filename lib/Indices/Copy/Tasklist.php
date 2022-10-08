@@ -88,7 +88,7 @@ class IMP_Indices_Copy_Tasklist
             );
         } catch (Horde_Exception $e) {
             $notification->push($e);
-            return;
+            return false;
         }
 
         if (!$res) {
@@ -118,6 +118,7 @@ class IMP_Indices_Copy_Tasklist
                 array('content.raw')
             );
         }
+        return true;
     }
 
     /**

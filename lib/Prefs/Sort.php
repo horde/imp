@@ -111,12 +111,14 @@ class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
 
     /* ArrayAccess methods. */
 
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->_sortpref[$offset]);
     }
 
-    public function offsetGet($offset)
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset): IMP_Prefs_Sort_Sortpref
     {
         $ob = $this->_offsetGet($offset);
 
@@ -133,7 +135,7 @@ class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
 
     /**
      */
-    protected function _offsetGet($offset)
+    protected function _offsetGet($offset): IMP_Prefs_Sort_Sortpref
     {
         return new IMP_Prefs_Sort_Sortpref(
             $offset,
@@ -148,6 +150,7 @@ class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
      * @param string $offset  The mailbox name.
      * @param array $value    An array with two possible keys: 'by' and 'dir'.
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         if (empty($value)) {
@@ -167,6 +170,7 @@ class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
         $this->_save();
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         if (isset($this->_sortpref[$offset])) {
@@ -177,7 +181,7 @@ class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
 
     /* IteratorAggregate method. */
 
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->_sortpref);
     }

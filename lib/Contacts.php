@@ -27,7 +27,7 @@
  *                                    backend.
  */
 class IMP_Contacts
-implements IteratorAggregate, Serializable
+implements IteratorAggregate, Serializable, JsonSerializable
 {
     /**
      * Has the internal data changed?
@@ -237,7 +237,7 @@ implements IteratorAggregate, Serializable
      *
      * @return Horde_Mail_Rfc822_List  Listing of all contacts.
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return $this->searchEmail('');
     }
@@ -248,17 +248,32 @@ implements IteratorAggregate, Serializable
      */
     public function serialize()
     {
-        return json_encode(array(
+        return json_encode($this->__serialize());
+    }
+
+    #[\ReturnTypeWillChange] 
+    public function jsonSerialize()
+    {
+        return json_encode($this->__serialize());
+    }
+
+    public function __serialize(): array
+    {
+        return [
             $this->_fields,
             $this->_sources
-        ));
+        ];
     }
 
     /**
      */
     public function unserialize($data)
     {
-        list($this->_fields, $this->_sources) = json_decode($data, true);
+        $this->__unserialize([$data]);
     }
 
+    public function __unserialize(array $data): void
+    {        
+        list($this->_fields, $this->_sources) = json_decode(array_unshift($data), true);
+    }
 }

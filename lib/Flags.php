@@ -365,7 +365,7 @@ class IMP_Flags implements ArrayAccess, Serializable
 
     /**
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->_flags[$offset]) ||
                isset($this->_userflags[$offset]);
@@ -373,6 +373,7 @@ class IMP_Flags implements ArrayAccess, Serializable
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if (isset($this->_flags[$offset])) {
@@ -387,14 +388,14 @@ class IMP_Flags implements ArrayAccess, Serializable
     /**
      * @throws InvalidArgumentException
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         throw new InvalidArgumentException('Use addFlag()/updateFlag()');
     }
 
     /**
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         if (isset($this->_userflags[$offset])) {
             unset($this->_userflags[$offset]);
@@ -408,25 +409,36 @@ class IMP_Flags implements ArrayAccess, Serializable
      */
     public function serialize()
     {
-        return $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
-            array(
-                $this->_flags,
-                $this->_userflags
-            ), array(
-                'compression' => false,
-                'phpob' => true
+        return array_shift($this->__serialize());
+    }
+
+    public function __serialize(): array
+    {
+        return [
+            $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
+                array(
+                    $this->_flags,
+                    $this->_userflags
+                ), array(
+                    'compression' => false,
+                    'phpob' => true
+                )
             )
-        );
+        ];
     }
 
     /**
      */
     public function unserialize($data)
     {
+        $this->__unserialize([$data]);
+    }
+    public function __unserialize(array $data): void
+    {
         list(
             $this->_flags,
             $this->_userflags
-        ) = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack($data);
+        ) = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack(array_shift($data));        
     }
 
 }

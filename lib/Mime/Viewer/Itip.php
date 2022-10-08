@@ -692,6 +692,7 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
     protected function _vTodo($vtodo, $id, $method)
     {
         global $registry;
+        global $notification;
 
         $desc = '';
         $options = array();

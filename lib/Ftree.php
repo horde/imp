@@ -815,7 +815,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
 
     /**
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         /* Optimization: Only normalize in the rare case it is not found on
          * the first attempt. */
@@ -827,6 +827,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
     /**
      * @return IMP_Ftree_Element
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if ($offset instanceof IMP_Ftree_Element) {
@@ -848,14 +849,14 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
 
     /**
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->insert($offset);
     }
 
     /**
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->delete($offset);
     }
@@ -865,7 +866,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
     /**
      * Return the number of mailboxes on the server.
      */
-    public function count()
+    public function count(): int
     {
         $this->loadUnsubscribed();
 
@@ -882,15 +883,22 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
      */
     public function serialize()
     {
-        return $GLOBALS['injector']->getInstance('Horde_Pack')->pack(array(
-            $this->_accounts,
-            $this->_eltdiff,
-            $this->_elts,
-            $this->_parent
-        ), array(
-            'compress' => false,
-            'phpob' => true
-        ));
+        return array_shift($this->__serialize());
+    }
+    public function __serialize(): array
+    {
+        return 
+        [
+            $GLOBALS['injector']->getInstance('Horde_Pack')->pack(array(
+                $this->_accounts,
+                $this->_eltdiff,
+                $this->_elts,
+                $this->_parent
+            ), array(
+                'compress' => false,
+                'phpob' => true
+            ))
+        ];
     }
 
     /**
@@ -898,14 +906,18 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
      */
     public function unserialize($data)
     {
+        $this->__unserialize([$data]);
+    }
+
+    public function __unserialize(array $data): void
+    {
         list(
             $this->_accounts,
             $this->_eltdiff,
             $this->_elts,
             $this->_parent
-        ) = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack($data);
+        ) = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack(array_shift($data));
     }
-
     /**
      * Creates a Horde_Tree representation of the current tree.
      *
@@ -1089,7 +1101,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
      *
      * @return IMP_Ftree_Iterator  Iterator object.
      */
-    public function getIterator()
+    public function getIterator(): IMP_Ftree_Iterator
     {
         return new IMP_Ftree_Iterator($this[self::BASE_ELT]);
     }

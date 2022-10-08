@@ -3653,12 +3653,12 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /* ArrayAccess methods. */
-
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->_atc[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return isset($this->_atc[$offset])
@@ -3666,13 +3666,13 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
             : null;
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->_atc[$offset] = $value;
         $this->changed = 'changed';
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         if (($atc = $this->_atc[$offset]) === null) {
             return;
@@ -3689,7 +3689,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
     /**
      * String representation: the cache ID.
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getCacheId();
     }
@@ -3701,7 +3701,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
      *
      * @return integer  The number of attachments in this message.
      */
-    public function count()
+    public function count(): int
     {
         return count($this->_atc);
     }
@@ -3710,7 +3710,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->_atc);
     }

@@ -59,6 +59,7 @@ class IMP_Ftree_Prefs_Expanded extends IMP_Ftree_Prefs
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         switch ($this->_expanded) {

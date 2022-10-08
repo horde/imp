@@ -153,6 +153,7 @@ class IMP_Ftree_Prefs_Poll extends IMP_Ftree_Prefs
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return ($this->_data === true)

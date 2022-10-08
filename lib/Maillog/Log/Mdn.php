@@ -32,6 +32,7 @@ extends IMP_Maillog_Log_Base
     protected function _getMessage()
     {
         /* MDN doesn't have a displayable log message. */
+        return '';
     }
 
 }

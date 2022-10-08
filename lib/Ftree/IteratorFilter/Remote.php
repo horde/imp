@@ -24,7 +24,7 @@ class IMP_Ftree_IteratorFilter_Remote extends RecursiveFilterIterator
 {
     /**
      */
-    public function accept()
+    public function accept(): bool
     {
         return !$this->current()->remote;
     }

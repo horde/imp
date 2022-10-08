@@ -103,7 +103,9 @@ class IMP_Ajax_Imple_VcardImport extends Horde_Core_Ajax_Imple
                 $count),
                                         $count),
                                 'horde.success');
+            return true;
         }
+        return false;
     }
 
 }

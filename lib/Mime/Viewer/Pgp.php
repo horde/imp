@@ -95,6 +95,7 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
                 )
             );
         }
+        return [];
     }
 
     /**

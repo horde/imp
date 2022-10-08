@@ -38,6 +38,7 @@ class IMP_Ftree_Iterator_Ancestors extends IMP_Ftree_Iterator
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function getChildren()
     {
         return new self(array());
@@ -45,7 +46,7 @@ class IMP_Ftree_Iterator_Ancestors extends IMP_Ftree_Iterator
 
     /**
      */
-    public function hasChildren()
+    public function hasChildren(): bool
     {
         return false;
     }

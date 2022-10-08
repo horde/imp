@@ -24,14 +24,14 @@ class IMP_Ftree_IteratorFilter_Children extends RecursiveFilterIterator
 {
     /**
      */
-    public function accept()
+    public function accept(): bool
     {
         return true;
     }
 
     /**
      */
-    public function hasChildren()
+    public function hasChildren(): bool
     {
         return false;
     }

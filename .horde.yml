@@ -94,3 +94,9 @@ dependencies:
       horde/service_gravatar: ^2
     ext:
       openssl: '*'
+  dev:
+    composer:
+      horde/test: ^3
+      horde/mongo: ^2
+      horde/kronolith: ^5
+      horde/nag: ^5

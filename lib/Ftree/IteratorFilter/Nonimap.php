@@ -24,7 +24,7 @@ class IMP_Ftree_IteratorFilter_Nonimap extends FilterIterator
 {
     /**
      */
-    public function accept()
+    public function accept(): bool
     {
         $curr = $this->current();
 

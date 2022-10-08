@@ -31,7 +31,7 @@ class IMP_Ftree_IteratorFilter_Mailboxes extends FilterIterator
 
     /**
      */
-    public function accept()
+    public function accept(): bool
     {
         return !in_array(strval($this->current()), $this->mboxes);
     }

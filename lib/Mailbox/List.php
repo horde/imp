@@ -421,6 +421,7 @@ implements ArrayAccess, Countable, Iterator, Serializable
                 ? 1
                 : ($this->getArrayIndex($unseen_msgs['max']) + 1);
         }
+        return 1;
     }
 
     /**
@@ -619,7 +620,7 @@ implements ArrayAccess, Countable, Iterator, Serializable
     /**
      * @param integer $offset  Sequence number of message.
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->_sorted[$offset - 1]);
     }
@@ -631,6 +632,7 @@ implements ArrayAccess, Countable, Iterator, Serializable
      *   - m: (IMP_Mailbox) Mailbox of message.
      *   - u: (string) UID of message.
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if (!isset($this->_sorted[$offset - 1])) {
@@ -648,6 +650,7 @@ implements ArrayAccess, Countable, Iterator, Serializable
     /**
      * @throws BadMethodCallException
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         throw new BadMethodCallException('Not supported');
@@ -656,7 +659,7 @@ implements ArrayAccess, Countable, Iterator, Serializable
     /**
      * @throws BadMethodCallException
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         throw new BadMethodCallException('Not supported');
     }
@@ -668,7 +671,7 @@ implements ArrayAccess, Countable, Iterator, Serializable
      *
      * @return integer  The mailbox message count.
      */
-    public function count()
+    public function count(): int
     {
         $this->_buildMailbox();
         return count($this->_sorted);
@@ -681,6 +684,7 @@ implements ArrayAccess, Countable, Iterator, Serializable
      *   - m: (IMP_Mailbox) Mailbox of message.
      *   - u: (string) UID of message.
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this[key($this->_sorted) + 1];
@@ -689,6 +693,7 @@ implements ArrayAccess, Countable, Iterator, Serializable
     /**
      * @return integer  Sequence number of message.
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return (key($this->_sorted) + 1);
@@ -696,6 +701,7 @@ implements ArrayAccess, Countable, Iterator, Serializable
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         next($this->_sorted);
@@ -703,6 +709,7 @@ implements ArrayAccess, Countable, Iterator, Serializable
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         reset($this->_sorted);
@@ -710,7 +717,8 @@ implements ArrayAccess, Countable, Iterator, Serializable
 
     /**
      */
-    public function valid()
+    #[\ReturnTypeWillChange]
+    public function valid(): bool
     {
         return (key($this->_sorted) !== null);
     }
@@ -724,13 +732,21 @@ implements ArrayAccess, Countable, Iterator, Serializable
      */
     public function serialize()
     {
-        return $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
-            $this->_serialize(),
-            array(
-                'compression' => false,
-                'phpob' => true
-            )
-        );
+        return array_shift($this->__serialize());
+    }
+
+    public function __serialize(): array
+    {
+        return 
+            [
+                $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
+                    $this->_serialize(),
+                    array(
+                        'compression' => false,
+                        'phpob' => true
+                    )
+                )
+            ];
     }
 
     /**
@@ -777,8 +793,13 @@ implements ArrayAccess, Countable, Iterator, Serializable
      */
     public function unserialize($data)
     {
+        $this->__unserialize([$data]);
+    }
+
+    public function __unserialize(array $data): void
+    {
         $this->_unserialize(
-            $GLOBALS['injector']->getInstance('Horde_Pack')->unpack($data)
+            $GLOBALS['injector']->getInstance('Horde_Pack')->unpack(array_shift($data))
         );
     }
 

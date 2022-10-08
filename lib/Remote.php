@@ -132,7 +132,7 @@ class IMP_Remote implements ArrayAccess, IteratorAggregate
      *
      * @return boolean  True if the account ID exists.
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->_accounts[$this->_strip($offset)]);
     }
@@ -144,6 +144,7 @@ class IMP_Remote implements ArrayAccess, IteratorAggregate
      *
      * @return array  The configuration array, or false if ID not found.
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         $offset = $this->_strip($offset);
@@ -159,6 +160,7 @@ class IMP_Remote implements ArrayAccess, IteratorAggregate
      * @param string $offset          Account ID.
      * @param IMP_Remote_Account $ob  Account object.
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->_accounts[$this->_strip($offset)] = $value;
@@ -170,6 +172,7 @@ class IMP_Remote implements ArrayAccess, IteratorAggregate
      *
      * @param string $offset  Account ID.
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         $offset = $this->_strip($offset);
@@ -184,9 +187,8 @@ class IMP_Remote implements ArrayAccess, IteratorAggregate
 
     /**
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->_accounts);
     }
-
 }

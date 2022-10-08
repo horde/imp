@@ -24,7 +24,7 @@ class IMP_Ftree_IteratorFilter_Vfolder extends FilterIterator
 {
     /**
      */
-    public function accept()
+    public function accept(): bool
     {
         return !$this->current()->vfolder;
     }

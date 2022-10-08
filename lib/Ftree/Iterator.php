@@ -47,6 +47,7 @@ class IMP_Ftree_Iterator implements RecursiveIterator
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function getChildren()
     {
         return new self($this->current());
@@ -54,13 +55,14 @@ class IMP_Ftree_Iterator implements RecursiveIterator
 
     /**
      */
-    public function hasChildren()
+    public function hasChildren(): bool
     {
         return $this->current()->children;
     }
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return current($this->_elts);
@@ -68,6 +70,7 @@ class IMP_Ftree_Iterator implements RecursiveIterator
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return key($this->_elts);
@@ -75,21 +78,21 @@ class IMP_Ftree_Iterator implements RecursiveIterator
 
     /**
      */
-    public function next()
+    public function next(): void
     {
         next($this->_elts);
     }
 
     /**
      */
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->_elts);
     }
 
     /**
      */
-    public function valid()
+    public function valid(): bool
     {
         return !is_null($this->key());
     }

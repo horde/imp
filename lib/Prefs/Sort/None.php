@@ -52,13 +52,15 @@ class IMP_Prefs_Sort_None extends IMP_Prefs_Sort
     }
 
     /* ArrayAccess methods. */
-
-    public function offsetExists($offset)
+    #[\ReturnTypeWillChange]
+    public function offsetExists($offset): bool
     {
         return true;
     }
 
-    public function offsetGet($offset)
+    
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset): IMP_Prefs_Sort_Sortpref_Locked
     {
         return new IMP_Prefs_Sort_Sortpref_Locked(
             $offset,
@@ -67,10 +69,12 @@ class IMP_Prefs_Sort_None extends IMP_Prefs_Sort
         );
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
     }

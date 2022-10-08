@@ -131,7 +131,7 @@ implements Horde_Shutdown_Task, SplObserver
 
     /**
      */
-    public function update(SplSubject $subject)
+    public function update(SplSubject $subject): void
     {
         global $notification;
 

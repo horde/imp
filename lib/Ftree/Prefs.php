@@ -52,13 +52,14 @@ class IMP_Ftree_Prefs implements ArrayAccess, Horde_Shutdown_Task
 
     /**
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return true;
     }
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return isset($this->_data[strval($offset)]);
@@ -66,6 +67,7 @@ class IMP_Ftree_Prefs implements ArrayAccess, Horde_Shutdown_Task
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         if (!$this->locked && ($this[$offset] != $value)) {
@@ -81,7 +83,7 @@ class IMP_Ftree_Prefs implements ArrayAccess, Horde_Shutdown_Task
 
     /**
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this[$offset] = false;
     }

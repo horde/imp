@@ -506,6 +506,7 @@ class IMP_Pgp
                 'type' => 'message'
             ));
         }
+        return new stdClass;
     }
 
     /**

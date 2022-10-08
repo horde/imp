@@ -24,7 +24,7 @@ class IMP_Ftree_IteratorFilter_Containers extends FilterIterator
 {
     /**
      */
-    public function accept()
+    public function accept(): bool
     {
         return !$this->current()->container;
     }

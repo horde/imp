@@ -113,6 +113,7 @@ class IMP_Ftree_IteratorFilter implements Iterator
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->_filter->current();
@@ -120,6 +121,7 @@ class IMP_Ftree_IteratorFilter implements Iterator
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->_filter->key();
@@ -127,14 +129,14 @@ class IMP_Ftree_IteratorFilter implements Iterator
 
     /**
      */
-    public function next()
+    public function next(): void
     {
         $this->_filter->next();
     }
 
     /**
      */
-    public function rewind()
+    public function rewind(): void
     {
         if (!isset($this->iterator)) {
             throw new InvalidArgumentException('Missing iterator.');
@@ -192,7 +194,7 @@ class IMP_Ftree_IteratorFilter implements Iterator
 
     /**
      */
-    public function valid()
+    public function valid(): bool
     {
         return $this->_filter->valid();
     }

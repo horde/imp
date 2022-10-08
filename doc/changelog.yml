@@ -8,8 +8,9 @@
   license:
     identifier: GPL-2.0
     uri: http://www.horde.org/licenses/gpl
-  notes: |+
-    
+  notes: |
+    [rla] Quality: Added modern serialization and  return type and type hint fixes in many places.
+    |+
 7.0.0alpha11:
   api: 7.0.0alpha1
   state:
