@@ -1,4 +1,5 @@
 {
+    "minimum-stability": "dev",
     "name": "horde/imp",
     "description": "Webmail application",
     "type": "horde-application",
