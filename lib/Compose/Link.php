@@ -58,7 +58,7 @@ class IMP_Compose_Link
             $mailto = @parse_url($this->args['to']);
             if (is_array($mailto)) {
                 $this->args['to'] = isset($mailto['path'])
-                    ? $mailto['path']
+                    ? urldecode($mailto['path'])
                     : '';
                 if (!empty($mailto['query'])) {
                     parse_str($mailto['query'], $vals);
