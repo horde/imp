@@ -8,6 +8,7 @@ on:
       - FRAMEWORK_6_0
 env:
   components: "/home/runner/.composer/web/components/bin/horde-components -c /home/runner/.composer/web/components/config/maintaina.conf.dist"
+  COMPOSER_ALLOW_SUPERUSER: 1
 
 jobs:
   run:
@@ -15,7 +16,7 @@ jobs:
     strategy:
       matrix:
         operating-system: ['ubuntu-20.04']
-        php-versions: ['7.4']
+        php-versions: ['8.1']
     steps:
     - name: Setup git
       run:  |
@@ -38,6 +39,8 @@ jobs:
           composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
           composer global config repositories.0 composer https://horde-satis.maintaina.com
           composer global config minimum-stability dev
+          composer config --no-plugins --global allow-plugins.horde/horde-installer-plugin true
+          composer global require horde/horde-installer-plugin "2.3.0"
           composer global require horde/components "dev-FRAMEWORK_6_0"
     - name: write changelog
       run: |
