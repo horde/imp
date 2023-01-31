@@ -55,33 +55,35 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
         $this->queue = $injector->getInstance('IMP_Ajax_Queue');
 
         switch ($registry->getView()) {
-        case $registry::VIEW_BASIC:
-        case $registry::VIEW_DYNAMIC:
-            $this->addHandler('IMP_Ajax_Application_Handler_Common');
-            $this->addHandler('IMP_Ajax_Application_Handler_Contacts');
-            $this->addHandler('IMP_Ajax_Application_Handler_ComposeAttach');
-            $this->addHandler('IMP_Ajax_Application_Handler_Draft');
-            $this->addHandler('IMP_Ajax_Application_Handler_Dynamic');
-            $this->addHandler('IMP_Ajax_Application_Handler_Mboxtoggle');
-            $this->addHandler('IMP_Ajax_Application_Handler_Passphrase');
-            $this->addHandler('IMP_Ajax_Application_Handler_Search');
-            if ($injector->getInstance('IMP_Factory_Imap')->create()->access(IMP_Imap::ACCESS_REMOTE)) {
-                $this->addHandler('IMP_Ajax_Application_Handler_Remote');
-                $this->addHandler('IMP_Ajax_Application_Handler_RemotePrefs');
-            }
-            break;
+            case $registry::VIEW_BASIC:
+            case $registry::VIEW_DYNAMIC:
+                $this->addHandler('IMP_Ajax_Application_Handler_Common');
+                $this->addHandler('IMP_Ajax_Application_Handler_Contacts');
+                $this->addHandler('IMP_Ajax_Application_Handler_ComposeAttach');
+                $this->addHandler('IMP_Ajax_Application_Handler_Draft');
+                $this->addHandler('IMP_Ajax_Application_Handler_Dynamic');
+                $this->addHandler('IMP_Ajax_Application_Handler_Mboxtoggle');
+                $this->addHandler('IMP_Ajax_Application_Handler_Passphrase');
+                $this->addHandler('IMP_Ajax_Application_Handler_Alias');
+                $this->addHandler('IMP_Ajax_Application_Handler_SwitchEncryption');
+                $this->addHandler('IMP_Ajax_Application_Handler_Search');
+                if ($injector->getInstance('IMP_Factory_Imap')->create()->access(IMP_Imap::ACCESS_REMOTE)) {
+                    $this->addHandler('IMP_Ajax_Application_Handler_Remote');
+                    $this->addHandler('IMP_Ajax_Application_Handler_RemotePrefs');
+                }
+                break;
 
-        case $registry::VIEW_MINIMAL:
-        case $registry::VIEW_SMARTMOBILE:
-            $this->addHandler('IMP_Ajax_Application_Handler_Common');
-            $this->addHandler('IMP_Ajax_Application_Handler_ComposeAttach');
-            $this->addHandler('IMP_Ajax_Application_Handler_Dynamic');
-            $this->addHandler('IMP_Ajax_Application_Handler_Draft')->disabled = array(
-                'autoSaveDraft',
-                'saveTemplate'
-            );
-            $this->addHandler('IMP_Ajax_Application_Handler_Smartmobile');
-            break;
+            case $registry::VIEW_MINIMAL:
+            case $registry::VIEW_SMARTMOBILE:
+                $this->addHandler('IMP_Ajax_Application_Handler_Common');
+                $this->addHandler('IMP_Ajax_Application_Handler_ComposeAttach');
+                $this->addHandler('IMP_Ajax_Application_Handler_Dynamic');
+                $this->addHandler('IMP_Ajax_Application_Handler_Draft')->disabled = [
+                    'autoSaveDraft',
+                    'saveTemplate',
+                ];
+                $this->addHandler('IMP_Ajax_Application_Handler_Smartmobile');
+                break;
         }
 
         $this->addHandler('IMP_Ajax_Application_Handler_ImageUnblock');
@@ -99,7 +101,7 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
         /* Make sure the viewport entry is initialized. */
         $vp = isset($this->_vars->viewport)
             ? json_decode($this->_vars->viewport)
-            : new stdClass;
+            : new stdClass();
         $this->_vars->viewport = new Horde_Support_ObjectStub($vp);
 
         /* GLOBAL TASKS */
@@ -107,11 +109,11 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
         /* Check for global msgload task. */
         if (isset($this->_vars->msgload)) {
             $this->queue->message(
-                $this->indices->mailbox->fromBuids(array($this->_vars->msgload)),
-                array(
+                $this->indices->mailbox->fromBuids([$this->_vars->msgload]),
+                [
                     'peek' => true,
-                    'preview' => true
-                )
+                    'preview' => true,
+                ]
             );
         }
 
@@ -167,7 +169,7 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
     {
         global $injector;
 
-        $ob = new stdClass;
+        $ob = new stdClass();
 
         $ob->compose = $injector->getInstance('IMP_Factory_Compose')->create($this->_vars->imp_compose);
         $ob->ajax = new IMP_Ajax_Application_Compose($ob->compose, $this->_vars->type);
@@ -222,16 +224,16 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
      */
     public function viewPortData($change)
     {
-        $args = array(
+        $args = [
             'change' => $change,
-            'mbox' => strval($this->indices->mailbox)
-        );
+            'mbox' => strval($this->indices->mailbox),
+        ];
 
-        $params = array(
+        $params = [
             'applyfilter', 'cache', 'cacheid', 'delhide', 'initial', 'qsearch',
             'qsearchfield', 'qsearchfilter', 'qsearchflag', 'qsearchflagnot',
-            'qsearchmbox', 'rangeslice', 'sortby', 'sortdir'
-        );
+            'qsearchmbox', 'rangeslice', 'sortby', 'sortdir',
+        ];
 
         $vp = $this->_vars->viewport;
 
@@ -240,24 +242,24 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
         }
 
         if ($vp->search || $args['initial']) {
-            $args += array(
+            $args += [
                 'after' => intval($vp->after),
-                'before' => intval($vp->before)
-            );
+                'before' => intval($vp->before),
+            ];
         }
 
         if ($vp->search) {
             $search = json_decode($vp->search);
-            $args += array(
-                'search_buid' => isset($search->buid) ? $search->buid : null,
-                'search_unseen' => isset($search->unseen) ? $search->unseen : null
-            );
+            $args += [
+                'search_buid' => $search->buid ?? null,
+                'search_unseen' => $search->unseen ?? null,
+            ];
         } else {
-            list($slice_start, $slice_end) = explode(':', $vp->slice, 2);
-            $args += array(
+            [$slice_start, $slice_end] = explode(':', $vp->slice, 2);
+            $args += [
                 'slice_start' => intval($slice_start),
-                'slice_end' => intval($slice_end)
-            );
+                'slice_end' => intval($slice_end),
+            ];
         }
 
         return $GLOBALS['injector']->getInstance('IMP_Ajax_Application_ListMessages')->listMessages($args);
@@ -347,23 +349,23 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
 
         $addr = $this->getAddrFields();
 
-        $headers = array(
+        $headers = [
             /* Set up the From address based on the identity. */
             'from' => strval($identity->getFromLine(null, $this->_vars->from)),
             'to' => implode(',', $addr['to']['addr']),
             'cc' => implode(',', $addr['cc']['addr']),
             'bcc' => implode(',', $addr['bcc']['addr']),
             'redirect_to' => implode(',', $addr['redirect_to']['addr']),
-            'subject' => $this->_vars->subject
-        );
+            'subject' => $this->_vars->subject,
+        ];
 
         $imp_compose = $injector->getInstance('IMP_Factory_Compose')->create($this->_vars->composeCache);
 
-        $result = new stdClass;
+        $result = new stdClass();
         $result->action = $action;
         $result->success = 1;
 
-        return array($result, $imp_compose, $headers, $identity);
+        return [$result, $imp_compose, $headers, $identity];
     }
 
     /**
@@ -375,15 +377,15 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
      */
     public function getAddrFields()
     {
-        $out = array();
+        $out = [];
 
-        foreach (array('to', 'cc', 'bcc', 'redirect_to') as $val) {
+        foreach (['to', 'cc', 'bcc', 'redirect_to'] as $val) {
             $data = $this->_vars->get($val);
             $data_ac = $this->_vars->get($val . '_ac');
-            $tmp = array(
-                'addr' => array(),
-                'map' => false
-            );
+            $tmp = [
+                'addr' => [],
+                'map' => false,
+            ];
 
             if (strlen($data_ac)) {
                 $tmp['map'] = true;
@@ -393,7 +395,7 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
             } else {
                 $tmp['addr'] += is_array($data)
                     ? array_values($data)
-                    : array($data);
+                    : [$data];
             }
 
             $out[$val] = $tmp;
@@ -441,21 +443,20 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
         $buid = $this->indices->buids->getSingle();
         $uid = $this->indices->getSingle();
 
-        $puids = array(
-            array(
+        $puids = [
+            [
                 'mbox' => $buid[0]->form_to,
-                'uid' => $buid[1]
-            )
-        );
+                'uid' => $buid[1],
+            ],
+        ];
 
         if ($buid[0] != $uid[0]) {
-            $puids[] = array(
+            $puids[] = [
                 'mbox' => $uid[0]->form_to,
-                'uid' => $uid[1]
-            );
+                'uid' => $uid[1],
+            ];
         }
 
         return $puids;
     }
-
 }

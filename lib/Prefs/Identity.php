@@ -11,6 +11,8 @@
  * @package   IMP
  */
 
+use Horde\Util\HordeString;
+
 /**
  * This class provides an IMP-specific interface to all identities a
  * user might have. Its methods take care of any site-specific
@@ -30,22 +32,22 @@ class IMP_Prefs_Identity extends Horde_Core_Prefs_Identity
      *
      * @var array
      */
-    protected $_cached = array(
-        'aliases' => array(),
-        'from' => array(),
-        'names' => array(),
-        'signatures' => array()
-    );
+    protected $_cached = [
+        'aliases' => [],
+        'from' => [],
+        'names' => [],
+        'signatures' => [],
+    ];
 
     /**
      * Identity preferences added by IMP.
      *
      * @var array
      */
-    protected $_impPrefs = array(
+    protected $_impPrefs = [
         'replyto_addr', 'alias_addr', 'tieto_addr', 'bcc_addr', 'signature',
-        'signature_html', 'save_sent_mail', IMP_Mailbox::MBOX_SENT
-    );
+        'signature_html', 'save_sent_mail', IMP_Mailbox::MBOX_SENT, 'smimeselect', 'privkey', 'privsignkey', 'pubkey', 'pubsignkey',
+    ];
 
     /**
      * Reads all the user's identities from the prefs object or builds
@@ -139,12 +141,11 @@ class IMP_Prefs_Identity extends Horde_Core_Prefs_Identity
      */
     public function getSelectList()
     {
-        $list = array();
+        $list = [];
 
         foreach ($this->getAll($this->_prefnames['id']) as $k => $v) {
             $list[$k] = strval($this->getFromAddress($k)) . ' (' . $v . ')';
         }
-
         return $list;
     }
 
@@ -204,6 +205,37 @@ class IMP_Prefs_Identity extends Horde_Core_Prefs_Identity
         }
 
         return $this->_cached['from'][$ident];
+    }
+
+
+    /**
+     * Returns the email adress in a human readable form. Constructed from the Horde_Mail_Rfc822_Address object.
+     *
+     * @param integer $ident  The identity to retrieve the address from.
+     *
+     * @return String  A humanreadale email-address.
+     */
+    public function getEmail()
+    {
+        $idArray = $this->get($this->getDefault());
+        $emailadress = $idArray['from_addr'];
+        return $emailadress;
+    }
+
+    /**
+     * Returns all email adress in a human readable form. Constructed from the Horde_Mail_Rfc822_Address object.
+     *
+     *
+     * @return Array  An array of humanreadale email-addresses (strings).
+     */
+    public function getEmailsOfIds()
+    {
+        $list = [];
+
+        foreach ($this->getAll($this->_prefnames['id']) as $k => $v) {
+            $list[$k] = strval($this->getEmail());
+        }
+        return $list;
     }
 
     /**
@@ -314,7 +346,7 @@ class IMP_Prefs_Identity extends Horde_Core_Prefs_Identity
         $ids = $this->_identities;
         $default = $this->getDefault();
         unset($ids[$default]);
-        return array_merge(array($default), array_keys($ids));
+        return array_merge([$default], array_keys($ids));
     }
 
     /**
@@ -504,13 +536,13 @@ class IMP_Prefs_Identity extends Horde_Core_Prefs_Identity
         $val = parent::getValue($key, $identity);
 
         switch ($key) {
-        case IMP_Mailbox::MBOX_SENT:
-            return (is_string($val) && strlen($val))
-                ? IMP_Mailbox::get(IMP_Mailbox::prefFrom($val))
-                : null;
+            case IMP_Mailbox::MBOX_SENT:
+                return (is_string($val) && strlen($val))
+                    ? IMP_Mailbox::get(IMP_Mailbox::prefFrom($val))
+                    : null;
 
-        default:
-            return $val;
+            default:
+                return $val;
         }
     }
 
@@ -522,25 +554,28 @@ class IMP_Prefs_Identity extends Horde_Core_Prefs_Identity
     public function setValue($key, $val, $identity = null)
     {
         switch ($key) {
-        case 'alias_addr':
-        case 'bcc_addr':
-        case 'replyto_addr':
-        case 'tieto_addr':
-            if (is_string($val) && (strpbrk($val, "\r\n") !== false)) {
-                $val = preg_split("/[\r\n]+/", $val);
-            }
+            case 'alias_addr':
+            case 'bcc_addr':
+            case 'replyto_addr':
+            case 'tieto_addr':
+                if (is_string($val) && (strpbrk($val, "\r\n") !== false)) {
+                    $val = preg_split("/[\r\n]+/", $val);
+                }
 
-            /* Validate Reply-To, Alias, Tie-to, and BCC addresses. */
-            $val = IMP::parseAddressList($val, array(
-                'limit' => ($val == 'replyto_addr') ? 1 : 0
-            ))->addresses;
-            break;
+                /* Validate Reply-To, Alias, Tie-to, and BCC addresses. */
+                $val = IMP::parseAddressList($val, [
+                    'limit' => ($val == 'replyto_addr') ? 1 : 0,
+                ])->addresses;
+                break;
 
-        case IMP_Mailbox::MBOX_SENT:
-            $GLOBALS['injector']->getInstance('IMP_Mailbox_SessionCache')
-                ->expire(IMP_Mailbox_SessionCache::CACHE_SPECIALMBOXES);
-            $val = IMP_Mailbox::prefTo($val);
-            break;
+            case IMP_Mailbox::MBOX_SENT:
+                $GLOBALS['injector']->getInstance('IMP_Mailbox_SessionCache')
+                    ->expire(IMP_Mailbox_SessionCache::CACHE_SPECIALMBOXES);
+                $val = IMP_Mailbox::prefTo($val);
+                break;
+            case 'pubkey':
+            case 'privkey':
+                break;
         }
 
         return parent::setValue($key, $val, $identity);
@@ -558,7 +593,7 @@ class IMP_Prefs_Identity extends Horde_Core_Prefs_Identity
      */
     public function getAllSentmail($unique = true)
     {
-        $list = array();
+        $list = [];
 
         foreach (array_keys($this->_identities) as $key) {
             if ($mbox = $this->getValue(IMP_Mailbox::MBOX_SENT, $key)) {
@@ -584,5 +619,4 @@ class IMP_Prefs_Identity extends Horde_Core_Prefs_Identity
             ? $this->getValue('save_sent_mail', $ident)
             : false;
     }
-
 }
