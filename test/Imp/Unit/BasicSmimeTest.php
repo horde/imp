@@ -13,9 +13,9 @@
  */
 
 /**
- * Test the Quota library.
+ * Test the Sime-class lib/Basic/Smime.
  *
- * @author     Michael Slusarz <slusarz@horde.org>
+ * @author     Rafael te Boekhorst <boekhorst@b1-systems.de>
  * @category   Horde
  * @copyright  2010-2016 Horde LLC
  * @ignore
@@ -23,22 +23,14 @@
  * @package    IMP
  * @subpackage UnitTests
  */
-class Imp_Unit_QuotaTest extends TestCase
+class Imp_Unit_BasicSmimeTest extends TestCase
 {
-    public function testMaildir()
+    protected function setUp(): void
     {
-        $quota = new IMP_Quota_Null();
-        $data = $quota->getQuota();
-
-        $this->assertEquals(
-            0,
-            $data['limit']
-        );
-
-        $this->assertEquals(
-            0,
-            $data['usage']
-        );
+        $this->basicSmime = $this->getBasicSmime();
     }
 
+    public function testIfLibSmimeSetup(){
+        $this->assertIsObject($this->basicSmime);
+    }
 }
