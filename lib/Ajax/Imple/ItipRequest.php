@@ -89,6 +89,10 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
             $pos = strpos($key, '[');
             $key = substr($key, $pos + 1, strlen($key) - $pos - 2);
 
+            if (empty($key)) {
+              $key = 0;
+            }
+
             switch ($action) {
             case 'delete':
                 // vEvent cancellation.
