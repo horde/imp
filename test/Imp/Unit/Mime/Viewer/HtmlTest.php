@@ -23,13 +23,13 @@
  * @package    IMP
  * @subpackage UnitTests
  */
-class Imp_Unit_Mime_Viewer_HtmlTest extends PHPUnit_Framework_TestCase
+class Imp_Unit_Mime_Viewer_HtmlTest extends Horde_Test_Case
 {
-    public function setUp()
+    public function setUp(): void
     {
-        $GLOBALS['browser'] = $this->getMock('Horde_Browser');
+        $GLOBALS['browser'] = $this->getMockBuilder('Horde_Browser')->getMock();
 
-        $prefs = $this->getMock('Horde_Prefs', array(), array(), '', false);
+        $prefs = $this->getMockBuilder('Horde_Prefs')->disableOriginalConstructor()->getMock();
         $prefs->expects($this->any())
             ->method('getValue')
             ->will($this->returnValue(false));
@@ -52,7 +52,7 @@ class Imp_Unit_Mime_Viewer_HtmlTest extends PHPUnit_Framework_TestCase
         );
 
         $v = new IMP_Stub_Mime_Viewer_Html(new Horde_Mime_Part(), array(
-            'browser' => $this->getMock('Horde_Browser'),
+            'browser' => $this->getMockBuilder('Horde_Browser')->getMock(),
             'charset' => 'UTF-8'
         ));
 
@@ -79,7 +79,7 @@ class Imp_Unit_Mime_Viewer_HtmlTest extends PHPUnit_Framework_TestCase
         );
 
         $v = new IMP_Stub_Mime_Viewer_Html(new Horde_Mime_Part(), array(
-            'browser' => $this->getMock('Horde_Browser'),
+            'browser' => $this->getMockBuilder('Horde_Browser')->getMock(),
             'charset' => 'UTF-8'
         ));
 

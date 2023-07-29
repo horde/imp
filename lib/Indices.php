@@ -257,6 +257,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->_indices[$offset]);
@@ -264,6 +265,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return isset($this->_indices[$offset])
@@ -273,6 +275,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         unset($this->_indices[$offset]);
@@ -281,6 +284,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->_indices[$offset]);
@@ -293,6 +297,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
      *
      * @return integer  The number of indices.
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         $count = 0;
@@ -317,7 +322,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
     }
 
     /* Iterator methods. */
-
+    #[\ReturnTypeWillChange]
     public function current()
     {
         if (!$this->valid()) {
@@ -331,11 +336,13 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         return $ret;
     }
 
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return key($this->_indices);
     }
 
+    #[\ReturnTypeWillChange]
     public function next()
     {
         if ($this->valid()) {
@@ -343,11 +350,13 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         }
     }
 
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         reset($this->_indices);
     }
 
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         return !is_null(key($this->_indices));

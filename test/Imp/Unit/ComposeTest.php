@@ -23,7 +23,7 @@
  * @package    IMP
  * @subpackage UnitTests
  */
-class Imp_Unit_ComposeTest extends PHPUnit_Framework_TestCase
+class Imp_Unit_ComposeTest extends Horde_Test_Case
 {
     public function testBug10431()
     {

@@ -25,7 +25,7 @@
  * @subpackage UnitTests
  */
 class Imp_Unit_Mime_Viewer_ItipTest
-extends PHPUnit_Framework_TestCase
+extends Horde_Test_Case
 {
     private $_contents;
     private $_contentsCharset;
@@ -39,18 +39,18 @@ extends PHPUnit_Framework_TestCase
     private $_notifyStack = array();
     private $_oldtz;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_oldtz = date_default_timezone_get();
         date_default_timezone_set('UTC');
 
-        $injector = $this->getMock('Horde_Injector', array(), array(), '', false);
+        $injector = $this->getMockBuilder('Horde_Injector')->disableOriginalConstructor()->getMock();
         $injector->expects($this->any())
             ->method('getInstance')
             ->will($this->returnCallback(array($this, '_injectorGetInstance')));
         $GLOBALS['injector'] = $injector;
 
-        $registry = $this->getMock('Horde_Registry', array(), array(), '', false);
+        $registry = $this->getMockBuilder('Horde_Registry')->setMethods(array('getCharset','remoteHost'))->disableOriginalConstructor()->getMock();
         $registry->expects($this->any())
             ->method('getCharset')
             ->will($this->returnValue('UTF-8'));
@@ -59,7 +59,7 @@ extends PHPUnit_Framework_TestCase
             ->will($this->returnValue((object)array('addr' => '1.2.3.4', 'host' => 'example.com', 'proxy' => false)));
         $GLOBALS['registry'] = $registry;
 
-        $notification = $this->getMock('Horde_Notification_Handler', array(), array(), '', false);
+        $notification = $this->getMockBuilder('Horde_Notification_Handler')->disableOriginalConstructor()->getMock();
         $notification->expects($this->any())
             ->method('push')
             ->will($this->returnCallback(array($this, '_notificationHandler')));
@@ -69,7 +69,7 @@ extends PHPUnit_Framework_TestCase
         $_SERVER['REMOTE_ADDR'] = 'localhost';
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         date_default_timezone_set($this->_oldtz);
     }
@@ -85,7 +85,7 @@ extends PHPUnit_Framework_TestCase
 
         case 'IMP_Contents':
             if (!isset($this->_contents)) {
-                $contents= $this->getMock('IMP_Contents', array(), array(), '', false);
+                $contents= $this->getMockBuilder('IMP_Contents')->disableOriginalConstructor()->getMock();
                 $contents->expects($this->any())
                     ->method('getMIMEPart')
                     ->will($this->returnCallback(array($this, '_getMimePart')));
@@ -95,7 +95,7 @@ extends PHPUnit_Framework_TestCase
 
         case 'IMP_Factory_Contents':
             if (!isset($this->_contentsFactory)) {
-                $cf = $this->getMock('IMP_Factory_Contents', array(), array(), '', false);
+                $cf = $this->getMockBuilder('IMP_Factory_Contents')->disableOriginalConstructor()->getMock();
                 $cf->expects($this->any())
                     ->method('create')
                     ->will($this->returnValue($this->_injectorGetInstance('IMP_Contents')));
@@ -105,7 +105,7 @@ extends PHPUnit_Framework_TestCase
 
         case 'IMP_Factory_Imap':
             if (!isset($this->_imapFactory)) {
-                $imap = $this->getMock('IMP_Factory_Imap', array(), array(), '', false);
+                $imap = $this->getMockBuilder('IMP_Factory_Imap')->disableOriginalConstructor()->getMock();
                 $imap->expects($this->any())
                     ->method('create')
                     ->will($this->returnValue(new IMP_Stub_Imap()));
@@ -115,7 +115,7 @@ extends PHPUnit_Framework_TestCase
 
         case 'IMP_Factory_Mailbox':
             if (!isset($this->_mailbox)) {
-                $mbox = $this->getMock('IMP_Factory_Mailbox', array(), array(), '', false);
+                $mbox = $this->getMockBuilder('IMP_Factory_Mailbox')->disableOriginalConstructor()->getMock();
                 $mbox->expects($this->any())
                     ->method('create')
                     ->will($this->returnValue(new IMP_Mailbox('foo')));
@@ -125,7 +125,7 @@ extends PHPUnit_Framework_TestCase
 
         case 'IMP_Identity':
             if (!isset($this->_identity)) {
-                $identity = $this->getMock('Horde_Core_Prefs_Identity', array(), array(), '', false);
+                $identity = $this->getMockBuilder('Horde_Core_Prefs_Identity')->disableOriginalConstructor()->getMock();
                 $identity->expects($this->any())
                     ->method('setDefault')
                     ->will($this->returnCallback(array($this, '_identitySetDefault')));
@@ -232,7 +232,7 @@ extends PHPUnit_Framework_TestCase
     public function testAcceptingAnInvitationResultsInReplySent()
     {
         $this->_doImple('accept', $this->_getInvitation()->exportvCalendar());
-        $this->assertContains('Reply Sent.', reset($this->_notifyStack));
+        $this->assertStringContainsString('Reply Sent.', join(" ", reset($this->_notifyStack)));
     }
 
     /**
@@ -290,6 +290,8 @@ extends PHPUnit_Framework_TestCase
      */
     public function testResultMessageThrowsExceptionIfUidIsMissing()
     {
+        $this->expectNotToPerformAssertions();
+
         try {
             $this->_doImple('accept', "BEGIN:VEVENT\nORGANIZER:somebody@example.com\nDTSTAMP:20100816T143648Z\nDTSTART:20100816T143648Z\nEND:VEVENT");
             $this->fail('Expecting Exception.');
@@ -491,13 +493,13 @@ extends PHPUnit_Framework_TestCase
     public function testResultMimeMessageHeadersContainsReceivedHeader()
     {
         $this->_doImple('accept', $this->_getInvitation()->exportvCalendar());
-        $this->assertContains('(Horde Framework) with HTTP', $this->_getMailHeaders()->getValue('Received'));
+        $this->assertStringContainsString('(Horde Framework) with HTTP', $this->_getMailHeaders()->getValue('Received'));
     }
 
     public function testResultMimeMessageHeadersContainsMessageId()
     {
         $this->_doImple('accept', $this->_getInvitation()->exportvCalendar());
-        $this->assertContains('.Horde.', $this->_getMailHeaders()->getValue('Message-ID'));
+        $this->assertStringContainsString('.Horde.', $this->_getMailHeaders()->getValue('Message-ID'));
     }
 
     public function testResultMimeMessageHeadersContainsDate()

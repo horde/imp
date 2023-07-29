@@ -23,7 +23,7 @@
  * @package    IMP
  * @subpackage UnitTests
  */
-class Imp_Unit_MboxParseTest extends PHPUnit_Framework_TestCase
+class Imp_Unit_MboxParseTest extends Horde_Test_Case
 {
     public function testMboxParse()
     {
@@ -41,8 +41,7 @@ class Imp_Unit_MboxParseTest extends PHPUnit_Framework_TestCase
                 $key
             );
 
-            $this->assertInternalType(
-                'array',
+            $this->assertIsArray(
                 $val
             );
 
@@ -64,8 +63,7 @@ class Imp_Unit_MboxParseTest extends PHPUnit_Framework_TestCase
 
         $val = $parse[0];
 
-        $this->assertInternalType(
-            'array',
+        $this->assertIsArray(
             $val
         );
 
@@ -75,11 +73,10 @@ class Imp_Unit_MboxParseTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException IMP_Exception
-     */
     public function testBadData()
     {
+        $this->expectException('IMP_Exception');
+
         new IMP_Mbox_Parse(__DIR__ . '/noexist');
     }
 

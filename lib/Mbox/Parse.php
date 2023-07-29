@@ -98,6 +98,7 @@ class IMP_Mbox_Parse implements ArrayAccess, Countable, Iterator
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->_parsed[$offset]);
@@ -105,6 +106,7 @@ class IMP_Mbox_Parse implements ArrayAccess, Countable, Iterator
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if (isset($this->_parsed[$offset])) {
@@ -147,6 +149,7 @@ class IMP_Mbox_Parse implements ArrayAccess, Countable, Iterator
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         // NOOP
@@ -154,6 +157,7 @@ class IMP_Mbox_Parse implements ArrayAccess, Countable, Iterator
 
     /**
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         // NOOP
@@ -166,6 +170,7 @@ class IMP_Mbox_Parse implements ArrayAccess, Countable, Iterator
      *
      * @return integer  The number of messages.
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return count($this->_parsed);
@@ -178,6 +183,7 @@ class IMP_Mbox_Parse implements ArrayAccess, Countable, Iterator
      *
      * @return string  String representation.
      */
+    #[\ReturnTypeWillChange]
     public function __toString()
     {
         rewind($this->_data);
@@ -185,7 +191,7 @@ class IMP_Mbox_Parse implements ArrayAccess, Countable, Iterator
     }
 
     /* Iterator methods. */
-
+    #[\ReturnTypeWillChange]
     public function current()
     {
         $key = $this->key();
@@ -195,11 +201,13 @@ class IMP_Mbox_Parse implements ArrayAccess, Countable, Iterator
             : $this[$key];
     }
 
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return key($this->_parsed);
     }
 
+    #[\ReturnTypeWillChange]
     public function next()
     {
         if ($this->valid()) {
@@ -207,11 +215,13 @@ class IMP_Mbox_Parse implements ArrayAccess, Countable, Iterator
         }
     }
 
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         reset($this->_parsed);
     }
 
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         return !is_null($this->key());

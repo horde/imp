@@ -23,7 +23,7 @@
  * @package    IMP
  * @subpackage UnitTests
  */
-class Imp_Unit_QuotaTest extends PHPUnit_Framework_TestCase
+class Imp_Unit_QuotaTest extends Horde_Test_Case
 {
     public function testMaildir()
     {
