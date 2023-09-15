@@ -38,7 +38,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 7.4
+        php-version: '8.1'
         extensions: bcmath, ctype, curl, dom, gd, gettext, iconv, imagick, json, ldap, mbstring, mysql, opcache, openssl, pcntl, pdo, posix, redis, soap, sockets, sqlite, tokenizer, xmlwriter
         ini-values: post_max_size=512M, max_execution_time=3600
         coverage: xdebug
