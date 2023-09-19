@@ -263,10 +263,23 @@ class IMP_Basic_Search extends IMP_Basic_Base
                     break;
 
                 case 'flag':
-                    /* Flag search. */
-                    $formdata = (strpos($id, '0\\') === 0)
-                        ? array('flag' => substr($id, 2), 'set' => false)
-                        : array('flag' => $id, 'set' => true);
+                    /* Flag search. 
+                        TODO: check if the answer-flag, draft-flag and other flags also need to be set to uppercase
+                        NOTE: maybe this fix is not solving the root problem
+                    */
+                    $id = $val->v;
+
+                    if (strpos($id, '0\\') !== false){
+                        $flag =  substr($id, 2);
+                        $formdata = array('flag' => $flag, 'set' => false);
+                    }
+                    else if (strpos($id, '%5C') !== false){
+                        $flag = strtoupper(substr($id, 3));
+                        $formdata = array('flag' => $flag, 'set' => true);
+                    }
+                    else {
+                        $formdata = array('flag' => $id, 'set' => true);
+                    }
                     $c_list[] = new IMP_Search_Element_Flag(
                         $formdata['flag'],
                         ($formdata['set'] && !$val->n)
