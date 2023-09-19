@@ -125,14 +125,24 @@ class IMP_Imap_Cache_Wrapper implements Serializable
      */
     public function serialize()
     {
-        return json_encode($this->_params);
+        return array_shift($this->__serialize());
+    }
+    public function __serialize(): array 
+    {
+        return
+        [
+            json_encode($this->_params)
+        ];
     }
 
     /**
      */
     public function unserialize($data)
     {
-        $this->_initOb(json_decode($data, true));
+        $this->__unserialize([$data]);
     }
-
+    public function __unserialize(array $data): void 
+    {
+        $this->_initOb(json_decode($data[0], true));
+    }
 }

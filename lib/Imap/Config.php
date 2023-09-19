@@ -297,7 +297,7 @@ class IMP_Imap_Config implements Serializable
 
         case 'maildomain':
             /* Sanity checking - this should be null, not empty string. */
-            if (!strlen($out)) {
+            if (!is_null($out) && !strlen($out)) {
                 $out = null;
             }
             break;
@@ -377,30 +377,41 @@ class IMP_Imap_Config implements Serializable
      */
     public function serialize()
     {
+        return array_shift($this->__serialize());
+    }
+    public function __serialize(): array 
+    {
         global $injector, $session;
 
         if (!empty($this->_passwords)) {
             $session->set('imp', self::PASSWORDS_KEY, $this->_passwords, $session::ENCRYPT);
         }
 
-        return $injector->getInstance('Horde_Pack')->pack(
-            array_filter($this->_config),
-            array(
-                'compression' => false,
-                'phpob' => false
+        return
+        [
+            $injector->getInstance('Horde_Pack')->pack(
+                array_filter($this->_config),
+                array(
+                    'compression' => false,
+                    'phpob' => false
+                )
             )
-        );
-    }
+        ];
 
+    }
     /**
      */
     public function unserialize($data)
     {
+        $this->__unserialize([$data]);
+    }
+    public function __unserialize(array $data): void 
+    {
         global $injector, $session;
 
-        $this->_config = $injector->getInstance('Horde_Pack')->unpack($data);
+        $this->_config = $injector->getInstance('Horde_Pack')->unpack(array_shift($data));
 
         $this->_passwords = $session->get('imp', self::PASSWORDS_KEY, $session::TYPE_ARRAY);
-    }
 
+    }
 }

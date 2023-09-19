@@ -54,4 +54,10 @@ abstract class IMP_Search_Filter_Builtin extends IMP_Search_Filter
         $this->_init();
     }
 
+    public function __unserialize(array $data): void 
+    {
+        parent::__unserialize($data);
+        $this->_init();
+    }
+
 }

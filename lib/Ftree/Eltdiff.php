@@ -193,26 +193,37 @@ class IMP_Ftree_Eltdiff implements Serializable
      */
     public function serialize()
     {
-        return $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
-            array(
-                $this->track,
-                $this->_changes
-            ),
-            array(
-                'compression' => false,
-                'phpob' => false
-            )
-        );
+        return array_shift($this->__serialize());
+    }
+    public function __serialize(): array
+    {
+        return
+        [
+            $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
+                array(
+                    $this->track,
+                    $this->_changes
+                ),
+                array(
+                    'compression' => false,
+                    'phpob' => false
+                )
+            ) 
+        ];
     }
 
     /**
      */
     public function unserialize($data)
     {
+        $this->__unserialize([$data]);
+    }
+    public function __unserialize(array $data): void 
+    {
         list(
             $this->track,
             $this->_changes
-        ) = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack($data);
+        ) = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack(array_shift($data));
     }
 
 }

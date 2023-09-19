@@ -112,22 +112,33 @@ class IMP_Flag_User extends IMP_Flag_Imap
      */
     public function serialize()
     {
-        return json_encode(array(
-            parent::serialize(),
-            $this->_label,
-            $this->_imapflag
-        ));
+        return array_shift($this->__serialize());
+    }
+    public function __serialize(): array 
+    {
+        return
+        [
+            json_encode(array(
+                parent::serialize(),
+                $this->_label,
+                $this->_imapflag
+            ))
+        ];
     }
 
     /**
      */
     public function unserialize($data)
     {
-        $data = json_decode($data, true);
+        $this->__unserialize([$data]);
+    }
+    public function __unserialize(array $data): void 
+    {
+        $data = json_decode($data[0], true);
 
         parent::unserialize($data[0]);
         $this->_label = $data[1];
         $this->_imapflag = $data[2];
-    }
 
+    }
 }

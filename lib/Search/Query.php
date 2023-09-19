@@ -374,6 +374,23 @@ class IMP_Search_Query implements Serializable
 
         return serialize($data);
     }
+    public function __serialize(): array 
+    {
+        $data = array_filter(array(
+            'c' => $this->_criteria,
+            'e' => intval($this->enabled),
+            'i' => $this->_id,
+            'l' => $this->_label,
+            'm' => $this->_mboxes,
+            'v' => self::VERSION
+        ));
+
+        foreach ($this->_nosave as $val) {
+            unset($data[$val]);
+        }
+
+        return $data;
+    }
 
     /**
      * Unserialization.
@@ -405,5 +422,25 @@ class IMP_Search_Query implements Serializable
             $this->_mboxes = $data['m'];
         }
     }
+    public function __unserialize(array $data): void 
+    {
+        if (!isset($data['v']) ||
+            ($data['v'] != self::VERSION)) {
+            throw new Exception('Cache version change');
+        }
 
+        if (isset($data['c'])) {
+            $this->_criteria = $data['c'];
+        }
+        $this->enabled = !empty($data['e']);
+        if (isset($data['i'])) {
+            $this->_id = $data['i'];
+        }
+        if (isset($data['l'])) {
+            $this->_label = $data['l'];
+        }
+        if (isset($data['m'])) {
+            $this->_mboxes = $data['m'];
+        }
+    }
 }

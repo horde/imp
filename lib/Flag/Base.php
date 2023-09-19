@@ -203,7 +203,12 @@ abstract class IMP_Flag_Base implements Serializable
     {
         return $this->_bgcolor;
     }
-
+    public function __serialize(): array
+    {
+        return [
+            $this->_bgcolor
+        ];
+    } 
     /**
      */
     public function unserialize($data)
@@ -211,4 +216,8 @@ abstract class IMP_Flag_Base implements Serializable
         $this->_bgcolor = $data;
     }
 
+    public function __unserialize(array $data): void 
+    {
+        $this->_bgcolor = $data[0];
+    }
 }

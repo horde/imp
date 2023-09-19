@@ -65,6 +65,10 @@ implements Horde_Imap_Client_Base_Password, Serializable
      */
     public function serialize()
     {
+        return array_shift($this->__serialize());
+    }
+    public function __serialize(): array 
+    {
         global $session;
 
         if (!isset($this->_id)) {
@@ -73,15 +77,21 @@ implements Horde_Imap_Client_Base_Password, Serializable
 
         $session->set('imp', self::PASSWORD_KEY . '/' . $this->_id, $this->_password, $session::ENCRYPT);
 
-        return $this->_id;
+        return
+        [
+            $this->_id
+        ];        
     }
-
     /**
      * @throws RuntimeException
      */
     public function unserialize($data)
     {
-        $this->_id = $data;
+        $this->__unserialize([$data]);
+    }
+    public function __unserialize(array $data): void 
+    {
+        $this->_id = $data[0];
 
         $password = $GLOBALS['session']->get(
             'imp',
@@ -94,6 +104,6 @@ implements Horde_Imap_Client_Base_Password, Serializable
             );
         }
         $this->_password = $password;
-    }
 
+    }
 }

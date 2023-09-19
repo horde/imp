@@ -188,6 +188,11 @@ class IMP_Compose_Attachment implements Serializable
      */
     public function serialize()
     {
+        return array_shift($this->__serialize());
+    }
+
+    public function __serialize(): array
+    {
         /* Don't store Mime_Part data. Can't use clone here ATM, since there
          * appears to be a PHP bug. Since this is an object specific to IMP
          * (and we are only using in a certain predictable way), it should
@@ -196,7 +201,9 @@ class IMP_Compose_Attachment implements Serializable
         $this->_part->clearContents();
         $this->_isBuilt = false;
 
-        return $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
+        return
+        [
+            $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
             array(
                 $this->_composeCache,
                 $this->id,
@@ -207,13 +214,18 @@ class IMP_Compose_Attachment implements Serializable
             ), array(
                 'compression' => false,
                 'phpob' => true
-            )
-        );
+            ))
+        ];
     }
 
     /**
      */
     public function unserialize($data)
+    {
+        $this->__unserialize([$data]);
+    }
+
+    public function __unserialize(array $data): void
     {
         list(
             $this->_composeCache,
@@ -222,7 +234,6 @@ class IMP_Compose_Attachment implements Serializable
             $this->_part,
             $this->related,
             $this->_uuid
-        ) = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack($data);
+        ) = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack(array_shift($data));
     }
-
 }

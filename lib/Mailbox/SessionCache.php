@@ -397,20 +397,30 @@ class IMP_Mailbox_SessionCache implements Serializable
      */
     public function serialize()
     {
-        return $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
-            $this->_cache,
-            array(
-                'compression' => false,
-                'phpob' => false
+        return array_shift($this->__serialize());
+    }
+    public function __serialize(): array 
+    {
+        return
+        [
+            $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
+                $this->_cache,
+                array(
+                    'compression' => false,
+                    'phpob' => false
+                )
             )
-        );
+        ];
     }
 
     /**
      */
     public function unserialize($data)
     {
-        $this->_cache = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack($data);
+        $this->__unserialize([$data]);
     }
-
+    public function __unserialize(array $data): void 
+    {
+        $this->_cache = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack(array_shift($data));
+    }
 }

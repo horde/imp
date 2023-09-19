@@ -687,12 +687,23 @@ class IMP_Search_Element_Date implements Serializable
 
     public function serialize()
     {
-        return '';
+        return array_shift($this->__serialize());
+    }
+    public function __serialize(): array 
+    {
+        return
+        [
+            ''
+        ];
     }
 
     public function unserialize($data)
     {
-        $this->data = json_decode($data);
+        $this->__unserialize([$data]);
+    }
+    public function __unserialize(array $data): void 
+    {
+        $this->data = json_decode($data[0]);
     }
 
 }

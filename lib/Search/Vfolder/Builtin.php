@@ -67,5 +67,9 @@ abstract class IMP_Search_Vfolder_Builtin extends IMP_Search_Vfolder
         parent::unserialize($data);
         $this->_init();
     }
-
+    public function __unserialize(array $data): void 
+    {
+        parent::__unserialize($data);
+        $this->_init();
+    }
 }

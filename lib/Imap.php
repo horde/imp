@@ -943,28 +943,40 @@ class IMP_Imap implements Serializable
      */
     public function serialize()
     {
-        return $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
-            array(
-                $this->_ob,
-                $this->_id,
-                $this->_config
-            ),
-            array(
-                'compression' => false,
-                'phpob' => true
-            )
-        );
+        return array_shift($this->__serialize());
     }
-
+    public function __serialize(): array
+    {
+        return
+        [
+            $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
+                array(
+                    $this->_ob,
+                    $this->_id,
+                    $this->_config
+                ),
+                array(
+                    'compression' => false,
+                    'phpob' => true
+                )
+            )
+        ];
+    }
     /**
+     * @throws Horde_Pack_Exception
      */
     public function unserialize($data)
+    {
+        $this->__unserialize([$data]);
+    }
+
+    public function __unserialize(array $data): void
     {
         list(
             $this->_ob,
             $this->_id,
             $this->_config
-        ) = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack($data);
+        ) = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack(array_shift($data));
+        
     }
-
 }

@@ -84,12 +84,21 @@ abstract class IMP_Ftree_Account implements Serializable
     {
         return $this->_id;
     }
-
+    public function __serialize(): array
+    {
+        return
+        [
+            $this->_id
+        ];
+    }
     /**
      */
     public function unserialize($data)
     {
         $this->_id = $data;
     }
-
+    public function __unserialize(array $data): void 
+    {
+        $this->_id = $data[0];
+    }
 }

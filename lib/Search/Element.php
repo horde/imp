@@ -77,10 +77,17 @@ abstract class IMP_Search_Element implements Serializable
      */
     public function serialize()
     {
-        return json_encode(array(
-            self::VERSION,
-            $this->_data
-        ));
+        return array_shift($this->__serialize()); 
+    }
+    public function __serialize(): array 
+    {
+        return
+        [
+            json_encode(array(
+                self::VERSION,
+                $this->_data
+            ))
+        ];
     }
 
     /**
@@ -92,7 +99,11 @@ abstract class IMP_Search_Element implements Serializable
      */
     public function unserialize($data)
     {
-        $data = json_decode($data);
+        $this->__unserialize([$data]);
+    }
+    public function __unserialize(array $data): void 
+    {
+        $data = json_decode($data[0]);
         if (!is_array($data) ||
             !isset($data[0]) ||
             ($data[0] != self::VERSION)) {
@@ -101,5 +112,4 @@ abstract class IMP_Search_Element implements Serializable
 
         $this->_data = $data[1];
     }
-
 }
