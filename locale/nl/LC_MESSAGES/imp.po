@@ -67,7 +67,8 @@ msgid_plural "%d Attachments"
 msgstr[0] "%d Bijlage"
 msgstr[1] "%d Bijlagen"
 
-#: lib/Basic/Mailbox.php:384 lib/Basic/Mailbox.php:385 lib/Basic/Thread.php:165
+#: lib/Basic/Mailbox.php:384 lib/Basic/Mailbox.php:385
+#: lib/Basic/Thread.php:165
 #, php-format
 msgid "%d Messages"
 msgstr "%d Berichten"
@@ -418,8 +419,8 @@ msgid ""
 "Additional headers to display when viewing: <em>(enter each header on a new "
 "line)</em>"
 msgstr ""
-"Extra koppen tonen bij weergave: <em>(elke kop op een nieuwe regel "
-"invoeren)</em>"
+"Extra koppen tonen bij weergave: <em>(elke kop op een nieuwe regel invoeren)"
+"</em>"
 
 #: lib/Basic/Compose.php:752 lib/Basic/Compose.php:867
 #: lib/Basic/Contacts.php:117 templates/basic/compose/redirect.html.php:20
@@ -899,8 +900,8 @@ msgstr "Kan contact informatie niet toevoegen: %s"
 #: templates/basic/folders/folders_confirm.html.php:27
 #: templates/basic/folders/import.html.php:17
 #: templates/contacts/contacts.html.php:69
-#: templates/minimal/compose.html.php:56 templates/minimal/redirect.html.php:29
-#: templates/pgp/import_key.html.php:69
+#: templates/minimal/compose.html.php:56
+#: templates/minimal/redirect.html.php:29 templates/pgp/import_key.html.php:69
 #: templates/saveimage/saveimage.html.php:20
 #: templates/search/search.html.php:107
 #: templates/smartmobile/compose.html.php:47
@@ -1491,8 +1492,8 @@ msgid "Delegated"
 msgstr "Overgedragen"
 
 #: lib/Dynamic/Compose/Common.php:204 lib/Dynamic/Mailbox.php:302
-#: lib/Dynamic/Mailbox.php:336 lib/Imap/Acl.php:196 lib/Minimal/Message.php:228
-#: templates/basic/folders/actions.html.php:26
+#: lib/Dynamic/Mailbox.php:336 lib/Imap/Acl.php:196
+#: lib/Minimal/Message.php:228 templates/basic/folders/actions.html.php:26
 #: templates/dynamic/mailbox.html.php:51 templates/dynamic/message.html.php:29
 #: templates/minimal/mailbox.html.php:30 templates/prefs/acl.html.php:43
 #: templates/prefs/acl.html.php:78 templates/prefs/pgppublickey.html.php:22
@@ -1800,8 +1801,8 @@ msgstr "Bewerk zoekterm"
 msgid "Edit Template"
 msgstr "Sjabloon bewerken"
 
-#: lib/Basic/Mailbox.php:415 lib/Dynamic/Mailbox.php:264 lib/Imap/Tree.php:1761
-#: templates/search/search.html.php:8
+#: lib/Basic/Mailbox.php:415 lib/Dynamic/Mailbox.php:264
+#: lib/Imap/Tree.php:1761 templates/search/search.html.php:8
 msgid "Edit Virtual Folder"
 msgstr "Bewerk virtuele map"
 
@@ -2017,7 +2018,8 @@ msgid "Expand Headers"
 msgstr "Headers uitvouwen"
 
 #: lib/Minimal/Compose.php:104 lib/Minimal/Compose.php:159
-#: templates/minimal/compose.html.php:55 templates/minimal/redirect.html.php:28
+#: templates/minimal/compose.html.php:55
+#: templates/minimal/redirect.html.php:28
 msgid "Expand Names"
 msgstr "Naamsuitbreiding"
 
@@ -2145,7 +2147,8 @@ msgstr "Map"
 msgid "Folder Actions"
 msgstr "Mapbewerking"
 
-#: lib/Basic/Folders.php:278 templates/basic/folders/folders_confirm.html.php:6
+#: lib/Basic/Folders.php:278
+#: templates/basic/folders/folders_confirm.html.php:6
 msgid "Folder Actions - Confirmation"
 msgstr "Mapbewerking -  Bevestiging"
 
@@ -2229,9 +2232,10 @@ msgstr "_Van"
 #: lib/Dynamic/Mailbox.php:240 lib/Dynamic/Mailbox.php:425
 #: lib/Message/Ui.php:34 templates/basic/compose/compose.html.php:38
 #: templates/basic/search/search-basic.html.php:16
-#: templates/dynamic/compose.html.php:95 templates/dynamic/mailbox.html.php:116
-#: templates/minimal/mailbox.html.php:9
-#: templates/smartmobile/search.html.php:11 templates/thread/thread.html.php:21
+#: templates/dynamic/compose.html.php:95
+#: templates/dynamic/mailbox.html.php:116 templates/minimal/mailbox.html.php:9
+#: templates/smartmobile/search.html.php:11
+#: templates/thread/thread.html.php:21
 msgid "From"
 msgstr "Van"
 
@@ -3035,9 +3039,10 @@ msgstr "Nieuwe vlag"
 msgid "New Mail"
 msgstr "Nieuwe mail"
 
-#: lib/Application.php:415 lib/Basic/Compose.php:208 lib/Basic/Compose.php:1120
-#: lib/Compose.php:1961 lib/Dynamic/Base.php:151 lib/Dynamic/Compose.php:78
-#: lib/Dynamic/Mailbox.php:104 lib/Minimal/Base.php:88 lib/Smartmobile.php:171
+#: lib/Application.php:415 lib/Basic/Compose.php:208
+#: lib/Basic/Compose.php:1120 lib/Compose.php:1961 lib/Dynamic/Base.php:151
+#: lib/Dynamic/Compose.php:78 lib/Dynamic/Mailbox.php:104
+#: lib/Minimal/Base.php:88 lib/Smartmobile.php:171
 #: templates/dynamic/mailbox.html.php:54
 #: templates/smartmobile/compose.html.php:2
 #: templates/smartmobile/folders.html.php:13
@@ -3306,7 +3311,8 @@ msgstr "Extra deelnemer"
 msgid "Other"
 msgstr "Overig"
 
-#: templates/dynamic/compose.html.php:88 templates/dynamic/mailbox.html.php:106
+#: templates/dynamic/compose.html.php:88
+#: templates/dynamic/mailbox.html.php:106
 msgid "Other Options"
 msgstr "Overige opties"
 
@@ -3749,12 +3755,13 @@ msgstr "Geadresseerden (Aan/Cc/Bcc) voor '%s'"
 msgid "Redirec_t"
 msgstr "Om_leiden"
 
-#: lib/Basic/Compose.php:391 lib/Basic/Mailbox.php:669 lib/Dynamic/Base.php:169
-#: lib/Dynamic/Compose.php:160 lib/Minimal/Compose.php:225
-#: lib/Minimal/Compose.php:228 lib/Minimal/Message.php:252
-#: lib/Notification/Event/Status.php:32
+#: lib/Basic/Compose.php:391 lib/Basic/Mailbox.php:669
+#: lib/Dynamic/Base.php:169 lib/Dynamic/Compose.php:160
+#: lib/Minimal/Compose.php:225 lib/Minimal/Compose.php:228
+#: lib/Minimal/Message.php:252 lib/Notification/Event/Status.php:32
 #: templates/basic/compose/redirect.html.php:51
-#: templates/dynamic/redirect.html.php:7 templates/minimal/redirect.html.php:27
+#: templates/dynamic/redirect.html.php:7
+#: templates/minimal/redirect.html.php:27
 #: templates/smartmobile/message.html.php:36
 msgid "Redirect"
 msgstr "Omleiden"
@@ -3915,7 +3922,8 @@ msgid "Required Participant"
 msgstr "Vereiste deelnemer"
 
 #: templates/basic/search/search-basic.html.php:50
-#: templates/contacts/contacts.html.php:25 templates/search/search.html.php:110
+#: templates/contacts/contacts.html.php:25
+#: templates/search/search.html.php:110
 msgid "Reset"
 msgstr "Herstellen"
 
@@ -4618,7 +4626,8 @@ msgstr "Onde_rwerp"
 #: lib/Dynamic/Mailbox.php:179 lib/Dynamic/Mailbox.php:242
 #: lib/Dynamic/Mailbox.php:427 lib/Message/Ui.php:39 lib/Smartmobile.php:175
 #: templates/basic/search/search-basic.html.php:18
-#: templates/dynamic/compose.html.php:139 templates/minimal/mailbox.html.php:10
+#: templates/dynamic/compose.html.php:139
+#: templates/minimal/mailbox.html.php:10
 #: templates/smartmobile/search.html.php:13
 msgid "Subject"
 msgstr "Onderwerp"
@@ -5073,7 +5082,8 @@ msgstr "De vrij/bezet informatie van de gebruiker is met succes opgeslagen."
 msgid "There are no alternative parts that can be displayed inline."
 msgstr "Er zijn geen alternatieve onderdelen die weergegeven kunnen worden."
 
-#: lib/Dynamic/Mailbox.php:482 templates/basic/mailbox/empty_mailbox.html.php:6
+#: lib/Dynamic/Mailbox.php:482
+#: templates/basic/mailbox/empty_mailbox.html.php:6
 msgid "There are no messages in this mailbox."
 msgstr "Er zijn geen berichten in deze map."
 
@@ -5727,8 +5737,8 @@ msgstr "U bent"
 
 #: templates/basic/folders/folders_confirm.html.php:13
 msgid ""
-"You are attempting to delete all messages contained in the following "
-"mailbox(es)."
+"You are attempting to delete all messages contained in the following mailbox"
+"(es)."
 msgstr "U probeert alle berichten in de volgende map(pen) te verwijderen."
 
 #: templates/basic/folders/folders_confirm.html.php:11

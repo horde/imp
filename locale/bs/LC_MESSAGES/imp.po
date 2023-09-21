@@ -2932,8 +2932,9 @@ msgid "Thread View"
 msgstr "Prikaz po toku teme"
 
 #: message.php:255 mailbox.php:570 search.php:145
-#: templates/contacts/contacts.inc:216 templates/mailbox/message_headers.inc:17
-#: templates/compose/redirect.inc:64 templates/compose/recompose.inc:10
+#: templates/contacts/contacts.inc:216
+#: templates/mailbox/message_headers.inc:17 templates/compose/redirect.inc:64
+#: templates/compose/recompose.inc:10
 msgid "To"
 msgstr "Za"
 

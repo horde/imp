@@ -73,7 +73,8 @@ msgstr[2] "%d Příloh"
 msgid "%d Attachments"
 msgstr "%d Příloha"
 
-#: lib/Basic/Mailbox.php:397 lib/Basic/Mailbox.php:398 lib/Basic/Thread.php:180
+#: lib/Basic/Mailbox.php:397 lib/Basic/Mailbox.php:398
+#: lib/Basic/Thread.php:180
 #, php-format
 msgid "%d Messages"
 msgstr "%d zpráv"
@@ -468,6 +469,10 @@ msgstr "Přidáno \"%s\" jako příloha."
 msgid "Added flag \"%s\"."
 msgstr "Přidán štítek \"%s\"."
 
+#: lib/Ajax/Application/Handler/Dynamic.php:633
+msgid "Adding group lists not currently supported."
+msgstr ""
+
 #: config/prefs.php:1096
 msgid ""
 "Additional headers to display when viewing: <em>(enter each header on a new "
@@ -610,6 +615,11 @@ msgstr "Povolit přístup k externím účtům?"
 msgid "Always prompt"
 msgstr "Vždy vyzývat"
 
+#: lib/Ajax/Application/Handler/ImageUnblock.php:39
+#, php-format
+msgid "Always showing images in messages sent by %s."
+msgstr ""
+
 #: lib/Minimal/Compose.php:504
 msgid "Ambiguous address found."
 msgstr "Nejednoznačná adresa nalezena."
@@ -643,6 +653,10 @@ msgstr "Neznámá osoba"
 #: lib/Flag/Imap/Answered.php:41
 msgid "Answered"
 msgstr "Zodpovězena"
+
+#: templates/prefs/acl.html.php:41 templates/prefs/acl.html.php:76
+msgid "Append"
+msgstr ""
 
 #: lib/Dynamic/Mailbox.php:482 templates/basic/mailbox/header.html.php:13
 msgid "Apply Filters"
@@ -963,8 +977,9 @@ msgstr "Připojit Vaše kontaktní informace ke zprávě?"
 #: templates/basic/folders/folders_confirm.html.php:27
 #: templates/basic/folders/import.html.php:17
 #: templates/contacts/contacts.html.php:69
-#: templates/minimal/compose.html.php:59 templates/minimal/redirect.html.php:29
-#: templates/pgp/import_key.html.php:69 templates/prefs/remote.html.php:80
+#: templates/minimal/compose.html.php:59
+#: templates/minimal/redirect.html.php:29 templates/pgp/import_key.html.php:69
+#: templates/prefs/remote.html.php:80
 #: templates/saveimage/saveimage.html.php:20
 #: templates/search/search.html.php:103
 #: templates/smartmobile/compose.html.php:50
@@ -1185,6 +1200,16 @@ msgid "Click this box to add the original message text to the body."
 msgstr ""
 "Klepněte na tento box pro přidání původní zprávy do těla vytvářené zprávy."
 
+#: lib/Script/Package/Imp.php:33
+msgid "Click to always show images from this sender."
+msgstr ""
+
+#: lib/Mime/Viewer/Html.php:269
+msgid ""
+"Click to view HTML data in new window; it is possible this will allow you to "
+"view the message correctly."
+msgstr ""
+
 #: config/prefs.php:1532
 msgid "Clicking on the address will compose a new message to the sender"
 msgstr "Kliknutím na adresu lze vytvořit novou zprávu pro odesílatele"
@@ -1252,6 +1277,10 @@ msgstr "Šablony zpráv"
 msgid "Compose Templates mailbox:"
 msgstr "Složka šablon:"
 
+#: lib/Dynamic/Compose/Common.php:260
+msgid "Compose action completed. You may now safely close this window."
+msgstr ""
+
 #: config/prefs.php:599
 msgid "Compose messages in a separate window?"
 msgstr "Vytvářet zprávy v novém okně?"
@@ -1259,6 +1288,10 @@ msgstr "Vytvářet zprávy v novém okně?"
 #: config/prefs.php:476
 msgid "Composition"
 msgstr "Vytváření zpráv"
+
+#: config/prefs.php:321
+msgid "Configure PGP encryption support."
+msgstr ""
 
 #: config/prefs.php:404
 #, fuzzy
@@ -1339,6 +1372,11 @@ msgstr "Kopírovat do schránky"
 msgid "Copy/Move"
 msgstr "Kopírovat/Přesunout"
 
+#: lib/Dynamic/Compose/Common.php:261
+#, php-format
+msgid "Could not add %d file(s) to message: only images are supported."
+msgstr ""
+
 #: lib/Imap/Acl.php:100
 #, php-format
 msgid "Could not add rights for user \"%s\" for the mailbox \"%s\"."
@@ -1405,6 +1443,10 @@ msgstr "Nelze otevřít složku."
 #, fuzzy
 msgid "Could not parse mailbox data."
 msgstr "Nelze otevřít schránku."
+
+#: lib/Dynamic/Compose/Common.php:264
+msgid "Could not paste image as the clipboard data is invalid."
+msgstr ""
 
 #: lib/Imap/Acl.php:131
 #, php-format
@@ -1518,6 +1560,10 @@ msgstr "_Datum"
 msgid "Date"
 msgstr "Datum"
 
+#: lib/Dynamic/Mailbox.php:257
+msgid "Date (Arrival)"
+msgstr ""
+
 #: lib/Dynamic/Mailbox.php:258
 #, fuzzy
 msgid "Date (Message)"
@@ -1573,8 +1619,8 @@ msgid "Delegated"
 msgstr "Přiděleno"
 
 #: lib/Dynamic/Compose/Common.php:186 lib/Dynamic/Mailbox.php:325
-#: lib/Dynamic/Mailbox.php:356 lib/Imap/Acl.php:196 lib/Minimal/Message.php:218
-#: templates/basic/folders/actions.html.php:26
+#: lib/Dynamic/Mailbox.php:356 lib/Imap/Acl.php:196
+#: lib/Minimal/Message.php:218 templates/basic/folders/actions.html.php:26
 #: templates/dynamic/mailbox.html.php:51 templates/dynamic/message.html.php:29
 #: templates/minimal/mailbox.html.php:30 templates/prefs/acl.html.php:43
 #: templates/prefs/acl.html.php:78 templates/prefs/pgppublickey.html.php:22
@@ -1794,6 +1840,14 @@ msgstr "Stáhnout přílohu"
 msgid "Download attachment:"
 msgstr "Stáhnout přílohu:"
 
+#: lib/Dynamic/Mailbox.php:159
+msgid "Download into a MBOX file"
+msgstr ""
+
+#: lib/Dynamic/Mailbox.php:160
+msgid "Download into a MBOX file (ZIP compressed)"
+msgstr ""
+
 #: lib/Compose.php:2891
 #, fuzzy
 msgid "Download link"
@@ -1819,6 +1873,10 @@ msgstr "Koncepty"
 #: templates/prefs/drafts.html.php:3
 msgid "Drafts mailbox:"
 msgstr "Složka konceptů:"
+
+#: templates/dynamic/compose.html.php:159
+msgid "Drop file(s) here to attach."
+msgstr ""
 
 #: templates/prefs/pgpprivatekey.html.php:76 templates/prefs/remote.html.php:9
 msgid "E-mail Address"
@@ -2023,6 +2081,10 @@ msgstr "Položka \"%s\" byla úspěšně přidána do kontaktů"
 msgid "Error"
 msgstr "Chyba"
 
+#: lib/Contents.php:115
+msgid "Error displaying message: message does not exist on server."
+msgstr ""
+
 #: lib/Ajax/Imple/VcardImport.php:73
 #, fuzzy
 msgid "Error reading the contact data."
@@ -2032,6 +2094,13 @@ msgstr "Chyba při odstraňování %d kontaktu."
 #, php-format
 msgid "Error sending reply: %s."
 msgstr "Nastala chyba při zasílání odpovědi: %s."
+
+#: lib/Mbox/Import.php:195
+#, php-format
+msgid ""
+"Error when importing messages; %u messages successfully imported before "
+"error."
+msgstr ""
 
 #: lib/Compose.php:2388
 msgid "Error when redirecting message."
@@ -2089,7 +2158,8 @@ msgid "Expand Headers"
 msgstr "Rozbalit Hlavičky"
 
 #: lib/Minimal/Compose.php:107 lib/Minimal/Compose.php:162
-#: templates/minimal/compose.html.php:58 templates/minimal/redirect.html.php:28
+#: templates/minimal/compose.html.php:58
+#: templates/minimal/redirect.html.php:28
 msgid "Expand Names"
 msgstr "Rozbalit jména"
 
@@ -2107,6 +2177,10 @@ msgstr "Délka Trvání"
 #: lib/Dynamic/Mailbox.php:372
 msgid "Export"
 msgstr "Export"
+
+#: templates/basic/folders/actions.html.php:29
+msgid "Expunge"
+msgstr ""
 
 #: lib/Application.php:252
 msgid "Fi_lters"
@@ -2199,6 +2273,15 @@ msgstr "Pro sledování"
 msgid "Flags"
 msgstr "Štítky"
 
+#: lib/Message.php:675
+#, php-format
+msgid ""
+"Flags were not changed for at least one message in the mailbox \"%s\" "
+"because the flags were altered by another connection to the mailbox prior to "
+"this request. You may redo the flag action if desired; this warning is "
+"precautionary to ensure you don't overwrite flag changes."
+msgstr ""
+
 #: lib/Basic/Mailbox.php:680 lib/Basic/Message.php:603
 msgid "Fo_rward"
 msgstr "_Přeposlat"
@@ -2211,7 +2294,8 @@ msgstr "Složka"
 msgid "Folder Actions"
 msgstr "Akce složek"
 
-#: lib/Basic/Folders.php:274 templates/basic/folders/folders_confirm.html.php:6
+#: lib/Basic/Folders.php:274
+#: templates/basic/folders/folders_confirm.html.php:6
 msgid "Folder Actions - Confirmation"
 msgstr "Akce složky - potvrzení"
 
@@ -2271,6 +2355,14 @@ msgstr "Přeposílaná zpráva bude automaticky přidána k vámi odesílané zp
 msgid "Forwards"
 msgstr "Přeposílání"
 
+#: lib/Compose.php:1478
+#, php-format
+msgid ""
+"Found the word %s in the message text although there are no files attached "
+"to the message. Did you forget to attach a file? (This check will not be "
+"performed again for this message.)"
+msgstr ""
+
 #: lib/Ajax/Imple/ItipRequest.php:358
 msgid "Free/Busy Request Response"
 msgstr "Odpověď na žádost o volném čase"
@@ -2285,7 +2377,8 @@ msgstr "_Od"
 #: templates/basic/search/search-basic.html.php:16
 #: templates/dynamic/compose.html.php:102
 #: templates/dynamic/mailbox.html.php:128 templates/minimal/mailbox.html.php:9
-#: templates/smartmobile/search.html.php:11 templates/thread/thread.html.php:21
+#: templates/smartmobile/search.html.php:11
+#: templates/thread/thread.html.php:21
 msgid "From"
 msgstr "Od"
 
@@ -2508,6 +2601,15 @@ msgstr[0] "Importována %d zpráva od %s."
 msgstr[1] "Importovány %d zprávy od %s."
 msgstr[2] "Importováno %d zpráv od %s."
 
+#: lib/Mbox/Parse.php:82
+#, php-format
+msgid "Imported mailbox contains more than enforced limit of %u messages."
+msgstr ""
+
+#: lib/Dynamic/Mailbox.php:531
+msgid "Importing (this may take some time)..."
+msgstr ""
+
 #: lib/Basic/Message.php:614 lib/Dynamic/Base.php:175
 msgid "In Body Text"
 msgstr "V textu zprávy"
@@ -2720,6 +2822,11 @@ msgstr "Odhlásit se"
 msgid "Log out"
 msgstr "Odhlásit"
 
+#: lib/Ajax/Application/Handler/Remote.php:124
+#, php-format
+msgid "Logged out of %s."
+msgstr ""
+
 #: lib/Dynamic/Mailbox.php:542
 msgid "Logging Out..."
 msgstr "Odhlašování..."
@@ -2888,6 +2995,10 @@ msgstr "Maximální počet příjemců v časovém intervalu"
 #: templates/basic/compose/compose.html.php:278
 msgid "Maximum number of attachments reached."
 msgstr "Byl dosažen maximální počet příloh."
+
+#: lib/Perms.php:60
+msgid "Maximum size (bytes) of compose body"
+msgstr ""
 
 #: lib/Dynamic/Mailbox.php:530
 msgid "Mbox or .eml file:"
@@ -3067,6 +3178,10 @@ msgstr "Zobrazení více zpráv"
 msgid "Multiple messages can only be forwarded as attachments."
 msgstr "Výběr více zpráv může být vždy přeposílán pouze jako soubor příloh."
 
+#: lib/Smartmobile.php:176
+msgid "Must enter a non-empty name for the new destination mailbox."
+msgstr ""
+
 #: config/prefs.php:1481
 msgid "NONE"
 msgstr "ŽÁDNÉ"
@@ -3119,9 +3234,10 @@ msgstr "Nový štítek"
 msgid "New Mail"
 msgstr "Nová pošta"
 
-#: lib/Application.php:430 lib/Basic/Compose.php:207 lib/Basic/Compose.php:1152
-#: lib/Compose.php:2200 lib/Dynamic/Base.php:157 lib/Dynamic/Compose.php:78
-#: lib/Dynamic/Mailbox.php:109 lib/Minimal/Base.php:88 lib/Smartmobile.php:177
+#: lib/Application.php:430 lib/Basic/Compose.php:207
+#: lib/Basic/Compose.php:1152 lib/Compose.php:2200 lib/Dynamic/Base.php:157
+#: lib/Dynamic/Compose.php:78 lib/Dynamic/Mailbox.php:109
+#: lib/Minimal/Base.php:88 lib/Smartmobile.php:177
 #: templates/dynamic/mailbox.html.php:54
 #: templates/smartmobile/compose.html.php:2
 #: templates/smartmobile/folders.html.php:13
@@ -3455,6 +3571,10 @@ msgstr ""
 "PGP kódování nemůže být standardně používáno jako veřejné klíče, nemůže být "
 "nalezeno pro všechny příjemce."
 
+#: lib/Ajax/Application/Handler/Passphrase.php:55
+msgid "PGP passhprase stored in session."
+msgstr ""
+
 #: lib/Prefs/Special/PgpPrivateKey.php:169
 msgid "PGP passphrase successfully unloaded."
 msgstr "PGP heslo bylo úspěšně odemčeno."
@@ -3521,6 +3641,18 @@ msgstr "Heslo"
 #, fuzzy, php-format
 msgid "Password for %s:"
 msgstr "Heslo:"
+
+#: templates/pgp/import_key.html.php:19
+msgid ""
+"Paste PGP public keys into the textarea, upload a file containing PGP public "
+"keys, or combine both methods. Multiple keys are supported."
+msgstr ""
+
+#: templates/pgp/import_key.html.php:21
+msgid ""
+"Paste your PGP private key into the textarea or upload a file containing "
+"your key."
+msgstr ""
 
 #: lib/Dynamic/Mailbox.php:525
 #, php-format
@@ -3841,12 +3973,13 @@ msgstr "Opakování"
 msgid "Redirec_t"
 msgstr "Přes_měrovat"
 
-#: lib/Basic/Compose.php:399 lib/Basic/Mailbox.php:685 lib/Dynamic/Base.php:180
-#: lib/Dynamic/Compose.php:148 lib/Minimal/Compose.php:234
-#: lib/Minimal/Compose.php:237 lib/Minimal/Message.php:244
-#: lib/Notification/Event/Status.php:32
+#: lib/Basic/Compose.php:399 lib/Basic/Mailbox.php:685
+#: lib/Dynamic/Base.php:180 lib/Dynamic/Compose.php:148
+#: lib/Minimal/Compose.php:234 lib/Minimal/Compose.php:237
+#: lib/Minimal/Message.php:244 lib/Notification/Event/Status.php:32
 #: templates/basic/compose/redirect.html.php:51
-#: templates/dynamic/redirect.html.php:7 templates/minimal/redirect.html.php:27
+#: templates/dynamic/redirect.html.php:7
+#: templates/minimal/redirect.html.php:27
 #: templates/smartmobile/message.html.php:55
 msgid "Redirect"
 msgid_plural "Redirect Messages"
@@ -4032,7 +4165,8 @@ msgid "Required Participant"
 msgstr "Požadovaní účastníci"
 
 #: templates/basic/search/search-basic.html.php:50
-#: templates/contacts/contacts.html.php:25 templates/search/search.html.php:106
+#: templates/contacts/contacts.html.php:25
+#: templates/search/search.html.php:106
 msgid "Reset"
 msgstr "Vynulovat"
 
@@ -4746,7 +4880,8 @@ msgstr "Předmět"
 #: lib/Dynamic/Mailbox.php:186 lib/Dynamic/Mailbox.php:255
 #: lib/Dynamic/Mailbox.php:491 lib/Message/Ui.php:39 lib/Smartmobile.php:181
 #: templates/basic/search/search-basic.html.php:18
-#: templates/dynamic/compose.html.php:147 templates/minimal/mailbox.html.php:10
+#: templates/dynamic/compose.html.php:147
+#: templates/minimal/mailbox.html.php:10
 #: templates/smartmobile/search.html.php:13
 msgid "Subject"
 msgstr "Předmět"
@@ -5097,6 +5232,12 @@ msgstr[0] "Zpráva byla vymazána."
 msgstr[1] "Zpráva byla vymazána."
 msgstr[2] "Zpráva byla vymazána."
 
+#: lib/Mime/Viewer/Plain.php:188
+msgid ""
+"The message part may contain incorrect character set information preventing "
+"correct display."
+msgstr ""
+
 #: lib/Block/Newmail.php:45
 msgid "The number of unseen messages to show"
 msgstr "Počet nepřečtených zpráv k zobrazení"
@@ -5183,6 +5324,12 @@ msgstr "Text zaslané zprávy"
 msgid "The text of the sent message can be viewed %s."
 msgstr "Text zaslané zprávy lze zonrazit %s."
 
+#: lib/Compose/HtmlSignature.php:68
+msgid ""
+"The total size of your HTML signature image data has exceeded the maximum "
+"allowed."
+msgstr ""
+
 #: lib/Mbox/Import.php:145
 msgid "The uploaded file cannot be opened."
 msgstr "Nahraný soubor nelze otevřít."
@@ -5197,7 +5344,8 @@ msgstr ""
 "Zpráva neobsahuje žádné aliternativní části, které by ještě bylo možné "
 "zobrazit."
 
-#: lib/Dynamic/Mailbox.php:553 templates/basic/mailbox/empty_mailbox.html.php:6
+#: lib/Dynamic/Mailbox.php:553
+#: templates/basic/mailbox/empty_mailbox.html.php:6
 msgid "There are no messages in this mailbox."
 msgstr "Tato složka neobsahuje žadné zprávy."
 
@@ -5299,6 +5447,10 @@ msgstr "Tato akce není podporována."
 msgid "This audio file is reported to be %s in length."
 msgstr "Tento audio soubor je hlášen jako %d minut, %d sekund dlouhý."
 
+#: lib/Mime/Viewer/Pgp.php:426
+msgid "This digitally signed message is broken."
+msgstr ""
+
 #: lib/Mime/Viewer/Pdf.php:86
 msgid "This is a thumbnail of a PDF file attachment."
 msgstr "Toto je miniatura připojeného PDF souboru."
@@ -5325,6 +5477,12 @@ msgstr "Toto může trvat nějaký čas. Skutečně chcete pokračovat?"
 #, php-format
 msgid "This message contains a Macintosh file (named \"%s\")."
 msgstr "Tato zpráva obsahuje Macintosh soubor (s názvem \"%s\") ."
+
+#: lib/Mime/Viewer/Html.php:268
+msgid ""
+"This message contains corrupt styling data so the message contents may not "
+"appear correctly below."
+msgstr ""
 
 #: lib/Contents.php:613
 msgid "This message part cannot be viewed because it is too large."
@@ -5895,6 +6053,12 @@ msgstr[0] "Nemáte oprávnění posílat zprávy více než %d příjemcům."
 msgstr[1] "Nemáte oprávnění posílat zprávy více než %d příjemcům."
 msgstr[2] "Nemáte oprávnění posílat zprávy více než %d příjemcům."
 
+#: lib/Message.php:239
+msgid ""
+"You are over your quota, so your messages will be permanently deleted "
+"instead of moved to the Trash mailbox."
+msgstr ""
+
 #: lib/Basic/Folders.php:57
 #, fuzzy
 msgid "You are renaming the mailbox:"
@@ -5946,6 +6110,11 @@ msgstr ""
 #: lib/Basic/Compose.php:107
 msgid "You have already submitted this page."
 msgstr "Tuto stránku již máte aktivovánu."
+
+#: lib/Basic/Compose.php:741 lib/Dynamic/Compose/Common.php:258
+msgid ""
+"You have edited your signature. Change the identity and lose your changes?"
+msgstr ""
 
 #: lib/Ajax/Application/Handler/Dynamic.php:52
 #, fuzzy, php-format
@@ -6000,6 +6169,12 @@ msgstr "Musíte nejdříve vybrat alespoň jednu zprávu."
 #: lib/Basic/Compose.php:745
 msgid "You must specify a recipient."
 msgstr "Musíte zadat příjemce."
+
+#: lib/Dynamic/Base.php:196
+msgid ""
+"You need to either use the keyboard (Ctrl/Cmd + C) or right click on the "
+"selected address to access the Copy command."
+msgstr ""
 
 #: lib/Maillog/Log/Redirect.php:65
 #, php-format
@@ -6099,9 +6274,21 @@ msgid ""
 "Your alias addresses: <em>(optional, enter each address on a new line)</em>"
 msgstr "Vaše aliasy: <em>(nepovinné, vložte jednu adresu na řádek)</em>"
 
+#: lib/Ajax/Application/Handler/ComposeAttach.php:57
+#: lib/Ajax/Application/Handler/Dynamic.php:1046
+msgid ""
+"Your attachment was not uploaded. Most likely, the file exceeded the maximum "
+"size allowed by the server configuration."
+msgstr ""
+
 #: lib/Mime/Viewer/Images.php:133
 msgid "Your browser does not support inline display of this image type."
 msgstr "Váš prohlížeč nepodporuje zobrazení tohoto typu obrázku v těle zprávy."
+
+#: lib/Dynamic/Base.php:196
+msgid ""
+"Your browser security settings don't permit direct access to the clipboard."
+msgstr ""
 
 #: templates/prefs/encrypt.html.php:3
 msgid "Your default encryption method for sending messages:"
@@ -6125,6 +6312,15 @@ msgid ""
 msgstr ""
 "Vaše identita byla přepnuta na identitu asociovanou s adresou stávajícího "
 "příjemce. Identita nebude znovu ověřována při této akci."
+
+#: lib/Compose/LinkedAttachment.php:220
+msgid "Your linked attachment has been downloaded by at least one user."
+msgstr ""
+
+#: lib/Compose.php:762
+#, php-format
+msgid "Your message body has exceeded the limit by body size by %d characters."
+msgstr ""
 
 #: lib/Mime/Viewer/Status.php:122
 msgid "Your message was successfully delivered."

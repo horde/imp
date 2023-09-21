@@ -73,7 +73,8 @@ msgstr[2] "%d Príloh"
 msgid "%d Attachments"
 msgstr "%d Prílohy"
 
-#: lib/Basic/Mailbox.php:399 lib/Basic/Mailbox.php:400 lib/Basic/Thread.php:180
+#: lib/Basic/Mailbox.php:399 lib/Basic/Mailbox.php:400
+#: lib/Basic/Thread.php:180
 #, php-format
 msgid "%d Messages"
 msgstr "Správy (%d)"
@@ -963,8 +964,9 @@ msgstr "Nie je možné priložiť kontaktné informácie: %s"
 #: templates/basic/folders/folders_confirm.html.php:27
 #: templates/basic/folders/import.html.php:17
 #: templates/contacts/contacts.html.php:69
-#: templates/minimal/compose.html.php:59 templates/minimal/redirect.html.php:29
-#: templates/pgp/import_key.html.php:69 templates/prefs/remote.html.php:80
+#: templates/minimal/compose.html.php:59
+#: templates/minimal/redirect.html.php:29 templates/pgp/import_key.html.php:69
+#: templates/prefs/remote.html.php:80
 #: templates/saveimage/saveimage.html.php:20
 #: templates/search/search.html.php:103
 #: templates/smartmobile/compose.html.php:50
@@ -1252,6 +1254,10 @@ msgstr "Vytváranie šablón"
 #: templates/prefs/composetemplates.html.php:3
 msgid "Compose Templates mailbox:"
 msgstr "Priečinok pre šablóny:"
+
+#: lib/Dynamic/Compose/Common.php:253
+msgid "Compose action completed. You may now safely close this window."
+msgstr ""
 
 #: config/prefs.php:599
 msgid "Compose messages in a separate window?"
@@ -1595,8 +1601,8 @@ msgid "Delegated"
 msgstr "Postúpené"
 
 #: lib/Dynamic/Compose/Common.php:179 lib/Dynamic/Mailbox.php:325
-#: lib/Dynamic/Mailbox.php:356 lib/Imap/Acl.php:196 lib/Minimal/Message.php:224
-#: templates/basic/folders/actions.html.php:26
+#: lib/Dynamic/Mailbox.php:356 lib/Imap/Acl.php:196
+#: lib/Minimal/Message.php:224 templates/basic/folders/actions.html.php:26
 #: templates/dynamic/mailbox.html.php:51 templates/dynamic/message.html.php:29
 #: templates/minimal/mailbox.html.php:30 templates/prefs/acl.html.php:43
 #: templates/prefs/acl.html.php:78 templates/prefs/pgppublickey.html.php:22
@@ -2131,7 +2137,8 @@ msgid "Expand Headers"
 msgstr "Rozbaliť hlavičky"
 
 #: lib/Minimal/Compose.php:107 lib/Minimal/Compose.php:162
-#: templates/minimal/compose.html.php:58 templates/minimal/redirect.html.php:28
+#: templates/minimal/compose.html.php:58
+#: templates/minimal/redirect.html.php:28
 msgid "Expand Names"
 msgstr "Rozbaliť mená"
 
@@ -2242,6 +2249,15 @@ msgstr "Čakajúce na odpoveď"
 msgid "Flags"
 msgstr "Príznaky"
 
+#: lib/Message.php:675
+#, php-format
+msgid ""
+"Flags were not changed for at least one message in the mailbox \"%s\" "
+"because the flags were altered by another connection to the mailbox prior to "
+"this request. You may redo the flag action if desired; this warning is "
+"precautionary to ensure you don't overwrite flag changes."
+msgstr ""
+
 #: lib/Basic/Mailbox.php:682 lib/Basic/Message.php:603
 msgid "Fo_rward"
 msgstr "P_reposlať"
@@ -2254,7 +2270,8 @@ msgstr "Priečinok"
 msgid "Folder Actions"
 msgstr "Operácie v priečinkoch"
 
-#: lib/Basic/Folders.php:274 templates/basic/folders/folders_confirm.html.php:6
+#: lib/Basic/Folders.php:274
+#: templates/basic/folders/folders_confirm.html.php:6
 msgid "Folder Actions - Confirmation"
 msgstr "Operácie priečinka - potvrdenie"
 
@@ -2338,7 +2355,8 @@ msgstr "_Od"
 #: templates/basic/search/search-basic.html.php:16
 #: templates/dynamic/compose.html.php:102
 #: templates/dynamic/mailbox.html.php:128 templates/minimal/mailbox.html.php:9
-#: templates/smartmobile/search.html.php:11 templates/thread/thread.html.php:21
+#: templates/smartmobile/search.html.php:11
+#: templates/thread/thread.html.php:21
 msgid "From"
 msgstr "Od"
 
@@ -3184,9 +3202,10 @@ msgstr "Nový príznak"
 msgid "New Mail"
 msgstr "Nová pošta"
 
-#: lib/Application.php:439 lib/Basic/Compose.php:207 lib/Basic/Compose.php:1152
-#: lib/Compose.php:2201 lib/Dynamic/Base.php:157 lib/Dynamic/Compose.php:78
-#: lib/Dynamic/Mailbox.php:109 lib/Minimal/Base.php:88 lib/Smartmobile.php:177
+#: lib/Application.php:439 lib/Basic/Compose.php:207
+#: lib/Basic/Compose.php:1152 lib/Compose.php:2201 lib/Dynamic/Base.php:157
+#: lib/Dynamic/Compose.php:78 lib/Dynamic/Mailbox.php:109
+#: lib/Minimal/Base.php:88 lib/Smartmobile.php:177
 #: templates/dynamic/mailbox.html.php:54
 #: templates/smartmobile/compose.html.php:2
 #: templates/smartmobile/folders.html.php:13
@@ -3366,7 +3385,8 @@ msgid "Non Participant"
 msgstr "Nie je účastník"
 
 #: lib/Compose/Ui.php:223 lib/Mime/Viewer/Itip.php:388
-#: lib/Mime/Viewer/Itip.php:543 templates/basic/search/search-basic.html.php:14
+#: lib/Mime/Viewer/Itip.php:543
+#: templates/basic/search/search-basic.html.php:14
 #: templates/basic/search/search-basic.html.php:31
 #: templates/prefs/acl.html.php:38 templates/prefs/acl.html.php:73
 #: templates/prefs/composetemplates.html.php:7
@@ -3911,12 +3931,13 @@ msgstr "Opakovanie"
 msgid "Redirec_t"
 msgstr "Pre_smerovať"
 
-#: lib/Basic/Compose.php:399 lib/Basic/Mailbox.php:687 lib/Dynamic/Base.php:180
-#: lib/Dynamic/Compose.php:148 lib/Minimal/Compose.php:234
-#: lib/Minimal/Compose.php:237 lib/Minimal/Message.php:248
-#: lib/Notification/Event/Status.php:32
+#: lib/Basic/Compose.php:399 lib/Basic/Mailbox.php:687
+#: lib/Dynamic/Base.php:180 lib/Dynamic/Compose.php:148
+#: lib/Minimal/Compose.php:234 lib/Minimal/Compose.php:237
+#: lib/Minimal/Message.php:248 lib/Notification/Event/Status.php:32
 #: templates/basic/compose/redirect.html.php:51
-#: templates/dynamic/redirect.html.php:7 templates/minimal/redirect.html.php:27
+#: templates/dynamic/redirect.html.php:7
+#: templates/minimal/redirect.html.php:27
 #: templates/smartmobile/message.html.php:55
 msgid "Redirect"
 msgid_plural "Redirect Messages"
@@ -4100,7 +4121,8 @@ msgid "Required Participant"
 msgstr "Požadovaný účastník"
 
 #: templates/basic/search/search-basic.html.php:50
-#: templates/contacts/contacts.html.php:25 templates/search/search.html.php:106
+#: templates/contacts/contacts.html.php:25
+#: templates/search/search.html.php:106
 msgid "Reset"
 msgstr "Vymazať formulár"
 
@@ -4804,7 +4826,8 @@ msgstr "P_redmet"
 #: lib/Dynamic/Mailbox.php:186 lib/Dynamic/Mailbox.php:255
 #: lib/Dynamic/Mailbox.php:491 lib/Message/Ui.php:39 lib/Smartmobile.php:181
 #: templates/basic/search/search-basic.html.php:18
-#: templates/dynamic/compose.html.php:147 templates/minimal/mailbox.html.php:10
+#: templates/dynamic/compose.html.php:147
+#: templates/minimal/mailbox.html.php:10
 #: templates/smartmobile/search.html.php:13
 msgid "Subject"
 msgstr "Predmet"
@@ -5271,7 +5294,8 @@ msgstr "Informácia o zaneprázdnenosti používateľa bola úspešne uložená.
 msgid "There are no alternative parts that can be displayed inline."
 msgstr "Nie sú k dispozícii žiadne alternatívne časti na zobrazenie."
 
-#: lib/Dynamic/Mailbox.php:553 templates/basic/mailbox/empty_mailbox.html.php:6
+#: lib/Dynamic/Mailbox.php:553
+#: templates/basic/mailbox/empty_mailbox.html.php:6
 msgid "There are no messages in this mailbox."
 msgstr "Tento priečinok je prázdny."
 

@@ -744,8 +744,9 @@ msgstr "Lækkandi"
 msgid "Description"
 msgstr "Lýsing"
 
-#: templates/pgp/pgp.inc:93 templates/pgp/pgp.inc:147 templates/pgp/pgp.inc:151
-#: templates/smime/smime.inc:65 templates/smime/smime.inc:113
+#: templates/pgp/pgp.inc:93 templates/pgp/pgp.inc:147
+#: templates/pgp/pgp.inc:151 templates/smime/smime.inc:65
+#: templates/smime/smime.inc:113
 msgid "Details"
 msgstr "Atriði"
 
@@ -2637,8 +2638,9 @@ msgid "Thread View"
 msgstr "Efnisþráðshamur"
 
 #: search.php:139 message.php:248 mailbox.php:585
-#: templates/mailbox/message_headers.inc:22 templates/contacts/contacts.inc:219
-#: templates/compose/recompose.inc:10 templates/compose/redirect.inc:64
+#: templates/mailbox/message_headers.inc:22
+#: templates/contacts/contacts.inc:219 templates/compose/recompose.inc:10
+#: templates/compose/redirect.inc:64
 msgid "To"
 msgstr "Til"
 
@@ -2725,9 +2727,9 @@ msgstr "Notandanafn"
 msgid "Username:"
 msgstr "Notandanafn:"
 
-#: templates/pgp/pgp.inc:93 templates/pgp/pgp.inc:147 templates/pgp/pgp.inc:151
-#: templates/smime/smime.inc:65 templates/smime/smime.inc:113
-#: templates/smime/smime.inc:117
+#: templates/pgp/pgp.inc:93 templates/pgp/pgp.inc:147
+#: templates/pgp/pgp.inc:151 templates/smime/smime.inc:65
+#: templates/smime/smime.inc:113 templates/smime/smime.inc:117
 msgid "View"
 msgstr "Skoða"
 
@@ -2824,8 +2826,8 @@ msgstr "Þú ert um það bil að sækja póst fyrir eftirfarandi aðganga:"
 
 #: templates/folders/folders_confirm.html:10
 msgid ""
-"You are attempting to delete all messages contained in the following "
-"folder(s)."
+"You are attempting to delete all messages contained in the following folder"
+"(s)."
 msgstr "Þú ert um það bil að eyða öllum skeytum í eftirfarandi möppu(m):"
 
 #: templates/folders/folders_confirm.html:9

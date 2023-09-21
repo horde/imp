@@ -1119,10 +1119,11 @@ msgstr "جهت مرتب سازی پیش فرض:"
 msgid "Delegated"
 msgstr "نماینده"
 
-#: folders.php:413 templates/contacts/contacts.inc:239 templates/pgp/pgp.inc:27
-#: templates/message/navbar_actions.inc:6 templates/fetchmail/manage.inc:68
-#: templates/mailbox/actions.inc:8 templates/mailbox/actions.inc:10
-#: templates/smime/smime.inc:25 templates/compose/attachments.inc:28
+#: folders.php:413 templates/contacts/contacts.inc:239
+#: templates/pgp/pgp.inc:27 templates/message/navbar_actions.inc:6
+#: templates/fetchmail/manage.inc:68 templates/mailbox/actions.inc:8
+#: templates/mailbox/actions.inc:10 templates/smime/smime.inc:25
+#: templates/compose/attachments.inc:28
 msgid "Delete"
 msgstr "حذف"
 
@@ -4287,8 +4288,9 @@ msgid "Thread View"
 msgstr "نمایش سلسله‌ایی "
 
 #: search.php:143 mailbox.php:598 message.php:259
-#: templates/contacts/contacts.inc:214 templates/mailbox/message_headers.inc:22
-#: templates/compose/redirect.inc:61 templates/compose/recompose.inc:10
+#: templates/contacts/contacts.inc:214
+#: templates/mailbox/message_headers.inc:22 templates/compose/redirect.inc:61
+#: templates/compose/recompose.inc:10
 msgid "To"
 msgstr "به"
 
@@ -4576,8 +4578,8 @@ msgstr "شما در صدد واکشی نامه‌های الکترونیکی ا�
 
 #: templates/folders/folders_confirm.html:10
 msgid ""
-"You are attempting to delete all messages contained in the following "
-"folder(s)."
+"You are attempting to delete all messages contained in the following folder"
+"(s)."
 msgstr "شما در پی حذف پیغامهای پوشه‌های زیر هستید:"
 
 #: templates/folders/folders_confirm.html:9

@@ -636,8 +636,8 @@ msgstr "无效或格式错误的请求。服务器回应：%s"
 msgid "Bad request: %s"
 msgstr "无效请求：%s"
 
-#: lib/Search.php:665 lib/UI/Message.php:28 templates/contacts/contacts.html:43
-#: templates/login/recompose.html:32
+#: lib/Search.php:665 lib/UI/Message.php:28
+#: templates/contacts/contacts.html:43 templates/login/recompose.html:32
 msgid "Bcc"
 msgstr "密件抄送"
 
@@ -742,8 +742,8 @@ msgid ""
 "mailbox."
 msgstr "无法显示 - 仅在当前邮箱中看到此邮件的 %s(共 %s)。"
 
-#: lib/Search.php:661 lib/UI/Message.php:27 templates/contacts/contacts.html:42
-#: templates/login/recompose.html:23
+#: lib/Search.php:661 lib/UI/Message.php:27
+#: templates/contacts/contacts.html:42 templates/login/recompose.html:23
 msgid "Cc"
 msgstr "抄送"
 
@@ -2269,7 +2269,8 @@ msgid "Message Date"
 msgstr "邮件日期"
 
 #: config/prefs.php.dist:53 config/prefs.php.dist:71 config/prefs.php.dist:86
-#: config/prefs.php.dist:95 config/prefs.php.dist:103 config/prefs.php.dist:111
+#: config/prefs.php.dist:95 config/prefs.php.dist:103
+#: config/prefs.php.dist:111
 msgid "Message Options"
 msgstr "邮件选项"
 
@@ -3240,9 +3241,9 @@ msgstr "返回文件夹视图"
 msgid "Return to Message Composition"
 msgstr "返回写邮件页面"
 
-#: filterprefs.php:57 templates/smime/smime.html:102 templates/pgp/pgp.html:153
-#: templates/acl/acl.html:35 templates/acl/acl.html:81
-#: templates/acl/acl.html:95
+#: filterprefs.php:57 templates/smime/smime.html:102
+#: templates/pgp/pgp.html:153 templates/acl/acl.html:35
+#: templates/acl/acl.html:81 templates/acl/acl.html:95
 msgid "Return to Options"
 msgstr "返回选项"
 
@@ -4713,8 +4714,8 @@ msgstr "您正从下列帐户获取邮件："
 
 #: templates/folders/folders_confirm.html:10
 msgid ""
-"You are attempting to delete all messages contained in the following "
-"folder(s)."
+"You are attempting to delete all messages contained in the following folder"
+"(s)."
 msgstr "您正尝试删除下列文件夹中的所有邮件。"
 
 #: templates/folders/folders_confirm.html:9

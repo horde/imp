@@ -66,7 +66,8 @@ msgstr[1] "%d csatolmány"
 msgid "%d Attachments"
 msgstr "%d csatolmány"
 
-#: lib/Basic/Thread.php:181 lib/Basic/Mailbox.php:397 lib/Basic/Mailbox.php:398
+#: lib/Basic/Thread.php:181 lib/Basic/Mailbox.php:397
+#: lib/Basic/Mailbox.php:398
 #, php-format
 msgid "%d Messages"
 msgstr "%d levél"
@@ -963,13 +964,15 @@ msgid "Can't attach contact information: %s"
 msgstr "Nem sikerült a névjegy csatolása: %s"
 
 #: lib/Minimal/Compose.php:350 templates/prefs/remote.html.php:80
-#: templates/search/search.html.php:103 templates/contacts/contacts.html.php:69
+#: templates/search/search.html.php:103
+#: templates/contacts/contacts.html.php:69
 #: templates/smartmobile/copymove.html.php:20
 #: templates/smartmobile/compose.html.php:50
 #: templates/smartmobile/message.html.php:91
 #: templates/smartmobile/message.html.php:106
-#: templates/minimal/compose.html.php:59 templates/minimal/redirect.html.php:29
-#: templates/pgp/import_key.html.php:69 templates/smime/import_key.html.php:78
+#: templates/minimal/compose.html.php:59
+#: templates/minimal/redirect.html.php:29 templates/pgp/import_key.html.php:69
+#: templates/smime/import_key.html.php:78
 #: templates/basic/compose/redirect.html.php:53
 #: templates/basic/folders/folders_confirm.html.php:27
 #: templates/basic/folders/import.html.php:17
@@ -1603,10 +1606,10 @@ msgstr "Alapértelmezett sorbarendezési irány:"
 msgid "Delegated"
 msgstr "másnak átadva"
 
-#: lib/Imap/Acl.php:196 lib/Minimal/Message.php:224 lib/Dynamic/Mailbox.php:325
-#: lib/Dynamic/Mailbox.php:356 lib/Dynamic/Compose/Common.php:186
-#: templates/prefs/acl.html.php:44 templates/prefs/acl.html.php:79
-#: templates/prefs/pgppublickey.html.php:22
+#: lib/Imap/Acl.php:196 lib/Minimal/Message.php:224
+#: lib/Dynamic/Mailbox.php:325 lib/Dynamic/Mailbox.php:356
+#: lib/Dynamic/Compose/Common.php:186 templates/prefs/acl.html.php:44
+#: templates/prefs/acl.html.php:79 templates/prefs/pgppublickey.html.php:22
 #: templates/prefs/smimepublickey.html.php:24
 #: templates/smartmobile/mailbox.html.php:20
 #: templates/smartmobile/mailbox.html.php:28
@@ -2143,7 +2146,8 @@ msgid "Expand Headers"
 msgstr "Fejlécek kibontása"
 
 #: lib/Minimal/Compose.php:107 lib/Minimal/Compose.php:162
-#: templates/minimal/compose.html.php:58 templates/minimal/redirect.html.php:28
+#: templates/minimal/compose.html.php:58
+#: templates/minimal/redirect.html.php:28
 msgid "Expand Names"
 msgstr "A címrészlet teljessé egészítése"
 
@@ -2277,7 +2281,8 @@ msgstr "Mappa"
 msgid "Folder Actions"
 msgstr "Mappa műveletek"
 
-#: lib/Basic/Folders.php:274 templates/basic/folders/folders_confirm.html.php:6
+#: lib/Basic/Folders.php:274
+#: templates/basic/folders/folders_confirm.html.php:6
 msgid "Folder Actions - Confirmation"
 msgstr "Mappák kezelése - Megerősítés"
 
@@ -2354,9 +2359,11 @@ msgstr "Válasz elfoglaltsági kérdésre"
 msgid "Fro_m"
 msgstr "Feladó"
 
-#: lib/Compose.php:2557 lib/Dynamic/Mailbox.php:175 lib/Dynamic/Mailbox.php:253
-#: lib/Dynamic/Mailbox.php:489 lib/Basic/Search.php:57 lib/Message/Ui.php:34
-#: templates/thread/thread.html.php:21 templates/smartmobile/search.html.php:11
+#: lib/Compose.php:2557 lib/Dynamic/Mailbox.php:175
+#: lib/Dynamic/Mailbox.php:253 lib/Dynamic/Mailbox.php:489
+#: lib/Basic/Search.php:57 lib/Message/Ui.php:34
+#: templates/thread/thread.html.php:21
+#: templates/smartmobile/search.html.php:11
 #: templates/minimal/mailbox.html.php:9
 #: templates/basic/search/search-basic.html.php:16
 #: templates/basic/compose/compose.html.php:38
@@ -4126,7 +4133,8 @@ msgstr "Szükséges"
 msgid "Required Participant"
 msgstr "szükséges résztvevő"
 
-#: templates/search/search.html.php:106 templates/contacts/contacts.html.php:25
+#: templates/search/search.html.php:106
+#: templates/contacts/contacts.html.php:25
 #: templates/basic/search/search-basic.html.php:50
 msgid "Reset"
 msgstr "Reset"
@@ -5301,7 +5309,8 @@ msgstr "A felhasználó elfoglaltsági adatai sikeresen elmentve."
 msgid "There are no alternative parts that can be displayed inline."
 msgstr "Nincs megjeleníthető alternatív részek a szövegben."
 
-#: lib/Dynamic/Mailbox.php:553 templates/basic/mailbox/empty_mailbox.html.php:6
+#: lib/Dynamic/Mailbox.php:553
+#: templates/basic/mailbox/empty_mailbox.html.php:6
 msgid "There are no messages in this mailbox."
 msgstr "Ebben a mappában nincsenek levelek."
 
@@ -5498,8 +5507,9 @@ msgstr "Téma sorrend"
 msgid "Thread View"
 msgstr "Logikai nézet"
 
-#: lib/Compose.php:2569 lib/Dynamic/Mailbox.php:181 lib/Dynamic/Mailbox.php:254
-#: lib/Basic/Search.php:65 lib/Basic/Mailbox.php:725 lib/Message/Ui.php:35
+#: lib/Compose.php:2569 lib/Dynamic/Mailbox.php:181
+#: lib/Dynamic/Mailbox.php:254 lib/Basic/Search.php:65
+#: lib/Basic/Mailbox.php:725 lib/Message/Ui.php:35
 #: templates/contacts/contacts.html.php:40 templates/thread/thread.html.php:21
 #: templates/basic/compose/redirect.html.php:30
 #: templates/dynamic/compose.html.php:114

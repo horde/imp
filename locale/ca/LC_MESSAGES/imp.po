@@ -404,8 +404,8 @@ msgid ""
 "All messages in your \"%s\" folder older than %s days will be permanently "
 "deleted."
 msgstr ""
-"S'eliminaran de manera definitiva tots els missatges de la vostra carpeta "
-"\"%s\" amb més de %s dies d'antiguitat."
+"S'eliminaran de manera definitiva tots els missatges de la vostra carpeta \"%"
+"s\" amb més de %s dies d'antiguitat."
 
 #: lib/Maintenance/Task/delete_attachments_monthly.php:59
 #, php-format
@@ -4680,11 +4680,11 @@ msgstr "Esteu a punt de recollir el correu de la carpeta(es) següent(s):"
 
 #: templates/folders/folders_confirm.html:10
 msgid ""
-"You are attempting to delete all messages contained in the following "
-"folder(s)."
+"You are attempting to delete all messages contained in the following folder"
+"(s)."
 msgstr ""
-"Esteu intentant eliminar tots els missatges que conté(enen) la(es) "
-"carpeta(es) següent(s):"
+"Esteu intentant eliminar tots els missatges que conté(enen) la(es) carpeta"
+"(es) següent(s):"
 
 #: templates/folders/folders_confirm.html:9
 msgid "You are attempting to delete the following folder(s)."
@@ -5096,7 +5096,8 @@ msgstr "nom"
 msgid "none"
 msgstr "cap"
 
-#: templates/fetchmail/account_select.inc:25 templates/compose/spelling.inc:105
+#: templates/fetchmail/account_select.inc:25
+#: templates/compose/spelling.inc:105
 msgid "or"
 msgstr "o"
 

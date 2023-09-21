@@ -57,6 +57,21 @@ msgstr " Asunto: "
 msgid "#"
 msgstr "#"
 
+#: lib/Quota.php:73
+#, php-format
+msgid "%.0f MB"
+msgstr ""
+
+#: lib/Quota.php:67
+#, php-format
+msgid "%.0f%% of %.0f MB"
+msgstr ""
+
+#: folders.php:311 folders.php:322 lib/Message.php:863
+#, php-format
+msgid "%.2fMB"
+msgstr ""
+
 #: thread.php:162
 #, php-format
 msgid "%d Messages"
@@ -202,6 +217,11 @@ msgstr "%s desexa poñelo ao corrente de \"%s\"."
 msgid "%s wishes to receive the latest information about \"%s\"."
 msgstr "%s desexa recibir información actualizada sobre \"%s\"."
 
+#: compose.php:1233
+#, php-format
+msgid "%s%% of allowed size"
+msgstr ""
+
 #: message.php:282 message.php:287 message.php:505
 #, php-format
 msgid "%s: %s"
@@ -278,6 +298,10 @@ msgstr ""
 #: templates/search/search.html:61
 msgid "AND"
 msgstr "E"
+
+#: config/prefs.php.dist:665
+msgid "About this editor"
+msgstr ""
 
 #: config/prefs.php.dist:973
 #, fuzzy
@@ -407,6 +431,10 @@ msgstr ""
 "Enderezos vinculados explicitamente a esta identidade: <em>(opcional, "
 "indique cada un nunha liña distinta)</em>"
 
+#: lib/IMAP/ACL/rfc4314.php:59 lib/IMAP/ACL/rfc2086.php:57
+msgid "Administer"
+msgstr ""
+
 #: templates/mailbox/navbar.html:10
 msgid "All"
 msgstr "Todos"
@@ -498,6 +526,10 @@ msgstr "Produciuse un erro descoñecido ao crear a nota."
 #: lib/Message.php:443
 msgid "An unknown error occured while creating the new task."
 msgstr "Produciuse un erro descoñecido ao crear a tarefa."
+
+#: lib/MIME/Viewer/itip.php:882
+msgid "An unknown person"
+msgstr ""
 
 #: message.php:477 mailbox.php:764 templates/message/navbar_navigate.html:12
 #: templates/mailbox/navbar.html:18 templates/mailbox/navbar.html:34
@@ -616,6 +648,10 @@ msgstr "Anexa ficheiros"
 msgid "Attach a copy of your PGP public key to the message?"
 msgstr "Quere engadir unha copia da súa clave pública PGP á mensaxe?"
 
+#: compose.php:1165
+msgid "Attach your contact information to the message?"
+msgstr ""
+
 #: lib/MIME/Viewer/tnef.php:110
 msgid "Attached File:"
 msgstr "Ficheiro anexo:"
@@ -706,6 +742,10 @@ msgstr "Regresa ao Índice de visualización de mensaxes "
 msgid "Back to Thread Display"
 msgstr "Regresa a Visualiza os fíos de mensaxes"
 
+#: config/prefs.php.dist:631
+msgid "Background Color"
+msgstr ""
+
 #: lib/IMAP/Client.php:480
 #, php-format
 msgid "Bad login name or password."
@@ -721,8 +761,8 @@ msgstr "A solicitude é incorrecta ou malformada. O servidor respondeu: %s"
 msgid "Bad request: %s"
 msgstr "A solicitude é incorrecta: %s"
 
-#: lib/Search.php:726 lib/UI/Message.php:28 templates/contacts/contacts.html:43
-#: templates/login/recompose.html:32
+#: lib/Search.php:726 lib/UI/Message.php:28
+#: templates/contacts/contacts.html:43 templates/login/recompose.html:32
 msgid "Bcc"
 msgstr "CCO"
 
@@ -754,6 +794,10 @@ msgstr ""
 msgid "Body"
 msgstr "Texto"
 
+#: message.php:570 config/prefs.php.dist:764
+msgid "Body Text Only"
+msgstr ""
+
 #: message.php:571 config/prefs.php.dist:765
 #, fuzzy
 msgid "Body Text with Attachments"
@@ -772,6 +816,10 @@ msgstr "Tanto nas cabeceiras como no texto da mensaxe"
 #, fuzzy
 msgid "Bottom"
 msgstr "Ambos"
+
+#: config/prefs.php.dist:640
+msgid "Bulleted List"
+msgstr ""
 
 #: lib/IMAP/Client.php:409
 #, fuzzy
@@ -813,6 +861,10 @@ msgstr "Non se pode conectar co servidor de correo."
 msgid "Cannot connect to the remote mail server: "
 msgstr "Non se pode conectar co servidor de correo: "
 
+#: lib/IMAP/Tree.php:2093
+msgid "Cannot directly create mailbox in this folder."
+msgstr ""
+
 #: lib/MIME/Viewer/partial.php:47
 #, php-format
 msgid ""
@@ -822,8 +874,16 @@ msgstr ""
 "Non se pode mostrar - na caixa de correo actual só se atoparon %s de %s "
 "partes desta mensaxe."
 
-#: lib/Search.php:721 lib/UI/Message.php:27 templates/contacts/contacts.html:42
-#: templates/login/recompose.html:23
+#: lib/Message.php:199
+msgid "Cannot move messages to Trash - no Trash mailbox set in preferences."
+msgstr ""
+
+#: pgp.php:282
+msgid "Cannot retrieve public key from cache."
+msgstr ""
+
+#: lib/Search.php:721 lib/UI/Message.php:27
+#: templates/contacts/contacts.html:42 templates/login/recompose.html:23
 msgid "Cc"
 msgstr "Cc"
 
@@ -890,6 +950,10 @@ msgstr "Busca correo novo no(s) cartafol(es)"
 msgid "Check spelling before sending a message?"
 msgstr "Quere verificar a ortografía antes de enviar unha mensaxe?"
 
+#: lib/UI/Compose.php:153
+msgid "Checking ..."
+msgstr ""
+
 #: templates/folders/actions.html:11 templates/folders/actions.html:13
 #, fuzzy
 msgid "Choose Action"
@@ -911,6 +975,14 @@ msgstr "Elixa qué axenda usará para engadir enderezos."
 msgid "Choose the order of address books to search when expanding addresses."
 msgstr ""
 "Elixa a orde de busca nas axendas de enderezos cando expanda enderezos."
+
+#: config/prefs.php.dist:657
+msgid "Clear Inline Font Specifications"
+msgstr ""
+
+#: config/prefs.php.dist:656
+msgid "Clear MSOffice tags"
+msgstr ""
 
 #: lib/MIME/Viewer/images.php:101
 #, php-format
@@ -947,6 +1019,11 @@ msgstr "Prema %s para ver esta parte nunha xanela á parte."
 #, fuzzy
 msgid "Click HERE to verify the message."
 msgstr "Prema %s para descargar a imaxe"
+
+#: config/prefs.php.dist:531
+#, php-format
+msgid "Click here to open all mailto: links in %s."
+msgstr ""
 
 #: templates/prefs/sourceselect.inc:319
 msgid ""
@@ -998,6 +1075,10 @@ msgstr "Contrae o cartafol"
 msgid "Color Indicator:"
 msgstr "Indicador de cor: "
 
+#: config/prefs.php.dist:1279
+msgid "Combine all namespaces"
+msgstr ""
+
 #: templates/pgp/pgp.html:97
 #, fuzzy
 msgid "Comment:"
@@ -1031,6 +1112,10 @@ msgstr "Configure as opcións de previsualización do correo."
 #, fuzzy
 msgid "Connection to server failed."
 msgstr "A conexión co servidor fallou"
+
+#: config/hooks.php.dist:530
+msgid "Contacts"
+msgstr ""
 
 #: config/prefs.php.dist:177
 #, php-format
@@ -1099,6 +1184,12 @@ msgstr "Non se pode extraer o ficheiro solicitado do anexo MS-TNEF."
 msgid "Could not extract the requested file from the Zip archive."
 msgstr "Non se pode extraer o ficheiro solicitado do arquivo Zip."
 
+#: lib/Spam.php:237
+msgid ""
+"Could not move message to spam mailbox - no spam mailbox defined in "
+"preferences."
+msgstr ""
+
 #: lib/IMAP/Client.php:320
 #, fuzzy
 msgid "Could not open secure connection to the IMAP server."
@@ -1119,6 +1210,11 @@ msgstr ""
 #, fuzzy, php-format
 msgid "Could not save recipients: %s"
 msgstr "Non se pode crear o sistema traseiro VFS : %s"
+
+#: lib/Template.php:231
+#, php-format
+msgid "Could not save the compiled template file '%s'."
+msgstr ""
 
 #: templates/fetchmail/fetchmailprefs.html:121
 #: templates/folders/actions.html:16
@@ -1216,6 +1312,10 @@ msgstr "Personaliza o envío de correo."
 #, php-format
 msgid "Customize tasks to run upon logon to %s."
 msgstr "Personaliza as tarefas que se van executar ao inicio da sesión en %s."
+
+#: config/prefs.php.dist:651
+msgid "Cut selection"
+msgstr ""
 
 #: mailbox.php:582
 msgid "Dat_e"
@@ -1422,9 +1522,24 @@ msgid ""
 "Did not attach \"%s\" as the maximum allowed upload size has been exceeded."
 msgstr "Non se anexou \"%s\" porque o ficheiro está baleiro."
 
+#: lib/Compose.php:2944
+#, php-format
+msgid ""
+"Did not attach \"%s\" as the server configuration did not allow the file to "
+"be uploaded."
+msgstr ""
+
 #: config/prefs.php.dist:921
 msgid "Dim signatures?"
 msgstr "Quere atenuar as sinaturas?"
+
+#: config/prefs.php.dist:661
+msgid "Direction left to right"
+msgstr ""
+
+#: config/prefs.php.dist:662
+msgid "Direction right to left"
+msgstr ""
 
 #: config/prefs.php.dist:283
 msgid "Display Virtual Inbox?"
@@ -1467,6 +1582,10 @@ msgstr "Non busques correo novo no(s) cartafol(es)"
 #: config/prefs.php.dist:1243
 msgid "Do not generate a link in the From: column"
 msgstr "Non xeres unha ligazón na columna De:"
+
+#: templates/javascript_defs.php:30
+msgid "Doing so will discard this message permanently."
+msgstr ""
 
 #: login.php:430
 msgid "Don't have an account? Sign up."
@@ -1512,6 +1631,10 @@ msgstr "Borrador"
 #: templates/prefs/folderselect.inc:19
 msgid "Drafts folder:"
 msgstr "Cartafol Borradores:"
+
+#: login.php:266
+msgid "Dynamic"
+msgstr ""
 
 #: templates/pgp/pgp.html:102
 #, fuzzy
@@ -1738,6 +1861,10 @@ msgstr ""
 "Quere expandir de forma predefinida toda a árbore de cartafoles no panel "
 "lateral? "
 
+#: config/prefs.php.dist:601
+msgid "FCKeditor"
+msgstr ""
+
 #: lib/IMP.php:870 lib/IMP.php:872
 msgid "F_etch Mail"
 msgstr "Recolle o correo"
@@ -1820,6 +1947,11 @@ msgstr "Primeira páxina da caixa de correo"
 msgid "First Page"
 msgstr "Primeira páxina"
 
+#: message.php:479 mailbox.php:774 templates/message/navbar_navigate.html:10
+#: templates/mailbox/navbar.html:16 templates/mailbox/navbar.html:32
+msgid "Flagged For Followup"
+msgstr ""
+
 #: lib/Search.php:807
 #, fuzzy
 msgid "Flagged messages"
@@ -1859,6 +1991,10 @@ msgstr "O uso compartido de cartafoles non está habilitado."
 #: folders.php:46
 msgid "Folder use is not enabled."
 msgstr "O uso do cartafol non está habilitado."
+
+#: config/prefs.php.dist:630
+msgid "Font Color"
+msgstr ""
 
 #: config/prefs.php.dist:1260
 msgid "Format of message dates in the mailbox view for messages dated today"
@@ -1907,6 +2043,10 @@ msgstr "Enderezo do remitente"
 #, fuzzy
 msgid "From:"
 msgstr "Remitente"
+
+#: templates/saveimage/saveimage.html:12
+msgid "Gallery"
+msgstr ""
 
 #: config/prefs.php.dist:14 config/prefs.php.dist:24 config/prefs.php.dist:34
 #: config/prefs.php.dist:42
@@ -1957,6 +2097,10 @@ msgstr "Versión HTML da mensaxe"
 msgid "Headers"
 msgstr "Cabeceiras"
 
+#: config/prefs.php.dist:664
+msgid "Help using editor"
+msgstr ""
+
 #: templates/login/recompose.html:7
 msgid "Here is the message you were composing:"
 msgstr "A mensaxe que estaba redactando está aquí:"
@@ -1999,9 +2143,17 @@ msgstr "Prioridade alta"
 msgid "Highest"
 msgstr "A máis alta"
 
+#: config/prefs.php.dist:643
+msgid "Horizontal Rule"
+msgstr ""
+
 #: config/prefs.php.dist:940
 msgid "How do you want to display attachments?"
 msgstr "Como quere mostrar os anexos?"
+
+#: config/prefs.php.dist:1281
+msgid "How should namespaces be displayed in the folder tree view?"
+msgstr ""
 
 #: config/prefs.php.dist:792
 msgid "How to attribute quoted lines in a reply"
@@ -2052,6 +2204,10 @@ msgstr "Se continúa, vanse perder todas as mensaxes do(s) cartafol(es)!"
 #: saveimage.php:48
 msgid "Image"
 msgstr "Imaxe"
+
+#: lib/MIME/Viewer/html.php:160
+msgid "Images have been blocked to protect your privacy."
+msgstr ""
 
 #: templates/folders/import.html:17
 msgid "Import"
@@ -2130,12 +2286,19 @@ msgstr "Importa un ficheiro mbox"
 msgid "Imported %d messages from %s."
 msgstr "Importáronse %d mensaxes de %s."
 
+#: pgp.php:179
+msgid ""
+"Imported key contains your PGP private key. Only add your public key in the "
+"first step!"
+msgstr ""
+
 #: lib/MIME/Viewer/itip.php:1029
 msgid "In Process"
 msgstr "En curso"
 
 #: templates/prefs/initialpageselect.inc:4 lib/Folder.php:68 lib/api.php:293
-#: lib/IMP.php:732 lib/IMP.php:742 lib/IMAP/Tree.php:410 lib/IMAP/Tree.php:1976
+#: lib/IMP.php:732 lib/IMP.php:742 lib/IMAP/Tree.php:410
+#: lib/IMAP/Tree.php:1976
 msgid "Inbox"
 msgstr "Bandexa de entrada"
 
@@ -2143,9 +2306,17 @@ msgstr "Bandexa de entrada"
 msgid "Include a brief summary of the header in a reply?"
 msgstr "Quere incluír un resumo curto na resposta?"
 
+#: config/prefs.php.dist:775
+msgid "Include body text in forward message by default?"
+msgstr ""
+
 #: config/prefs.php.dist:746
 msgid "Include original message in a reply?"
 msgstr "Quere incluír a mensaxe orixinal na resposta?"
+
+#: config/prefs.php.dist:642
+msgid "Increase Indent"
+msgstr ""
 
 #: lib/MIME/Viewer/notification.php:59 lib/MIME/Viewer/status.php:131
 msgid "Info"
@@ -2179,6 +2350,22 @@ msgstr "Inverte"
 msgid "Insert Certificate Here:"
 msgstr "Insira aquí o certificado"
 
+#: config/prefs.php.dist:646
+msgid "Insert Table"
+msgstr ""
+
+#: config/prefs.php.dist:644
+msgid "Insert Web Link"
+msgstr ""
+
+#: config/prefs.php.dist:645
+msgid "Insert/Modify Image"
+msgstr ""
+
+#: config/prefs.php.dist:654
+msgid "Insert/Overwrite"
+msgstr ""
+
 #: lib/MIME/Viewer/itip.php:451
 msgid "Invalid Action selected for this component."
 msgstr "Seleccionou unha acción non-válida para este compoñente"
@@ -2211,6 +2398,10 @@ msgstr "A tecla non é válida"
 msgid "Invalid key"
 msgstr "A tecla non é válida"
 
+#: lib/Compose.php:296
+msgid "Invalid message, cannot resume draft."
+msgstr ""
+
 #: pgp.php:215
 msgid "Invalid personal PGP private key."
 msgstr "A clave privada PGP persoal non é válida."
@@ -2222,6 +2413,26 @@ msgstr "A clave pública PGP persoal non é válida."
 #: templates/mailbox/navbar.html:12
 msgid "Invert"
 msgstr "Inverte"
+
+#: config/prefs.php.dist:627
+msgid "Italic"
+msgstr ""
+
+#: config/prefs.php.dist:636
+msgid "Justify Center"
+msgstr ""
+
+#: config/prefs.php.dist:638
+msgid "Justify Full"
+msgstr ""
+
+#: config/prefs.php.dist:635
+msgid "Justify Left"
+msgstr ""
+
+#: config/prefs.php.dist:637
+msgid "Justify Right"
+msgstr ""
 
 #: templates/compose/compose.html:317 templates/compose/compose.html:325
 msgid "KB"
@@ -2303,6 +2514,10 @@ msgstr ""
 msgid "Listing in the Header"
 msgstr "Lista na cabeceira"
 
+#: compose.php:813
+msgid "Loading..."
+msgstr ""
+
 #: templates/fetchmail/fetchmailprefs.html:72
 msgid "Local Mailbox:"
 msgstr "Caixa de correo local:"
@@ -2360,6 +2575,14 @@ msgstr "Caixa de correo"
 msgid "Mailbox and Folder Display Options"
 msgstr "Opcións de visualización das caixas de correo e cartafoles"
 
+#: lib/IMAP/ACL/rfc4314.php:52 lib/IMAP/ACL/rfc2086.php:52
+msgid "Mark (Other)"
+msgstr ""
+
+#: lib/IMAP/ACL/rfc4314.php:51 lib/IMAP/ACL/rfc2086.php:51
+msgid "Mark (Seen)"
+msgstr ""
+
 #: templates/folders/actions.html:32
 #, fuzzy
 msgid "Mark All Messages as Seen"
@@ -2395,6 +2618,10 @@ msgstr "Coincidir en todas"
 #: search.php:163
 msgid "Match Any Query"
 msgstr "Coincidir en calquera"
+
+#: config/prefs.php.dist:622
+msgid "Maximize/Minimize Editor"
+msgstr ""
 
 #: templates/compose/compose.html:283
 msgid "Maximum Attachment Size"
@@ -2444,8 +2671,9 @@ msgid "Message Drafts"
 msgstr "Data da mensaxe"
 
 #: config/prefs.php.dist:62 config/prefs.php.dist:78 config/prefs.php.dist:86
-#: config/prefs.php.dist:93 config/prefs.php.dist:108 config/prefs.php.dist:121
-#: config/prefs.php.dist:129 config/prefs.php.dist:138
+#: config/prefs.php.dist:93 config/prefs.php.dist:108
+#: config/prefs.php.dist:121 config/prefs.php.dist:129
+#: config/prefs.php.dist:138
 msgid "Message Options"
 msgstr "Opcións da mensaxe "
 
@@ -2507,6 +2735,10 @@ msgstr "Mensaxes por páxina na vista Caixa de correo."
 #: mailbox.php:225
 msgid "Messages to"
 msgstr "Mensaxes a"
+
+#: login.php:270
+msgid "Minimalist"
+msgstr ""
 
 #: templates/login/login.html:129
 #, fuzzy
@@ -2644,6 +2876,10 @@ msgstr "Sen previsualización de texto"
 msgid "No S/MIME public key imported."
 msgstr "Non se importaron claves públicas S/MIME"
 
+#: templates/prefs/soundselect.inc:5
+msgid "No Sound"
+msgstr ""
+
 #: lib/MIME/Viewer/tnef.php:91
 msgid "No attachments found."
 msgstr "Non se atoparon anexos."
@@ -2671,6 +2907,10 @@ msgstr "Non hai cartafoles con novas mensaxes"
 #: lib/Block/summary.php:136
 msgid "No folders with unseen messages"
 msgstr "Non hai cartafoles con mensaxes sen ler"
+
+#: lib/IMP.php:1048
+msgid "No limit"
+msgstr ""
 
 #: lib/Compose.php:1732
 msgid "No message body text"
@@ -2756,6 +2996,10 @@ msgstr "Non é un borrador"
 msgid "Note that this can take some time"
 msgstr "Teña en conta que pode levar algo de tempo"
 
+#: lib/IMP.php:542
+msgid "Notepads"
+msgstr ""
+
 #: config/hooks.php.dist:522
 #, fuzzy
 msgid "Notes"
@@ -2818,6 +3062,10 @@ msgstr "O cartafol está aberto"
 #: lib/MIME/Viewer/itip.php:827 lib/MIME/Viewer/itip.php:959
 msgid "Optional Participant"
 msgstr "Participante opcional"
+
+#: config/prefs.php.dist:639
+msgid "Ordered List"
+msgstr ""
 
 #: templates/fetchmail/fetchmailprefs.html:3
 msgid "Other Mail Accounts"
@@ -2894,6 +3142,12 @@ msgstr "Mensaxe asinada/cifrada en PGP"
 #, fuzzy
 msgid "PGP Sign/Encrypt Message with passphrase"
 msgstr "Mensaxe asinada/cifrada en PGP"
+
+#: compose.php:733
+msgid ""
+"PGP encryption cannot be used by default as public keys cannot be found for "
+"all recipients."
+msgstr ""
 
 #: pgp.php:210
 msgid "PGP private key successfully added."
@@ -3010,6 +3264,10 @@ msgstr "Contrasinal"
 #, fuzzy
 msgid "Password: "
 msgstr "Contrasinal"
+
+#: config/prefs.php.dist:653
+msgid "Paste from clipboard"
+msgstr ""
 
 #: message.php:465 mailbox.php:752 templates/mailbox/navbar.html:24
 msgid "Personal"
@@ -3150,6 +3408,10 @@ msgstr "Funciona con Horde"
 msgid "Precede your signature with dashes ('-- ')?"
 msgstr "Quere antepoñer guións ('-- ') á súa sinatura?"
 
+#: config/hooks.php.dist:538
+msgid "Preferences"
+msgstr ""
+
 #: smime.php:262 pgp.php:271 filterprefs.php:53
 msgid "Preferences successfully updated."
 msgstr "As preferencias actualizáronse correctamente."
@@ -3169,6 +3431,10 @@ msgstr "Páxina anterior"
 #: message.php:603
 msgid "Print"
 msgstr "Imprime"
+
+#: config/prefs.php.dist:650
+msgid "Print document"
+msgstr ""
 
 #: message.php:691
 #, fuzzy
@@ -3213,6 +3479,10 @@ msgstr "Desactivouse o soporte de servidores de claves públicas PGP"
 #: mailbox.php:454 mailbox.php:522
 msgid "Pur_ge Deleted"
 msgstr "Baleira o lixo"
+
+#: lib/IMAP/ACL/rfc4314.php:58 templates/folders/actions.html:22
+msgid "Purge"
+msgstr ""
 
 #: mailbox.php:454 mailbox.php:522
 msgid "Purge Deleted"
@@ -3719,6 +3989,10 @@ msgstr "Quere gardar a busca como un cartafol virtual?"
 msgid "Save sent mail?"
 msgstr "Quere gardar as mensaxes enviadas?"
 
+#: lib/Compose.php:247
+msgid "Saving the draft failed. Could not create a drafts folder."
+msgstr ""
+
 #: lib/Compose.php:187
 #, fuzzy
 msgid "Saving the draft failed. No draft folder specified."
@@ -3915,6 +4189,14 @@ msgstr "Comparte o seu cartafol de correo con outros usuarios."
 msgid "Shared Folders"
 msgstr "Cartafoles compartidos"
 
+#: templates/pgp/pgp.html:15
+msgid "Should PGP signed messages automatically be verified when viewed?"
+msgstr ""
+
+#: templates/smime/smime.html:7
+msgid "Should S/MIME signed messages automatically be verified when viewed?"
+msgstr ""
+
 #: config/prefs.php.dist:913
 msgid ""
 "Should large blocks of quoted text be shown or hidden by default? It can be "
@@ -3980,6 +4262,10 @@ msgid "Show an icon to allow stripping of attachments from messages?"
 msgstr ""
 "Quere mostrar unha icona que permita extraer anexos desde as mensaxes? "
 
+#: config/prefs.php.dist:1280
+msgid "Show non-private mailboxes in separate folders"
+msgstr ""
+
 #: config/prefs.php.dist:1124
 msgid "Show previews for unread messages only?"
 msgstr "Quere mostrar previsualizacións só das mensaxes sen ler?"
@@ -4027,6 +4313,14 @@ msgstr "Tamaño"
 msgid "Size"
 msgstr "Tamaño"
 
+#: lib/Search.php:762
+msgid "Size (KB) <"
+msgstr ""
+
+#: lib/Search.php:768
+msgid "Size (KB) >"
+msgstr ""
+
 #: templates/compose/compose.html:325
 #, fuzzy
 msgid "Size:"
@@ -4060,6 +4354,10 @@ msgstr "Ordena por Fío de mensaxes"
 msgid "Sort by To Address"
 msgstr "Ordena por destinatario"
 
+#: config/prefs.php.dist:329
+msgid "Spam"
+msgstr ""
+
 #: lib/IMAP/Tree.php:1999
 #, fuzzy
 msgid "Spam folder"
@@ -4081,6 +4379,10 @@ msgstr "Os cartafoles virtuais especiais non se poden modificar."
 #, fuzzy
 msgid "Spell Check Failed"
 msgstr "Verificador ortográfico"
+
+#: config/prefs.php.dist:660
+msgid "Split Block"
+msgstr ""
 
 #: lib/MIME/Viewer/itip.php:599 lib/MIME/Viewer/itip.php:601
 #: lib/MIME/Viewer/itip.php:775 lib/MIME/Viewer/itip.php:777
@@ -4108,6 +4410,10 @@ msgstr "Deseño de fondo:"
 #: lib/MIME/Viewer/itip.php:810 lib/MIME/Viewer/itip.php:942
 msgid "Status"
 msgstr "Estado"
+
+#: config/prefs.php.dist:629
+msgid "Strikethrough"
+msgstr ""
 
 #: message.php:684
 #, fuzzy
@@ -4202,6 +4508,10 @@ msgstr "Cambia o cartafol"
 msgid "Target Mailbox:"
 msgstr "Caixa de correo remota:"
 
+#: lib/IMP.php:525
+msgid "Task Lists"
+msgstr ""
+
 #: config/hooks.php.dist:514
 #, fuzzy
 msgid "Tasks"
@@ -4236,6 +4546,10 @@ msgstr "Texto"
 #, fuzzy
 msgid "Text Font"
 msgstr "Texto"
+
+#: config/prefs.php.dist:623
+msgid "Text Format"
+msgstr ""
 
 #: config/prefs.php.dist:625
 #, fuzzy
@@ -4281,6 +4595,14 @@ msgstr "Gardouse a conta \"%s\"."
 #: attachment.php:44
 msgid "The attachment was not found."
 msgstr "Non se atopou o anexo."
+
+#: config/prefs.php.dist:666
+msgid "The buttons NOT to show when using Xinha."
+msgstr ""
+
+#: config/prefs.php.dist:612
+msgid "The buttons to show when using FCKeditor."
+msgstr ""
 
 #: lib/MIME/Viewer/itip.php:70
 msgid "The calendar data is invalid"
@@ -4384,6 +4706,10 @@ msgstr ""
 "Non se pode abrir a xanela de gardado de imaxes. ¿Ten configurado o seu "
 "navegador para que bloquee as xanelas emerxentes?"
 
+#: config/prefs.php.dist:603
+msgid "The javascript editor to use on the compose page."
+msgstr ""
+
 #: lib/MIME/Viewer/status.php:74
 msgid "The mail server generated the following error message:"
 msgstr "O servidor de correo xerou a seguinte mensaxe de erro:"
@@ -4433,6 +4759,12 @@ msgstr ""
 msgid "The message below has been compressed with PGP."
 msgstr "Esta mensaxe cifrouse mediante PGP"
 
+#: lib/MIME/Viewer/pgp.php:201
+msgid ""
+"The message below has been digitally signed and encrypted with PGP, but the "
+"signature cannot be verified."
+msgstr ""
+
 #: lib/MIME/Viewer/pgp.php:207
 #, fuzzy
 msgid "The message below has been digitally signed and encrypted with PGP."
@@ -4449,6 +4781,12 @@ msgstr "Esta mensaxe asinouse dixitalmente mediante PGP"
 #, fuzzy
 msgid "The message below has been digitally signed with PGP."
 msgstr "Esta mensaxe asinouse dixitalmente mediante PGP"
+
+#: lib/MIME/Viewer/pgp.php:318
+msgid ""
+"The message below has been encrypted with PGP, however, PGP support is "
+"disabled so the message cannot be decrypted."
+msgstr ""
 
 #: lib/MIME/Viewer/pgp.php:360
 #, fuzzy
@@ -4470,6 +4808,12 @@ msgid ""
 msgstr ""
 "Para ver esta mensaxe ten que introducir a frase clave da sua clave privada "
 "PGP."
+
+#: lib/MIME/Viewer/pgp.php:353
+msgid ""
+"The message below has been encrypted with PGP. You must enter the passphrase "
+"that was used to encrypt this message."
+msgstr ""
 
 #: lib/MIME/Viewer/pgp.php:460
 #, fuzzy
@@ -4547,6 +4891,12 @@ msgstr "Non se puido substituír a sinatura."
 msgid "The signature was successfully replaced."
 msgstr "A sinatura substituíuse correctamente."
 
+#: attachment.php:60
+msgid ""
+"The specified attachment does not exist. It may have been deleted by the "
+"original sender."
+msgstr ""
+
 #: attachment.php:129
 #, fuzzy
 msgid "The specified file cannot be read."
@@ -4566,6 +4916,12 @@ msgstr "Eliminouse o deseño de fondo \"%s\"."
 #, php-format
 msgid "The stationery \"%s\" has been updated."
 msgstr "Actualizouse o deseño de fondo \"%s\"."
+
+#: lib/Compose.php:972
+msgid ""
+"The system is not properly configured. A detailed error description has been "
+"logged for the administrator."
+msgstr ""
 
 #: lib/MIME/Viewer/itip.php:192
 msgid "The task has been added to your tasklist."
@@ -4705,6 +5061,10 @@ msgstr "Esta acción non está soportada."
 msgid "This action is not yet implemented."
 msgstr "Esta acción non está implementada."
 
+#: templates/javascript_defs.php:61
+msgid "This folder may not be renamed:"
+msgstr ""
+
 #: templates/javascript_defs.php:58
 msgid "This may take some time. Are you sure you want to continue?"
 msgstr "Isto pode levar algún tempo. Seguro que desexa continuar?"
@@ -4743,9 +5103,20 @@ msgstr "Esta mensaxe asinouse dixitalmente mediante S/MIME"
 msgid "This message has been encrypted via S/MIME."
 msgstr "Esta mensaxe cifrouse mediante S/MIME"
 
+#: lib/MIME/Contents.php:449
+msgid "This message part cannot be viewed because it is too large."
+msgstr ""
+
 #: message.php:521
 msgid "This message to"
 msgstr "A mensaxe para"
+
+#: lib/IMP.php:338
+#, php-format
+msgid ""
+"This request cannot be completed because the link you followed or the form "
+"you submitted was only valid for %d minutes. Please try again now."
+msgstr ""
 
 #: acl.php:47
 msgid "This server does not support sharing folders."
@@ -4763,6 +5134,14 @@ msgstr "Visualiza o Fío de mensaxes"
 #: thread.php:181 config/prefs.php.dist:1206
 msgid "Thread View"
 msgstr "Vista por Fío de mensaxes"
+
+#: lib/MIME/Viewer/pdf.php:103
+msgid "Thumbnail of attached PDF file"
+msgstr ""
+
+#: lib/MIME/Viewer/images.php:167
+msgid "Thumbnail of attached image"
+msgstr ""
 
 #: compose.php:832 mailbox.php:587 lib/Search.php:716 lib/UI/Mailbox.php:90
 #: lib/UI/Message.php:26 templates/contacts/contacts.html:40
@@ -4784,10 +5163,22 @@ msgstr "Todos"
 msgid "To List"
 msgstr "Resposta á lista"
 
+#: message.php:558
+msgid "To Sender"
+msgstr ""
+
 #: message.php:565
 #, fuzzy
 msgid "To _All"
 msgstr "Todos"
+
+#: message.php:561
+msgid "To _List"
+msgstr ""
+
+#: templates/compose/redirect.html:47
+msgid "To field"
+msgstr ""
 
 #: templates/prefs/sourceselect.inc:324
 msgid ""
@@ -4815,6 +5206,14 @@ msgstr ""
 msgid "To:"
 msgstr "Destinatario"
 
+#: config/prefs.php.dist:659
+msgid "Toggle Borders"
+msgstr ""
+
+#: config/prefs.php.dist:663
+msgid "Toggle HTML Source"
+msgstr ""
+
 #: config/prefs.php.dist:683
 #, fuzzy
 msgid "Top"
@@ -4824,6 +5223,14 @@ msgstr "Destinatario"
 #, fuzzy
 msgid "Total Size:"
 msgstr "Tamaño total dos anexos:"
+
+#: login.php:263
+msgid "Traditional"
+msgstr ""
+
+#: config/prefs.php.dist:316
+msgid "Trash"
+msgstr ""
 
 #: lib/IMAP/Tree.php:1986
 msgid "Trash folder"
@@ -4843,9 +5250,9 @@ msgstr "Houbo un erro ao importar o evento: %s."
 msgid "Unable to connect to SQL server."
 msgstr "Non se pode conectar co servidor de correo."
 
-#: lib/Quota/mercury32.php:68 lib/Quota/command.php:91 lib/Quota/logfile.php:85
-#: lib/Quota/hook.php:42 lib/Quota/maildir.php:111 lib/Quota/imap.php:42
-#: lib/Quota/mdaemon.php:45
+#: lib/Quota/mercury32.php:68 lib/Quota/command.php:91
+#: lib/Quota/logfile.php:85 lib/Quota/hook.php:42 lib/Quota/maildir.php:111
+#: lib/Quota/imap.php:42 lib/Quota/mdaemon.php:45
 msgid "Unable to retrieve quota"
 msgstr "Non se pode determinar a cota de espazo"
 
@@ -4875,6 +5282,10 @@ msgstr "Recupera"
 #: lib/MIME/Headers.php:254 lib/UI/Mailbox.php:67 lib/UI/Mailbox.php:86
 msgid "Undisclosed Recipients"
 msgstr "Non se especificou ningún destinatario"
+
+#: config/prefs.php.dist:647
+msgid "Undoes your last action"
+msgstr ""
 
 #: lib/IMAP/Client.php:464
 msgid "Unexpected response from server to AUTHENTICATE command."
@@ -5112,6 +5523,13 @@ msgstr "Etiqueta do cartafol virtual"
 msgid "Warning"
 msgstr "Aviso"
 
+#: lib/IMP.php:334
+msgid ""
+"We cannot verify that this request was really sent by you. It could be a "
+"malicious request. If you intended to perform this action, you can retry it "
+"now."
+msgstr ""
+
 #: login.php:196 login.php:355 templates/login/mobile.inc:11
 #, php-format
 msgid "Welcome to %s"
@@ -5140,6 +5558,12 @@ msgid ""
 "start on?"
 msgstr "Ao abrir unha caixa de correo ¿en que páxina desexa empezar?"
 
+#: config/prefs.php.dist:755
+msgid ""
+"When replying/forwarding to a message, should we use the same format as the "
+"original message?"
+msgstr ""
+
 #: config/prefs.php.dist:719
 msgid "When saving sent-mail, should we save attachment data?"
 msgstr "Quere gardar os anexos canda as mensaxes enviadas?"
@@ -5152,9 +5576,21 @@ msgstr ""
 "Ao enviar correo ou expandir enderezos, ¿que dominio hai que engadirlles aos "
 "enderezos non cualificados (os que non inclúen \"@\")?"
 
+#: config/prefs.php.dist:976
+msgid "Where do you want to display links to alternative formats of a message?"
+msgstr ""
+
+#: config/prefs.php.dist:686
+msgid "Where should the cursor be located in the compose text area by default?"
+msgstr ""
+
 #: message.php:584 mailbox.php:530
 msgid "Whitelist"
 msgstr "Lista branca"
+
+#: lib/prefs.php:241 config/prefs.php.dist:602
+msgid "Xinha"
+msgstr ""
 
 #: templates/search/search.html:105
 #, fuzzy
@@ -5260,6 +5696,12 @@ msgstr "Ten %s mensaxes novas."
 msgid "You have 1 new message."
 msgstr "Ten 1 mensaxe nova."
 
+#: lib/prefs.php:172
+msgid ""
+"You have activated move to Trash but no Trash folder is defined. You will be "
+"unable to delete messages until you set a Trash folder in the preferences."
+msgstr ""
+
 #: compose.php:150
 msgid "You have already submitted this page."
 msgstr "Xa enviou esta páxina."
@@ -5268,6 +5710,10 @@ msgstr "Xa enviou esta páxina."
 #, fuzzy
 msgid "You have new mail in:"
 msgstr "Ten 1 mensaxe nova."
+
+#: templates/fetchmail/fetchmail.html:22
+msgid "You have not configured any external mail accounts."
+msgstr ""
 
 #: lib/Compose.php:1244
 msgid "You must enter at least one recipient."
@@ -5354,6 +5800,12 @@ msgstr "Foi subscrito correctamente a \"%s\""
 msgid "You were successfully unsubscribed from \"%s\""
 msgstr "Cancelouse correctamente a súa subscrición de \"%s\""
 
+#: lib/Identity/imp.php:156
+msgid ""
+"Your From address is not a valid email address. This can be fixed in your "
+"Personal Information options page."
+msgstr ""
+
 #: templates/pgp/pgp.html:92
 #, fuzzy
 msgid "Your Name:"
@@ -5380,6 +5832,10 @@ msgstr "Enderezo Responder a: <em>(opcional)</em>"
 #: templates/smime/smime.html:56
 msgid "Your S/MIME Public/Private Certificates"
 msgstr "Os seus certificados S/MIME público/privado"
+
+#: fetchmail.php:22
+msgid "Your account does not support fetching external mail."
+msgstr ""
 
 #: templates/fetchmail/fetchmailprefs.html:18
 msgid "Your accounts:"
@@ -5647,6 +6103,10 @@ msgstr "ficheiro de Caixa de correo"
 #: lib/Compose.php:816
 msgid "name"
 msgstr "nome"
+
+#: lib/Search.php:590
+msgid "not"
+msgstr ""
 
 #: lib/Search.php:595 templates/fetchmail/fetchmailprefs.html:26
 msgid "or"

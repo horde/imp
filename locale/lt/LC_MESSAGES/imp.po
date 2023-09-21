@@ -868,7 +868,8 @@ msgstr "Reklaminiai laiškai"
 msgid "Cancel"
 msgstr "Atšaukti"
 
-#: templates/imp/compose/compose.html:26 templates/imp/compose/compose.html:167
+#: templates/imp/compose/compose.html:26
+#: templates/imp/compose/compose.html:167
 #: templates/imp/compose/redirect.html:45
 msgid "Cancel Message"
 msgstr "Atsisakyti laiško"
@@ -1427,8 +1428,9 @@ msgstr "Atstovaujamas"
 #: lib/Imap/Acl.php:164 mailbox.php:555 message-dimp.php:176
 #: message-mimp.php:267 message.php:512 templates/dimp/index.inc:137
 #: templates/dimp/index.inc:370 templates/imp/contacts/contacts.html:60
-#: templates/imp/folders/actions.html:19 templates/mimp/mailbox/mailbox.html:38
-#: templates/prefs/pgppublickey.html:13 templates/prefs/smimepublickey.html:13
+#: templates/imp/folders/actions.html:19
+#: templates/mimp/mailbox/mailbox.html:38 templates/prefs/pgppublickey.html:13
+#: templates/prefs/smimepublickey.html:13
 msgid "Delete"
 msgstr "Ištrinti"
 
@@ -1551,7 +1553,8 @@ msgid "Description:"
 msgstr "Aprašymas:"
 
 #: templates/prefs/pgpprivatekey.html:19 templates/prefs/pgpprivatekey.html:30
-#: templates/prefs/pgppublickey.html:13 templates/prefs/smimeprivatekey.html:19
+#: templates/prefs/pgppublickey.html:13
+#: templates/prefs/smimeprivatekey.html:19
 #: templates/prefs/smimepublickey.html:13
 msgid "Details"
 msgstr "Smulkiau"
@@ -2709,8 +2712,10 @@ msgstr "Pasiektas maksimalus prikabintų failų dydis."
 msgid "Mbox or .eml file:"
 msgstr "Mbox arba .eml failas:"
 
-#: templates/mimp/compose/compose.html:71 templates/mimp/folders/folders.html:5
-#: templates/mimp/mailbox/mailbox.html:49 templates/mimp/mailbox/search.html:14
+#: templates/mimp/compose/compose.html:71
+#: templates/mimp/folders/folders.html:5
+#: templates/mimp/mailbox/mailbox.html:49
+#: templates/mimp/mailbox/search.html:14
 #: templates/mimp/message/message.html:32
 msgid "Menu"
 msgstr "Meniu"
@@ -3149,8 +3154,8 @@ msgstr "Pranešimas: susieti prikabinti failai buvo atsisiųsti"
 msgid "OK"
 msgstr "OK"
 
-#: lib/Search/Element/Or.php:31 search.php:500 templates/pgp/import_key.html:30
-#: templates/smime/import_key.html:31
+#: lib/Search/Element/Or.php:31 search.php:500
+#: templates/pgp/import_key.html:30 templates/smime/import_key.html:31
 msgid "OR"
 msgstr "ARBA"
 
@@ -3981,7 +3986,8 @@ msgid "Save Certificate in your Address Book"
 msgstr "Išsaugoti sertifikatą savo adresų knygelėje"
 
 #: compose-mimp.php:209 compose-mimp.php:212 compose-mimp.php:258
-#: templates/imp/compose/compose.html:24 templates/imp/compose/compose.html:165
+#: templates/imp/compose/compose.html:24
+#: templates/imp/compose/compose.html:165
 #: templates/mimp/compose/compose.html:52
 msgid "Save Draft"
 msgstr "Išsaugoti juodraštį"
@@ -4168,7 +4174,8 @@ msgstr "Nusiųsti raktą į viešą raktų serverį"
 msgid "Send Latest Information"
 msgstr "Siųsti naujausią informaciją"
 
-#: templates/imp/compose/compose.html:21 templates/imp/compose/compose.html:162
+#: templates/imp/compose/compose.html:21
+#: templates/imp/compose/compose.html:162
 msgid "Send Message"
 msgstr "Siųsti laišką"
 
@@ -5226,7 +5233,8 @@ msgid "Type:"
 msgstr "Tipas:"
 
 #: lib/Quota/Command.php:92 lib/Quota/Hook.php:42 lib/Quota/Imap.php:52
-#: lib/Quota/Maildir.php:64 lib/Quota/Mdaemon.php:65 lib/Quota/Mercury32.php:70
+#: lib/Quota/Maildir.php:64 lib/Quota/Mdaemon.php:65
+#: lib/Quota/Mercury32.php:70
 msgid "Unable to retrieve quota"
 msgstr "Nepavyko apskaičiuoti naudojamos vietos"
 
@@ -5353,7 +5361,8 @@ msgid "Vertical Layout"
 msgstr "Vertikalus išdėstymas"
 
 #: templates/prefs/pgpprivatekey.html:19 templates/prefs/pgpprivatekey.html:30
-#: templates/prefs/pgppublickey.html:13 templates/prefs/smimeprivatekey.html:19
+#: templates/prefs/pgppublickey.html:13
+#: templates/prefs/smimeprivatekey.html:19
 #: templates/prefs/smimeprivatekey.html:27
 #: templates/prefs/smimepublickey.html:13
 msgid "View"
@@ -5557,8 +5566,8 @@ msgstr "Taip"
 
 #: templates/imp/folders/folders_confirm.html:11
 msgid ""
-"You are attempting to delete all messages contained in the following "
-"folder(s)."
+"You are attempting to delete all messages contained in the following folder"
+"(s)."
 msgstr "Jūs bandote ištrinti visus laiškus šiame(iuose) kataloge(uose)."
 
 #: templates/imp/folders/folders_confirm.html:10
@@ -5813,8 +5822,8 @@ msgstr "Jūsų S/MIME viešasis/slaptasis sertifikatas"
 msgid ""
 "Your alias addresses: <em>(optional, enter each address on a new line)</em>"
 msgstr ""
-"Kiti jūsų adresai: <em>(nebūtina, kiekvieną adresą rašykite naujoje "
-"eilutėje)</em>"
+"Kiti jūsų adresai: <em>(nebūtina, kiekvieną adresą rašykite naujoje eilutėje)"
+"</em>"
 
 #: lib/Mime/Viewer/Images.php:100
 msgid "Your browser does not support inline display of this image type."

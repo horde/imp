@@ -22,20 +22,20 @@ class ImpBaseTables extends Horde_Db_Migration_Base
         // Create: imp_sentmail
         $tableList = $this->tables();
         if (!in_array('imp_sentmail', $tableList)) {
-            $t = $this->createTable('imp_sentmail', ['autoincrementKey' => false]);
-            $t->column('sentmail_id', 'bigint', ['null' => false]);
-            $t->column('sentmail_who', 'string', ['limit' => 255, 'null' => false]);
-            $t->column('sentmail_ts', 'bigint', ['null' => false]);
-            $t->column('sentmail_messageid', 'string', ['limit' => 255, 'null' => false]);
-            $t->column('sentmail_action', 'string', ['limit' => 32, 'null' => false]);
-            $t->column('sentmail_recipient', 'string', ['limit' => 255, 'null' => false]);
-            $t->column('sentmail_success', 'integer', ['null' => false]);
-            $t->primaryKey(['sentmail_id']);
+            $t = $this->createTable('imp_sentmail', array('autoincrementKey' => false));
+            $t->column('sentmail_id', 'bigint', array('null' => false));
+            $t->column('sentmail_who', 'string', array('limit' => 255, 'null' => false));
+            $t->column('sentmail_ts', 'bigint', array('null' => false));
+            $t->column('sentmail_messageid', 'string', array('limit' => 255, 'null' => false));
+            $t->column('sentmail_action', 'string', array('limit' => 32, 'null' => false));
+            $t->column('sentmail_recipient', 'string', array('limit' => 255, 'null' => false));
+            $t->column('sentmail_success', 'integer', array('null' => false));
+            $t->primaryKey(array('sentmail_id'));
             $t->end();
 
-            $this->addIndex('imp_sentmail', ['sentmail_ts']);
-            $this->addIndex('imp_sentmail', ['sentmail_who']);
-            $this->addIndex('imp_sentmail', ['sentmail_success']);
+            $this->addIndex('imp_sentmail', array('sentmail_ts'));
+            $this->addIndex('imp_sentmail', array('sentmail_who'));
+            $this->addIndex('imp_sentmail', array('sentmail_success'));
         }
     }
 
@@ -46,4 +46,5 @@ class ImpBaseTables extends Horde_Db_Migration_Base
     {
         $this->dropTable('imp_sentmail');
     }
+
 }

@@ -359,26 +359,11 @@
             If this option is selected, you will be able to import your personal S/MIME keys, read encrypted mail, verify digitally signed mail, and encrypt/sign your outgoing mail.
         </para>
     </entry>
-    
-    <entry id="smime-overview-identities">
-        <title>S/MIME: Preferences: Identities: Personal Certificates</title>
-        <para>
-            Each Identity can have multiple SMIME certificates set. First create a new identity, then set this identity to 'default', after that you can change the SMIME certificates for the identity.
-        </para>
-    </entry>
 
     <entry id="smime-overview-personalkey">
         <title>S/MIME: Preferences: Personal Certificates</title>
         <para>
             If you want to digitally sign or encrypt messages you must have your own personal public/private S/MIME certificates.
-        </para>
-    </entry>
-
-    <entry id="smime-overview-extrakeys">
-        <title>S/MIME: Preferences: Extra Certificates</title>
-        <para>
-            If you want to manage mutliple certificates you can save them as an extra certificate.
-            In order to use these certificates you first have to set them as personal keys.
         </para>
     </entry>
 
@@ -393,47 +378,6 @@
         <title>S/MIME: Preferences: Personal Certificates: Delete</title>
         <para>
             Delete your personal certificates from your preferences.  You will no longer be able to sign S/MIME messages or view any S/MIME encrypted messages addressed to you.
-        </para>
-    </entry>
-
-    <entry id="smime-unset-personal-certs">
-        <title>S/MIME: Preferences: Personal Certificates: Unset</title>
-        <para>
-            Unset a personal certificate from the prefs table but save it as a backup in the extra certificates table. 
-            After the personal certificate is unset, you will neet do import or set another certificate for encrypting S/MIME messages.
-        </para>
-    </entry>
-
-    <entry id="smime-unset-secondary-certs">
-        <title>S/MIME: Preferences: Secondary Certificates: Unset</title>
-        <para>
-            Unset a secondary certificate from the prefs table but save it as a backup in the extra certificates table. 
-            After the secondary certificate is unset, you can import or set another certificate for signing S/MIME messages.
-        </para>
-    </entry>
-
-    <entry id="smime-set-personal-certs">
-        <title>S/MIME: Preferences: Extra Certificates: Set</title>
-        <para>
-            Set an extra certificate from the database as your personal certificate to use.
-            Click on the ID (the number) to set this certificate as your personal certificate.
-            After it is set, you will be able to use this extra key as a personal certificate for encrypting S/MIME messages.
-        </para>
-    </entry>
-
-    <entry id="smime-set-secondary-certs">
-        <title>S/MIME: Preferences: Secondary Certificates: Set</title>
-        <para>
-            Set a secondary certificate from the database as your singing certificate to use.
-            Click on the ID (the number) to set this certificate as your signing certificate.
-            After it is set, you will be able to use this key as a singing certificate for singing S/MIME messages.
-        </para>
-    </entry>
-
-    <entry id="smime-delete-extra-certs">
-        <title>S/MIME: Preferences: Extra Certificates: Delete</title>
-        <para>
-            Delete your extra certificates from the database by clicking on the ID (number) of the certificate you want to remove. You will no longer be able set this extra key as a personal certificate for encrypting S/MIME messages.
         </para>
     </entry>
 

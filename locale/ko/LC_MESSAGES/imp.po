@@ -45,7 +45,8 @@ msgstr "첨부파일 %d개"
 msgid "%d Attachments"
 msgstr "%d개의 첨부파일"
 
-#: lib/Basic/Mailbox.php:400 lib/Basic/Mailbox.php:401 lib/Basic/Thread.php:180
+#: lib/Basic/Mailbox.php:400 lib/Basic/Mailbox.php:401
+#: lib/Basic/Thread.php:180
 #, php-format
 msgid "%d Messages"
 msgstr "%d개의 메시지"
@@ -695,8 +696,9 @@ msgstr "연락처 정보를 첨부할 수 없습니다: %s"
 #: templates/basic/folders/folders_confirm.html.php:27
 #: templates/basic/folders/import.html.php:17
 #: templates/contacts/contacts.html.php:69
-#: templates/minimal/compose.html.php:56 templates/minimal/redirect.html.php:29
-#: templates/pgp/import_key.html.php:69 templates/prefs/remote.html.php:60
+#: templates/minimal/compose.html.php:56
+#: templates/minimal/redirect.html.php:29 templates/pgp/import_key.html.php:69
+#: templates/prefs/remote.html.php:60
 #: templates/saveimage/saveimage.html.php:20
 #: templates/search/search.html.php:103
 #: templates/smartmobile/compose.html.php:47
@@ -1155,8 +1157,8 @@ msgid "Delegated"
 msgstr "위임됨"
 
 #: lib/Dynamic/Compose/Common.php:177 lib/Dynamic/Mailbox.php:322
-#: lib/Dynamic/Mailbox.php:353 lib/Imap/Acl.php:196 lib/Minimal/Message.php:224
-#: templates/basic/folders/actions.html.php:26
+#: lib/Dynamic/Mailbox.php:353 lib/Imap/Acl.php:196
+#: lib/Minimal/Message.php:224 templates/basic/folders/actions.html.php:26
 #: templates/dynamic/mailbox.html.php:51 templates/dynamic/message.html.php:29
 #: templates/minimal/mailbox.html.php:30 templates/prefs/acl.html.php:43
 #: templates/prefs/acl.html.php:78 templates/prefs/pgppublickey.html.php:22
@@ -1588,7 +1590,8 @@ msgid "Expand Headers"
 msgstr "머리글 펼치기"
 
 #: lib/Minimal/Compose.php:107 lib/Minimal/Compose.php:162
-#: templates/minimal/compose.html.php:55 templates/minimal/redirect.html.php:28
+#: templates/minimal/compose.html.php:55
+#: templates/minimal/redirect.html.php:28
 msgid "Expand Names"
 msgstr "이름 펼치기"
 
@@ -1703,7 +1706,8 @@ msgstr "폴더"
 msgid "Folder Actions"
 msgstr "폴더 동작"
 
-#: lib/Basic/Folders.php:274 templates/basic/folders/folders_confirm.html.php:6
+#: lib/Basic/Folders.php:274
+#: templates/basic/folders/folders_confirm.html.php:6
 msgid "Folder Actions - Confirmation"
 msgstr "폴더 동작 - 확인"
 
@@ -1758,9 +1762,10 @@ msgstr "보내는 사람"
 #: lib/Dynamic/Mailbox.php:251 lib/Dynamic/Mailbox.php:457
 #: lib/Message/Ui.php:34 templates/basic/compose/compose.html.php:38
 #: templates/basic/search/search-basic.html.php:16
-#: templates/dynamic/compose.html.php:98 templates/dynamic/mailbox.html.php:116
-#: templates/minimal/mailbox.html.php:9
-#: templates/smartmobile/search.html.php:11 templates/thread/thread.html.php:21
+#: templates/dynamic/compose.html.php:98
+#: templates/dynamic/mailbox.html.php:116 templates/minimal/mailbox.html.php:9
+#: templates/smartmobile/search.html.php:11
+#: templates/thread/thread.html.php:21
 msgid "From"
 msgstr "보내는 사람"
 
@@ -2428,9 +2433,10 @@ msgstr "새로운 깃발"
 msgid "New Mail"
 msgstr "새로운 메일"
 
-#: lib/Application.php:438 lib/Basic/Compose.php:207 lib/Basic/Compose.php:1151
-#: lib/Compose.php:2145 lib/Dynamic/Base.php:157 lib/Dynamic/Compose.php:78
-#: lib/Dynamic/Mailbox.php:108 lib/Minimal/Base.php:88 lib/Smartmobile.php:179
+#: lib/Application.php:438 lib/Basic/Compose.php:207
+#: lib/Basic/Compose.php:1151 lib/Compose.php:2145 lib/Dynamic/Base.php:157
+#: lib/Dynamic/Compose.php:78 lib/Dynamic/Mailbox.php:108
+#: lib/Minimal/Base.php:88 lib/Smartmobile.php:179
 #: templates/dynamic/mailbox.html.php:54
 #: templates/smartmobile/compose.html.php:2
 #: templates/smartmobile/folders.html.php:13
@@ -2576,7 +2582,8 @@ msgid "No unread messages"
 msgstr "읽지 않은 메시지가 없음"
 
 #: lib/Compose/Ui.php:223 lib/Mime/Viewer/Itip.php:388
-#: lib/Mime/Viewer/Itip.php:543 templates/basic/search/search-basic.html.php:14
+#: lib/Mime/Viewer/Itip.php:543
+#: templates/basic/search/search-basic.html.php:14
 #: templates/basic/search/search-basic.html.php:31
 #: templates/prefs/acl.html.php:38 templates/prefs/acl.html.php:73
 #: templates/prefs/composetemplates.html.php:7
@@ -2971,12 +2978,13 @@ msgstr "반복"
 msgid "Redirec_t"
 msgstr "재전송"
 
-#: lib/Basic/Compose.php:400 lib/Basic/Mailbox.php:688 lib/Dynamic/Base.php:180
-#: lib/Dynamic/Compose.php:150 lib/Minimal/Compose.php:228
-#: lib/Minimal/Compose.php:231 lib/Minimal/Message.php:248
-#: lib/Notification/Event/Status.php:32
+#: lib/Basic/Compose.php:400 lib/Basic/Mailbox.php:688
+#: lib/Dynamic/Base.php:180 lib/Dynamic/Compose.php:150
+#: lib/Minimal/Compose.php:228 lib/Minimal/Compose.php:231
+#: lib/Minimal/Message.php:248 lib/Notification/Event/Status.php:32
 #: templates/basic/compose/redirect.html.php:51
-#: templates/dynamic/redirect.html.php:7 templates/minimal/redirect.html.php:27
+#: templates/dynamic/redirect.html.php:7
+#: templates/minimal/redirect.html.php:27
 #: templates/smartmobile/message.html.php:55
 msgid "Redirect"
 msgid_plural "Redirect Messages"
@@ -3153,7 +3161,8 @@ msgid "Required Participant"
 msgstr "필수 참가자"
 
 #: templates/basic/search/search-basic.html.php:50
-#: templates/contacts/contacts.html.php:25 templates/search/search.html.php:106
+#: templates/contacts/contacts.html.php:25
+#: templates/search/search.html.php:106
 msgid "Reset"
 msgstr "초기화"
 
@@ -3728,7 +3737,8 @@ msgstr "제목"
 #: lib/Dynamic/Mailbox.php:184 lib/Dynamic/Mailbox.php:253
 #: lib/Dynamic/Mailbox.php:459 lib/Message/Ui.php:39 lib/Smartmobile.php:183
 #: templates/basic/search/search-basic.html.php:18
-#: templates/dynamic/compose.html.php:142 templates/minimal/mailbox.html.php:10
+#: templates/dynamic/compose.html.php:142
+#: templates/minimal/mailbox.html.php:10
 #: templates/smartmobile/search.html.php:13
 msgid "Subject"
 msgstr "제목"
@@ -4048,7 +4058,8 @@ msgstr "업로드된 파일을 열 수 없습니다."
 msgid "The user's free/busy information was sucessfully stored."
 msgstr "사용자의 한가함/바쁨 정보를 성공적으로 저장했습니다."
 
-#: lib/Dynamic/Mailbox.php:520 templates/basic/mailbox/empty_mailbox.html.php:6
+#: lib/Dynamic/Mailbox.php:520
+#: templates/basic/mailbox/empty_mailbox.html.php:6
 msgid "There are no messages in this mailbox."
 msgstr "이 편지함에 메시지가 없습니다."
 
@@ -4861,6 +4872,12 @@ msgstr "타래글 표시"
 #: lib/Basic/Mailbox.php:675 lib/Basic/Message.php:656
 msgid "_Whitelist"
 msgstr "수신 허용"
+
+#: lib/Basic/Search.php:491
+#: lib/Notification/Handler/Decorator/NewmailNotify.php:98
+#: lib/Search/Filter.php:43 lib/Search/Query.php:270
+msgid "and"
+msgstr ""
 
 #: lib/Compose.php:2990
 msgid "attachment"

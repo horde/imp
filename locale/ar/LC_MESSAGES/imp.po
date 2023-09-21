@@ -271,7 +271,8 @@ msgstr "مرفق مخفي"
 msgid "Blacklist"
 msgstr "القائمة السوداء"
 
-#: templates/search/main.inc:62 templates/filters/manage.inc:17 filters.php:143
+#: templates/search/main.inc:62 templates/filters/manage.inc:17
+#: filters.php:143
 msgid "Body"
 msgstr "النص"
 

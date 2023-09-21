@@ -68,7 +68,8 @@ msgstr[0] "%d 添付"
 msgid "%d Attachments"
 msgstr "%d 添付"
 
-#: lib/Basic/Mailbox.php:397 lib/Basic/Mailbox.php:398 lib/Basic/Thread.php:180
+#: lib/Basic/Mailbox.php:397 lib/Basic/Mailbox.php:398
+#: lib/Basic/Thread.php:180
 #, php-format
 msgid "%d Messages"
 msgstr "%d 通のメッセージ"
@@ -932,8 +933,9 @@ msgstr "連絡先情報が添付できません：%s"
 #: templates/basic/folders/folders_confirm.html.php:27
 #: templates/basic/folders/import.html.php:17
 #: templates/contacts/contacts.html.php:69
-#: templates/minimal/compose.html.php:59 templates/minimal/redirect.html.php:29
-#: templates/pgp/import_key.html.php:69 templates/prefs/remote.html.php:80
+#: templates/minimal/compose.html.php:59
+#: templates/minimal/redirect.html.php:29 templates/pgp/import_key.html.php:69
+#: templates/prefs/remote.html.php:80
 #: templates/saveimage/saveimage.html.php:20
 #: templates/search/search.html.php:103
 #: templates/smartmobile/compose.html.php:50
@@ -1557,8 +1559,8 @@ msgid "Delegated"
 msgstr "委任済み"
 
 #: lib/Dynamic/Compose/Common.php:179 lib/Dynamic/Mailbox.php:325
-#: lib/Dynamic/Mailbox.php:356 lib/Imap/Acl.php:196 lib/Minimal/Message.php:224
-#: templates/basic/folders/actions.html.php:26
+#: lib/Dynamic/Mailbox.php:356 lib/Imap/Acl.php:196
+#: lib/Minimal/Message.php:224 templates/basic/folders/actions.html.php:26
 #: templates/dynamic/mailbox.html.php:51 templates/dynamic/message.html.php:29
 #: templates/minimal/mailbox.html.php:30 templates/prefs/acl.html.php:43
 #: templates/prefs/acl.html.php:78 templates/prefs/pgppublickey.html.php:22
@@ -2091,7 +2093,8 @@ msgid "Expand Headers"
 msgstr "ヘッダー拡大"
 
 #: lib/Minimal/Compose.php:107 lib/Minimal/Compose.php:162
-#: templates/minimal/compose.html.php:58 templates/minimal/redirect.html.php:28
+#: templates/minimal/compose.html.php:58
+#: templates/minimal/redirect.html.php:28
 msgid "Expand Names"
 msgstr "名前を展開"
 
@@ -2226,7 +2229,8 @@ msgstr "フォルダ"
 msgid "Folder Actions"
 msgstr "フォルダ操作"
 
-#: lib/Basic/Folders.php:274 templates/basic/folders/folders_confirm.html.php:6
+#: lib/Basic/Folders.php:274
+#: templates/basic/folders/folders_confirm.html.php:6
 msgid "Folder Actions - Confirmation"
 msgstr "フォルダ操作 - 確認"
 
@@ -2309,7 +2313,8 @@ msgstr "_M差出人"
 #: templates/basic/search/search-basic.html.php:16
 #: templates/dynamic/compose.html.php:102
 #: templates/dynamic/mailbox.html.php:128 templates/minimal/mailbox.html.php:9
-#: templates/smartmobile/search.html.php:11 templates/thread/thread.html.php:21
+#: templates/smartmobile/search.html.php:11
+#: templates/thread/thread.html.php:21
 msgid "From"
 msgstr "From"
 
@@ -3145,9 +3150,10 @@ msgstr "新規フラグ"
 msgid "New Mail"
 msgstr "新着メール"
 
-#: lib/Application.php:439 lib/Basic/Compose.php:207 lib/Basic/Compose.php:1152
-#: lib/Compose.php:2201 lib/Dynamic/Base.php:157 lib/Dynamic/Compose.php:78
-#: lib/Dynamic/Mailbox.php:109 lib/Minimal/Base.php:88 lib/Smartmobile.php:177
+#: lib/Application.php:439 lib/Basic/Compose.php:207
+#: lib/Basic/Compose.php:1152 lib/Compose.php:2201 lib/Dynamic/Base.php:157
+#: lib/Dynamic/Compose.php:78 lib/Dynamic/Mailbox.php:109
+#: lib/Minimal/Base.php:88 lib/Smartmobile.php:177
 #: templates/dynamic/mailbox.html.php:54
 #: templates/smartmobile/compose.html.php:2
 #: templates/smartmobile/folders.html.php:13
@@ -3326,7 +3332,8 @@ msgid "Non Participant"
 msgstr "参加者以外"
 
 #: lib/Compose/Ui.php:223 lib/Mime/Viewer/Itip.php:388
-#: lib/Mime/Viewer/Itip.php:543 templates/basic/search/search-basic.html.php:14
+#: lib/Mime/Viewer/Itip.php:543
+#: templates/basic/search/search-basic.html.php:14
 #: templates/basic/search/search-basic.html.php:31
 #: templates/prefs/acl.html.php:38 templates/prefs/acl.html.php:73
 #: templates/prefs/composetemplates.html.php:7
@@ -3861,12 +3868,13 @@ msgstr "繰り返す"
 msgid "Redirec_t"
 msgstr "_Tそのまま転送"
 
-#: lib/Basic/Compose.php:399 lib/Basic/Mailbox.php:685 lib/Dynamic/Base.php:180
-#: lib/Dynamic/Compose.php:148 lib/Minimal/Compose.php:234
-#: lib/Minimal/Compose.php:237 lib/Minimal/Message.php:248
-#: lib/Notification/Event/Status.php:32
+#: lib/Basic/Compose.php:399 lib/Basic/Mailbox.php:685
+#: lib/Dynamic/Base.php:180 lib/Dynamic/Compose.php:148
+#: lib/Minimal/Compose.php:234 lib/Minimal/Compose.php:237
+#: lib/Minimal/Message.php:248 lib/Notification/Event/Status.php:32
 #: templates/basic/compose/redirect.html.php:51
-#: templates/dynamic/redirect.html.php:7 templates/minimal/redirect.html.php:27
+#: templates/dynamic/redirect.html.php:7
+#: templates/minimal/redirect.html.php:27
 #: templates/smartmobile/message.html.php:55
 msgid "Redirect"
 msgid_plural "Redirect Messages"
@@ -4048,7 +4056,8 @@ msgid "Required Participant"
 msgstr "必須参加者"
 
 #: templates/basic/search/search-basic.html.php:50
-#: templates/contacts/contacts.html.php:25 templates/search/search.html.php:106
+#: templates/contacts/contacts.html.php:25
+#: templates/search/search.html.php:106
 msgid "Reset"
 msgstr "リセット"
 
@@ -4742,7 +4751,8 @@ msgstr "_J件名"
 #: lib/Dynamic/Mailbox.php:186 lib/Dynamic/Mailbox.php:255
 #: lib/Dynamic/Mailbox.php:491 lib/Message/Ui.php:39 lib/Smartmobile.php:181
 #: templates/basic/search/search-basic.html.php:18
-#: templates/dynamic/compose.html.php:147 templates/minimal/mailbox.html.php:10
+#: templates/dynamic/compose.html.php:147
+#: templates/minimal/mailbox.html.php:10
 #: templates/smartmobile/search.html.php:13
 msgid "Subject"
 msgstr "件名"
@@ -5200,7 +5210,8 @@ msgstr "予定情報は保存されました。"
 msgid "There are no alternative parts that can be displayed inline."
 msgstr "インライン表示可能な代替パートはありません。"
 
-#: lib/Dynamic/Mailbox.php:553 templates/basic/mailbox/empty_mailbox.html.php:6
+#: lib/Dynamic/Mailbox.php:553
+#: templates/basic/mailbox/empty_mailbox.html.php:6
 msgid "There are no messages in this mailbox."
 msgstr "このメールボックスにはメールはありません。"
 

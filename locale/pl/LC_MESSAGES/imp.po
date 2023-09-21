@@ -80,7 +80,8 @@ msgstr[2] "%d Załączników"
 msgid "%d Attachments"
 msgstr "%d załączników"
 
-#: lib/Basic/Mailbox.php:399 lib/Basic/Mailbox.php:400 lib/Basic/Thread.php:180
+#: lib/Basic/Mailbox.php:399 lib/Basic/Mailbox.php:400
+#: lib/Basic/Thread.php:180
 #, php-format
 msgid "%d Messages"
 msgstr "%d wiadomości"
@@ -964,8 +965,9 @@ msgstr "Nie można dołączyć informacji kontaktowych: %s?"
 #: templates/basic/folders/folders_confirm.html.php:27
 #: templates/basic/folders/import.html.php:17
 #: templates/contacts/contacts.html.php:69
-#: templates/minimal/compose.html.php:56 templates/minimal/redirect.html.php:29
-#: templates/pgp/import_key.html.php:69 templates/prefs/remote.html.php:60
+#: templates/minimal/compose.html.php:56
+#: templates/minimal/redirect.html.php:29 templates/pgp/import_key.html.php:69
+#: templates/prefs/remote.html.php:60
 #: templates/saveimage/saveimage.html.php:20
 #: templates/search/search.html.php:103
 #: templates/smartmobile/compose.html.php:47
@@ -1586,8 +1588,8 @@ msgid "Delegated"
 msgstr "Oddelegowany"
 
 #: lib/Dynamic/Compose/Common.php:177 lib/Dynamic/Mailbox.php:323
-#: lib/Dynamic/Mailbox.php:354 lib/Imap/Acl.php:196 lib/Minimal/Message.php:224
-#: templates/basic/folders/actions.html.php:26
+#: lib/Dynamic/Mailbox.php:354 lib/Imap/Acl.php:196
+#: lib/Minimal/Message.php:224 templates/basic/folders/actions.html.php:26
 #: templates/dynamic/mailbox.html.php:51 templates/dynamic/message.html.php:29
 #: templates/minimal/mailbox.html.php:30 templates/prefs/acl.html.php:43
 #: templates/prefs/acl.html.php:78 templates/prefs/pgppublickey.html.php:22
@@ -2126,7 +2128,8 @@ msgid "Expand Headers"
 msgstr "Rozwiń nazwy"
 
 #: lib/Minimal/Compose.php:107 lib/Minimal/Compose.php:162
-#: templates/minimal/compose.html.php:55 templates/minimal/redirect.html.php:28
+#: templates/minimal/compose.html.php:55
+#: templates/minimal/redirect.html.php:28
 msgid "Expand Names"
 msgstr "Rozwiń nazwy"
 
@@ -2263,7 +2266,8 @@ msgstr "Folder"
 msgid "Folder Actions"
 msgstr "Działania na folderach"
 
-#: lib/Basic/Folders.php:274 templates/basic/folders/folders_confirm.html.php:6
+#: lib/Basic/Folders.php:274
+#: templates/basic/folders/folders_confirm.html.php:6
 msgid "Folder Actions - Confirmation"
 msgstr "Działania na folderze - potwierdzenie"
 
@@ -2347,9 +2351,10 @@ msgstr "Od"
 #: lib/Dynamic/Mailbox.php:252 lib/Dynamic/Mailbox.php:460
 #: lib/Message/Ui.php:34 templates/basic/compose/compose.html.php:38
 #: templates/basic/search/search-basic.html.php:16
-#: templates/dynamic/compose.html.php:98 templates/dynamic/mailbox.html.php:116
-#: templates/minimal/mailbox.html.php:9
-#: templates/smartmobile/search.html.php:11 templates/thread/thread.html.php:21
+#: templates/dynamic/compose.html.php:98
+#: templates/dynamic/mailbox.html.php:116 templates/minimal/mailbox.html.php:9
+#: templates/smartmobile/search.html.php:11
+#: templates/thread/thread.html.php:21
 msgid "From"
 msgstr "Od"
 
@@ -3216,9 +3221,10 @@ msgstr "Nowy folder"
 msgid "New Mail"
 msgstr "Nowa poczta"
 
-#: lib/Application.php:438 lib/Basic/Compose.php:207 lib/Basic/Compose.php:1150
-#: lib/Compose.php:2166 lib/Dynamic/Base.php:157 lib/Dynamic/Compose.php:78
-#: lib/Dynamic/Mailbox.php:109 lib/Minimal/Base.php:88 lib/Smartmobile.php:179
+#: lib/Application.php:438 lib/Basic/Compose.php:207
+#: lib/Basic/Compose.php:1150 lib/Compose.php:2166 lib/Dynamic/Base.php:157
+#: lib/Dynamic/Compose.php:78 lib/Dynamic/Mailbox.php:109
+#: lib/Minimal/Base.php:88 lib/Smartmobile.php:179
 #: templates/dynamic/mailbox.html.php:54
 #: templates/smartmobile/compose.html.php:2
 #: templates/smartmobile/folders.html.php:13
@@ -3399,7 +3405,8 @@ msgid "Non Participant"
 msgstr "Nieuczestniczący"
 
 #: lib/Compose/Ui.php:223 lib/Mime/Viewer/Itip.php:388
-#: lib/Mime/Viewer/Itip.php:543 templates/basic/search/search-basic.html.php:14
+#: lib/Mime/Viewer/Itip.php:543
+#: templates/basic/search/search-basic.html.php:14
 #: templates/basic/search/search-basic.html.php:31
 #: templates/prefs/acl.html.php:38 templates/prefs/acl.html.php:73
 #: templates/prefs/composetemplates.html.php:7
@@ -3944,12 +3951,13 @@ msgstr "Powtarzalność"
 msgid "Redirec_t"
 msgstr "Przekieruj"
 
-#: lib/Basic/Compose.php:399 lib/Basic/Mailbox.php:687 lib/Dynamic/Base.php:180
-#: lib/Dynamic/Compose.php:148 lib/Minimal/Compose.php:234
-#: lib/Minimal/Compose.php:237 lib/Minimal/Message.php:248
-#: lib/Notification/Event/Status.php:32
+#: lib/Basic/Compose.php:399 lib/Basic/Mailbox.php:687
+#: lib/Dynamic/Base.php:180 lib/Dynamic/Compose.php:148
+#: lib/Minimal/Compose.php:234 lib/Minimal/Compose.php:237
+#: lib/Minimal/Message.php:248 lib/Notification/Event/Status.php:32
 #: templates/basic/compose/redirect.html.php:51
-#: templates/dynamic/redirect.html.php:7 templates/minimal/redirect.html.php:27
+#: templates/dynamic/redirect.html.php:7
+#: templates/minimal/redirect.html.php:27
 #: templates/smartmobile/message.html.php:55
 msgid "Redirect"
 msgid_plural "Redirect Messages"
@@ -4135,7 +4143,8 @@ msgid "Required Participant"
 msgstr "Wymagane uczestnictwo"
 
 #: templates/basic/search/search-basic.html.php:50
-#: templates/contacts/contacts.html.php:25 templates/search/search.html.php:106
+#: templates/contacts/contacts.html.php:25
+#: templates/search/search.html.php:106
 msgid "Reset"
 msgstr "Reset"
 
@@ -4850,7 +4859,8 @@ msgstr "Temat"
 #: lib/Dynamic/Mailbox.php:185 lib/Dynamic/Mailbox.php:254
 #: lib/Dynamic/Mailbox.php:462 lib/Message/Ui.php:39 lib/Smartmobile.php:183
 #: templates/basic/search/search-basic.html.php:18
-#: templates/dynamic/compose.html.php:142 templates/minimal/mailbox.html.php:10
+#: templates/dynamic/compose.html.php:142
+#: templates/minimal/mailbox.html.php:10
 #: templates/smartmobile/search.html.php:13
 msgid "Subject"
 msgstr "Temat"
@@ -5296,7 +5306,8 @@ msgstr "Wiadomość o dostępności użytkownika została zachowana."
 msgid "There are no alternative parts that can be displayed inline."
 msgstr "Nie ma alternatywnych części do wyświetlenia."
 
-#: lib/Dynamic/Mailbox.php:524 templates/basic/mailbox/empty_mailbox.html.php:6
+#: lib/Dynamic/Mailbox.php:524
+#: templates/basic/mailbox/empty_mailbox.html.php:6
 msgid "There are no messages in this mailbox."
 msgstr "W tej skrzynce nie ma żadnych wiadomości."
 

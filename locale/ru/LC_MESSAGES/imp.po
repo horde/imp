@@ -857,8 +857,8 @@ msgid "Bad login name or password."
 msgstr "Пожалуйста, введите Ваши имя пользователя и пароль"
 
 #: templates/contacts/contacts.inc:222 templates/compose/recompose.inc:20
-#: lib/Search.php:666 lib/UI/Message.php:28 templates/contacts/contacts.html:43
-#: templates/login/recompose.html:32
+#: lib/Search.php:666 lib/UI/Message.php:28
+#: templates/contacts/contacts.html:43 templates/login/recompose.html:32
 msgid "Bcc"
 msgstr "Bcc"
 
@@ -954,8 +954,8 @@ msgid "Cannot retrieve public key from cache."
 msgstr "Неудачное соединение с сервером LDAP."
 
 #: templates/contacts/contacts.inc:221 templates/compose/recompose.inc:15
-#: lib/Search.php:662 lib/UI/Message.php:27 templates/contacts/contacts.html:42
-#: templates/login/recompose.html:23
+#: lib/Search.php:662 lib/UI/Message.php:27
+#: templates/contacts/contacts.html:42 templates/login/recompose.html:23
 msgid "Cc"
 msgstr "Cc"
 
@@ -1486,7 +1486,8 @@ msgstr "Удалить виртуальную папку"
 msgid "Delete Virtual Folder Definition for %s"
 msgstr "Удалить папку(и)"
 
-#: templates/fetchmail/manage.inc:43 templates/fetchmail/fetchmailprefs.html:86
+#: templates/fetchmail/manage.inc:43
+#: templates/fetchmail/fetchmailprefs.html:86
 msgid "Delete fetched messages from remote server?"
 msgstr "Удалить принятые сообщения со стороннего сервера"
 
@@ -2002,7 +2003,8 @@ msgid "Fetch Mail in a separate window?"
 msgstr "Собирать почту в отдельном окне."
 
 # fuzzy
-#: templates/fetchmail/manage.inc:46 templates/fetchmail/fetchmailprefs.html:89
+#: templates/fetchmail/manage.inc:46
+#: templates/fetchmail/fetchmailprefs.html:89
 msgid "Fetch messages upon logging on?"
 msgstr "Принять сообщения при входе в систему"
 
@@ -2177,7 +2179,8 @@ msgstr "Адрес отправителя"
 msgid "General Options"
 msgstr "Общие настройки"
 
-#: templates/fetchmail/manage.inc:37 templates/fetchmail/fetchmailprefs.html:80
+#: templates/fetchmail/manage.inc:37
+#: templates/fetchmail/fetchmailprefs.html:80
 msgid "Get only new messages? (IMAP only)"
 msgstr "Получить только новые сообщения (для IMAP)"
 
@@ -2550,7 +2553,8 @@ msgid "Listing in the Header"
 msgstr "В заголовке сообщения"
 
 # fuzzy
-#: templates/fetchmail/manage.inc:30 templates/fetchmail/fetchmailprefs.html:72
+#: templates/fetchmail/manage.inc:30
+#: templates/fetchmail/fetchmailprefs.html:72
 msgid "Local Mailbox:"
 msgstr "Папка на локальном сервере:"
 
@@ -2651,7 +2655,8 @@ msgstr "Отметить как:"
 msgid "Mark different levels of quoting with different colors?"
 msgstr "Выделять цветами разные уровни цитирования"
 
-#: templates/fetchmail/manage.inc:40 templates/fetchmail/fetchmailprefs.html:83
+#: templates/fetchmail/manage.inc:40
+#: templates/fetchmail/fetchmailprefs.html:83
 msgid "Mark messages as seen? (IMAP only)"
 msgstr "Пометить сообщения как прочитанные (для IMAP)"
 
@@ -2721,7 +2726,8 @@ msgstr "Время отправки"
 
 # fuzzy
 #: config/prefs.php.dist:52 config/prefs.php.dist:70 config/prefs.php.dist:85
-#: config/prefs.php.dist:94 config/prefs.php.dist:102 config/prefs.php.dist:110
+#: config/prefs.php.dist:94 config/prefs.php.dist:102
+#: config/prefs.php.dist:110
 msgid "Message Options"
 msgstr "Настройки сообщений"
 
@@ -3713,7 +3719,8 @@ msgid "Remember the last view"
 msgstr "Запомнить последнее состояние"
 
 # fuzzy
-#: templates/fetchmail/manage.inc:27 templates/fetchmail/fetchmailprefs.html:68
+#: templates/fetchmail/manage.inc:27
+#: templates/fetchmail/fetchmailprefs.html:68
 msgid "Remote Mailbox:"
 msgstr "Папка на стороннем сервере:"
 
@@ -4112,8 +4119,8 @@ msgstr "Ошибка записи черновика. Сервер ответи�
 #: lib/Compose.php:203
 #, fuzzy, php-format
 msgid ""
-"Saving the draft failed. The %s header contains an invalid e-mail address: "
-"%s."
+"Saving the draft failed. The %s header contains an invalid e-mail address: %"
+"s."
 msgstr "Ошибка записи черновика. Сервер ответил: %s"
 
 #: lib/Compose.php:240
@@ -5001,7 +5008,8 @@ msgstr "Подпись успешно заменена."
 msgid "There are no alternative parts that can be displayed."
 msgstr "Сообщение в неверном формате и не может быть отображено"
 
-#: templates/mailbox/empty_mailbox.inc:3 templates/mailbox/empty_mailbox.html:2
+#: templates/mailbox/empty_mailbox.inc:3
+#: templates/mailbox/empty_mailbox.html:2
 msgid "There are no messages in this mailbox."
 msgstr "В этом ящике нет писем."
 
@@ -5377,7 +5385,8 @@ msgid "Username"
 msgstr "Имя пользователя"
 
 # fuzzy
-#: templates/fetchmail/manage.inc:17 templates/fetchmail/fetchmailprefs.html:55
+#: templates/fetchmail/manage.inc:17
+#: templates/fetchmail/fetchmailprefs.html:55
 msgid "Username:"
 msgstr "Имя пользователя"
 
@@ -5597,8 +5606,8 @@ msgstr "Вы хотите удалить следующие папки:"
 # fuzzy
 #: templates/folders/folders_confirm.html:10
 msgid ""
-"You are attempting to delete all messages contained in the following "
-"folder(s)."
+"You are attempting to delete all messages contained in the following folder"
+"(s)."
 msgstr "Вы пытаетесь удалить все сообщения в следующей папке:"
 
 # fuzzy
@@ -6073,8 +6082,9 @@ msgstr "нет"
 msgid "not"
 msgstr "Нет"
 
-#: templates/fetchmail/account_select.inc:25 templates/compose/spelling.inc:105
-#: lib/Search.php:542 templates/fetchmail/fetchmailprefs.html:26
+#: templates/fetchmail/account_select.inc:25
+#: templates/compose/spelling.inc:105 lib/Search.php:542
+#: templates/fetchmail/fetchmailprefs.html:26
 msgid "or"
 msgstr "или"
 

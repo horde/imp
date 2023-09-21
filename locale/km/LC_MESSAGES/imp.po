@@ -4474,7 +4474,8 @@ msgstr "ថត​និមិ្មត \"%s\" ត្រូវ​បាន​ប�
 
 #: lib/IMAP/Tree.php:132 lib/IMAP/Tree.php:145 lib/IMAP/Tree.php:147
 #: lib/IMAP/Tree.php:151 lib/IMAP/Tree.php:152 lib/IMAP/Tree.php:613
-#: lib/IMAP/Tree.php:637 lib/IMAP/Tree.php:675 templates/search/search.html:165
+#: lib/IMAP/Tree.php:637 lib/IMAP/Tree.php:675
+#: templates/search/search.html:165
 msgid "Virtual Folders"
 msgstr "ថត​និមិ្មត"
 
@@ -4559,8 +4560,8 @@ msgstr "អ្នក​ទំនង​ជាទៅ​ប្រមូល​យក
 
 #: templates/folders/folders_confirm.html:10
 msgid ""
-"You are attempting to delete all messages contained in the following "
-"folder(s)."
+"You are attempting to delete all messages contained in the following folder"
+"(s)."
 msgstr "អ្នក​កំពុង​ប៉ុនប៉ង​លុប​សារ​ទាំងអស់ ដែល​មាន​ក្នុង​ថត​ខាង​ក្រោម ។"
 
 #: templates/folders/folders_confirm.html:9

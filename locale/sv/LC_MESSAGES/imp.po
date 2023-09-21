@@ -908,7 +908,8 @@ msgstr "Bulk-meddelanden"
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: templates/imp/compose/compose.html:26 templates/imp/compose/compose.html:208
+#: templates/imp/compose/compose.html:26
+#: templates/imp/compose/compose.html:208
 msgid "Cancel Message"
 msgstr "Avbyt meddelande"
 
@@ -1499,8 +1500,9 @@ msgstr "Delegerad"
 #: message-mimp.php:265 message.php:523 templates/dimp/index.inc:142
 #: templates/dimp/index.inc:275 templates/dimp/index.inc:386
 #: templates/imp/contacts/contacts.html:60
-#: templates/imp/folders/actions.html:19 templates/mimp/mailbox/mailbox.html:38
-#: templates/prefs/pgppublickey.html:13 templates/prefs/smimepublickey.html:13
+#: templates/imp/folders/actions.html:19
+#: templates/mimp/mailbox/mailbox.html:38 templates/prefs/pgppublickey.html:13
+#: templates/prefs/smimepublickey.html:13
 msgid "Delete"
 msgstr "Radera"
 
@@ -1619,7 +1621,8 @@ msgid "Description:"
 msgstr "Beskrivning:"
 
 #: templates/prefs/pgpprivatekey.html:19 templates/prefs/pgpprivatekey.html:30
-#: templates/prefs/pgppublickey.html:13 templates/prefs/smimeprivatekey.html:19
+#: templates/prefs/pgppublickey.html:13
+#: templates/prefs/smimeprivatekey.html:19
 #: templates/prefs/smimepublickey.html:13
 msgid "Details"
 msgstr "Detaljer"
@@ -2821,8 +2824,10 @@ msgstr "Maxstorlek för samtliga bilagor uppnådd."
 msgid "Mbox or .eml file:"
 msgstr "Mbox eller .eml-file:"
 
-#: templates/mimp/compose/compose.html:71 templates/mimp/folders/folders.html:5
-#: templates/mimp/mailbox/mailbox.html:49 templates/mimp/mailbox/search.html:14
+#: templates/mimp/compose/compose.html:71
+#: templates/mimp/folders/folders.html:5
+#: templates/mimp/mailbox/mailbox.html:49
+#: templates/mimp/mailbox/search.html:14
 #: templates/mimp/message/message.html:32
 msgid "Menu"
 msgstr "Meny"
@@ -2937,6 +2942,10 @@ msgstr "Meddelande till"
 #: lib/Search/Filter/Attachment.php:22
 msgid "Messages with Attachments"
 msgstr "Meddelanden med bilagor"
+
+#: config/prefs.php:1284
+msgid "Minutes needed to consider a event as a non-conflicting one in iTip"
+msgstr ""
 
 #: mobile.php:19
 msgid "Mobile Mail"
@@ -3264,8 +3273,8 @@ msgstr "Notifiering: Länkad bilaga nerladdad"
 msgid "OK"
 msgstr "OK"
 
-#: lib/Search/Element/Or.php:31 search.php:496 templates/pgp/import_key.html:30
-#: templates/smime/import_key.html:31
+#: lib/Search/Element/Or.php:31 search.php:496
+#: templates/pgp/import_key.html:30 templates/smime/import_key.html:31
 msgid "OR"
 msgstr "eller"
 
@@ -4114,7 +4123,8 @@ msgid "Save Certificate in your Address Book"
 msgstr "Spara certifikat i din adressbok"
 
 #: compose-mimp.php:205 compose-mimp.php:208 compose-mimp.php:254
-#: templates/imp/compose/compose.html:24 templates/imp/compose/compose.html:206
+#: templates/imp/compose/compose.html:24
+#: templates/imp/compose/compose.html:206
 #: templates/mimp/compose/compose.html:52
 msgid "Save Draft"
 msgstr "Spara utkast"
@@ -4309,7 +4319,8 @@ msgstr "Skicka nyckel till publik nyckelserver"
 msgid "Send Latest Information"
 msgstr "Skicka senaste informationen"
 
-#: templates/imp/compose/compose.html:21 templates/imp/compose/compose.html:203
+#: templates/imp/compose/compose.html:21
+#: templates/imp/compose/compose.html:203
 msgid "Send Message"
 msgstr "Skicka meddelande"
 
@@ -5408,7 +5419,8 @@ msgid "Type:"
 msgstr "Typ:"
 
 #: lib/Quota/Command.php:92 lib/Quota/Hook.php:42 lib/Quota/Imap.php:52
-#: lib/Quota/Maildir.php:64 lib/Quota/Mdaemon.php:65 lib/Quota/Mercury32.php:70
+#: lib/Quota/Maildir.php:64 lib/Quota/Mdaemon.php:65
+#: lib/Quota/Mercury32.php:70
 msgid "Unable to retrieve quota"
 msgstr "Kunde inte läsa quota"
 
@@ -5543,7 +5555,8 @@ msgid "Video part"
 msgstr "Videodel"
 
 #: templates/prefs/pgpprivatekey.html:19 templates/prefs/pgpprivatekey.html:30
-#: templates/prefs/pgppublickey.html:13 templates/prefs/smimeprivatekey.html:19
+#: templates/prefs/pgppublickey.html:13
+#: templates/prefs/smimeprivatekey.html:19
 #: templates/prefs/smimeprivatekey.html:27
 #: templates/prefs/smimepublickey.html:13
 msgid "View"
@@ -5768,8 +5781,8 @@ msgstr "Du är"
 
 #: templates/imp/folders/folders_confirm.html:11
 msgid ""
-"You are attempting to delete all messages contained in the following "
-"folder(s)."
+"You are attempting to delete all messages contained in the following folder"
+"(s)."
 msgstr "Du försöker raderas alla meddelande i följanden mapp(ar)."
 
 #: templates/imp/folders/folders_confirm.html:10
@@ -6011,8 +6024,8 @@ msgstr "Ditt publika/privata S/MIME-certifikat"
 msgid ""
 "Your alias addresses: <em>(optional, enter each address on a new line)</em>"
 msgstr ""
-"Dina alias adresser: <em>(ej obligatoriskt, skriv varje adress på en ny "
-"rad)</em>"
+"Dina alias adresser: <em>(ej obligatoriskt, skriv varje adress på en ny rad)"
+"</em>"
 
 #: lib/Mime/Viewer/Images.php:112
 msgid "Your browser does not support inline display of this image type."

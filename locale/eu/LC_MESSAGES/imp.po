@@ -869,8 +869,8 @@ msgstr "Mezu baztergarriak"
 #: templates/basic/folders/folders_confirm.html.php:27
 #: templates/basic/folders/import.html.php:17
 #: templates/contacts/contacts.html.php:70
-#: templates/minimal/compose.html.php:55 templates/minimal/redirect.html.php:29
-#: templates/pgp/import_key.html.php:70
+#: templates/minimal/compose.html.php:55
+#: templates/minimal/redirect.html.php:29 templates/pgp/import_key.html.php:70
 #: templates/saveimage/saveimage.html.php:21
 #: templates/search/search.html.php:107
 #: templates/smartmobile/compose.html.php:40
@@ -939,7 +939,8 @@ msgstr "Ezin da kendu MIME zatia, postontzia irakurtzekoa soilik delako"
 
 #: lib/Compose.php:2226 lib/Ui/Message.php:28 search.php:57
 #: templates/contacts/contacts.html.php:43
-#: templates/dynamic/compose.html.php:97 templates/dynamic/mailbox.html.php:128
+#: templates/dynamic/compose.html.php:97
+#: templates/dynamic/mailbox.html.php:128
 msgid "Cc"
 msgstr "Cc"
 
@@ -1439,8 +1440,8 @@ msgstr "Ordenatze-noranzko lehenetsia:"
 msgid "Delegated"
 msgstr "Delegatua"
 
-#: lib/Dynamic/Mailbox.php:312 lib/Dynamic/Mailbox.php:352 lib/Imap/Acl.php:191
-#: lib/Minimal/Message.php:228 lib/Smartmobile.php:158
+#: lib/Dynamic/Mailbox.php:312 lib/Dynamic/Mailbox.php:352
+#: lib/Imap/Acl.php:191 lib/Minimal/Message.php:228 lib/Smartmobile.php:158
 #: templates/basic/folders/actions.html.php:26
 #: templates/dynamic/mailbox.html.php:51 templates/dynamic/message.html.php:29
 #: templates/minimal/mailbox.html.php:36 templates/prefs/acl.html.php:43
@@ -1938,7 +1939,8 @@ msgid "Expand Headers"
 msgstr "Zabaldu goiburuak"
 
 #: lib/Minimal/Compose.php:104 lib/Minimal/Compose.php:157
-#: templates/minimal/compose.html.php:54 templates/minimal/redirect.html.php:28
+#: templates/minimal/compose.html.php:54
+#: templates/minimal/redirect.html.php:28
 msgid "Expand Names"
 msgstr "Zabaldu izenak"
 
@@ -2114,12 +2116,14 @@ msgstr "Libre/lanpetuta eskaeraren erantzuna"
 msgid "Fro_m"
 msgstr "Nor_k"
 
-#: lib/Compose.php:2210 lib/Dynamic/Mailbox.php:183 lib/Dynamic/Mailbox.php:249
-#: lib/Dynamic/Mailbox.php:444 lib/Ui/Message.php:26 search.php:45
+#: lib/Compose.php:2210 lib/Dynamic/Mailbox.php:183
+#: lib/Dynamic/Mailbox.php:249 lib/Dynamic/Mailbox.php:444
+#: lib/Ui/Message.php:26 search.php:45
 #: templates/basic/compose/compose.html.php:38
 #: templates/basic/search/search-basic.html.php:17
 #: templates/basic/thread/thread.html.php:19
-#: templates/dynamic/compose.html.php:76 templates/dynamic/mailbox.html.php:116
+#: templates/dynamic/compose.html.php:76
+#: templates/dynamic/mailbox.html.php:116
 #: templates/minimal/mailbox.html.php:13
 #: templates/smartmobile/search.html.php:12
 msgid "From"
@@ -3198,7 +3202,8 @@ msgstr "Aukerako partaidea"
 msgid "Other"
 msgstr "Beste batzuk"
 
-#: templates/dynamic/compose.html.php:65 templates/dynamic/mailbox.html.php:106
+#: templates/dynamic/compose.html.php:65
+#: templates/dynamic/mailbox.html.php:106
 msgid "Other Options"
 msgstr "Beste aukera batzuk"
 
@@ -3652,7 +3657,8 @@ msgstr "Birbi_deratu"
 #: lib/Minimal/Compose.php:223 lib/Minimal/Compose.php:226
 #: lib/Minimal/Message.php:249 lib/Notification/Event/Status.php:32
 #: mailbox.php:675 templates/basic/compose/redirect.html.php:53
-#: templates/dynamic/redirect.html.php:7 templates/minimal/redirect.html.php:27
+#: templates/dynamic/redirect.html.php:7
+#: templates/minimal/redirect.html.php:27
 #: templates/smartmobile/message.html.php:29
 msgid "Redirect"
 msgstr "Birbideratu"
@@ -3809,7 +3815,8 @@ msgid "Required Participant"
 msgstr "Beharrezko partaidea"
 
 #: templates/basic/search/search-basic.html.php:51
-#: templates/contacts/contacts.html.php:26 templates/search/search.html.php:110
+#: templates/contacts/contacts.html.php:26
+#: templates/search/search.html.php:110
 msgid "Reset"
 msgstr "Berrezarri"
 
@@ -4526,7 +4533,8 @@ msgstr "_Gaia"
 #: lib/Dynamic/Mailbox.php:251 lib/Dynamic/Mailbox.php:446
 #: lib/Smartmobile.php:169 lib/Ui/Message.php:31 search.php:65
 #: templates/basic/search/search-basic.html.php:19
-#: templates/dynamic/compose.html.php:130 templates/minimal/mailbox.html.php:14
+#: templates/dynamic/compose.html.php:130
+#: templates/minimal/mailbox.html.php:14
 #: templates/smartmobile/search.html.php:14
 msgid "Subject"
 msgstr "Gaia"
@@ -4983,7 +4991,8 @@ msgstr "Erabiltzailearen libre/lanpetuta informazioa behar bezala gorde da."
 msgid "There are no alternative parts that can be displayed inline."
 msgstr "Ez dago barnean bistara daitekeen ordezko zatirik."
 
-#: lib/Dynamic/Mailbox.php:496 templates/basic/mailbox/empty_mailbox.html.php:6
+#: lib/Dynamic/Mailbox.php:496
+#: templates/basic/mailbox/empty_mailbox.html.php:6
 msgid "There are no messages in this mailbox."
 msgstr "Ez dago mezurik postontzi honetan."
 
@@ -5167,12 +5176,13 @@ msgstr "Harika ordenatu"
 msgid "Thread View"
 msgstr "Hari-ikuspegia"
 
-#: lib/Compose.php:2222 lib/Dynamic/Mailbox.php:189 lib/Dynamic/Mailbox.php:250
-#: lib/Ui/Message.php:27 mailbox.php:717 search.php:53
-#: templates/basic/compose/redirect.html.php:32
+#: lib/Compose.php:2222 lib/Dynamic/Mailbox.php:189
+#: lib/Dynamic/Mailbox.php:250 lib/Ui/Message.php:27 mailbox.php:717
+#: search.php:53 templates/basic/compose/redirect.html.php:32
 #: templates/basic/thread/thread.html.php:19
 #: templates/contacts/contacts.html.php:41
-#: templates/dynamic/compose.html.php:87 templates/dynamic/mailbox.html.php:124
+#: templates/dynamic/compose.html.php:87
+#: templates/dynamic/mailbox.html.php:124
 msgid "To"
 msgstr "Nori"
 
@@ -5245,7 +5255,8 @@ msgid "Type"
 msgstr "Mota"
 
 #: lib/Quota/Command.php:90 lib/Quota/Hook.php:40 lib/Quota/Imap.php:50
-#: lib/Quota/Maildir.php:60 lib/Quota/Mdaemon.php:62 lib/Quota/Mercury32.php:68
+#: lib/Quota/Maildir.php:60 lib/Quota/Mdaemon.php:62
+#: lib/Quota/Mercury32.php:68
 msgid "Unable to retrieve quota"
 msgstr "Ezin da kuota eskuratu"
 
@@ -5609,8 +5620,8 @@ msgstr "Zu zara"
 
 #: templates/basic/folders/folders_confirm.html.php:13
 msgid ""
-"You are attempting to delete all messages contained in the following "
-"mailbox(es)."
+"You are attempting to delete all messages contained in the following mailbox"
+"(es)."
 msgstr "Postontzi hauetako mezu guztiak ezabatzen saiatzen ari zara."
 
 #: templates/basic/folders/folders_confirm.html.php:11

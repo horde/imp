@@ -4667,8 +4667,8 @@ msgstr "Está a tentar descarregar correio da(s) seguinte(s) const(s):"
 
 #: templates/folders/folders_confirm.html:10
 msgid ""
-"You are attempting to delete all messages contained in the following "
-"folder(s)."
+"You are attempting to delete all messages contained in the following folder"
+"(s)."
 msgstr ""
 "Está a tentar remover todas as mensagens contidas na(s) seguinte(s) pasta(s)"
 
@@ -5089,7 +5089,8 @@ msgstr "Nome"
 msgid "none"
 msgstr "nenhum"
 
-#: templates/fetchmail/account_select.inc:25 templates/compose/spelling.inc:106
+#: templates/fetchmail/account_select.inc:25
+#: templates/compose/spelling.inc:106
 msgid "or"
 msgstr "ou"
 

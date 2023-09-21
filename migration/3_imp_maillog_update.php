@@ -28,7 +28,7 @@ class ImpMaillogUpdate extends Horde_Db_Migration_Base
             $this->announce('Updating entries. This may take some time.');
             foreach ($rows as $row) {
                 $row['object_uid'] = implode(':', explode('.', $row['object_uid'], 3));
-                $this->_connection->update($sql, [$row['object_uid'], $row['history_id']]);
+                $this->_connection->update($sql, array($row['object_uid'], $row['history_id']));
             }
         }
     }
@@ -47,8 +47,9 @@ class ImpMaillogUpdate extends Horde_Db_Migration_Base
             $this->announce('Updating entries. This may take some time.');
             foreach ($rows as $row) {
                 $row['object_uid'] = implode('.', explode(':', $row['object_uid'], 3));
-                $this->_connection->update($sql, [$row['object_uid'], $row['history_id']]);
+                $this->_connection->update($sql, array($row['object_uid'], $row['history_id']));
             }
         }
     }
+
 }

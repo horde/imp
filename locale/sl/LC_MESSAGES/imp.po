@@ -2232,7 +2232,8 @@ msgid "Message Date"
 msgstr "Datum Sporočila"
 
 #: config/prefs.php.dist:53 config/prefs.php.dist:70 config/prefs.php.dist:85
-#: config/prefs.php.dist:94 config/prefs.php.dist:102 config/prefs.php.dist:110
+#: config/prefs.php.dist:94 config/prefs.php.dist:102
+#: config/prefs.php.dist:110
 msgid "Message Options"
 msgstr "Možnosti Sporočila"
 
@@ -3358,7 +3359,8 @@ msgstr "Shrani sliko"
 msgid "Save Image in Gallery"
 msgstr "Shrani sliko v galerijo"
 
-#: filterprefs.php:112 templates/smime/smime.html:95 templates/pgp/pgp.html:148
+#: filterprefs.php:112 templates/smime/smime.html:95
+#: templates/pgp/pgp.html:148
 msgid "Save Options"
 msgstr "Shrani Možnosti"
 
@@ -3973,7 +3975,8 @@ msgstr "Nabiralnik %s je e prazen."
 msgid "The message \"%s\" from \"%s\" (%d bytes) exceeds fetch size limit."
 msgstr "Sporočilo \"%s\" iz \"%s\" (%d bytov) presega omejitev."
 
-#: templates/javascript/contacts.js:19 templates/javascript/src/contacts.js:110
+#: templates/javascript/contacts.js:19
+#: templates/javascript/src/contacts.js:110
 msgid "The message being composed has been closed. Exiting."
 msgstr "Sporočilo, ki ste ga sestavljali se je zaprlo. Izhod."
 
@@ -4306,7 +4309,8 @@ msgstr "Sporočilo k"
 msgid "This server does not support sharing folders."
 msgstr "Strežnik ne podpira skupne rabe map."
 
-#: templates/javascript/contacts.js:20 templates/javascript/src/contacts.js:116
+#: templates/javascript/contacts.js:20
+#: templates/javascript/src/contacts.js:116
 msgid "This window must be called from a compose window."
 msgstr "To okno morate odpreti iz okna za sestavljanje sporočila."
 
@@ -4666,8 +4670,8 @@ msgstr "Presneli si boste e-pošto z naslednjih računov:"
 
 #: templates/folders/folders_confirm.html:10
 msgid ""
-"You are attempting to delete all messages contained in the following "
-"folder(s)."
+"You are attempting to delete all messages contained in the following folder"
+"(s)."
 msgstr "Izbrisali boste vsa sporočila v naslednjih mapah:"
 
 #: templates/folders/folders_confirm.html:9
@@ -4703,8 +4707,8 @@ msgid ""
 "You are not allowed to send messages to more than %d recipients within %d "
 "hours."
 msgstr ""
-"Ne nimate pravic poslati sporočila več kot %d prejemnikom hrati  v obdobju "
-"%d ur."
+"Ne nimate pravic poslati sporočila več kot %d prejemnikom hrati  v obdobju %"
+"d ur."
 
 #: lib/Compose.php:1043
 #, php-format

@@ -1,7 +1,7 @@
 # IMP Ukrainian translation.
 # Copyright
 # Andriy Kopystyansky <anri@polynet.lviv.ua>, 2015
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: IMP 7.0.0\n"
@@ -171,6 +171,16 @@ msgstr "%s для '%s'"
 msgid "%s has cancelled \"%s\"."
 msgstr "%s скасував \"%s\"."
 
+#: lib/Mime/Viewer/Itip.php:380
+#, php-format
+msgid "%s has cancelled an instance of the recurring \"%s\"."
+msgstr ""
+
+#: lib/Mime/Viewer/Itip.php:375
+#, php-format
+msgid "%s has cancelled multiple instances of the recurring \"%s\"."
+msgstr ""
+
 #: lib/Mime/Viewer/Itip.php:207
 #, php-format
 msgid "%s has replied to a free/busy request."
@@ -230,6 +240,11 @@ msgstr "%s успішно додано до \"%s\"."
 #, php-format
 msgid "%s was successfully added to your address book."
 msgstr "%s успішно доданий до Вашого адресника."
+
+#: lib/Mime/Viewer/Itip.php:336
+#, php-format
+msgid "%s wishes to amend \"%s\"."
+msgstr ""
 
 #: lib/Mime/Viewer/Itip.php:712
 #, php-format
@@ -520,6 +535,14 @@ msgstr "Дозволити перегляд папок?"
 msgid "Allow mailbox creation?"
 msgstr "Дозволити створення скриньок?"
 
+#: lib/Perms.php:45
+msgid "Allow remote account access?"
+msgstr ""
+
+#: lib/Perms.php:103
+msgid "Allow viewing of message source?"
+msgstr ""
+
 #: config/prefs.php:1084
 msgid "Always prompt"
 msgstr "Завжди питати"
@@ -722,10 +745,15 @@ msgstr "Очікування відповіді"
 msgid "Back to Multiple Message View Index"
 msgstr "Назад до огляду списку листів"
 
+#: lib/Perms.php:116
+msgid "Backends"
+msgstr ""
+
 #: lib/Basic/Contacts.php:99 lib/Basic/Search.php:71
 #: templates/contacts/contacts.html.php:37
 #: templates/dynamic/compose.html.php:130
-#: templates/dynamic/mailbox.html.php:152 templates/dynamic/message.html.php:96
+#: templates/dynamic/mailbox.html.php:152
+#: templates/dynamic/message.html.php:96
 msgid "Bcc"
 msgstr "Bcc"
 
@@ -738,6 +766,12 @@ msgstr "Перед '%s'"
 #, php-format
 msgid "Between '%s' and '%s'"
 msgstr "Між '%s' i '%s'"
+
+#: lib/Mime/Viewer/Html.php:180
+msgid ""
+"Beware of following any links in it or of providing the sender with any "
+"personal information."
+msgstr ""
 
 #: lib/Dynamic/Mailbox.php:326 lib/Dynamic/Mailbox.php:427
 msgid "Blacklist"
@@ -776,8 +810,9 @@ msgstr "Листи-сміття"
 msgid "Can't attach contact information: %s"
 msgstr "Не можу причепити Вашу контактну інформацію: %s"
 
-#: templates/contacts/contacts.html.php:58 templates/pgp/import_key.html.php:69
-#: templates/prefs/remote.html.php:80 templates/saveimage/saveimage.html.php:20
+#: templates/contacts/contacts.html.php:58
+#: templates/pgp/import_key.html.php:69 templates/prefs/remote.html.php:80
+#: templates/saveimage/saveimage.html.php:20
 #: templates/search/search.html.php:102
 #: templates/smartmobile/compose.html.php:50
 #: templates/smartmobile/copymove.html.php:20
@@ -835,7 +870,8 @@ msgstr "Не можу врізати частину, оскільки скрин
 #: lib/Contents/View.php:221 lib/Smartmobile.php:172
 #: templates/contacts/contacts.html.php:36
 #: templates/dynamic/compose.html.php:122
-#: templates/dynamic/mailbox.html.php:148 templates/dynamic/message.html.php:92
+#: templates/dynamic/mailbox.html.php:148
+#: templates/dynamic/message.html.php:92
 msgid "Cc"
 msgstr "Cc"
 
@@ -998,6 +1034,10 @@ msgstr "Колір"
 msgid "Color Picker"
 msgstr "Піпетка кольору"
 
+#: config/prefs.php:1530
+msgid "Combine all namespaces"
+msgstr ""
+
 #: lib/Pgp.php:760 templates/prefs/pgpprivatekey.html.php:65
 msgid "Comment"
 msgstr "Коментар"
@@ -1019,6 +1059,10 @@ msgstr "Створення чернеток"
 #: templates/prefs/composetemplates.html.php:3
 msgid "Compose Templates mailbox:"
 msgstr "Скринька шаблонів створення:"
+
+#: lib/Dynamic/Compose/Common.php:254
+msgid "Compose action completed. You may now safely close this window."
+msgstr ""
 
 #: config/prefs.php:472
 msgid "Composition"
@@ -1152,8 +1196,8 @@ msgstr "Не можу показати дані додатку."
 msgid "Could not find remote server configuration."
 msgstr "Не можу знайти конфігурацію віддаленого сервера."
 
-#: lib/Basic/Listinfo.php:36 lib/Basic/Saveimage.php:43 lib/Basic/Thread.php:48
-#: lib/Dynamic/Maillog.php:59
+#: lib/Basic/Listinfo.php:36 lib/Basic/Saveimage.php:43
+#: lib/Basic/Thread.php:48 lib/Dynamic/Maillog.php:59
 msgid "Could not load message."
 msgstr "Не можу завантажити листа."
 
@@ -1280,7 +1324,8 @@ msgstr "Дані"
 
 #: config/prefs.php:1438 lib/Basic/Search.php:91 lib/Compose.php:2715
 #: lib/Contents/View.php:218 lib/Dynamic/Mailbox.php:199
-#: templates/dynamic/mailbox.html.php:136 templates/dynamic/message.html.php:75
+#: templates/dynamic/mailbox.html.php:136
+#: templates/dynamic/message.html.php:75
 msgid "Date"
 msgstr "Дата"
 
@@ -1330,9 +1375,9 @@ msgstr "Делеговані"
 
 #: lib/Dynamic/Compose/Common.php:178 lib/Dynamic/Mailbox.php:329
 #: lib/Dynamic/Mailbox.php:359 lib/Imap/Acl.php:196
-#: templates/dynamic/mailbox.html.php:51 templates/dynamic/message.html.php:29
-#: templates/prefs/acl.html.php:44 templates/prefs/acl.html.php:79
-#: templates/prefs/pgppublickey.html.php:22
+#: templates/dynamic/mailbox.html.php:51
+#: templates/dynamic/message.html.php:29 templates/prefs/acl.html.php:44
+#: templates/prefs/acl.html.php:79 templates/prefs/pgppublickey.html.php:22
 #: templates/prefs/smimepublickey.html.php:24
 #: templates/smartmobile/mailbox.html.php:37
 #: templates/smartmobile/mailbox.html.php:45
@@ -1486,8 +1531,8 @@ msgstr "Не показувати частини"
 msgid "Don't Show"
 msgstr "Не показувати"
 
-#: lib/Contents.php:834 lib/Mime/Viewer/Tgz.php:120 lib/Mime/Viewer/Zip.php:130
-#: templates/mime/compressed.html.php:10
+#: lib/Contents.php:834 lib/Mime/Viewer/Tgz.php:120
+#: lib/Mime/Viewer/Zip.php:130 templates/mime/compressed.html.php:10
 msgid "Download"
 msgstr "Скачати"
 
@@ -1533,7 +1578,8 @@ msgstr "Опустіть файл сюди, щоб прикріпити."
 msgid "E-Mail"
 msgstr "E-пошта"
 
-#: templates/prefs/pgpprivatekey.html.php:76 templates/prefs/remote.html.php:9
+#: templates/prefs/pgpprivatekey.html.php:76
+#: templates/prefs/remote.html.php:9
 msgid "E-mail Address"
 msgstr "Адреса е-пошти"
 
@@ -1898,6 +1944,15 @@ msgstr "Помічено для слідування"
 msgid "Flags"
 msgstr "Мітки"
 
+#: lib/Indices.php:739
+#, php-format
+msgid ""
+"Flags were not changed for at least one message in the mailbox \"%s\" "
+"because the flags were altered by another connection to the mailbox prior to "
+"this request. You may redo the flag action if desired; this warning is "
+"precautionary to ensure you don't overwrite flag changes."
+msgstr ""
+
 #: lib/Mailbox.php:1765
 msgid "Folder"
 msgstr "Папка"
@@ -1978,8 +2033,10 @@ msgstr "Відповідь на запит вільний/занятий"
 #: lib/Dynamic/Mailbox.php:179 lib/Dynamic/Mailbox.php:258
 #: lib/Dynamic/Mailbox.php:489 lib/Smartmobile.php:175
 #: templates/dynamic/compose.html.php:102
-#: templates/dynamic/mailbox.html.php:140 templates/dynamic/message.html.php:84
-#: templates/smartmobile/search.html.php:11 templates/thread/thread.html.php:21
+#: templates/dynamic/mailbox.html.php:140
+#: templates/dynamic/message.html.php:84
+#: templates/smartmobile/search.html.php:11
+#: templates/thread/thread.html.php:21
 msgid "From"
 msgstr "Від"
 
@@ -2222,7 +2279,8 @@ msgstr "Дані про персональний публічний сертиф
 msgid "Information on Personal Public Key"
 msgstr "Дані про персональний публічний ключ"
 
-#: templates/dynamic/mailbox.html.php:41 templates/dynamic/message.html.php:24
+#: templates/dynamic/mailbox.html.php:41
+#: templates/dynamic/message.html.php:24
 #: templates/smartmobile/mailbox.html.php:39
 #: templates/smartmobile/mailbox.html.php:51
 #: templates/smartmobile/message.html.php:65
@@ -2340,6 +2398,11 @@ msgstr "Остання сторінка"
 msgid "List"
 msgstr "Список"
 
+#: lib/Dynamic/Mailbox.php:465 templates/dynamic/message.html.php:63
+#: templates/dynamic/message.html.php:65
+msgid "List Info"
+msgstr ""
+
 #: templates/dynamic/header.html.php:8
 msgid "Load All Addresses"
 msgstr "Завантажити всі адреси"
@@ -2363,7 +2426,8 @@ msgstr "Завантаження стилів листів..."
 #: lib/Basic/Search.php:493 lib/Dynamic/Compose/Common.php:259
 #: lib/Dynamic/Mailbox.php:533 lib/Mime/Viewer/Html.php:81
 #: lib/Mime/Viewer/Images.php:131 templates/dynamic/compose-base.html.php:4
-#: templates/dynamic/compose.html.php:214 templates/dynamic/mailbox.html.php:2
+#: templates/dynamic/compose.html.php:214
+#: templates/dynamic/mailbox.html.php:2
 #: templates/dynamic/mailbox.html.php:303
 #: templates/dynamic/mailbox_subinfo.html.php:5
 #: templates/dynamic/message.html.php:4 templates/dynamic/sidebar.html.php:1
@@ -2586,6 +2650,12 @@ msgstr "Листа успішно відіслано, але не записан
 msgid "Message sent successfully."
 msgstr "Листа успішно відіслано."
 
+#: lib/Mime/Viewer/Html.php:233
+msgid ""
+"Message styling has been suppressed in this message part since the style "
+"data lives on a remote server."
+msgstr ""
+
 #: lib/Dynamic/Mailbox.php:550
 #, php-format
 msgid "Messages %d - %d"
@@ -2691,6 +2761,10 @@ msgstr "Вкажіть хоча б одного адресата."
 #: lib/Mime/Viewer/Itip.php:812
 msgid "Needs Action"
 msgstr "Потребує Дії"
+
+#: templates/prefs/acl.html.php:32
+msgid "Negative Right"
+msgstr ""
 
 #: config/prefs.php:847 config/prefs.php:1178 config/prefs.php:1269
 #: config/prefs.php:1306 lib/Pgp.php:796
@@ -2850,7 +2924,8 @@ msgstr "Не учасник"
 #: lib/Compose/Ui.php:56 lib/Mime/Viewer/Itip.php:419
 #: lib/Mime/Viewer/Itip.php:592 lib/Mime/Viewer/Itip.php:754 lib/Pgp.php:798
 #: lib/Pgp.php:799 templates/prefs/acl.html.php:39
-#: templates/prefs/acl.html.php:74 templates/prefs/composetemplates.html.php:7
+#: templates/prefs/acl.html.php:74
+#: templates/prefs/composetemplates.html.php:7
 #: templates/prefs/drafts.html.php:7 templates/prefs/sentmail.html.php:7
 #: templates/prefs/spam.html.php:7 templates/prefs/trash.html.php:7
 msgid "None"
@@ -2890,7 +2965,8 @@ msgid "OK"
 msgstr "ОК"
 
 #: lib/Basic/Search.php:499 lib/Search/Element/Or.php:39
-#: templates/pgp/import_key.html.php:49 templates/smime/import_key.html.php:34
+#: templates/pgp/import_key.html.php:49
+#: templates/smime/import_key.html.php:34
 msgid "OR"
 msgstr "АБО"
 
@@ -2901,6 +2977,11 @@ msgstr "Старі скриньки відісланих листів знище
 #: lib/Basic/Search.php:95 lib/Search/Element/Within.php:79
 msgid "Older Than"
 msgstr "Старші ніж"
+
+#: lib/Search/Element/Daterange.php:113
+#, php-format
+msgid "On '%s'"
+msgstr ""
 
 #: lib/Block/Summary.php:52
 msgid "Only display mailboxes with unread messages in them?"
@@ -2922,7 +3003,8 @@ msgstr "Необов'язковий учасник"
 msgid "Other"
 msgstr "Інші"
 
-#: templates/dynamic/compose.html.php:92 templates/dynamic/mailbox.html.php:86
+#: templates/dynamic/compose.html.php:92
+#: templates/dynamic/mailbox.html.php:86
 #: templates/dynamic/mailbox.html.php:124
 msgid "Other Options"
 msgstr "Інші Опції"
@@ -2960,6 +3042,10 @@ msgstr "Публічний ключ PGP для \"%s (%s)\" успішно дод
 #, php-format
 msgid "PGP Public Key for \"%s\" was successfully deleted."
 msgstr "Публічний ключ PGP для \"%s\" успішно знищено."
+
+#: templates/prefs/pgppublickey.html.php:4
+msgid "PGP Public Keyring"
+msgstr ""
 
 #: lib/Pgp.php:78
 msgid "PGP Sign Message"
@@ -3031,6 +3117,18 @@ msgstr "Пароль"
 #, php-format
 msgid "Password for %s:"
 msgstr "Пароль для %s:"
+
+#: templates/pgp/import_key.html.php:19
+msgid ""
+"Paste PGP public keys into the textarea, upload a file containing PGP public "
+"keys, or combine both methods. Multiple keys are supported."
+msgstr ""
+
+#: templates/pgp/import_key.html.php:21
+msgid ""
+"Paste your PGP private key into the textarea or upload a file containing "
+"your key."
+msgstr ""
 
 #: templates/itip/action.html.php:47
 msgid "Percent complete"
@@ -3143,6 +3241,15 @@ msgstr "Портал"
 #: templates/itip/action.html.php:91
 msgid "Possible Conflicts"
 msgstr "Можливі конфлікти"
+
+#: lib/Imap/Acl.php:180 templates/prefs/acl.html.php:41
+#: templates/prefs/acl.html.php:76
+msgid "Post"
+msgstr ""
+
+#: lib/Imap/Acl.php:179
+msgid "Post to this mailbox (not enforced by IMAP)"
+msgstr ""
 
 #: config/prefs.php:62
 msgid "Precede your text signature with dashes ('-- ')?"
@@ -3401,6 +3508,14 @@ msgstr "Відповісти Списку"
 msgid "Reply to Sender"
 msgstr "Відповісти відправнику"
 
+#: lib/Mime/Viewer/Itip.php:244 lib/Mime/Viewer/Itip.php:253
+msgid "Reply with Not Supported Message"
+msgstr ""
+
+#: lib/Mime/Viewer/Itip.php:251
+msgid "Reply with free/busy for next 2 months."
+msgstr ""
+
 #: lib/Mime/Viewer/Itip.php:250
 msgid "Reply with requested free/busy information."
 msgstr "Відповісти з замовленою інформацією вільний/занятий."
@@ -3473,6 +3588,10 @@ msgstr "Поновити Чернетку"
 msgid "Resume Editing"
 msgstr "Поновити редагування"
 
+#: templates/dynamic/mailbox.html.php:68
+msgid "Retry"
+msgstr ""
+
 #: lib/Basic/Search.php:508
 #, php-format
 msgid "Return to %s"
@@ -3524,6 +3643,10 @@ msgstr ""
 #, php-format
 msgid "S/MIME Public Key for \"%s\" was successfully deleted."
 msgstr "Публічний ключ S/MIME для \"%s\" успішно знищено."
+
+#: templates/prefs/smimepublickey.html.php:4
+msgid "S/MIME Public Keyring"
+msgstr ""
 
 #: lib/Basic/Smime.php:96
 msgid "S/MIME Public/Private Keypair successfully added."
@@ -3672,9 +3795,10 @@ msgstr "Збереження шаблону невдале: не можу ств
 msgid "Saving the template failed: no template mailbox exists."
 msgstr "Збереження шаблону невдале: не існує скриньки шаблонів."
 
-#: lib/Application.php:338 lib/Basic/Search.php:515 lib/Dynamic/Mailbox.php:230
-#: lib/Dynamic/Mailbox.php:368 lib/Dynamic/Mailbox.php:546
-#: templates/contacts/contacts.html.php:21 templates/search/search.html.php:11
+#: lib/Application.php:338 lib/Basic/Search.php:515
+#: lib/Dynamic/Mailbox.php:230 lib/Dynamic/Mailbox.php:368
+#: lib/Dynamic/Mailbox.php:546 templates/contacts/contacts.html.php:21
+#: templates/search/search.html.php:11
 #: templates/smartmobile/mailbox.html.php:22
 #: templates/smartmobile/search.html.php:3
 msgid "Search"
@@ -3946,7 +4070,8 @@ msgid "Sort"
 msgstr "Сортувати"
 
 #: lib/Mailbox.php:1715 lib/Mailbox.php:1797
-#: templates/dynamic/mailbox.html.php:36 templates/dynamic/message.html.php:19
+#: templates/dynamic/mailbox.html.php:36
+#: templates/dynamic/message.html.php:19
 #: templates/smartmobile/mailbox.html.php:38
 #: templates/smartmobile/mailbox.html.php:48
 #: templates/smartmobile/message.html.php:60
@@ -4452,6 +4577,11 @@ msgstr "Трапилась помилка оновлення завдання: %
 msgid "This action is not supported."
 msgstr "Ця дія не підтримується."
 
+#: lib/Mime/Viewer/Audio.php:74
+#, php-format
+msgid "This audio file is reported to be %s in length."
+msgstr ""
+
 #: lib/Mime/Viewer/Pgp.php:440
 msgid "This digitally signed message is broken."
 msgstr "Цей лист з цифровим підписом є зламаний."
@@ -4524,6 +4654,11 @@ msgstr "Цей лист містить додаток, який не можна 
 msgid "This part contains no message contents."
 msgstr "Ця частина не містить жодного контенту."
 
+#: lib/Mime/Viewer/Video.php:94
+#, php-format
+msgid "This video file is reported to be %s in length."
+msgstr ""
+
 #: config/prefs.php:1443 lib/Dynamic/Mailbox.php:261
 msgid "Thread"
 msgstr "Рубрика"
@@ -4549,8 +4684,8 @@ msgstr "Огляд рубрик"
 #: lib/Dynamic/Mailbox.php:259 lib/Smartmobile.php:187
 #: templates/contacts/contacts.html.php:34
 #: templates/dynamic/compose.html.php:114
-#: templates/dynamic/mailbox.html.php:144 templates/dynamic/message.html.php:88
-#: templates/thread/thread.html.php:21
+#: templates/dynamic/mailbox.html.php:144
+#: templates/dynamic/message.html.php:88 templates/thread/thread.html.php:21
 msgid "To"
 msgstr "До"
 
@@ -4619,7 +4754,8 @@ msgstr "Не можу показати листа в панелі перегля
 msgid "Undelete"
 msgstr "Відновити"
 
-#: lib/Basic/Thread.php:291 lib/Contents/Message.php:297 lib/Mailbox/Ui.php:80
+#: lib/Basic/Thread.php:291 lib/Contents/Message.php:297
+#: lib/Mailbox/Ui.php:80
 msgid "Undisclosed Recipients"
 msgstr "Невикриті отримувачі"
 
@@ -4628,7 +4764,8 @@ msgstr "Невикриті отримувачі"
 msgid "Unhandled component of type: %s"
 msgstr "Непідтримуваний тип компонента: %s"
 
-#: lib/Mime/Viewer/Itip.php:845 lib/Pgp.php:800 lib/Pgp.php:801 lib/Pgp.php:802
+#: lib/Mime/Viewer/Itip.php:845 lib/Pgp.php:800 lib/Pgp.php:801
+#: lib/Pgp.php:802
 msgid "Unknown"
 msgstr "Невідомий"
 
@@ -4688,7 +4825,8 @@ msgstr "Оновити статус респондента"
 msgid "Update this event on my calendar"
 msgstr "Оновити цю подію в моєму календарі"
 
-#: templates/pgp/import_key.html.php:58 templates/smime/import_key.html.php:44
+#: templates/pgp/import_key.html.php:58
+#: templates/smime/import_key.html.php:44
 msgid "Upload"
 msgstr "Закачати"
 
@@ -4782,7 +4920,8 @@ msgstr "Огляд %s"
 msgid "View %s Public Key"
 msgstr "Переглянути %s Публічний ключ"
 
-#: templates/dynamic/message.html.php:55 templates/dynamic/message.html.php:57
+#: templates/dynamic/message.html.php:55
+#: templates/dynamic/message.html.php:57
 msgid "View All Parts"
 msgstr "Показати всі частини"
 
@@ -4816,7 +4955,8 @@ msgid "View Personal Public Key"
 msgstr "Проглянути Персональний публічний ключ"
 
 #: lib/Dynamic/Mailbox.php:333 lib/Dynamic/Mailbox.php:462
-#: templates/dynamic/message.html.php:41 templates/dynamic/message.html.php:43
+#: templates/dynamic/message.html.php:41
+#: templates/dynamic/message.html.php:43
 msgid "View Source"
 msgstr "Анатомія"
 
@@ -4968,6 +5108,10 @@ msgstr "Вчора, %s"
 msgid "Yesterday, %s %s"
 msgstr "Вчора, %s %s"
 
+#: templates/dynamic/compose.html.php:173
+msgid "You are"
+msgstr ""
+
 #: lib/Mailbox.php:737
 msgid "You are not allowed to create mailboxes."
 msgstr "Вам не можна створювати скриньки."
@@ -5048,6 +5192,16 @@ msgstr ""
 "вказано. Ви не зможете витирати листи, доки не визначите Смітник у своїх "
 "налаштуваннях."
 
+#: lib/Dynamic/Compose/Common.php:252
+msgid ""
+"You have edited your signature. Change the identity and lose your changes?"
+msgstr ""
+
+#: lib/Dynamic/Compose/Common.php:261
+msgid ""
+"You have reached the limit for the number of attachments in this message."
+msgstr ""
+
 #: lib/Ajax/Application/Handler/Dynamic.php:52
 #, php-format
 msgid "You may not create child mailboxes in \"%s\"."
@@ -5084,6 +5238,12 @@ msgstr "Слід ввести пароль для декриптування ц�
 #: lib/Basic/Contacts.php:103
 msgid "You must select an address first."
 msgstr "Спершу слід вказати адресу."
+
+#: lib/Dynamic/Base.php:192
+msgid ""
+"You need to either use the keyboard (Ctrl/Cmd + C) or right click on the "
+"selected address to access the Copy command."
+msgstr ""
 
 #: lib/Maillog/Log/Redirect.php:82
 #, php-format
@@ -5182,9 +5342,25 @@ msgid ""
 msgstr ""
 "Ваші додаткові адреси: <em>(опціонально, вводьте кожну з нового рядка)</em>"
 
+#: lib/Ajax/Application/Handler/ComposeAttach.php:57
+#: lib/Ajax/Application/Handler/Dynamic.php:1091
+msgid ""
+"Your attachment was not uploaded. Most likely, the file exceeded the maximum "
+"size allowed by the server configuration."
+msgstr ""
+
+#: lib/Dynamic/Compose/Common.php:260
+msgid "Your attachment(s) are too large and cannot be uploaded."
+msgstr ""
+
 #: lib/Mime/Viewer/Images.php:154
 msgid "Your browser does not support inline display of this image type."
 msgstr "Ваш броузер не може показати зоображення цього типу по тексту."
+
+#: lib/Dynamic/Base.php:192
+msgid ""
+"Your browser security settings don't permit direct access to the clipboard."
+msgstr ""
 
 #: templates/prefs/encrypt.html.php:3
 msgid "Your default encryption method for sending messages:"
@@ -5199,6 +5375,15 @@ msgstr ""
 "Ваша іпостась була змінена на іпостась, асоційовану з адресою поточного "
 "отримувача. Клацніть на це поле для повернення до попередньої іпостасі. "
 "Іпостась не буде перевірена під час цієї дії створення листа."
+
+#: lib/Compose/LinkedAttachment.php:217
+msgid "Your linked attachment has been downloaded by at least one user."
+msgstr ""
+
+#: lib/Compose.php:760
+#, php-format
+msgid "Your message body has exceeded the limit by body size by %d characters."
+msgstr ""
 
 #: lib/Mime/Viewer/Status.php:143
 msgid "Your message was successfully delivered."
@@ -5288,6 +5473,14 @@ msgstr "файл поштової скриньки"
 msgid "maximum total image size is %s"
 msgstr "Максимальний загальний розмір зображення є %s"
 
+#: lib/Search/Element/Contacts.php:62
+msgid "messages from a personal contact"
+msgstr ""
+
+#: lib/Search/Element/Contacts.php:61
+msgid "messages not from a personal contact"
+msgstr ""
+
 #: lib/Search/Element/Attachment.php:52
 msgid "messages with attachment(s)"
 msgstr "листів з додатком(ми)"
@@ -5310,6 +5503,11 @@ msgstr "ім'я"
 #: lib/Search/Element/Text.php:62
 msgid "not"
 msgstr "не"
+
+#: lib/Contents/View.php:67
+#, php-format
+msgid "part %s"
+msgstr ""
 
 #: templates/dynamic/compose.html.php:173
 msgid "replying to ALL"

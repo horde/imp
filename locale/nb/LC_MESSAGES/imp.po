@@ -1124,7 +1124,8 @@ msgid "Description"
 msgstr "Beskrivelse"
 
 #: templates/smime/smime.inc:65 templates/smime/smime.inc:113
-#: templates/pgp/pgp.inc:93 templates/pgp/pgp.inc:147 templates/pgp/pgp.inc:151
+#: templates/pgp/pgp.inc:93 templates/pgp/pgp.inc:147
+#: templates/pgp/pgp.inc:151
 msgid "Details"
 msgstr "Detaljer"
 
@@ -3846,8 +3847,8 @@ msgstr "Det oppstod en feil ved importering av hendelsen: %s."
 #, php-format
 msgid "There was an error importing user's free/busy information: %s."
 msgstr ""
-"Det oppstod en feil ved importering av brukerens ledig/opptatt-informasjon: "
-"%s"
+"Det oppstod en feil ved importering av brukerens ledig/opptatt-informasjon: %"
+"s"
 
 #: lib/Message.php:92
 #, php-format
@@ -3977,8 +3978,9 @@ msgid "Thread View"
 msgstr "Trådvisning"
 
 #: message.php:255 mailbox.php:576 search.php:145
-#: templates/contacts/contacts.inc:221 templates/mailbox/message_headers.inc:17
-#: templates/compose/redirect.inc:64 templates/compose/recompose.inc:10
+#: templates/contacts/contacts.inc:221
+#: templates/mailbox/message_headers.inc:17 templates/compose/redirect.inc:64
+#: templates/compose/recompose.inc:10
 msgid "To"
 msgstr "Til"
 

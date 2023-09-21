@@ -679,8 +679,8 @@ msgstr "錯誤的請求. 伺服器回應: %s"
 msgid "Bad request: %s"
 msgstr "錯誤的請求: %s"
 
-#: lib/Search.php:670 lib/UI/Message.php:28 templates/contacts/contacts.html:43
-#: templates/login/recompose.html:32
+#: lib/Search.php:670 lib/UI/Message.php:28
+#: templates/contacts/contacts.html:43 templates/login/recompose.html:32
 msgid "Bcc"
 msgstr "秘件副本"
 
@@ -809,8 +809,8 @@ msgstr "無法顯示 - 在目前的信件匣中只找到 %2$s 個中的 %1$s 個
 msgid "Cannot retrieve public key from cache."
 msgstr "無法自 cache 取得公開金鑰."
 
-#: lib/Search.php:666 lib/UI/Message.php:27 templates/contacts/contacts.html:42
-#: templates/login/recompose.html:23
+#: lib/Search.php:666 lib/UI/Message.php:27
+#: templates/contacts/contacts.html:42 templates/login/recompose.html:23
 msgid "Cc"
 msgstr "副本"
 
@@ -3718,8 +3718,8 @@ msgstr "儲存草稿失敗. 未指定草稿匣."
 #: lib/Compose.php:210
 #, php-format
 msgid ""
-"Saving the draft failed. The %s header contains an invalid e-mail address: "
-"%s."
+"Saving the draft failed. The %s header contains an invalid e-mail address: %"
+"s."
 msgstr "儲存草稿失敗. %s 表頭包含一組無效的 e-mail 住址: %s."
 
 #: lib/Compose.php:247
@@ -4836,9 +4836,9 @@ msgstr "垃圾箱:"
 msgid "Unable to connect to SQL server."
 msgstr "無法連結 SQL 伺服器."
 
-#: lib/Quota/mercury32.php:78 lib/Quota/command.php:93 lib/Quota/logfile.php:87
-#: lib/Quota/imap.php:42 lib/Quota/mdaemon.php:45 lib/Quota/maildir.php:113
-#: lib/Quota/hook.php:52
+#: lib/Quota/mercury32.php:78 lib/Quota/command.php:93
+#: lib/Quota/logfile.php:87 lib/Quota/imap.php:42 lib/Quota/mdaemon.php:45
+#: lib/Quota/maildir.php:113 lib/Quota/hook.php:52
 msgid "Unable to retrieve quota"
 msgstr "無法讀取磁碟配置資料"
 
@@ -5161,8 +5161,8 @@ msgstr "你正在嚐試由下列帳號收取外部郵件:"
 
 #: templates/folders/folders_confirm.html:11
 msgid ""
-"You are attempting to delete all messages contained in the following "
-"folder(s)."
+"You are attempting to delete all messages contained in the following folder"
+"(s)."
 msgstr "你正在嚐試刪除下列信件匣中的所有郵件."
 
 #: templates/folders/folders_confirm.html:10

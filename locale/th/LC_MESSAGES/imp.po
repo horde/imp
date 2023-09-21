@@ -227,7 +227,8 @@ msgstr "สำเนาซ่อนถึง"
 msgid "Blacklist"
 msgstr "บัญชีดำ"
 
-#: filters.php:141 templates/filters/manage.inc:17 templates/search/main.inc:62
+#: filters.php:141 templates/filters/manage.inc:17
+#: templates/search/main.inc:62
 msgid "Body"
 msgstr "เนื้อหา"
 
@@ -1644,7 +1645,8 @@ msgstr "ตัวเลือกเกี่ยวกับผู้ใช้"
 msgid "Username"
 msgstr "ชื่อผู้ใช้"
 
-#: lib/IMP.php:936 lib/MIME/Viewer/enriched.php:177 lib/MIME/Viewer/text.php:97
+#: lib/IMP.php:936 lib/MIME/Viewer/enriched.php:177
+#: lib/MIME/Viewer/text.php:97
 #, c-format
 msgid "View %s"
 msgstr "แสดง %s"

@@ -32,10 +32,8 @@ class IMP_Factory_Smime extends Horde_Core_Factory_Injector
         return new IMP_Smime(
             $injector->getInstance('Horde_Core_Factory_Crypt')->create(
                 'Horde_Crypt_Smime'
-            ),
-            $injector->getInstance('Horde_Core_Factory_Db')->create(
-                'imp'
             )
         );
     }
+
 }

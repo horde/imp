@@ -871,7 +871,8 @@ msgstr "Reklaam Kirjad"
 msgid "Cancel"
 msgstr "Loobu"
 
-#: templates/imp/compose/compose.html:26 templates/imp/compose/compose.html:208
+#: templates/imp/compose/compose.html:26
+#: templates/imp/compose/compose.html:208
 #: templates/imp/compose/redirect.html:45
 msgid "Cancel Message"
 msgstr "Loobu kirjast"
@@ -1429,8 +1430,9 @@ msgstr "Delegeeritud"
 #: lib/Imap/Acl.php:164 mailbox.php:556 message-dimp.php:175
 #: message-mimp.php:270 message.php:513 templates/dimp/index.inc:140
 #: templates/dimp/index.inc:380 templates/imp/contacts/contacts.html:60
-#: templates/imp/folders/actions.html:19 templates/mimp/mailbox/mailbox.html:38
-#: templates/prefs/pgppublickey.html:13 templates/prefs/smimepublickey.html:13
+#: templates/imp/folders/actions.html:19
+#: templates/mimp/mailbox/mailbox.html:38 templates/prefs/pgppublickey.html:13
+#: templates/prefs/smimepublickey.html:13
 msgid "Delete"
 msgstr "Kustuta"
 
@@ -1552,7 +1554,8 @@ msgid "Description:"
 msgstr "Kirjeldus:"
 
 #: templates/prefs/pgpprivatekey.html:19 templates/prefs/pgpprivatekey.html:30
-#: templates/prefs/pgppublickey.html:13 templates/prefs/smimeprivatekey.html:19
+#: templates/prefs/pgppublickey.html:13
+#: templates/prefs/smimeprivatekey.html:19
 #: templates/prefs/smimepublickey.html:13
 msgid "Details"
 msgstr "Üksikasjad"
@@ -2713,8 +2716,10 @@ msgstr "Manuste suuruse piirmäär on täis."
 msgid "Mbox or .eml file:"
 msgstr "Mbox või .eml fail:"
 
-#: templates/mimp/compose/compose.html:71 templates/mimp/folders/folders.html:5
-#: templates/mimp/mailbox/mailbox.html:49 templates/mimp/mailbox/search.html:14
+#: templates/mimp/compose/compose.html:71
+#: templates/mimp/folders/folders.html:5
+#: templates/mimp/mailbox/mailbox.html:49
+#: templates/mimp/mailbox/search.html:14
 #: templates/mimp/message/message.html:32
 msgid "Menu"
 msgstr "Menüü"
@@ -3152,8 +3157,8 @@ msgstr "Teade anne: Lingitud manus on allalaetud"
 msgid "OK"
 msgstr "OK"
 
-#: lib/Search/Element/Or.php:31 search.php:509 templates/pgp/import_key.html:30
-#: templates/smime/import_key.html:31
+#: lib/Search/Element/Or.php:31 search.php:509
+#: templates/pgp/import_key.html:30 templates/smime/import_key.html:31
 msgid "OR"
 msgstr "VÕI"
 
@@ -3998,7 +4003,8 @@ msgid "Save Certificate in your Address Book"
 msgstr "Salvesta Sertifikaat oma Aadressiraamatusse"
 
 #: compose-mimp.php:211 compose-mimp.php:214 compose-mimp.php:260
-#: templates/imp/compose/compose.html:24 templates/imp/compose/compose.html:206
+#: templates/imp/compose/compose.html:24
+#: templates/imp/compose/compose.html:206
 #: templates/mimp/compose/compose.html:52
 msgid "Save Draft"
 msgstr "Salvesta mustand"
@@ -4188,7 +4194,8 @@ msgstr "Saada võti avalikku võtmeserverisse"
 msgid "Send Latest Information"
 msgstr "Saada värskeim info"
 
-#: templates/imp/compose/compose.html:21 templates/imp/compose/compose.html:203
+#: templates/imp/compose/compose.html:21
+#: templates/imp/compose/compose.html:203
 msgid "Send Message"
 msgstr "Saada kiri"
 
@@ -5257,7 +5264,8 @@ msgid "Type:"
 msgstr "Tüüp:"
 
 #: lib/Quota/Command.php:92 lib/Quota/Hook.php:42 lib/Quota/Imap.php:52
-#: lib/Quota/Maildir.php:64 lib/Quota/Mdaemon.php:65 lib/Quota/Mercury32.php:70
+#: lib/Quota/Maildir.php:64 lib/Quota/Mdaemon.php:65
+#: lib/Quota/Mercury32.php:70
 msgid "Unable to retrieve quota"
 msgstr "Piiranguinfo hankimine nurjus"
 
@@ -5384,7 +5392,8 @@ msgid "Vertical Layout"
 msgstr "Püstkujundus"
 
 #: templates/prefs/pgpprivatekey.html:19 templates/prefs/pgpprivatekey.html:30
-#: templates/prefs/pgppublickey.html:13 templates/prefs/smimeprivatekey.html:19
+#: templates/prefs/pgppublickey.html:13
+#: templates/prefs/smimeprivatekey.html:19
 #: templates/prefs/smimeprivatekey.html:27
 #: templates/prefs/smimepublickey.html:13
 msgid "View"
@@ -5602,8 +5611,8 @@ msgstr "Sa oled"
 
 #: templates/imp/folders/folders_confirm.html:11
 msgid ""
-"You are attempting to delete all messages contained in the following "
-"folder(s)."
+"You are attempting to delete all messages contained in the following folder"
+"(s)."
 msgstr "Sa kavatsed kustutada kõik kirjad järgmis(t)es kausta(de)s."
 
 #: templates/imp/folders/folders_confirm.html:10

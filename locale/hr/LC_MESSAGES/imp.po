@@ -882,12 +882,14 @@ msgstr "Masovne poruke"
 #: templates/dimp/javascript_defs.php:142 templates/pgp/import_key.html:49
 #: templates/mimp/compose/compose.html:56 templates/smime/import_key.html:70
 #: templates/saveimage/saveimage.html:21 templates/imp/search/search.html:107
-#: templates/imp/contacts/contacts.html:70 templates/imp/folders/import.html:17
+#: templates/imp/contacts/contacts.html:70
+#: templates/imp/folders/import.html:17
 #: templates/imp/folders/folders_confirm.html:24
 msgid "Cancel"
 msgstr "Odustani"
 
-#: templates/imp/compose/redirect.html:45 templates/imp/compose/compose.html:26
+#: templates/imp/compose/redirect.html:45
+#: templates/imp/compose/compose.html:26
 #: templates/imp/compose/compose.html:208
 msgid "Cancel Message"
 msgstr "Otkaži poruku"
@@ -2771,8 +2773,10 @@ msgstr "Dosegnuta je maksimalna veličina priloga."
 msgid "Mbox or .eml file:"
 msgstr "Mbox ili .eml datoteka:"
 
-#: templates/mimp/compose/compose.html:71 templates/mimp/folders/folders.html:5
-#: templates/mimp/message/message.html:32 templates/mimp/mailbox/search.html:14
+#: templates/mimp/compose/compose.html:71
+#: templates/mimp/folders/folders.html:5
+#: templates/mimp/message/message.html:32
+#: templates/mimp/mailbox/search.html:14
 #: templates/mimp/mailbox/mailbox.html:49
 msgid "Menu"
 msgstr "Izbornik"
@@ -3220,8 +3224,8 @@ msgstr "Obavijest: preuzet prilog iz poveznice"
 msgid "OK"
 msgstr "Prihvati"
 
-#: search.php:509 lib/Search/Element/Or.php:31 templates/pgp/import_key.html:30
-#: templates/smime/import_key.html:31
+#: search.php:509 lib/Search/Element/Or.php:31
+#: templates/pgp/import_key.html:30 templates/smime/import_key.html:31
 msgid "OR"
 msgstr "ILI"
 
@@ -4071,7 +4075,8 @@ msgstr "Spremi certifikat u Vaš adresar"
 
 # Započni godinu ?
 #: compose-mimp.php:211 compose-mimp.php:214 compose-mimp.php:260
-#: templates/mimp/compose/compose.html:52 templates/imp/compose/compose.html:24
+#: templates/mimp/compose/compose.html:52
+#: templates/imp/compose/compose.html:24
 #: templates/imp/compose/compose.html:206
 msgid "Save Draft"
 msgstr "Spremi koncept"
@@ -4264,7 +4269,8 @@ msgstr "Pošalji ključ na poslužitelj javnih ključeva."
 msgid "Send Latest Information"
 msgstr "Pošalji najnovije informacije"
 
-#: templates/imp/compose/compose.html:21 templates/imp/compose/compose.html:203
+#: templates/imp/compose/compose.html:21
+#: templates/imp/compose/compose.html:203
 msgid "Send Message"
 msgstr "Pošalji poruku"
 
@@ -4593,10 +4599,11 @@ msgstr "Sakrij prijelome redaka u pregledu?"
 msgid "Sub_ject"
 msgstr "_Naslov"
 
-#: mailbox-mimp.php:221 search.php:64 config/prefs.php:975 lib/Compose.php:2073
-#: lib/Ui/Message.php:32 templates/dimp/javascript_defs.php:111
-#: templates/dimp/index.inc:206 templates/dimp/index.inc:447
-#: templates/dimp/index.inc:488 templates/mobile/javascript_defs.php:61
+#: mailbox-mimp.php:221 search.php:64 config/prefs.php:975
+#: lib/Compose.php:2073 lib/Ui/Message.php:32
+#: templates/dimp/javascript_defs.php:111 templates/dimp/index.inc:206
+#: templates/dimp/index.inc:447 templates/dimp/index.inc:488
+#: templates/mobile/javascript_defs.php:61
 #: templates/dimp/message/message.html:54
 #: templates/imp/search/search-basic.html:18
 msgid "Subject"
@@ -5360,8 +5367,9 @@ msgstr "Umjesto toga pokušavam uvoz događaja."
 msgid "Type:"
 msgstr "Vrsta:"
 
-#: lib/Quota/Maildir.php:64 lib/Quota/Mdaemon.php:65 lib/Quota/Mercury32.php:70
-#: lib/Quota/Imap.php:52 lib/Quota/Hook.php:42 lib/Quota/Command.php:92
+#: lib/Quota/Maildir.php:64 lib/Quota/Mdaemon.php:65
+#: lib/Quota/Mercury32.php:70 lib/Quota/Imap.php:52 lib/Quota/Hook.php:42
+#: lib/Quota/Command.php:92
 msgid "Unable to retrieve quota"
 msgstr "Nije uspjelo dohvaćanje kvote"
 
@@ -5712,8 +5720,8 @@ msgstr "Vi ste"
 
 #: templates/imp/folders/folders_confirm.html:11
 msgid ""
-"You are attempting to delete all messages contained in the following "
-"folder(s)."
+"You are attempting to delete all messages contained in the following folder"
+"(s)."
 msgstr "Pokušavate obrisati sve poruke iz sljedećih mapa:"
 
 #: templates/imp/folders/folders_confirm.html:10

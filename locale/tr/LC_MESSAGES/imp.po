@@ -19,6 +19,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: folders.php:352 mailbox.php:361
+#, php-format
+msgid " (Accesskey %s)"
+msgstr ""
+
 #: lib/Notification/Handler/Decorator/NewmailNotify.php:72
 msgid " and "
 msgstr "ve"
@@ -147,6 +152,11 @@ msgstr "%s şunun için '%s'"
 msgid "%s has cancelled \"%s\"."
 msgstr "%s iptal edildi \"%s\"."
 
+#: lib/Mime/Viewer/Itip.php:657
+#, php-format
+msgid "%s has cancelled an instance of the recurring \"%s\"."
+msgstr ""
+
 #: lib/Mime/Viewer/Itip.php:497
 #, php-format
 msgid "%s has replied to a free/busy request."
@@ -171,6 +181,11 @@ msgstr "%s posta kutusu ay başında yeniden adlandırılıyor."
 #, php-format
 msgid "%s part"
 msgstr "%s parça"
+
+#: lib/Spam.php:144
+#, php-format
+msgid "%s report from %s"
+msgstr ""
 
 #: lib/Mime/Viewer/Itip.php:493
 #, php-format
@@ -318,6 +333,10 @@ msgstr "500 karakter"
 msgid "6 hours"
 msgstr "6 saat"
 
+#: lib/Mime/Viewer/Pgp.php:321
+msgid "A PGP Public Key is attached to the message."
+msgstr ""
+
 #: templates/dimp/index.inc:525
 msgid "A left click"
 msgstr "Bir sol tık"
@@ -355,6 +374,20 @@ msgstr ""
 msgid "A right-click on a message or a folder will display available actions."
 msgstr ""
 "Bir iletiye yada dizine sağ tıklayarak eylemleri görüntüleyebilirsiniz."
+
+#: lib/Prefs/Ui.php:693
+#, php-format
+msgid "ACL for \"%s\" successfully created for the mailbox \"%s\"."
+msgstr ""
+
+#: lib/Prefs/Ui.php:718
+#, php-format
+msgid "ACL rights for \"%s\" updated for the mailbox \"%s\"."
+msgstr ""
+
+#: lib/Imap/Acl.php:26
+msgid "ACLs not configured for this server."
+msgstr ""
 
 #: lib/Mime/Viewer/Itip.php:624
 msgid "Accept and add to my calendar"
@@ -438,8 +471,8 @@ msgid ""
 "Additional headers to display when viewing: <em>(enter each header on a new "
 "line)</em>"
 msgstr ""
-"Görüntülenecek ilave başlıklar: <em> (herbir başlığı yeni bir satırda "
-"girin.)</em>"
+"Görüntülenecek ilave başlıklar: <em> (herbir başlığı yeni bir satırda girin.)"
+"</em>"
 
 #: compose.php:744 compose.php:745 compose.php:891 contacts.php:117
 #: templates/imp/contacts/contacts.html:8
@@ -538,6 +571,10 @@ msgstr "Dizin Yaratılmasına İzin Verilsin mi?"
 #: config/prefs.php:1172
 msgid "Allow filter rules to be applied in any mailbox?"
 msgstr "Süzgeç kuralları herhangi bir posta kutusuna uygulansın mı? "
+
+#: templates/dimp/index.inc:534
+msgid "Alt"
+msgstr ""
 
 #: config/prefs.php:303
 msgid "Always"
@@ -867,7 +904,8 @@ msgstr "Toplu İletiler"
 msgid "Cancel"
 msgstr "İptal"
 
-#: templates/imp/compose/compose.html:26 templates/imp/compose/compose.html:208
+#: templates/imp/compose/compose.html:26
+#: templates/imp/compose/compose.html:208
 msgid "Cancel Message"
 msgstr "İletiyi iptal et"
 
@@ -910,6 +948,10 @@ msgstr "Açık anahtarı iletiden çekilemiyor."
 #, php-format
 msgid "Cannot save sent-mail message to \"%s\" as that mailbox is read-only."
 msgstr "Gönderilen ileti \"%s\" dizinine kaydedilemiyor. Dizin salt-okunur."
+
+#: lib/Message.php:475
+msgid "Cannot strip the MIME part as the mailbox is read-only."
+msgstr ""
 
 #: lib/Compose.php:2095 lib/Ui/Message.php:29 search.php:56
 #: templates/dimp/index.inc:224 templates/imp/contacts/contacts.html:43
@@ -972,6 +1014,10 @@ msgstr "Tümü_nü İşaretle/İşaretleme"
 #: templates/dimp/index.inc:279 templates/imp/folders/actions.html:29
 msgid "Check for New Mail"
 msgstr "Yeni İleti için Denetle"
+
+#: config/prefs.php:1333
+msgid "Check for valid recipient PGP public keys while replying?"
+msgstr ""
 
 #: config/prefs.php:202
 msgid "Check spelling before sending a message?"
@@ -1271,6 +1317,10 @@ msgstr "Posta Kutusu açılamıyor."
 msgid "Could not remove rights for user \"%s\" for the mailbox \"%s\"."
 msgstr "\"%s\" kullanıcısının \"%s\" dizinindeki izin silinemedi."
 
+#: lib/Imap/Acl.php:53
+msgid "Could not retrieve ACL"
+msgstr ""
+
 #: lib/Ui/Compose.php:175
 msgid "Could not retrieve message data from the mail server."
 msgstr "Sunucudan ileti verisi alınamıyor"
@@ -1442,8 +1492,9 @@ msgstr "Yetkili"
 #: message-mimp.php:265 message.php:523 templates/dimp/index.inc:142
 #: templates/dimp/index.inc:275 templates/dimp/index.inc:386
 #: templates/imp/contacts/contacts.html:60
-#: templates/imp/folders/actions.html:19 templates/mimp/mailbox/mailbox.html:38
-#: templates/prefs/pgppublickey.html:13 templates/prefs/smimepublickey.html:13
+#: templates/imp/folders/actions.html:19
+#: templates/mimp/mailbox/mailbox.html:38 templates/prefs/pgppublickey.html:13
+#: templates/prefs/smimepublickey.html:13
 msgid "Delete"
 msgstr "Sil"
 
@@ -1561,7 +1612,8 @@ msgid "Description:"
 msgstr "Açıklama:"
 
 #: templates/prefs/pgpprivatekey.html:19 templates/prefs/pgpprivatekey.html:30
-#: templates/prefs/pgppublickey.html:13 templates/prefs/smimeprivatekey.html:19
+#: templates/prefs/pgppublickey.html:13
+#: templates/prefs/smimeprivatekey.html:19
 #: templates/prefs/smimepublickey.html:13
 msgid "Details"
 msgstr "Ayrıntılar"
@@ -1716,6 +1768,10 @@ msgstr "ÖRNEK"
 #: lib/Imap/Tree.php:1648 templates/prefs/stationery.html:12
 msgid "Edit"
 msgstr "Düzenle"
+
+#: templates/dimp/index.inc:298
+msgid "Edit ACL"
+msgstr ""
 
 #: templates/imp/search/search.html:11
 msgid "Edit Filter"
@@ -2377,6 +2433,12 @@ msgid "Imported %d message from %s."
 msgid_plural "Imported %d messages from %s"
 msgstr[0] "%d ileti %s konumundan içeri aktarıldı."
 
+#: pgp.php:67
+msgid ""
+"Imported key contains your PGP private key. Only add your public key in the "
+"first step!"
+msgstr ""
+
 #: message.php:550 templates/dimp/index.inc:405
 #: templates/dimp/message/message.html:135
 msgid "In Body Text"
@@ -2740,8 +2802,10 @@ msgstr "En büyük ek boyutuna ulaşıldı."
 msgid "Mbox or .eml file:"
 msgstr "Mbox yada .eml dosyası"
 
-#: templates/mimp/compose/compose.html:71 templates/mimp/folders/folders.html:5
-#: templates/mimp/mailbox/mailbox.html:49 templates/mimp/mailbox/search.html:14
+#: templates/mimp/compose/compose.html:71
+#: templates/mimp/folders/folders.html:5
+#: templates/mimp/mailbox/mailbox.html:49
+#: templates/mimp/mailbox/search.html:14
 #: templates/mimp/message/message.html:32
 msgid "Menu"
 msgstr "Menü"
@@ -2952,6 +3016,10 @@ msgstr "En az bir tane alıcı adresi girilmeli"
 #: lib/Mime/Viewer/Itip.php:997
 msgid "Needs Action"
 msgstr "Eylem Gerekiyor"
+
+#: templates/prefs/acl.html:28
+msgid "Negative Right"
+msgstr ""
 
 #: config/prefs.php:301 config/prefs.php:523 config/prefs.php:761
 #: config/prefs.php:846 config/prefs.php:877
@@ -3182,8 +3250,8 @@ msgstr "Bildirim: Bağlı ek indirildi"
 msgid "OK"
 msgstr "Tamam"
 
-#: lib/Search/Element/Or.php:31 search.php:496 templates/pgp/import_key.html:30
-#: templates/smime/import_key.html:31
+#: lib/Search/Element/Or.php:31 search.php:496
+#: templates/pgp/import_key.html:30 templates/smime/import_key.html:31
 msgid "OR"
 msgstr "VEYA"
 
@@ -4034,7 +4102,8 @@ msgid "Save Certificate in your Address Book"
 msgstr "Sertifikaları Adres Defterine Kaydet"
 
 #: compose-mimp.php:205 compose-mimp.php:208 compose-mimp.php:254
-#: templates/imp/compose/compose.html:24 templates/imp/compose/compose.html:206
+#: templates/imp/compose/compose.html:24
+#: templates/imp/compose/compose.html:206
 #: templates/mimp/compose/compose.html:52
 msgid "Save Draft"
 msgstr "Taslağı Kaydet"
@@ -4225,7 +4294,8 @@ msgstr "Anahtarı Açık Anahtar Sunucusuna Gönder"
 msgid "Send Latest Information"
 msgstr "Son Bilgileri Gönder"
 
-#: templates/imp/compose/compose.html:21 templates/imp/compose/compose.html:203
+#: templates/imp/compose/compose.html:21
+#: templates/imp/compose/compose.html:203
 msgid "Send Message"
 msgstr "İleti Gönder"
 
@@ -5314,12 +5384,17 @@ msgstr "Çöp"
 msgid "Trash folder:"
 msgstr "Çöp Kutusu:"
 
+#: lib/Mime/Viewer/Itip.php:187
+msgid "Trying to import the event instead."
+msgstr ""
+
 #: templates/imp/search/search.html:93
 msgid "Type:"
 msgstr "Tip:"
 
 #: lib/Quota/Command.php:92 lib/Quota/Hook.php:42 lib/Quota/Imap.php:52
-#: lib/Quota/Maildir.php:64 lib/Quota/Mdaemon.php:65 lib/Quota/Mercury32.php:70
+#: lib/Quota/Maildir.php:64 lib/Quota/Mdaemon.php:65
+#: lib/Quota/Mercury32.php:70
 msgid "Unable to retrieve quota"
 msgstr "Kota belirlenemedi"
 
@@ -5450,7 +5525,8 @@ msgid "Video part"
 msgstr "Video Kısmı"
 
 #: templates/prefs/pgpprivatekey.html:19 templates/prefs/pgpprivatekey.html:30
-#: templates/prefs/pgppublickey.html:13 templates/prefs/smimeprivatekey.html:19
+#: templates/prefs/pgppublickey.html:13
+#: templates/prefs/smimeprivatekey.html:19
 #: templates/prefs/smimeprivatekey.html:27
 #: templates/prefs/smimepublickey.html:13
 msgid "View"
@@ -5671,8 +5747,8 @@ msgstr "Siz"
 
 #: templates/imp/folders/folders_confirm.html:11
 msgid ""
-"You are attempting to delete all messages contained in the following "
-"folder(s)."
+"You are attempting to delete all messages contained in the following folder"
+"(s)."
 msgstr "Seçilmiş dizinlerdeki bütün iletileri silmeye çalışıyorsunuz."
 
 #: templates/imp/folders/folders_confirm.html:10
@@ -5720,6 +5796,11 @@ msgstr "Yeniden adlandırılan dizin:"
 #: templates/imp/compose/compose.html:171
 msgid "You are replying to a mailing list"
 msgstr "E-posta listesine cevapla"
+
+#: templates/dimp/javascript_defs.php:185
+#, php-format
+msgid "You can snooze it for %s or %s dismiss %s it entirely"
+msgstr ""
 
 #: templates/prefs/stationery.html:44
 msgid ""

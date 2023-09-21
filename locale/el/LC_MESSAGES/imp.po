@@ -47,6 +47,11 @@ msgstr "\"%s\" δεν ειδοποιείται πλέον για νέα μηνύ
 msgid "\"%s\" mailbox now polled for new mail."
 msgstr "\"%s\" ειδοποιείται πλέον για νέα μηνύματα mail."
 
+#: lib/Quota.php:49
+#, php-format
+msgid "%.0f %s"
+msgstr ""
+
 #: lib/Quota.php:50
 #, php-format
 msgid "%.0f%% of %.0f %s"
@@ -69,7 +74,8 @@ msgstr[1] "%d Συνημμένα"
 msgid "%d Attachments"
 msgstr "%d Συνημμένα"
 
-#: lib/Basic/Mailbox.php:397 lib/Basic/Mailbox.php:398 lib/Basic/Thread.php:180
+#: lib/Basic/Mailbox.php:397 lib/Basic/Mailbox.php:398
+#: lib/Basic/Thread.php:180
 #, php-format
 msgid "%d Messages"
 msgstr "%d Μηνύματα"
@@ -983,8 +989,9 @@ msgstr "δεν είναι δυνατή η επισύναψη των  πληρο�
 #: templates/basic/folders/folders_confirm.html.php:27
 #: templates/basic/folders/import.html.php:17
 #: templates/contacts/contacts.html.php:69
-#: templates/minimal/compose.html.php:59 templates/minimal/redirect.html.php:29
-#: templates/pgp/import_key.html.php:69 templates/prefs/remote.html.php:80
+#: templates/minimal/compose.html.php:59
+#: templates/minimal/redirect.html.php:29 templates/pgp/import_key.html.php:69
+#: templates/prefs/remote.html.php:80
 #: templates/saveimage/saveimage.html.php:20
 #: templates/search/search.html.php:103
 #: templates/smartmobile/compose.html.php:54
@@ -1648,8 +1655,8 @@ msgid "Delegated"
 msgstr "Μεταβιβάσθηκε"
 
 #: lib/Dynamic/Compose/Common.php:186 lib/Dynamic/Mailbox.php:327
-#: lib/Dynamic/Mailbox.php:358 lib/Imap/Acl.php:196 lib/Minimal/Message.php:218
-#: templates/basic/folders/actions.html.php:26
+#: lib/Dynamic/Mailbox.php:358 lib/Imap/Acl.php:196
+#: lib/Minimal/Message.php:218 templates/basic/folders/actions.html.php:26
 #: templates/dynamic/mailbox.html.php:51 templates/dynamic/message.html.php:29
 #: templates/minimal/mailbox.html.php:30 templates/prefs/acl.html.php:43
 #: templates/prefs/acl.html.php:78 templates/prefs/pgppublickey.html.php:22
@@ -2197,7 +2204,8 @@ msgid "Expand Headers"
 msgstr "Επέκταση Κεφαλίδων"
 
 #: lib/Minimal/Compose.php:107 lib/Minimal/Compose.php:162
-#: templates/minimal/compose.html.php:58 templates/minimal/redirect.html.php:28
+#: templates/minimal/compose.html.php:58
+#: templates/minimal/redirect.html.php:28
 msgid "Expand Names"
 msgstr "Ανάπτυξη Ονομάτων"
 
@@ -2336,7 +2344,8 @@ msgstr "Φάκελος"
 msgid "Folder Actions"
 msgstr "Ενέργειες Φακέλων"
 
-#: lib/Basic/Folders.php:274 templates/basic/folders/folders_confirm.html.php:6
+#: lib/Basic/Folders.php:274
+#: templates/basic/folders/folders_confirm.html.php:6
 msgid "Folder Actions - Confirmation"
 msgstr "Ενέργειες Φακέλου - Επιβεβαίωση"
 
@@ -2422,7 +2431,8 @@ msgstr "Από"
 #: templates/basic/search/search-basic.html.php:16
 #: templates/dynamic/compose.html.php:102
 #: templates/dynamic/mailbox.html.php:128 templates/minimal/mailbox.html.php:9
-#: templates/smartmobile/search.html.php:11 templates/thread/thread.html.php:21
+#: templates/smartmobile/search.html.php:11
+#: templates/thread/thread.html.php:21
 msgid "From"
 msgstr "Από"
 
@@ -2569,6 +2579,10 @@ msgid ""
 msgstr ""
 "Δεν υπάρχει κανένα προσωπικό ιδιωτικό κλειδί και συνεπώς το μήνυμα δεν "
 "μπορεί να αποκρυπτογραφηθεί."
+
+#: templates/prefs/remote.html.php:48
+msgid "IMAP"
+msgstr ""
 
 #: templates/prefs/flags.html.php:7
 msgid "Icon"
@@ -2758,6 +2772,10 @@ msgstr "Μη έγκυρο κλειδί"
 #: lib/Ajax/Application/Handler/Passphrase.php:71
 msgid "Invalid passphrase entered."
 msgstr "Δώσατε λανθασμένο κωδικό."
+
+#: lib/Flag/Imap/Junk.php:42
+msgid "Junk"
+msgstr ""
 
 #: templates/basic/compose/compose.html.php:332
 msgid "KB"
@@ -3274,9 +3292,10 @@ msgstr "Νέα Σήμανση"
 msgid "New Mail"
 msgstr "Νέο Μήνυμα"
 
-#: lib/Application.php:430 lib/Basic/Compose.php:207 lib/Basic/Compose.php:1152
-#: lib/Compose.php:2209 lib/Dynamic/Base.php:157 lib/Dynamic/Compose.php:78
-#: lib/Dynamic/Mailbox.php:109 lib/Minimal/Base.php:88 lib/Smartmobile.php:177
+#: lib/Application.php:430 lib/Basic/Compose.php:207
+#: lib/Basic/Compose.php:1152 lib/Compose.php:2209 lib/Dynamic/Base.php:157
+#: lib/Dynamic/Compose.php:78 lib/Dynamic/Mailbox.php:109
+#: lib/Minimal/Base.php:88 lib/Smartmobile.php:177
 #: templates/dynamic/mailbox.html.php:54
 #: templates/smartmobile/compose.html.php:2
 #: templates/smartmobile/folders.html.php:13
@@ -3631,6 +3650,10 @@ msgstr "PGP: Χρειάζεται κωδικό για το προσωπικό ι
 #: lib/Compose.php:1709
 msgid "PGP: Need passphrase to encrypt your message with."
 msgstr "PGP: Χρειάζεται κωδικό για την κρυπτογράφηση του μηνύματος."
+
+#: templates/prefs/remote.html.php:49
+msgid "POP3"
+msgstr ""
 
 #: templates/basic/mailbox/navbar.html.php:17
 msgid "Page"
@@ -4009,12 +4032,13 @@ msgstr "Επανάληψη"
 msgid "Redirec_t"
 msgstr "Ανακατεύθυνση"
 
-#: lib/Basic/Compose.php:421 lib/Basic/Mailbox.php:685 lib/Dynamic/Base.php:180
-#: lib/Dynamic/Compose.php:148 lib/Minimal/Compose.php:234
-#: lib/Minimal/Compose.php:237 lib/Minimal/Message.php:244
-#: lib/Notification/Event/Status.php:32
+#: lib/Basic/Compose.php:421 lib/Basic/Mailbox.php:685
+#: lib/Dynamic/Base.php:180 lib/Dynamic/Compose.php:148
+#: lib/Minimal/Compose.php:234 lib/Minimal/Compose.php:237
+#: lib/Minimal/Message.php:244 lib/Notification/Event/Status.php:32
 #: templates/basic/compose/redirect.html.php:51
-#: templates/dynamic/redirect.html.php:7 templates/minimal/redirect.html.php:27
+#: templates/dynamic/redirect.html.php:7
+#: templates/minimal/redirect.html.php:27
 #: templates/smartmobile/message.html.php:55
 msgid "Redirect"
 msgid_plural "Redirect Messages"
@@ -4203,7 +4227,8 @@ msgid "Required Participant"
 msgstr "Ζητήθηκε Συμμετέχων"
 
 #: templates/basic/search/search-basic.html.php:50
-#: templates/contacts/contacts.html.php:25 templates/search/search.html.php:106
+#: templates/contacts/contacts.html.php:25
+#: templates/search/search.html.php:106
 msgid "Reset"
 msgstr "Καθαρισμός Φόρμας"
 
@@ -4916,7 +4941,8 @@ msgstr "Θέμα"
 #: lib/Dynamic/Mailbox.php:188 lib/Dynamic/Mailbox.php:258
 #: lib/Dynamic/Mailbox.php:499 lib/Message/Ui.php:39 lib/Smartmobile.php:181
 #: templates/basic/search/search-basic.html.php:18
-#: templates/dynamic/compose.html.php:147 templates/minimal/mailbox.html.php:10
+#: templates/dynamic/compose.html.php:147
+#: templates/minimal/mailbox.html.php:10
 #: templates/smartmobile/search.html.php:13
 msgid "Subject"
 msgstr "Θέμα"
@@ -5045,6 +5071,15 @@ msgstr "Κείμενο:"
 #: config/prefs.php:1535
 msgid "The From: column of the message should be linked:"
 msgstr "Η στήλη Από: του μηνύματος πρέπει να συνδεθεί:"
+
+#: lib/Mime/Viewer/Appledouble.php:97
+msgid "The Macintosh resource fork"
+msgstr ""
+
+#: lib/Mime/Viewer/Appledouble.php:97
+#, php-format
+msgid "The Macintosh resource fork can be downloaded %s."
+msgstr ""
 
 #: lib/Ajax/Application/Handler/Dynamic.php:852
 msgid ""
@@ -5385,7 +5420,8 @@ msgstr "Οι πληροφορίες ελεύθερου/απασχολημένο�
 msgid "There are no alternative parts that can be displayed inline."
 msgstr "Δεν υπάρχουν εναλλακτικά μέρη που μπορούν να εμφανισθούν."
 
-#: lib/Dynamic/Mailbox.php:561 templates/basic/mailbox/empty_mailbox.html.php:6
+#: lib/Dynamic/Mailbox.php:561
+#: templates/basic/mailbox/empty_mailbox.html.php:6
 msgid "There are no messages in this mailbox."
 msgstr "Δεν υπάρχουν μηνύματα σε αυτό το γραμματοκιβώτιο."
 
@@ -5588,9 +5624,10 @@ msgstr "Ταξινόμηση Νήματος"
 msgid "Thread View"
 msgstr "Προβολή νημάτων"
 
-#: lib/Basic/Contacts.php:111 lib/Basic/Mailbox.php:725 lib/Basic/Search.php:65
-#: lib/Compose.php:2599 lib/Dynamic/Mailbox.php:183 lib/Dynamic/Mailbox.php:257
-#: lib/Message/Ui.php:35 templates/basic/compose/redirect.html.php:30
+#: lib/Basic/Contacts.php:111 lib/Basic/Mailbox.php:725
+#: lib/Basic/Search.php:65 lib/Compose.php:2599 lib/Dynamic/Mailbox.php:183
+#: lib/Dynamic/Mailbox.php:257 lib/Message/Ui.php:35
+#: templates/basic/compose/redirect.html.php:30
 #: templates/contacts/contacts.html.php:40
 #: templates/dynamic/compose.html.php:114
 #: templates/dynamic/mailbox.html.php:136 templates/thread/thread.html.php:21
