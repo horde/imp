@@ -23,7 +23,7 @@
  * @package    IMP
  * @subpackage UnitTests
  */
-class Imp_Unit_ComposeTest extends TestCase
+class Imp_Unit_ComposeTest extends PHPUnit_Framework_TestCase
 {
     public function testBug10431()
     {

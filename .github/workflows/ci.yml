@@ -8,10 +8,8 @@ on:
   push:
     branches:
       - master
-      - ci-fxes
       - maintaina-composerfixed
       - FRAMEWORK_6_0
-      - identites-test-branch
   pull_request:
     branches:
       - master
@@ -26,24 +24,17 @@ on:
 jobs:
   run:
     runs-on: ${{ matrix.operating-system }}
-    timeout-minutes: 30
     strategy:
       matrix:
-        include: 
-          - operating-system: 'ubuntu-22.04'
-            php-versions: '7.4'
-            phpunit-versions: '9.5'
-          - operating-system: 'ubuntu-22.04'
-            php-versions: '8.0'
-            phpunit-versions: '9.5'
-          # - operating-system: 'ubuntu-22.04'
-          #   php-versions: '8.1'
-          #   phpunit-versions: '10.1'
+        operating-system: ['ubuntu-20.04']
+        php-versions: ['7.4', '8.0', 'latest']
+        phpunit-versions: ['latest', '9.5']
     steps:
     - name: Setup github ssh key
       run:  mkdir -p ~/.ssh/ && ssh-keyscan -t rsa github.com > ~/.ssh/known_hosts
     - name: Checkout
       uses: actions/checkout@v2
+
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
@@ -60,5 +51,4 @@ jobs:
         COMPOSER_ROOT_VERSION=dev-FRAMEWORK_6_0 composer config minimum-stability dev
         COMPOSER_ROOT_VERSION=dev-FRAMEWORK_6_0 composer install
     - name: run phpunit
-      run: |
-        phpunit --bootstrap test/Imp/bootstrap.php
+      run: phpunit --bootstrap test/bootstrap.php

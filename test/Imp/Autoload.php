@@ -10,6 +10,8 @@
  * @subpackage UnitTests
  */
 
-// this should load all classes in the lib/ directory into autoload
 Horde_Test_Autoload::addPrefix('IMP', __DIR__ . '/../../lib');
-Horde_Test_Autoload::init();
+
+require_once 'Stub/HtmlViewer.php';
+require_once 'Stub/Imap.php';
+require_once 'Stub/ItipRequest.php';

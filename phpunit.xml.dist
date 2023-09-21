@@ -1,13 +1,12 @@
-<?xml version="1.0"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="test/Imp/bootstrap.php" colors="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage>
-    <include>
+<phpunit bootstrap="test/Imp/bootstrap.php" colors="true">
+  <filter>
+    <whitelist>
       <directory suffix=".php">lib</directory>
-    </include>
-  </coverage>
+    </whitelist>
+  </filter>
   <testsuites>
-    <testsuite name="all">
-      <directory>test/Imp</directory>
+    <testsuite>
+      <directory>test</directory>
     </testsuite>
   </testsuites>
 </phpunit>

@@ -25,7 +25,7 @@
  * @subpackage UnitTests
  */
 class Imp_Unit_Mime_Viewer_ItipTest
-extends TestCase
+extends PHPUnit_Framework_TestCase
 {
     private $_contents;
     private $_contentsCharset;
@@ -39,27 +39,27 @@ extends TestCase
     private $_notifyStack = array();
     private $_oldtz;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->_oldtz = date_default_timezone_get();
         date_default_timezone_set('UTC');
-        $injector = $this->createMock(Horde_Injector::class, array(), array(), '', false);
+
+        $injector = $this->getMock('Horde_Injector', array(), array(), '', false);
         $injector->expects($this->any())
             ->method('getInstance')
             ->will($this->returnCallback(array($this, '_injectorGetInstance')));
         $GLOBALS['injector'] = $injector;
 
-        $registry = $this->createMock(Horde_Registry::class, array(), array(), '', false);
-        // getCharset this method cannot be found
-        // $registry->expects($this->any())
-        //     ->method('getCharset')
-        //     ->will($this->returnValue('UTF-8'));
+        $registry = $this->getMock('Horde_Registry', array(), array(), '', false);
+        $registry->expects($this->any())
+            ->method('getCharset')
+            ->will($this->returnValue('UTF-8'));
         $registry->expects($this->any())
             ->method('remoteHost')
             ->will($this->returnCallback(array($this, '_registryRemoteHost')));
         $GLOBALS['registry'] = $registry;
 
-        $notification = $this->createMock(Horde_Notification_Handler::class, array(), array(), '', false);
+        $notification = $this->getMock('Horde_Notification_Handler', array(), array(), '', false);
         $notification->expects($this->any())
             ->method('push')
             ->will($this->returnCallback(array($this, '_notificationHandler')));
@@ -69,7 +69,7 @@ extends TestCase
         $_SERVER['REMOTE_ADDR'] = 'localhost';
     }
 
-    public function tearDown(): void
+    public function tearDown()
     {
         date_default_timezone_set($this->_oldtz);
     }
@@ -80,12 +80,9 @@ extends TestCase
         case 'Horde_Core_Hooks':
             return new Horde_Core_Hooks();
 
-        case 'Horde_Browser':
-            return new Horde_Browser();
-
         case 'IMP_Contents':
             if (!isset($this->_contents)) {
-                $contents= $this->createMock('IMP_Contents', array(), array(), '', false);
+                $contents= $this->getMock('IMP_Contents', array(), array(), '', false);
                 $contents->expects($this->any())
                     ->method('getMimePart')
                     ->will($this->returnCallback(array($this, '_getMimePart')));
@@ -95,7 +92,7 @@ extends TestCase
 
         case 'IMP_Factory_Contents':
             if (!isset($this->_contentsFactory)) {
-                $cf = $this->createMock('IMP_Factory_Contents', array(), array(), '', false);
+                $cf = $this->getMock('IMP_Factory_Contents', array(), array(), '', false);
                 $cf->expects($this->any())
                     ->method('create')
                     ->will($this->returnValue($this->_injectorGetInstance('IMP_Contents')));
@@ -105,7 +102,7 @@ extends TestCase
 
         case 'IMP_Factory_Imap':
             if (!isset($this->_imapFactory)) {
-                $imap = $this->createMock('IMP_Factory_Imap', array(), array(), '', false);
+                $imap = $this->getMock('IMP_Factory_Imap', array(), array(), '', false);
                 $imap->expects($this->any())
                     ->method('create')
                     ->will($this->returnValue(new IMP_Stub_Imap()));
@@ -115,7 +112,7 @@ extends TestCase
 
         case 'IMP_Factory_Mailbox':
             if (!isset($this->_mailbox)) {
-                $mbox = $this->createMock('IMP_Factory_Mailbox', array(), array(), '', false);
+                $mbox = $this->getMock('IMP_Factory_Mailbox', array(), array(), '', false);
                 $mbox->expects($this->any())
                     ->method('create')
                     ->will($this->returnValue(new IMP_Mailbox('foo')));
@@ -125,7 +122,7 @@ extends TestCase
 
         case 'IMP_Identity':
             if (!isset($this->_identity)) {
-                $identity = $this->createMock('Horde_Core_Prefs_Identity', array(), array(), '', false);
+                $identity = $this->getMock('Horde_Core_Prefs_Identity', array(), array(), '', false);
                 $identity->expects($this->any())
                     ->method('setDefault')
                     ->will($this->returnCallback(array($this, '_identitySetDefault')));
@@ -272,7 +269,7 @@ extends TestCase
     public function testResultMessageContainsProductId()
     {
         $this->_doImple('accept', $this->_getInvitation()->exportvCalendar());
-        $this->assertMatchesRegularExpression(
+        $this->assertRegExp(
             '/-\/\/The Horde Project\/\/Horde Application Framework [1-9]+\/\/EN/',
             $this->_getIcalendar()->getAttributeSingle('PRODID')
         );
@@ -551,13 +548,13 @@ extends TestCase
     public function testResultMimeMessageHeadersContainsReceivedHeader()
     {
         $this->_doImple('accept', $this->_getInvitation()->exportvCalendar());
-        $this->assertStringContainsString('(Horde Framework) with HTTP', $this->_getMailHeaders()->getValue('Received'));
+        $this->assertContains('(Horde Framework) with HTTP', $this->_getMailHeaders()->getValue('Received'));
     }
 
     public function testResultMimeMessageHeadersContainsMessageId()
     {
         $this->_doImple('accept', $this->_getInvitation()->exportvCalendar());
-        $this->assertStringContainsString('.Horde.', $this->_getMailHeaders()->getValue('Message-ID'));
+        $this->assertContains('.Horde.', $this->_getMailHeaders()->getValue('Message-ID'));
     }
 
     public function testResultMimeMessageHeadersContainsDate()

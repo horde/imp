@@ -43,7 +43,3 @@ run-tests.log
 /.phpunit.cache
 .phpunit.results.cache
 .php-cs-fixer.cache
-
-# secrets
-
-.secrets
