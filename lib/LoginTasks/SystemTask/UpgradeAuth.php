@@ -68,7 +68,7 @@ class IMP_LoginTasks_SystemTask_UpgradeAuth extends Horde_Core_LoginTasks_System
                     $cache->deleteMailbox($val);
                 }
             }
-        } catch (Exception $e) {}
+        } catch (Throwable $e) {}
     }
 
 }
