@@ -4,12 +4,11 @@
   state:
     release: alpha
     api: alpha
-  date: 2022-10-08
+  date: 2023-09-22
   license:
     identifier: GPL-2.0
     uri: http://www.horde.org/licenses/gpl
   notes: |+
-    
 7.0.0alpha12:
   api: 7.0.0alpha1
   state:
