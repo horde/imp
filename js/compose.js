@@ -1857,7 +1857,7 @@ ImpCompose.classes.Attachlist = Class.create({
             HordeCore.doAction('addAttachment', {}, {
                 ajaxopts: {
                     postBody: fd,
-                    requestHeaders: { "Content-type": null },
+                    contentType: false,
                     onComplete: function() {
                         --this.curr_upload;
                         li.remove();
