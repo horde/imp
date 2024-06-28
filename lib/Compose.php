@@ -863,7 +863,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
             $message,
             $opts['encrypt'],
             $recip['list'],
-            $from
+            ($opts['save_sent'] ?? null) ? $from : null
         );
 
         /* Send the messages out now. */
@@ -997,7 +997,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         Horde_Mime_Part $msg,
         $encrypt,
         Horde_Mail_Rfc822_List $recip,
-        Horde_Mail_Rfc822_Address $from
+        ?Horde_Mail_Rfc822_Address $from = null
     )
     {
         global $injector;
@@ -1011,7 +1011,9 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         case IMP_Smime::ENCRYPT:
         case IMP_Smime::SIGNENC:
             $recip2 = clone $recip;
-            $recip2->add($from);
+            if ($from) {
+                $recip2->add($from);
+            }
             break;
         }
 
