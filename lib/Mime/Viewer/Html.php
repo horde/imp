@@ -465,7 +465,7 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
                 break;
             }
             if ($node->parentNode) {
-                node->parentNode->removeChild($node);
+                $node->parentNode->removeChild($node);
             }
             break;
 
