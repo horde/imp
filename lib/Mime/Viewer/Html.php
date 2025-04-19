@@ -132,7 +132,10 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
         $convert_text = $injector->getInstance('Horde_Variables')->convert_text;
 
         /* Don't do IMP DOM processing if converting to text. */
-        $this->_imptmp = array();
+        $this->_imptmp = array(
+            'inline' => $inline,
+            'img' => null
+        );
         if ($inline && !$convert_text) {
             $this->_imptmp += array(
                 'cid' => null,
