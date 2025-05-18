@@ -1,5 +1,4 @@
 {
-    "minimum-stability": "dev",
     "name": "horde/imp",
     "description": "Webmail application",
     "type": "horde-application",
@@ -22,16 +21,11 @@
             "role": "lead"
         }
     ],
-    "time": "2023-09-22",
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://horde-satis.maintaina.com"
-        }
-    ],
+    "time": "2025-05-18",
+    "repositories": [],
     "require": {
         "horde/horde-installer-plugin": "dev-FRAMEWORK_6_0 || ^2",
-        "php": "^7.4 || ^8",
+        "php": "^8.1",
         "horde/horde": "^6 || dev-FRAMEWORK_6_0",
         "horde/auth": "^3 || dev-FRAMEWORK_6_0",
         "horde/browser": "^3 || dev-FRAMEWORK_6_0",
@@ -89,8 +83,11 @@
         "ext-openssl": "*"
     },
     "autoload": {
-        "psr-0": {
-            "IMP": "lib/"
+        "classmap": [
+            "lib/"
+        ],
+        "psr-4": {
+            "Horde\\Imp\\": "/src"
         }
     },
     "autoload-dev": {
