@@ -194,7 +194,7 @@ class IMP_Message_Date
      */
     private function _format($type, $udate)
     {
-        return ltrim(strftime($GLOBALS['prefs']->getValue($type), $udate));
+        return ltrim(strftime($GLOBALS['prefs']->getValue($type), (int)$udate));
     }
 
 }
