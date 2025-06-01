@@ -10,6 +10,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
+use function PHP81_BC\strftime;
 
 /**
  * An object representing an outgoing mail message.

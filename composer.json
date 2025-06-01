@@ -21,10 +21,10 @@
             "role": "lead"
         }
     ],
-    "time": "2025-05-18",
+    "time": "2025-06-01",
     "repositories": [],
     "require": {
-        "horde/horde-installer-plugin": "dev-FRAMEWORK_6_0 || ^2",
+        "horde/horde-installer-plugin": "dev-FRAMEWORK_6_0 || ^3 || ^2",
         "php": "^8.1",
         "horde/horde": "^6 || dev-FRAMEWORK_6_0",
         "horde/auth": "^3 || dev-FRAMEWORK_6_0",
@@ -64,6 +64,7 @@
         "horde/util": "^3 || dev-FRAMEWORK_6_0",
         "horde/vfs": "^3 || dev-FRAMEWORK_6_0",
         "horde/view": "^3 || dev-FRAMEWORK_6_0",
+        "php81_bc\\strftime": "^0.7.4 || ^1",
         "ext-dom": "*",
         "ext-gettext": "*",
         "ext-hash": "*",
@@ -106,6 +107,11 @@
     "config": {
         "allow-plugins": {
             "horde/horde-installer-plugin": true
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-FRAMEWORK_6_0": "7.x-dev"
         }
     }
 }

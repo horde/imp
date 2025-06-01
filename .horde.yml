@@ -81,6 +81,7 @@ dependencies:
       horde/util: ^3
       horde/vfs: ^3
       horde/view: ^3
+      php81_bc\strftime: ^0.7.4 || ^1
     ext:
       dom: '*'
       gettext: '*'

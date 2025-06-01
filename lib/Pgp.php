@@ -10,7 +10,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-
+use function PHP81_BC\strftime;
 /**
  * Contains code related to handling PGP data within IMP.
  *

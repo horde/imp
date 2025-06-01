@@ -10,7 +10,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-
+use function PHP81_BC\strftime;
 /**
  * Displays vCalendar/iCalendar data and provides an option to import the data
  * into a calendar source, if available.
