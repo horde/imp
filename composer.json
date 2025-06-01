@@ -64,7 +64,7 @@
         "horde/util": "^3 || dev-FRAMEWORK_6_0",
         "horde/vfs": "^3 || dev-FRAMEWORK_6_0",
         "horde/view": "^3 || dev-FRAMEWORK_6_0",
-        "php81_bc\\strftime": "^0.7.4 || ^1",
+        "php81_bc/strftime": "^0.7.4 || ^1",
         "ext-dom": "*",
         "ext-gettext": "*",
         "ext-hash": "*",

@@ -31,7 +31,7 @@ authors:
     active: false
     role: lead
 version:
-  release: 7.0.0-alpha14
+  release: 7.0.0-alpha15
   api: 7.0.0alpha1
 state:
   release: alpha
@@ -81,7 +81,7 @@ dependencies:
       horde/util: ^3
       horde/vfs: ^3
       horde/view: ^3
-      php81_bc\strftime: ^0.7.4 || ^1
+      php81_bc/strftime: ^0.7.4 || ^1
     ext:
       dom: '*'
       gettext: '*'

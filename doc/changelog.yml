@@ -1,4 +1,15 @@
 ---
+7.0.0-alpha15:
+  api: 7.0.0-alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2025-06-01
+  license:
+    identifier: GPL-2.0-only
+    uri: http://www.horde.org/licenses/gpl
+  notes: |
+    fix: Use compat library for strftime calls
 7.0.0-alpha14:
   api: 7.0.0-alpha1
   state:
@@ -3602,5 +3613,4 @@
     |
   [mms] SECURITY: |-
     XSS - Make sure mailbox name displayed on mailbox page is
-  [mms] Use IMAP_Tree:
-    : for IMAP Tree generation.
+  [mms] Use IMAP_Tree: []
