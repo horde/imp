@@ -24,6 +24,7 @@
  */
 class IMP_Basic_Contacts extends IMP_Basic_Base
 {
+    protected $header;
     /**
      * URL Parameters:
      *   - search: (string) Search term (defaults to '').
