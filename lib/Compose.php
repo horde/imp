@@ -1218,6 +1218,8 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
 
         $imp_imap = $injector->getInstance('IMP_Factory_Imap')->create();
 
+        $sent_mail = IMP_Mailbox::get($opts['sent_mail']);
+        
         /* If message contains EAI addresses, we need to verify that the IMAP
          * server can handle this data in order to save. */
         foreach ($recips as $val) {
@@ -1226,7 +1228,6 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
                     break;
                 }
 
-                $sent_mail = IMP_Mailbox::get($opts['sent_mail']);
                 $notification->push(sprintf(
                     _('Message sent successfully, but not saved to %s.'),
                     $sent_mail->display
@@ -1268,7 +1269,6 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         ]);
 
         /* Make sure sent mailbox is created. */
-        $sent_mail = IMP_Mailbox::get($opts['sent_mail']);
         $sent_mail->create();
 
         $flags = [
