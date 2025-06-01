@@ -1226,6 +1226,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
                     break;
                 }
 
+                $sent_mail = IMP_Mailbox::get($opts['sent_mail']);
                 $notification->push(sprintf(
                     _('Message sent successfully, but not saved to %s.'),
                     $sent_mail->display
