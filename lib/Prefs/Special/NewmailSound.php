@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -34,23 +35,23 @@ class IMP_Prefs_Special_NewmailSound implements Horde_Core_Prefs_Ui_Special
     {
         global $prefs;
 
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/prefs'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/prefs',
+        ]);
         $view->addHelper('FormTag');
         $view->addHelper('Tag');
         $view->addHelper('Text');
 
         $newmail_audio = $view->newmail_audio = $prefs->getValue('newmail_audio');
 
-        $sounds = array();
+        $sounds = [];
         foreach (Horde_Themes::soundList() as $key => $val) {
-            $sounds[] = array(
+            $sounds[] = [
                 'c' => ($newmail_audio == $key),
                 'l' => $key,
                 's' => $val->uri,
-                'v' => $key
-            );
+                'v' => $key,
+            ];
         }
         $view->sounds = $sounds;
 

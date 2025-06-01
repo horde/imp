@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,8 +21,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Ajax_Application_Handler_Mboxtoggle
-extends Horde_Core_Ajax_Application_Handler
+class IMP_Ajax_Application_Handler_Mboxtoggle extends Horde_Core_Ajax_Application_Handler
 {
     /**
      * AJAX action: Expand mailboxes (saves expanded state in prefs).
@@ -45,13 +45,13 @@ extends Horde_Core_Ajax_Application_Handler
             $ftree->eltdiff->track = false;
 
             switch ($this->vars->action) {
-            case 'collapse':
-                $ftree->collapseAll();
-                break;
+                case 'collapse':
+                    $ftree->collapseAll();
+                    break;
 
-            case 'expand':
-                $ftree->expandAll();
-                break;
+                case 'expand':
+                    $ftree->expandAll();
+                    break;
             }
 
             $ftree->eltdiff->track = $old_track;
@@ -59,13 +59,13 @@ extends Horde_Core_Ajax_Application_Handler
             $mboxes = IMP_Mailbox::formFrom(json_decode($this->vars->mboxes));
 
             switch ($this->vars->action) {
-            case 'collapse':
-                $ftree->collapse($mboxes);
-                break;
+                case 'collapse':
+                    $ftree->collapse($mboxes);
+                    break;
 
-            case 'expand':
-                $ftree->expand($mboxes);
-                break;
+                case 'expand':
+                    $ftree->expand($mboxes);
+                    break;
             }
         }
 

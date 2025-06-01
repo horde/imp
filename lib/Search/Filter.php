@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -34,18 +35,18 @@ class IMP_Search_Filter extends IMP_Search_Query
     public function __get($name)
     {
         switch ($name) {
-        case 'querytext':
-            $text = array();
+            case 'querytext':
+                $text = [];
 
-            foreach ($this->_criteria as $elt) {
-                $text[] = $elt->queryText();
-                if (!($elt instanceof IMP_Search_Element_Or)) {
-                    $text[] = _("and");
+                foreach ($this->_criteria as $elt) {
+                    $text[] = $elt->queryText();
+                    if (!($elt instanceof IMP_Search_Element_Or)) {
+                        $text[] = _('and');
+                    }
                 }
-            }
-            array_pop($text);
+                array_pop($text);
 
-            return sprintf(_("Search %s"), implode(' ', $text));
+                return sprintf(_('Search %s'), implode(' ', $text));
         }
 
         return parent::__get($name);
@@ -61,12 +62,12 @@ class IMP_Search_Filter extends IMP_Search_Query
      */
     public function toQuery(array $mboxes, $id = null)
     {
-        return new IMP_Search_Query(array(
+        return new IMP_Search_Query([
             'add' => $this->_criteria,
             'id' => $id,
             'label' => $this->label,
-            'mboxes' => $mboxes
-        ));
+            'mboxes' => $mboxes,
+        ]);
     }
 
 }

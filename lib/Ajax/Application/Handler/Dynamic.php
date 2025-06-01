@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,17 +21,16 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Ajax_Application_Handler_Dynamic
-extends Horde_Core_Ajax_Application_Handler
+class IMP_Ajax_Application_Handler_Dynamic extends Horde_Core_Ajax_Application_Handler
 {
     /**
      * The list of actions that require readonly access to the session.
      *
      * @var array
      */
-    protected $_readOnly = array(
-        'html2Text', 'text2Html'
-    );
+    protected $_readOnly = [
+        'html2Text', 'text2Html',
+    ];
 
     /**
      * AJAX action: Check access rights for creation of a submailbox.
@@ -45,11 +45,11 @@ extends Horde_Core_Ajax_Application_Handler
     public function createMailboxPrepare()
     {
         $mbox = IMP_Mailbox::formFrom($this->vars->mbox);
-        $ret = new stdClass;
+        $ret = new stdClass();
         $ret->result = true;
 
         if (!$mbox->access_creatembox) {
-            $GLOBALS['notification']->push(sprintf(_("You may not create child mailboxes in \"%s\"."), $mbox->display), 'horde.error');
+            $GLOBALS['notification']->push(sprintf(_('You may not create child mailboxes in "%s".'), $mbox->display), 'horde.error');
             $ret->result = false;
         }
 
@@ -82,7 +82,7 @@ extends Horde_Core_Ajax_Application_Handler
         $new_mbox = $parent->createMailboxName($this->vars->mbox);
 
         if ($new_mbox->exists) {
-            $notification->push(sprintf(_("Mailbox \"%s\" already exists."), $new_mbox->display), 'horde.warning');
+            $notification->push(sprintf(_('Mailbox "%s" already exists.'), $new_mbox->display), 'horde.warning');
         } elseif ($new_mbox->create()) {
             $result = true;
 
@@ -109,7 +109,7 @@ extends Horde_Core_Ajax_Application_Handler
     public function deleteMailboxPrepare()
     {
         $mbox = IMP_Mailbox::formFrom($this->vars->mbox);
-        $ret = new stdClass;
+        $ret = new stdClass();
 
         if ($mbox->access_deletembox) {
             $ret->result = true;
@@ -117,13 +117,13 @@ extends Horde_Core_Ajax_Application_Handler
         }
 
         switch ($this->vars->type) {
-        case 'delete':
-            $GLOBALS['notification']->push(sprintf(_("You may not delete \"%s\"."), $mbox->display), 'horde.error');
-            break;
+            case 'delete':
+                $GLOBALS['notification']->push(sprintf(_('You may not delete "%s".'), $mbox->display), 'horde.error');
+                break;
 
-        case 'rename':
-            $GLOBALS['notification']->push(sprintf(_("You may not rename \"%s\"."), $mbox->display), 'horde.error');
-            break;
+            case 'rename':
+                $GLOBALS['notification']->push(sprintf(_('You may not rename "%s".'), $mbox->display), 'horde.error');
+                break;
         }
 
         $ret->result = false;
@@ -142,10 +142,10 @@ extends Horde_Core_Ajax_Application_Handler
      */
     public function deleteMailbox()
     {
-        return ($this->vars->mbox && IMP_Mailbox::formFrom($this->vars->mbox)->delete(array(
+        return ($this->vars->mbox && IMP_Mailbox::formFrom($this->vars->mbox)->delete([
             'subfolders' => !empty($this->vars->subfolders),
-            'subfolders_only' => !empty($this->vars->container)
-        )));
+            'subfolders_only' => !empty($this->vars->container),
+        ]));
     }
 
     /**
@@ -200,15 +200,15 @@ extends Horde_Core_Ajax_Application_Handler
     public function emptyMailboxPrepare()
     {
         $mbox = IMP_Mailbox::formFrom($this->vars->mbox);
-        $res = new stdClass;
+        $res = new stdClass();
         $res->result = 0;
 
         if (!$mbox->access_empty) {
-            $GLOBALS['notification']->push(sprintf(_("The mailbox \"%s\" may not be emptied."), $mbox->display), 'horde.error');
+            $GLOBALS['notification']->push(sprintf(_('The mailbox "%s" may not be emptied.'), $mbox->display), 'horde.error');
         } else {
             $poll_info = $mbox->poll_info;
             if (!($res->result = $poll_info->msgs)) {
-                $GLOBALS['notification']->push(sprintf(_("The mailbox \"%s\" is already empty."), $mbox->display), 'horde.message');
+                $GLOBALS['notification']->push(sprintf(_('The mailbox "%s" is already empty.'), $mbox->display), 'horde.message');
             }
         }
 
@@ -334,7 +334,7 @@ extends Horde_Core_Ajax_Application_Handler
             /* Add special mailboxes explicitly to the initial folder list,
              * since they are ALWAYS displayed, may appear outside of the
              * folder slice requested, and need to be sorted logically. */
-            $s_elts = array();
+            $s_elts = [];
             foreach (IMP_Mailbox::getSpecialMailboxesSort() as $val) {
                 if (isset($ftree[$val])) {
                     $special->append($val);
@@ -347,8 +347,8 @@ extends Horde_Core_Ajax_Application_Handler
              * special mailbox children - this need to be suppressed in
              * display. */
             $filter2 = clone $filter;
-            $filter2->add(array($filter2::CONTAINERS, $filter2::SPECIALMBOXES));
-            $no_children = array();
+            $filter2->add([$filter2::CONTAINERS, $filter2::SPECIALMBOXES]);
+            $no_children = [];
 
             foreach (array_unique($s_elts) as $val) {
                 while (($val = $val->parent) && !$val->base_elt) {
@@ -363,7 +363,7 @@ extends Horde_Core_Ajax_Application_Handler
             }
 
             if (!empty($no_children)) {
-                $this->_base->queue->ftreeCallback = function($id, $ob) use ($no_children) {
+                $this->_base->queue->ftreeCallback = function ($id, $ob) use ($no_children) {
                     if (in_array($id, $no_children)) {
                         unset($ob->ch);
                     }
@@ -374,22 +374,22 @@ extends Horde_Core_Ajax_Application_Handler
             $no_mbox = false;
 
             switch ($prefs->getValue('nav_expanded')) {
-            case IMP_Ftree_Prefs_Expanded::NO:
-                $filter->add($filter::CHILDREN);
-                break;
+                case IMP_Ftree_Prefs_Expanded::NO:
+                    $filter->add($filter::CHILDREN);
+                    break;
 
-            case IMP_Ftree_Prefs_Expanded::YES:
-                $this->_base->queue->setMailboxOpt('expand', 1);
-                $no_mbox = true;
-                break;
+                case IMP_Ftree_Prefs_Expanded::YES:
+                    $this->_base->queue->setMailboxOpt('expand', 1);
+                    $no_mbox = true;
+                    break;
 
-            case IMP_Ftree_Prefs_Expanded::LAST:
-                $filter->add($filter::EXPANDED);
-                $this->_base->queue->setMailboxOpt('expand', 1);
-                break;
+                case IMP_Ftree_Prefs_Expanded::LAST:
+                    $filter->add($filter::EXPANDED);
+                    $this->_base->queue->setMailboxOpt('expand', 1);
+                    break;
             }
 
-            $filter->mboxes = array('INBOX');
+            $filter->mboxes = ['INBOX'];
             $iterator->append($filter);
 
             if (!$no_mbox) {
@@ -418,7 +418,7 @@ extends Horde_Core_Ajax_Application_Handler
         }
 
         array_map(
-            array($ftree->eltdiff, 'add'),
+            [$ftree->eltdiff, 'add'],
             array_unique(iterator_to_array($iterator, false))
         );
 
@@ -450,7 +450,7 @@ extends Horde_Core_Ajax_Application_Handler
         $this->_base->callAction('viewPort');
 
         $this->vars->initial = 1;
-        $this->vars->mboxes = json_encode(array($this->vars->mailbox));
+        $this->vars->mboxes = json_encode([$this->vars->mailbox]);
         $this->listMailboxes();
 
         $this->_base->queue->flagConfig(Horde_Registry::VIEW_DYNAMIC);
@@ -480,17 +480,17 @@ extends Horde_Core_Ajax_Application_Handler
 
         $mbox = IMP_Mailbox::formFrom($this->vars->mbox);
 
-        $result = new stdClass;
+        $result = new stdClass();
         $result->add = intval($this->vars->add);
         $result->mbox = $this->vars->mbox;
 
         if ($this->vars->add) {
             $injector->getInstance('IMP_Ftree')->poll->addPollList($mbox);
             $this->_base->queue->poll($mbox);
-            $GLOBALS['notification']->push(sprintf(_("\"%s\" mailbox now polled for new mail."), $mbox->display), 'horde.success');
+            $GLOBALS['notification']->push(sprintf(_('"%s" mailbox now polled for new mail.'), $mbox->display), 'horde.success');
         } else {
             $injector->getInstance('IMP_Ftree')->poll->removePollList($mbox);
-            $GLOBALS['notification']->push(sprintf(_("\"%s\" mailbox no longer polled for new mail."), $mbox->display), 'horde.success');
+            $GLOBALS['notification']->push(sprintf(_('"%s" mailbox no longer polled for new mail.'), $mbox->display), 'horde.success');
         }
 
         return $result;
@@ -509,9 +509,9 @@ extends Horde_Core_Ajax_Application_Handler
      */
     public function subscribe()
     {
-        return IMP_Mailbox::formFrom($this->vars->mbox)->subscribe($this->vars->sub, array(
-            'subfolders' => !empty($this->vars->subfolders)
-        ));
+        return IMP_Mailbox::formFrom($this->vars->mbox)->subscribe($this->vars->sub, [
+            'subfolders' => !empty($this->vars->subfolders),
+        ]);
     }
 
     /**
@@ -539,7 +539,7 @@ extends Horde_Core_Ajax_Application_Handler
             $notification->push($e);
         }
 
-        $result = new stdClass;
+        $result = new stdClass();
         $result->action = 'importMailbox';
         $result->mbox = $this->vars->import_mbox;
 
@@ -574,14 +574,14 @@ extends Horde_Core_Ajax_Application_Handler
         /* Check for non-system flags. If we find any, and the server supports
          * CONDSTORE, we should make sure that these flags are only updated if
          * nobody else has altered the flags. */
-        $system_flags = array(
+        $system_flags = [
             Horde_Imap_Client::FLAG_ANSWERED,
             Horde_Imap_Client::FLAG_DELETED,
             Horde_Imap_Client::FLAG_DRAFT,
             Horde_Imap_Client::FLAG_FLAGGED,
             Horde_Imap_Client::FLAG_RECENT,
-            Horde_Imap_Client::FLAG_SEEN
-        );
+            Horde_Imap_Client::FLAG_SEEN,
+        ];
 
         $unchangedsince = null;
         if (!$this->_base->indices->mailbox->search &&
@@ -591,18 +591,19 @@ extends Horde_Core_Ajax_Application_Handler
             $parsed = $imp_imap->parseCacheId($this->vars->viewport->cacheid);
 
             try {
-                $unchangedsince[strval($this->_base->indices->mailbox)] = $imp_imap->sync($this->_base->indices->mailbox, $parsed['token'], array(
-                    'criteria' => Horde_Imap_Client::SYNC_UIDVALIDITY
-                ))->highestmodseq;
-            } catch (Horde_Imap_Client_Exception_Sync $e) {}
+                $unchangedsince[strval($this->_base->indices->mailbox)] = $imp_imap->sync($this->_base->indices->mailbox, $parsed['token'], [
+                    'criteria' => Horde_Imap_Client::SYNC_UIDVALIDITY,
+                ])->highestmodseq;
+            } catch (Horde_Imap_Client_Exception_Sync $e) {
+            }
         }
 
         $res = $this->_base->indices->flag(
-            $this->vars->add ? $flags : array(),
-            $this->vars->add ? array() : $flags,
-            array(
-                'unchangedsince' => $unchangedsince
-            )
+            $this->vars->add ? $flags : [],
+            $this->vars->add ? [] : $flags,
+            [
+                'unchangedsince' => $unchangedsince,
+            ]
         );
 
         if (!$res) {
@@ -639,11 +640,11 @@ extends Horde_Core_Ajax_Application_Handler
                 $res = $injector->getInstance('IMP_Contacts')->addAddress($val);
                 $notification->push(
                     sprintf(
-                        htmlspecialchars(_("%s was successfully added to your address book.")),
+                        htmlspecialchars(_('%s was successfully added to your address book.')),
                         $res
                     ),
                     'horde.success',
-                    array('content.raw')
+                    ['content.raw']
                 );
                 $result = true;
             } catch (Horde_Exception $e) {
@@ -712,7 +713,7 @@ extends Horde_Core_Ajax_Application_Handler
      */
     public function messageMimeTree()
     {
-        $result = new stdClass;
+        $result = new stdClass();
 
         try {
             $imp_contents = $GLOBALS['injector']->getInstance('IMP_Factory_Contents')->create($this->_base->indices);
@@ -750,7 +751,7 @@ extends Horde_Core_Ajax_Application_Handler
 
         $hdr = $this->vars->header;
 
-        $result = new stdClass;
+        $result = new stdClass();
         $result->hdr_data->$hdr = (object)$show_msg->getAddressHeader($hdr, null);
 
         return $result;
@@ -775,12 +776,12 @@ extends Horde_Core_Ajax_Application_Handler
      */
     public function inlineMessageOutput()
     {
-        $result = new stdClass;
+        $result = new stdClass();
 
         $show_msg = new IMP_Contents_Message($this->_base->indices);
         $msg_output = $show_msg->getInlineOutput($this->vars->mimeid);
 
-        $result = new stdClass;
+        $result = new stdClass();
         $result->md = $msg_output['metadata'];
         $result->mimeid = $this->vars->mimeid;
         $result->puids = $this->_base->previewUids();
@@ -803,14 +804,14 @@ extends Horde_Core_Ajax_Application_Handler
     {
         global $injector, $notification;
 
-        $result = array();
+        $result = [];
 
         if (isset($this->vars->atc_indices)) {
             $imp_compose = $injector->getInstance('IMP_Factory_Compose')->create($this->vars->imp_compose);
             foreach (json_decode($this->vars->atc_indices) as $val) {
                 if (isset($imp_compose[$val])) {
                     if (empty($this->vars->quiet)) {
-                        $notification->push(sprintf(_("Deleted attachment \"%s\"."), Horde_Mime::decode($imp_compose[$val]->getPart()->getName(true))), 'horde.success');
+                        $notification->push(sprintf(_('Deleted attachment "%s".'), Horde_Mime::decode($imp_compose[$val]->getPart()->getName(true))), 'horde.success');
                     }
                     unset($imp_compose[$val]);
                     $result[] = $val;
@@ -820,7 +821,7 @@ extends Horde_Core_Ajax_Application_Handler
         }
 
         if (empty($result) && empty($this->vars->quiet)) {
-            $notification->push(_("At least one attachment could not be deleted."), 'horde.error');
+            $notification->push(_('At least one attachment could not be deleted.'), 'horde.error');
         }
 
         return $result;
@@ -835,15 +836,15 @@ extends Horde_Core_Ajax_Application_Handler
      */
     public function purgeDeleted()
     {
-        $expunged = $this->_base->indices->mailbox->expunge(null, array(
-            'list' => true
-        ));
+        $expunged = $this->_base->indices->mailbox->expunge(null, [
+            'list' => true,
+        ]);
 
         if (!($expunge_count = count($expunged))) {
             return false;
         }
 
-        $GLOBALS['notification']->push(sprintf(ngettext("%d message was purged from \"%s\".", "%d messages were purged from \"%s\".", $expunge_count), $expunge_count, $this->_base->indices->mailbox->display), 'horde.success');
+        $GLOBALS['notification']->push(sprintf(ngettext('%d message was purged from "%s".', '%d messages were purged from "%s".', $expunge_count), $expunge_count, $this->_base->indices->mailbox->display), 'horde.success');
 
         $indices = new IMP_Indices_Mailbox();
         $indices->buids = $this->_base->indices->mailbox->toBuids($expunged);
@@ -877,7 +878,7 @@ extends Horde_Core_Ajax_Application_Handler
         try {
             $contents = $injector->getInstance('IMP_Factory_Contents')->create($this->_base->indices);
         } catch (IMP_Imap_Exception $e) {
-            $e->notify(_("The Message Disposition Notification was not sent. This is what the server said") . ': ' . $e->getMessage());
+            $e->notify(_('The Message Disposition Notification was not sent. This is what the server said') . ': ' . $e->getMessage());
             return false;
         }
 
@@ -887,13 +888,13 @@ extends Horde_Core_Ajax_Application_Handler
                 true
             );
         } catch (Horde_Exception $e) {
-            $notification->push(_("The Message Disposition Notification was not sent. This is what the server said") . ': ' . $e->getMessage(), 'horde.warning');
+            $notification->push(_('The Message Disposition Notification was not sent. This is what the server said') . ': ' . $e->getMessage(), 'horde.warning');
             return false;
         }
 
-        $notification->push(_("The Message Disposition Notification was sent successfully."), 'horde.success');
+        $notification->push(_('The Message Disposition Notification was sent successfully.'), 'horde.success');
 
-        $result = new stdClass;
+        $result = new stdClass();
         $result->puids = $this->_base->previewUids();
 
         return $result;
@@ -935,14 +936,14 @@ extends Horde_Core_Ajax_Application_Handler
             return false;
         }
 
-        $notification->push(_("Attachment successfully stripped."), 'horde.success');
+        $notification->push(_('Attachment successfully stripped.'), 'horde.success');
 
-        $result = new stdClass;
+        $result = new stdClass();
         $result->puids = $this->_base->previewUids();
 
         $this->_base->queue->message(
             $this->_base->indices,
-            array('preview' => true)
+            ['preview' => true]
         );
         $this->_base->addTask('viewport', $this->_base->viewPortData(true));
 
@@ -1000,8 +1001,8 @@ extends Horde_Core_Ajax_Application_Handler
 
         $compose = null;
 
-        $result = new stdClass;
-        $result->text = array();
+        $result = new stdClass();
+        $result->text = [];
 
         foreach (json_decode($this->vars->data, true) as $key => $val) {
             $tmp = null;
@@ -1012,36 +1013,36 @@ extends Horde_Core_Ajax_Application_Handler
                 }
 
                 switch ($compose->compose->replyType()) {
-                case IMP_Compose::FORWARD_BODY:
-                case IMP_Compose::FORWARD_BOTH:
-                    $data = $compose->compose->forwardMessageText($compose->contents, array(
-                        'format' => $mode
-                    ));
-                    $tmp = $data['body'];
-                    break;
+                    case IMP_Compose::FORWARD_BODY:
+                    case IMP_Compose::FORWARD_BOTH:
+                        $data = $compose->compose->forwardMessageText($compose->contents, [
+                            'format' => $mode,
+                        ]);
+                        $tmp = $data['body'];
+                        break;
 
-                case IMP_Compose::REPLY_ALL:
-                case IMP_Compose::REPLY_LIST:
-                case IMP_Compose::REPLY_SENDER:
-                    $data = $compose->compose->replyMessageText($compose->contents, array(
-                        'format' => $mode
-                    ));
-                    $tmp = $data['body'];
-                    break;
+                    case IMP_Compose::REPLY_ALL:
+                    case IMP_Compose::REPLY_LIST:
+                    case IMP_Compose::REPLY_SENDER:
+                        $data = $compose->compose->replyMessageText($compose->contents, [
+                            'format' => $mode,
+                        ]);
+                        $tmp = $data['body'];
+                        break;
                 }
             }
 
             if (is_null($tmp)) {
                 switch ($mode) {
-                case 'html':
-                    $tmp = IMP_Compose::text2html($val['text']);
-                    break;
+                    case 'html':
+                        $tmp = IMP_Compose::text2html($val['text']);
+                        break;
 
-                case 'text':
-                    $tmp = $injector->getInstance('Horde_Core_Factory_TextFilter')->filter($val['text'], 'Html2text', array(
-                        'width' => 0
-                    ));
-                    break;
+                    case 'text':
+                        $tmp = $injector->getInstance('Horde_Core_Factory_TextFilter')->filter($val['text'], 'Html2text', [
+                            'width' => 0,
+                        ]);
+                        break;
                 }
             }
 
@@ -1082,25 +1083,25 @@ extends Horde_Core_Ajax_Application_Handler
 
                     $atc_ob[0]->related = true;
 
-                    $data = array(
-                        IMP_Compose::RELATED_ATTR => 'src;' . $atc_ob[0]->id
-                    );
+                    $data = [
+                        IMP_Compose::RELATED_ATTR => 'src;' . $atc_ob[0]->id,
+                    ];
                     $url = strval($atc_ob[0]->viewUrl());
                 } catch (IMP_Compose_Exception $e) {
                     $data = $e->getMessage();
                 }
             } else {
-                $data = _("Uploading attachments has been disabled on this server.");
+                $data = _('Uploading attachments has been disabled on this server.');
             }
         } else {
-            $data = _("Your attachment was not uploaded. Most likely, the file exceeded the maximum size allowed by the server configuration.");
+            $data = _('Your attachment was not uploaded. Most likely, the file exceeded the maximum size allowed by the server configuration.');
         }
 
         return new Horde_Core_Ajax_Response_Raw(
             '<html>' .
-                Horde::wrapInlineScript(array(
-                    'window.parent.CKEDITOR.tools.callFunction(' . $this->vars->CKEditorFuncNum . ',' . json_encode($url) . ',' . json_encode($data) . ')'
-                )) .
+                Horde::wrapInlineScript([
+                    'window.parent.CKEDITOR.tools.callFunction(' . $this->vars->CKEditorFuncNum . ',' . json_encode($url) . ',' . json_encode($data) . ')',
+                ]) .
             '</html>',
             'text/html'
         );
@@ -1118,7 +1119,7 @@ extends Horde_Core_Ajax_Application_Handler
      */
     public function isFixedMbox()
     {
-        $result = new stdClass;
+        $result = new stdClass();
         $result->fixed = !(IMP_Mailbox::formFrom($this->vars->mbox)->access_deletembox);
         return $result;
     }
@@ -1137,7 +1138,7 @@ extends Horde_Core_Ajax_Application_Handler
     {
         global $injector, $notification;
 
-        $ret = new stdClass;
+        $ret = new stdClass();
         $ret->success = true;
 
         $imp_flags = $injector->getInstance('IMP_Flags');
@@ -1155,7 +1156,7 @@ extends Horde_Core_Ajax_Application_Handler
         }
 
         $this->vars->add = true;
-        $this->vars->flags = json_encode(array($imapflag));
+        $this->vars->flags = json_encode([$imapflag]);
         $this->flagMessages();
 
         $this->_base->queue->flagConfig(Horde_Registry::VIEW_DYNAMIC);
@@ -1187,24 +1188,24 @@ extends Horde_Core_Ajax_Application_Handler
             $mbox->create();
         }
 
-        $flist = array();
+        $flist = [];
         $iterator = new IMP_Ftree_IteratorFilter($injector->getInstance('IMP_Ftree'));
         $iterator->add($iterator::NONIMAP);
 
         foreach ($iterator as $val) {
             $mbox_ob = $val->mbox_ob;
-            $tmp = array(
+            $tmp = [
                 'f' => $mbox_ob->display,
                 'l' => Horde_String::abbreviate(str_repeat(' ', 2 * $val->level) . $mbox_ob->abbrev_label, 30),
-                'v' => $val->container ? '' : $mbox_ob->form_to
-            );
+                'v' => $val->container ? '' : $mbox_ob->form_to,
+            ];
             if ($tmp['f'] == $tmp['v']) {
                 unset($tmp['f']);
             }
             $flist[] = $tmp;
         }
 
-        $ret = new stdClass;
+        $ret = new stdClass();
         $ret->flist = $flist;
 
         return $ret;
@@ -1233,10 +1234,10 @@ extends Horde_Core_Ajax_Application_Handler
             $query->envelope();
 
             $imp_imap = $this->_base->indices->mailbox->imp_imap;
-            list($mbox, $uid) = $this->_base->indices->getSingle();
-            $ret = $imp_imap->fetch($mbox, $query, array(
-                'ids' => $imp_imap->getIdsOb($uid)
-            ));
+            [$mbox, $uid] = $this->_base->indices->getSingle();
+            $ret = $imp_imap->fetch($mbox, $query, [
+                'ids' => $imp_imap->getIdsOb($uid),
+            ]);
 
             $ob = $ret[$uid]->getEnvelope()->from->first();
         }
@@ -1245,15 +1246,15 @@ extends Horde_Core_Ajax_Application_Handler
         if (!$ob) {
             return false;
         } elseif ($ob instanceof Horde_Mail_Rfc822_Group) {
-            $notification->push(_("Editing group lists not currently supported."), 'horde.warning');
+            $notification->push(_('Editing group lists not currently supported.'), 'horde.warning');
             return false;
         }
 
         try {
             return new Horde_Core_Ajax_Response_HordeCore_Reload(
-                $registry->link('mail/newEmailFilter', array(
-                    'email' => $ob->bare_address
-                ))
+                $registry->link('mail/newEmailFilter', [
+                    'email' => $ob->bare_address,
+                ])
             );
         } catch (Horde_Exception $e) {
             return false;
@@ -1274,18 +1275,20 @@ extends Horde_Core_Ajax_Application_Handler
     public function getContactsImage()
     {
         $contacts_img = new IMP_Contacts_Image($this->vars->addr);
-        $out = new stdClass;
+        $out = new stdClass();
 
         try {
             $res = $contacts_img->getImage($contacts_img::AVATAR);
             $out->avatar = strval($res['url']);
-        } catch (IMP_Exception $e) {}
+        } catch (IMP_Exception $e) {
+        }
 
         try {
             $res = $contacts_img->getImage($contacts_img::FLAG);
             $out->flag = strval($res['url']);
             $out->flagname = $res['desc'];
-        } catch (IMP_Exception $e) {}
+        } catch (IMP_Exception $e) {
+        }
 
         return $out;
     }
@@ -1304,7 +1307,7 @@ extends Horde_Core_Ajax_Application_Handler
     {
         $mbox = IMP_Mailbox::formFrom($this->vars->mbox);
 
-        $ret = new stdClass;
+        $ret = new stdClass();
         $ret->size = $mbox->size;
 
         return $ret;
@@ -1330,20 +1333,20 @@ extends Horde_Core_Ajax_Application_Handler
      */
     public function autocompleteSearch()
     {
-        $out = new stdClass;
-        $out->results = array();
+        $out = new stdClass();
+        $out->results = [];
 
         switch ($this->vars->type) {
-        case 'email':
-            $addr = $GLOBALS['injector']->getInstance('IMP_Contacts')->searchEmail(
-                $this->vars->search,
-                array('levenshtein' => true)
-            );
+            case 'email':
+                $addr = $GLOBALS['injector']->getInstance('IMP_Contacts')->searchEmail(
+                    $this->vars->search,
+                    ['levenshtein' => true]
+                );
 
-            $ajax_addr = new IMP_Ajax_Addresses($addr);
+                $ajax_addr = new IMP_Ajax_Addresses($addr);
 
-            $out->results = $ajax_addr->toAutocompleteArray($this->vars->limit);
-            break;
+                $out->results = $ajax_addr->toAutocompleteArray($this->vars->limit);
+                break;
         }
 
         return $out;

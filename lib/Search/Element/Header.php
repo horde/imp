@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -35,7 +36,7 @@ class IMP_Search_Element_Header extends IMP_Search_Element
          * h = (string) Header name (lower case).
          * n = (integer) Do a NOT search?
          * t = (string) The search text. */
-        $this->_data = new stdClass;
+        $this->_data = new stdClass();
         $this->_data->h = trim(Horde_String::lower($header));
         $this->_data->n = intval(!empty($not));
         $this->_data->t = $text;
@@ -54,7 +55,7 @@ class IMP_Search_Element_Header extends IMP_Search_Element
      */
     public function queryText()
     {
-        return sprintf(_("%s (Header) for \"%s\""), _(Horde_String::ucfirst($this->_data->h)), ($this->_data->n ? _("not") . ' ' : '') . $this->_data->t);
+        return sprintf(_('%s (Header) for "%s"'), _(Horde_String::ucfirst($this->_data->h)), ($this->_data->n ? _('not') . ' ' : '') . $this->_data->t);
     }
 
 }

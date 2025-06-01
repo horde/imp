@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -29,9 +30,9 @@ class IMP_Script_Package_Imp extends Horde_Script_Package
     public function __construct()
     {
         $ob = new Horde_Script_File_JsDir('imp.js', 'imp');
-        $ob->jsvars = array(
-            'IMP_JS.unblock_image_text' => _("Click to always show images from this sender.")
-        );
+        $ob->jsvars = [
+            'IMP_JS.unblock_image_text' => _('Click to always show images from this sender.'),
+        ];
         $this->_files[] = $ob;
 
         $GLOBALS['page_output']->ajax = true;

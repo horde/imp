@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -36,21 +37,21 @@ class IMP_Factory_Sentmail extends Horde_Core_Factory_Injector
         $params = Horde::getDriverConfig('sentmail', $driver);
 
         switch (Horde_String::lower($driver)) {
-        case 'nosql':
-            $nosql = $injector->getInstance('Horde_Core_Factory_Nosql')->create('imp', 'sentmail');
-            if ($nosql instanceof Horde_Mongo_Client) {
-                $params['mongo_db'] = $nosql;
-                $driver = 'Mongo';
-            }
-            break;
+            case 'nosql':
+                $nosql = $injector->getInstance('Horde_Core_Factory_Nosql')->create('imp', 'sentmail');
+                if ($nosql instanceof Horde_Mongo_Client) {
+                    $params['mongo_db'] = $nosql;
+                    $driver = 'Mongo';
+                }
+                break;
 
-        case 'sql':
-            $params['db'] = $injector->getInstance('Horde_Core_Factory_Db')->create('imp', 'sentmail');
-            break;
+            case 'sql':
+                $params['db'] = $injector->getInstance('Horde_Core_Factory_Db')->create('imp', 'sentmail');
+                break;
 
-        default:
-            $driver = 'null';
-            break;
+            default:
+                $driver = 'null';
+                break;
         }
 
         $class = $this->_getDriverName($driver, 'IMP_Sentmail');

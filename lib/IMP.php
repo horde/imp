@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
  *
@@ -25,19 +26,19 @@
 class IMP
 {
     /* Encrypt constants. */
-    const ENCRYPT_NONE = 'encrypt_none';
+    public const ENCRYPT_NONE = 'encrypt_none';
 
     /* IMP Mailbox view constants. */
-    const MAILBOX_START_FIRSTUNSEEN = 1;
-    const MAILBOX_START_LASTUNSEEN = 2;
-    const MAILBOX_START_FIRSTPAGE = 3;
-    const MAILBOX_START_LASTPAGE = 4;
+    public const MAILBOX_START_FIRSTUNSEEN = 1;
+    public const MAILBOX_START_LASTUNSEEN = 2;
+    public const MAILBOX_START_FIRSTPAGE = 3;
+    public const MAILBOX_START_LASTPAGE = 4;
 
     /* Initial page constants. */
-    const INITIAL_FOLDERS = "initial\0folders";
+    public const INITIAL_FOLDERS = "initial\0folders";
 
     /* Sorting constants. */
-    const IMAP_SORT_DATE = 100;
+    public const IMAP_SORT_DATE = 100;
 
     /**
      * Filters a string, if requested.
@@ -57,7 +58,8 @@ class IMP
                     'words',
                     $injector->getInstance('Horde_Core_Hooks')->callHook('msg_filter', 'imp')
                 );
-            } catch (Horde_Exception_HookNotSet $e) {}
+            } catch (Horde_Exception_HookNotSet $e) {
+            }
         }
 
         return $text;
@@ -73,8 +75,8 @@ class IMP
     public static function sizeFormat($size)
     {
         return ($size >= 1048576)
-            ? sprintf(_("%s MB"), self::numberFormat($size / 1048576, 1))
-            : sprintf(_("%s KB"), self::numberFormat($size / 1024, 0));
+            ? sprintf(_('%s MB'), self::numberFormat($size / 1048576, 1))
+            : sprintf(_('%s KB'), self::numberFormat($size / 1024, 0));
     }
 
     /**
@@ -90,8 +92,8 @@ class IMP
         $localeinfo = Horde_Nls::getLocaleInfo();
 
         return str_replace(
-            array('X', 'Y'),
-            array($localeinfo['decimal_point'], $localeinfo['thousands_sep']),
+            ['X', 'Y'],
+            [$localeinfo['decimal_point'], $localeinfo['thousands_sep']],
             number_format($decimals ? $number : ceil($number), $decimals, 'X', 'Y')
         );
     }
@@ -107,7 +109,7 @@ class IMP
      *
      * @throws Horde_Mail_Exception
      */
-    public static function parseAddressList($in, array $opts = array())
+    public static function parseAddressList($in, array $opts = [])
     {
         $md = $GLOBALS['injector']->getInstance('IMP_Factory_Imap')->create()->config->maildomain;
 
@@ -116,14 +118,14 @@ class IMP
             foreach ($res->raw_addresses as $val) {
                 if (is_null($val->host)) {
                     $val->host = $md;
-                 }
+                }
             }
         } else {
             $rfc822 = $GLOBALS['injector']->getInstance('Horde_Mail_Rfc822');
-            $res = $rfc822->parseAddressList($in, array_merge(array(
+            $res = $rfc822->parseAddressList($in, array_merge([
                 'default_domain' => $md,
-                'validate' => false
-            ), $opts));
+                'validate' => false,
+            ], $opts));
         }
 
         $res->setIteratorFilter(Horde_Mail_Rfc822_List::HIDE_GROUPS);
@@ -157,23 +159,23 @@ class IMP
             }
         }
 
-        $result = new stdClass;
+        $result = new stdClass();
         $result->mbox = $mbox;
 
         switch ($registry->getView()) {
-        case Horde_Registry::VIEW_BASIC:
-        case Horde_Registry::VIEW_DYNAMIC:
-            $result->url = IMP_Dynamic_Mailbox::url(array(
-                'mailbox' => is_null($mbox) ? 'INBOX' : $mbox
-            ));
-            break;
+            case Horde_Registry::VIEW_BASIC:
+            case Horde_Registry::VIEW_DYNAMIC:
+                $result->url = IMP_Dynamic_Mailbox::url([
+                    'mailbox' => is_null($mbox) ? 'INBOX' : $mbox,
+                ]);
+                break;
 
-        case Horde_Registry::VIEW_MINIMAL:
-        case Horde_Registry::VIEW_SMARTMOBILE:
-            $result->url = is_null($mbox)
-                ? Horde::url('smartmobile.php', true)
-                : $mbox->url('mailbox');
-            break;
+            case Horde_Registry::VIEW_MINIMAL:
+            case Horde_Registry::VIEW_SMARTMOBILE:
+                $result->url = is_null($mbox)
+                    ? Horde::url('smartmobile.php', true)
+                    : $mbox->url('mailbox');
+                break;
         }
 
         return $result;

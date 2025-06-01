@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -22,9 +23,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Flag_System_Unseen
-extends IMP_Flag_Base
-implements IMP_Flag_Match_Flag
+class IMP_Flag_System_Unseen extends IMP_Flag_Base implements IMP_Flag_Match_Flag
 {
     /**
      */
@@ -42,7 +41,7 @@ implements IMP_Flag_Match_Flag
      */
     protected function _getLabel()
     {
-        return _("Unseen");
+        return _('Unseen');
     }
 
     /**

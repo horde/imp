@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -40,7 +41,7 @@ class IMP_Dynamic_AddressList
             $ob_add = $ob->addresses;
             $out->add($ob);
         } else {
-            $addrs = array($data);
+            $addrs = [$data];
             $ob_add = $out;
         }
 

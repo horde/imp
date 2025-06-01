@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,9 +21,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Flag_System_List
-extends IMP_Flag_Base
-implements IMP_Flag_Match_Header
+class IMP_Flag_System_List extends IMP_Flag_Base implements IMP_Flag_Match_Header
 {
     /**
      */
@@ -36,7 +35,7 @@ implements IMP_Flag_Match_Header
      */
     protected function _getLabel()
     {
-        return _("Mailing List Message");
+        return _('Mailing List Message');
     }
 
     /**

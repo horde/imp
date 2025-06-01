@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -28,7 +29,7 @@ class IMP_Mime_Status_RenderIssue_Display extends IMP_Mime_Status
      *
      * @var array
      */
-    protected $_issues = array();
+    protected $_issues = [];
 
     /**
      * Add render issues to queue.
@@ -52,28 +53,28 @@ class IMP_Mime_Status_RenderIssue_Display extends IMP_Mime_Status
         $out = '';
 
         switch ($registry->getView()) {
-        case $registry::VIEW_SMARTMOBILE:
-            break;
+            case $registry::VIEW_SMARTMOBILE:
+                break;
 
-        default:
-            $unique_id = strval(new Horde_Support_Randomid());
+            default:
+                $unique_id = strval(new Horde_Support_Randomid());
 
-            $this->addMimeAction(
-                'showRenderIssues',
-                _("Click to show message part display errors."),
-                array(
-                    'domid' => $unique_id
-                )
-            );
-            $this->icon('info_icon.png', _("Info"));
+                $this->addMimeAction(
+                    'showRenderIssues',
+                    _('Click to show message part display errors.'),
+                    [
+                        'domid' => $unique_id,
+                    ]
+                );
+                $this->icon('info_icon.png', _('Info'));
 
-            $out = parent::__toString();
+                $out = parent::__toString();
 
-            $out .= '<div id="' . $unique_id . '" style="display:none">';
-            foreach ($this->_issues as $val) {
-                $out .= strval($val);
-            }
-            $out .= '</div>';
+                $out .= '<div id="' . $unique_id . '" style="display:none">';
+                foreach ($this->_issues as $val) {
+                    $out .= strval($val);
+                }
+                $out .= '</div>';
         }
 
         return $out;

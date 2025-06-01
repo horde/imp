@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
  *
@@ -35,7 +36,7 @@ class IMP_Flag_Imap_NotJunk extends IMP_Flag_Imap
      */
     protected function _getLabel()
     {
-        return _("Not Junk");
+        return _('Not Junk');
     }
 
 }

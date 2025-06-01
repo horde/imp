@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
  *
@@ -30,12 +31,12 @@ class IMP_Mime_Viewer_Video extends Horde_Mime_Viewer_Default
      *
      * @var array
      */
-    protected $_capability = array(
+    protected $_capability = [
         'full' => false,
         'info' => true,
         'inline' => true,
-        'raw' => false
-    );
+        'raw' => false,
+    ];
 
     /**
      * Return the full rendered version of the Horde_Mime_Part object.
@@ -49,12 +50,12 @@ class IMP_Mime_Viewer_Video extends Horde_Mime_Viewer_Default
     protected function _render()
     {
         switch ($GLOBALS['injector']->getInstance('Horde_Variables')->imp_video_view) {
-        case 'view_thumbnail':
-            /* Create thumbnail and display. */
-            return $this->_thumbnail();
+            case 'view_thumbnail':
+                /* Create thumbnail and display. */
+                return $this->_thumbnail();
 
-        default:
-            return parent::_render();
+            default:
+                return parent::_render();
         }
     }
 
@@ -65,41 +66,41 @@ class IMP_Mime_Viewer_Video extends Horde_Mime_Viewer_Default
      */
     protected function _renderInfo()
     {
-        $status = array();
+        $status = [];
 
         $mime_id = $this->_mimepart->getMimeId();
-        $headers = Horde_Mime_Headers::parseHeaders($this->getConfigParam('imp_contents')->getBodyPart($mime_id, array(
+        $headers = Horde_Mime_Headers::parseHeaders($this->getConfigParam('imp_contents')->getBodyPart($mime_id, [
             'length' => 0,
             'mimeheaders' => true,
-            'stream' => true
-        ))->data);
+            'stream' => true,
+        ])->data);
 
         if ($duration = $headers['Content-Duration']) {
-            $text = array();
+            $text = [];
 
             if ($minutes = floor($duration->value / 60)) {
                 $text[] = sprintf(
-                    ngettext(_("%d minute"), _("%d minutes"), $minutes),
+                    ngettext(_('%d minute'), _('%d minutes'), $minutes),
                     $minutes
                 );
             }
 
             if ($seconds = ($duration->value % 60)) {
                 $text[] = sprintf(
-                    ngettext(_("%d second"), _("%d seconds"), $seconds),
+                    ngettext(_('%d second'), _('%d seconds'), $seconds),
                     $seconds
                 );
             }
 
-            $status[] = sprintf(_("This video file is reported to be %s in length."), implode(' ', $text));
+            $status[] = sprintf(_('This video file is reported to be %s in length.'), implode(' ', $text));
         }
 
         if ($this->_thumbnailBinary()) {
-            $status[] = _("This is a thumbnail of a video attachment.");
+            $status[] = _('This is a thumbnail of a video attachment.');
             $status[] = $this->getConfigParam('imp_contents')->linkViewJS(
                 $this->_mimepart,
                 'view_attach',
-                '<img src="' . $this->getConfigParam('imp_contents')->urlView($this->_mimepart, 'view_attach', array('params' => array('imp_video_view' => 'view_thumbnail'))) . '" />',
+                '<img src="' . $this->getConfigParam('imp_contents')->urlView($this->_mimepart, 'view_attach', ['params' => ['imp_video_view' => 'view_thumbnail']]) . '" />',
                 null,
                 null,
                 null
@@ -107,19 +108,19 @@ class IMP_Mime_Viewer_Video extends Horde_Mime_Viewer_Default
         }
 
         if (empty($status)) {
-            return array();
+            return [];
         }
 
         $s = new IMP_Mime_Status($this->_mimepart, $status);
         $s->icon('mime/video.png');
 
-        return array(
-            $this->_mimepart->getMimeId() => array(
+        return [
+            $this->_mimepart->getMimeId() => [
                 'data' => '',
                 'status' => $s,
-                'type' => 'text/html; charset=UTF-8'
-            )
-        );
+                'type' => 'text/html; charset=UTF-8',
+            ],
+        ];
     }
 
     /**
@@ -130,15 +131,15 @@ class IMP_Mime_Viewer_Video extends Horde_Mime_Viewer_Default
     protected function _thumbnail()
     {
         if (!($ffmpeg = $this->_thumbnailBinary())) {
-            return array();
+            return [];
         }
 
         $process = proc_open(
             escapeshellcmd($ffmpeg) . ' -i pipe:0 -vframes 1 -an -ss 1 -s 240x180 -f mjpeg pipe:1',
-            array(
-                0 => array('pipe', 'r'),
-                1 => array('pipe', 'w')
-            ),
+            [
+                0 => ['pipe', 'r'],
+                1 => ['pipe', 'w'],
+            ],
             $pipes
         );
 
@@ -159,12 +160,12 @@ class IMP_Mime_Viewer_Video extends Horde_Mime_Viewer_Default
             $out = file_get_contents($img_ob->fs);
         }
 
-        return array(
-            $this->_mimepart->getMimeId() => array(
+        return [
+            $this->_mimepart->getMimeId() => [
                 'data' => $out,
-                'type' => 'image/jpeg'
-            )
-        );
+                'type' => 'image/jpeg',
+            ],
+        ];
     }
 
     /**

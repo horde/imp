@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -25,16 +26,16 @@ class IMP_Compose_Link
     /**
      * @var array
      */
-    public $args = array();
+    public $args = [];
 
     /**
      * @param mixed $in
      */
     public function __construct($in = null)
     {
-        $fields = array(
-            'to', 'cc', 'bcc', 'message', 'body', 'subject'
-        );
+        $fields = [
+            'to', 'cc', 'bcc', 'message', 'body', 'subject',
+        ];
 
         if (is_string($in)) {
             if (($pos = strpos($in, '?')) !== false) {
@@ -85,17 +86,17 @@ class IMP_Compose_Link
         $callback = $raw = false;
 
         switch ($registry->getView()) {
-        case Horde_Registry::VIEW_MINIMAL:
-        case Horde_Registry::VIEW_SMARTMOBILE:
-            $url = new Horde_Core_Smartmobile_Url(Horde::url('smartmobile.php'));
-            $url->setAnchor('compose');
-            break;
+            case Horde_Registry::VIEW_MINIMAL:
+            case Horde_Registry::VIEW_SMARTMOBILE:
+                $url = new Horde_Core_Smartmobile_Url(Horde::url('smartmobile.php'));
+                $url->setAnchor('compose');
+                break;
 
-        default:
-            $url = IMP_Dynamic_Compose::url();
-            $raw = true;
-            $callback = array($this, 'composeLinkSimpleCallback');
-            break;
+            default:
+                $url = IMP_Dynamic_Compose::url();
+                $raw = true;
+                $callback = [$this, 'composeLinkSimpleCallback'];
+                break;
         }
 
         if (isset($args['mailbox'])) {
@@ -137,7 +138,7 @@ class IMP_Compose_Link
      */
     public function composeLinkJsCallback($url)
     {
-        return 'javascript:' . Horde::popupJs(strval($url), array('urlencode' => true));
+        return 'javascript:' . Horde::popupJs(strval($url), ['urlencode' => true]);
     }
 
 }

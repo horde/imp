@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
  *
@@ -48,14 +49,14 @@ class IMP_Mbox_Import
      */
     public function import($mbox, $form_name)
     {
-        $GLOBALS['browser']->wasFileUploaded($form_name, _("mailbox file"));
+        $GLOBALS['browser']->wasFileUploaded($form_name, _('mailbox file'));
         $this->_mbox = $mbox;
 
         $res = $this->_import($_FILES[$form_name]['tmp_name'], $_FILES[$form_name]['type']);
         $mbox_name = basename(Horde_Util::dispelMagicQuotes($_FILES[$form_name]['name']));
 
         if ($res === false) {
-            throw new IMP_Exception(sprintf(_("There was an error importing %s."), $mbox_name));
+            throw new IMP_Exception(sprintf(_('There was an error importing %s.'), $mbox_name));
         }
 
         return sprintf(ngettext('Imported %d message from %s.', 'Imported %d messages from %s', $res), $res, $mbox_name);
@@ -81,68 +82,68 @@ class IMP_Mbox_Import
         $fd = null;
 
         switch ($type) {
-        case 'application/gzip':
-        case 'application/x-gzip':
-        case 'application/x-gzip-compressed':
-            // No need to default to Horde_Compress because it uses zlib
-            // also.
-            if (in_array('compress.zlib', stream_get_wrappers())) {
-                $fd = 'compress.zlib://' . $fname;
-            }
-            break;
+            case 'application/gzip':
+            case 'application/x-gzip':
+            case 'application/x-gzip-compressed':
+                // No need to default to Horde_Compress because it uses zlib
+                // also.
+                if (in_array('compress.zlib', stream_get_wrappers())) {
+                    $fd = 'compress.zlib://' . $fname;
+                }
+                break;
 
-        case 'application/x-bzip2':
-        case 'application/x-bzip':
-            if (in_array('compress.bzip2', stream_get_wrappers())) {
-                $fd = 'compress.bzip2://' . $fname;
-            }
-            break;
+            case 'application/x-bzip2':
+            case 'application/x-bzip':
+                if (in_array('compress.bzip2', stream_get_wrappers())) {
+                    $fd = 'compress.bzip2://' . $fname;
+                }
+                break;
 
-        case 'application/zip':
-        case 'application/x-compressed':
-        case 'application/x-zip-compressed':
-            if (in_array('zip', stream_get_wrappers())) {
-                $fd = 'zip://' . $fname;
-            } else {
-                try {
-                    $zip = Horde_Compress::factory('Zip');
-                    if ($zip->canDecompress) {
-                        $file_data = file_get_contents($fname);
+            case 'application/zip':
+            case 'application/x-compressed':
+            case 'application/x-zip-compressed':
+                if (in_array('zip', stream_get_wrappers())) {
+                    $fd = 'zip://' . $fname;
+                } else {
+                    try {
+                        $zip = Horde_Compress::factory('Zip');
+                        if ($zip->canDecompress) {
+                            $file_data = file_get_contents($fname);
 
-                        $zip_info = $zip->decompress($file_data, array(
-                            'action' => Horde_Compress_Zip::ZIP_LIST
-                        ));
+                            $zip_info = $zip->decompress($file_data, [
+                                'action' => Horde_Compress_Zip::ZIP_LIST,
+                            ]);
 
-                        if (!empty($zip_info)) {
-                            $fd = fopen('php://temp', 'r+');
+                            if (!empty($zip_info)) {
+                                $fd = fopen('php://temp', 'r+');
 
-                            foreach (array_keys($zip_info) as $key) {
-                                fwrite($fd, $zip->decompress($file_data, array(
-                                    'action' => Horde_Compress_Zip::ZIP_DATA,
-                                    'info' => $zip_info,
-                                    'key' => $key
-                                )));
+                                foreach (array_keys($zip_info) as $key) {
+                                    fwrite($fd, $zip->decompress($file_data, [
+                                        'action' => Horde_Compress_Zip::ZIP_DATA,
+                                        'info' => $zip_info,
+                                        'key' => $key,
+                                    ]));
+                                }
+
+                                rewind($fd);
                             }
-
-                            rewind($fd);
+                        }
+                    } catch (Horde_Compress_Exception $e) {
+                        if ($fd) {
+                            fclose($fd);
+                            $fd = null;
                         }
                     }
-                } catch (Horde_Compress_Exception $e) {
-                    if ($fd) {
-                        fclose($fd);
-                        $fd = null;
-                    }
                 }
-            }
-            break;
+                break;
 
-        default:
-            $fd = $fname;
-            break;
+            default:
+                $fd = $fname;
+                break;
         }
 
         if (is_null($fd)) {
-            throw new IMP_Exception(_("The uploaded file cannot be opened."));
+            throw new IMP_Exception(_('The uploaded file cannot be opened.'));
         }
 
         $parsed = new Horde_Mail_Mbox_Parse(
@@ -150,11 +151,11 @@ class IMP_Mbox_Import
             $GLOBALS['injector']->getInstance('IMP_Factory_Imap')->create()->config->import_limit
         );
 
-        $this->_import = array(
-            'data' => array(),
+        $this->_import = [
+            'data' => [],
             'msgs' => 0,
-            'size' => 0
-        );
+            'size' => 0,
+        ];
 
         if ($pcount = count($parsed)) {
             foreach ($parsed as $key => $val) {
@@ -177,10 +178,10 @@ class IMP_Mbox_Import
      */
     protected function _importHelper($msg, $buffer = false)
     {
-        $this->_import['data'][] = array_filter(array(
+        $this->_import['data'][] = array_filter([
             'data' => $msg['data'],
-            'internaldate' => $msg['date']
-        ));
+            'internaldate' => $msg['date'],
+        ]);
         $this->_import['size'] += $msg['size'];
 
         /* Buffer 1 MB of messages before sending. */
@@ -192,14 +193,14 @@ class IMP_Mbox_Import
             $this->_mbox->imp_imap->append($this->_mbox, $this->_import['data']);
             $this->_import['msgs'] += count($this->_import['data']);
         } catch (IMP_Imap_Exception $e) {
-            throw new IMP_Exception(sprintf(_("Error when importing messages; %u messages successfully imported before error."), $this->_import['msgs']));
+            throw new IMP_Exception(sprintf(_('Error when importing messages; %u messages successfully imported before error.'), $this->_import['msgs']));
         }
 
         foreach ($this->_import['data'] as $val) {
             fclose($val['data']);
         }
 
-        $this->_import['data'] = array();
+        $this->_import['data'] = [];
         $this->_import['size'] = 0;
     }
 

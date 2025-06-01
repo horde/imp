@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2001-2017 Horde LLC (http://www.horde.org/)
  *
@@ -63,7 +64,7 @@ class IMP_LoginTasks_Task_RenameSentmailMonthly extends Horde_LoginTasks_Task
             /* Display a message to the user and rename the mailbox.
              * Only do this if sent-mail mailbox currently exists. */
             if ($sent->exists) {
-                $notification->push(sprintf(_("\"%s\" mailbox being renamed at the start of the month."), $sent->display), 'horde.message');
+                $notification->push(sprintf(_('"%s" mailbox being renamed at the start of the month.'), $sent->display), 'horde.message');
 
                 $query = new Horde_Imap_Client_Fetch_Query();
                 $query->imapDate();
@@ -72,7 +73,7 @@ class IMP_LoginTasks_Task_RenameSentmailMonthly extends Horde_LoginTasks_Task
                 $imp_imap = $sent->imp_imap;
                 $res = $imp_imap->fetch($sent, $query);
 
-                $msgs = array();
+                $msgs = [];
                 foreach ($res as $val) {
                     $date_string = $val->getImapDate()->format($date_format);
                     if (!isset($msgs[$date_string])) {
@@ -85,11 +86,11 @@ class IMP_LoginTasks_Task_RenameSentmailMonthly extends Horde_LoginTasks_Task
                 foreach ($msgs as $key => $val) {
                     $new_mbox = IMP_Mailbox::get(strval($sent) . '-' . Horde_String::lower($key));
 
-                    $imp_imap->copy($sent, $new_mbox, array(
+                    $imp_imap->copy($sent, $new_mbox, [
                         'create' => true,
                         'ids' => $val,
-                        'move' => true
-                    ));
+                        'move' => true,
+                    ]);
                 }
             }
         }
@@ -105,13 +106,13 @@ class IMP_LoginTasks_Task_RenameSentmailMonthly extends Horde_LoginTasks_Task
      */
     public function describe()
     {
-        $mbox_list = array();
+        $mbox_list = [];
 
         foreach ($this->_getSentmail() as $mbox) {
             $mbox_list[] = $mbox->display_html;
         }
 
-        return sprintf(_("The current sent-mail mailbox(es) \"%s\" will be renamed."), implode(', ', $mbox_list));
+        return sprintf(_('The current sent-mail mailbox(es) "%s" will be renamed.'), implode(', ', $mbox_list));
     }
 
     /**

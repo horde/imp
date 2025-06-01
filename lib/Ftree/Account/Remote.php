@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,7 +24,7 @@
 class IMP_Ftree_Account_Remote extends IMP_Ftree_Account_Imap
 {
     /* Remote account key. */
-    const REMOTE_KEY = "remote\0";
+    public const REMOTE_KEY = "remote\0";
 
     /**
      */
@@ -38,57 +39,58 @@ class IMP_Ftree_Account_Remote extends IMP_Ftree_Account_Imap
 
     /**
      */
-    public function getList($query = array(), $mask = 0)
+    public function getList($query = [], $mask = 0)
     {
         global $injector;
 
         $init = false;
-        $out = array();
+        $out = [];
 
         $remote = $injector->getInstance('IMP_Remote');
         $raccount = $remote[strval($this)];
 
         switch ($raccount->login()) {
-        case $raccount::LOGIN_BAD_CHANGED:
-            $remote[strval($this)] = $raccount;
-            break;
+            case $raccount::LOGIN_BAD_CHANGED:
+                $remote[strval($this)] = $raccount;
+                break;
 
-        case $raccount::LOGIN_OK_CHANGED:
-            $remote[strval($this)] = $raccount;
-            // Fall-through
+            case $raccount::LOGIN_OK_CHANGED:
+                $remote[strval($this)] = $raccount;
+                // Fall-through
 
-        case $raccount::LOGIN_OK:
-            $init = true;
-            break;
+                // no break
+            case $raccount::LOGIN_OK:
+                $init = true;
+                break;
         }
 
         $query = array_filter(
-            array_map(array($remote, 'getMailboxById'), $query)
+            array_map([$remote, 'getMailboxById'], $query)
         );
         if (empty($query)) {
             $mask |= self::INIT;
         }
 
         if ($mask & self::INIT) {
-            $out[] = array(
+            $out[] = [
                 'a' => IMP_Ftree::ELT_REMOTE | IMP_Ftree::ELT_NOSELECT | IMP_Ftree::ELT_NONIMAP,
-                'v' => self::REMOTE_KEY
-            );
+                'v' => self::REMOTE_KEY,
+            ];
 
-            $out[] = array(
+            $out[] = [
                 'a' => ($init ? IMP_Ftree::ELT_REMOTE_AUTH : 0) | IMP_Ftree::ELT_REMOTE | IMP_Ftree::ELT_IS_SUBSCRIBED | IMP_Ftree::ELT_NONIMAP,
                 'p' => self::REMOTE_KEY,
-                'v' => strval($this)
-            );
+                'v' => strval($this),
+            ];
         }
 
         if ($init) {
             foreach (parent::getList($query, $mask) as $val) {
-                $out[] = array_filter(array(
+                $out[] = array_filter([
                     'a' => $val['a'] | IMP_Ftree::ELT_REMOTE_MBOX,
                     'p' => isset($val['p']) ? $raccount->mailbox($val['p']) : strval($raccount),
-                    'v' => $raccount->mailbox($val['v'])
-                ));
+                    'v' => $raccount->mailbox($val['v']),
+                ]);
             }
         }
 

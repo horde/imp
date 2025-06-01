@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,7 +24,7 @@
 class IMP_Compose_HtmlSignature
 {
     /** Signature data attribute name. */
-    const HTMLSIG_ATTR = 'imp_htmlsig';
+    public const HTMLSIG_ATTR = 'imp_htmlsig';
 
     /**
      * DOM object containing HTML signature data.
@@ -47,11 +48,11 @@ class IMP_Compose_HtmlSignature
         $this->dom = $injector->getInstance('Horde_Core_Factory_TextFilter')->filter(
             $sig,
             'Xss',
-            array(
+            [
                 'charset' => 'UTF-8',
                 'return_dom' => true,
-                'strip_style_attributes' => false
-            )
+                'strip_style_attributes' => false,
+            ]
         );
 
         $img_limit = intval($conf['compose']['htmlsig_img_size']);
@@ -65,7 +66,7 @@ class IMP_Compose_HtmlSignature
                     $data_url = new Horde_Url_Data($src);
                     if ($img_limit &&
                         ($img_limit -= strlen($data_url->data)) < 0) {
-                        throw new IMP_Exception(_("The total size of your HTML signature image data has exceeded the maximum allowed."));
+                        throw new IMP_Exception(_('The total size of your HTML signature image data has exceeded the maximum allowed.'));
                     }
 
                     $node->setAttribute(self::HTMLSIG_ATTR, 1);

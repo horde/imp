@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -11,6 +12,7 @@
  * @package   IMP
  */
 use function PHP81_BC\strftime;
+
 /**
  * Abstract log entry.
  *
@@ -46,7 +48,7 @@ abstract class IMP_Maillog_Log_Base
      *
      * @param array $params  Parameters.
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
     }
 
@@ -57,23 +59,23 @@ abstract class IMP_Maillog_Log_Base
         global $prefs;
 
         switch ($name) {
-        case 'action':
-            return $this->_action;
+            case 'action':
+                return $this->_action;
 
-        case 'date':
-            return strftime(
-                $prefs->getValue('date_format') . ' ' . $prefs->getValue('time_format_mini'),
-                $this->timestamp
-            );
+            case 'date':
+                return strftime(
+                    $prefs->getValue('date_format') . ' ' . $prefs->getValue('time_format_mini'),
+                    $this->timestamp
+                );
 
-        case 'message':
-            return $this->_getMessage();
+            case 'message':
+                return $this->_getMessage();
 
-        case 'timestamp':
-            if (!$this->_timestamp) {
-                $this->_timestamp = time();
-            }
-            return $this->_timestamp;
+            case 'timestamp':
+                if (!$this->_timestamp) {
+                    $this->_timestamp = time();
+                }
+                return $this->_timestamp;
         }
     }
 
@@ -82,9 +84,9 @@ abstract class IMP_Maillog_Log_Base
     public function __set($name, $value)
     {
         switch ($name) {
-        case 'timestamp':
-            $this->_timestamp = intval($value);
-            break;
+            case 'timestamp':
+                $this->_timestamp = intval($value);
+                break;
         }
     }
 
@@ -102,7 +104,7 @@ abstract class IMP_Maillog_Log_Base
      */
     public function addData()
     {
-        return array();
+        return [];
     }
 
     /**

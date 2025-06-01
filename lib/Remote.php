@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,7 +24,7 @@
 class IMP_Remote implements ArrayAccess, IteratorAggregate
 {
     /* The mailbox remote prefix. */
-    const MBOX_PREFIX = "remotembox\0";
+    public const MBOX_PREFIX = "remotembox\0";
 
     /**
      * The list of remote accounts.
@@ -37,7 +38,7 @@ class IMP_Remote implements ArrayAccess, IteratorAggregate
      */
     public function __construct()
     {
-        $this->_accounts = @unserialize($GLOBALS['prefs']->getValue('remote')) ?: array();
+        $this->_accounts = @unserialize($GLOBALS['prefs']->getValue('remote')) ?: [];
     }
 
     /**
@@ -104,7 +105,7 @@ class IMP_Remote implements ArrayAccess, IteratorAggregate
         $label = strval($this->getMailboxById($id));
 
         return (strcasecmp($label, 'INBOX') === 0)
-            ? _("Inbox")
+            ? _('Inbox')
             : $label;
     }
 
@@ -149,9 +150,8 @@ class IMP_Remote implements ArrayAccess, IteratorAggregate
     {
         $offset = $this->_strip($offset);
 
-        return isset($this->_accounts[$offset])
-            ? $this->_accounts[$offset]
-            : false;
+        return $this->_accounts[$offset]
+            ?? false;
     }
 
     /**

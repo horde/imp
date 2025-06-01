@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -36,7 +37,7 @@ class IMP_Search_Element_Text extends IMP_Search_Element
          * b = (integer) Search in body only?
          * n = (integer) Do a NOT search?
          * t = (string) The search text. */
-        $this->_data = new stdClass;
+        $this->_data = new stdClass();
         $this->_data->b = intval(!empty($bodyonly));
         $this->_data->n = intval(!empty($not));
         $this->_data->t = $text;
@@ -56,10 +57,10 @@ class IMP_Search_Element_Text extends IMP_Search_Element
     public function queryText()
     {
         $label = $this->_data->b
-            ? _("Message Body")
-            : _("Entire Message (including Headers)");
+            ? _('Message Body')
+            : _('Entire Message (including Headers)');
 
-        return sprintf(_("%s for '%s'"), $label, ((!empty($this->_data->n)) ? _("not") . ' ' : '') . $this->_data->t);
+        return sprintf(_("%s for '%s'"), $label, ((!empty($this->_data->n)) ? _('not') . ' ' : '') . $this->_data->t);
     }
 
 }

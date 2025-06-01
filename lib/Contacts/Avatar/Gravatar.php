@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -32,20 +33,20 @@ class IMP_Contacts_Avatar_Gravatar implements IMP_Contacts_Avatar_Backend
                 $GLOBALS['injector']->getInstance('Horde_Http_Client')
             );
 
-            $data = $gravatar->fetchAvatar($email, array(
+            $data = $gravatar->fetchAvatar($email, [
                 'default' => 404,
-                'size' => 80
-            ));
+                'size' => 80,
+            ]);
 
             if (!is_null($data)) {
                 rewind($data);
                 $img_data = stream_get_contents($data);
 
                 if (strlen($img_data)) {
-                    return array(
+                    return [
                         'desc' => '',
-                        'url' => Horde_Url_Data::create('image/jpeg', $img_data)
-                    );
+                        'url' => Horde_Url_Data::create('image/jpeg', $img_data),
+                    ];
                 }
             }
         }

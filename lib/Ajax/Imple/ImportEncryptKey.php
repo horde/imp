@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -28,7 +29,7 @@ class IMP_Ajax_Imple_ImportEncryptKey extends Horde_Core_Ajax_Imple
      *   - muid: (string) The MUID of the message.
      *   - type: (string) Key type. Either 'pgp' or 'smime'.
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         parent::__construct($params);
     }
@@ -41,11 +42,11 @@ class IMP_Ajax_Imple_ImportEncryptKey extends Horde_Core_Ajax_Imple
             $this->_jsOnComplete('e.element().up("TR").remove()');
         }
 
-        return array(
+        return [
             'mime_id' => $this->_params['mime_id'],
             'muid' => $this->_params['muid'],
-            'type' => $this->_params['type']
-        );
+            'type' => $this->_params['type'],
+        ];
     }
 
     /**
@@ -66,28 +67,28 @@ class IMP_Ajax_Imple_ImportEncryptKey extends Horde_Core_Ajax_Imple
             $contents = $injector->getInstance('IMP_Factory_Contents')->create(new IMP_Indices_Mailbox($vars));
             if (!($mime_part = $contents->getMimePart($vars->mime_id))) {
                 throw new IMP_Exception(
-                    _("Cannot retrieve public key from message.")
+                    _('Cannot retrieve public key from message.')
                 );
             }
 
             /* Add the public key to the storage system. */
             switch ($vars->type) {
-            case 'pgp':
-                $injector->getInstance('IMP_Pgp')->addPublicKey($mime_part->getContents());
-                $notification->push(_("Successfully added public key from message."), 'horde.success');
-                break;
+                case 'pgp':
+                    $injector->getInstance('IMP_Pgp')->addPublicKey($mime_part->getContents());
+                    $notification->push(_('Successfully added public key from message.'), 'horde.success');
+                    break;
 
-            case 'smime':
-                $stream = $vars->mime_id
-                    ? $contents->getBodyPart($vars->mime_id, array('mimeheaders' => true, 'stream' => true))->data
-                    : $contents->fullMessageText();
-                $raw_text = $mime_part->replaceEOL($stream, Horde_Mime_Part::RFC_EOL);
+                case 'smime':
+                    $stream = $vars->mime_id
+                        ? $contents->getBodyPart($vars->mime_id, ['mimeheaders' => true, 'stream' => true])->data
+                        : $contents->fullMessageText();
+                    $raw_text = $mime_part->replaceEOL($stream, Horde_Mime_Part::RFC_EOL);
 
-                $imp_smime = $injector->getInstance('IMP_Smime');
-                $sig_result = $imp_smime->verifySignature($raw_text);
-                $imp_smime->addPublicKey($sig_result->cert);
-                $notification->push(_("Successfully added certificate from message."), 'horde.success');
-                break;
+                    $imp_smime = $injector->getInstance('IMP_Smime');
+                    $sig_result = $imp_smime->verifySignature($raw_text);
+                    $imp_smime->addPublicKey($sig_result->cert);
+                    $notification->push(_('Successfully added certificate from message.'), 'horde.success');
+                    break;
             }
         } catch (Exception $e) {
             $notification->push($e, 'horde.error');

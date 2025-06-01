@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -30,11 +31,11 @@ class IMP_Factory_PrefsSort extends Horde_Core_Factory_Injector
     public function create(Horde_Injector $injector)
     {
         switch ($GLOBALS['registry']->getView()) {
-        case Horde_Registry::VIEW_SMARTMOBILE:
-            return new IMP_Prefs_Sort_FixedDate();
+            case Horde_Registry::VIEW_SMARTMOBILE:
+                return new IMP_Prefs_Sort_FixedDate();
 
-        default:
-            return new IMP_Prefs_Sort();
+            default:
+                return new IMP_Prefs_Sort();
         }
     }
 

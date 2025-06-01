@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2001-2017 Horde LLC (http://www.horde.org/)
  *
@@ -46,7 +47,7 @@ class IMP_LoginTasks_Task_DeleteSentmailMonthly extends Horde_LoginTasks_Task
             $injector->getInstance('IMP_Ftree')
         );
         $iterator->add($iterator::CONTAINERS);
-        $mbox_list = array();
+        $mbox_list = [];
 
         /* Get list of all mailboxes, parse through and get the list of all
          * old sent-mail mailboxes. Then sort this array according to the
@@ -69,7 +70,7 @@ class IMP_LoginTasks_Task_DeleteSentmailMonthly extends Horde_LoginTasks_Task
         /* See if any mailboxes need to be purged. */
         $purge = array_slice(array_keys($mbox_list), $prefs->getValue('delete_sentmail_monthly_keep'));
         if (count($purge)) {
-            $notification->push(_("Old sent-mail mailboxes being purged."), 'horde.message');
+            $notification->push(_('Old sent-mail mailboxes being purged.'), 'horde.message');
 
             /* Delete the old mailboxes now. */
             foreach (IMP_Mailbox::get($purge) as $val) {
@@ -90,7 +91,7 @@ class IMP_LoginTasks_Task_DeleteSentmailMonthly extends Horde_LoginTasks_Task
      */
     public function describe()
     {
-        return sprintf(_("All old sent-mail mailboxes more than %s months old will be deleted."), $GLOBALS['prefs']->getValue('delete_sentmail_monthly_keep'));
+        return sprintf(_('All old sent-mail mailboxes more than %s months old will be deleted.'), $GLOBALS['prefs']->getValue('delete_sentmail_monthly_keep'));
     }
 
 }

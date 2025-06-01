@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
  *
@@ -36,14 +37,14 @@ class IMP_Ajax_Queue
      *
      * @var array
      */
-    protected $_addr = array();
+    protected $_addr = [];
 
     /**
      * The list of attachments.
      *
      * @var array
      */
-    protected $_atc = array();
+    protected $_atc = [];
 
     /**
      * The compose object.
@@ -57,7 +58,7 @@ class IMP_Ajax_Queue
      *
      * @var array
      */
-    protected $_flag = array();
+    protected $_flag = [];
 
     /**
      * Add flag configuration to response.
@@ -71,21 +72,21 @@ class IMP_Ajax_Queue
      *
      * @var array
      */
-    protected $_mailboxOpts = array();
+    protected $_mailboxOpts = [];
 
     /**
      * Message queue.
      *
      * @var array
      */
-    protected $_messages = array();
+    protected $_messages = [];
 
     /**
      * Maillog queue.
      *
      * @var array
      */
-    protected $_maillog = array();
+    protected $_maillog = [];
 
     /**
      * Poll mailboxes.
@@ -94,7 +95,7 @@ class IMP_Ajax_Queue
      *
      * @var array
      */
-    protected $_poll = array();
+    protected $_poll = [];
 
     /**
      * Add quota information to response?
@@ -188,18 +189,18 @@ class IMP_Ajax_Queue
         /* Add autocomplete address error information. */
         if (!empty($this->_addr)) {
             $ajax->addTask('compose-addr', $this->_addr);
-            $this->_addr = array();
+            $this->_addr = [];
         }
 
         /* Add compose attachment information. */
         if (!empty($this->_atc)) {
             $ajax->addTask('compose-atc', $this->_atc);
-            $this->_atc = array();
+            $this->_atc = [];
         }
 
         /* Add compose information. */
         if (!is_null($this->_compose)) {
-            $compose = new stdClass;
+            $compose = new stdClass();
             if (($addl = $this->_compose->additionalAttachmentsAllowed()) !== true) {
                 $compose->atclimit = $addl;
             }
@@ -214,37 +215,37 @@ class IMP_Ajax_Queue
         /* Add flag information. */
         if (!empty($this->_flag)) {
             $ajax->addTask('flag', array_unique($this->_flag, SORT_REGULAR));
-            $this->_flag = array();
+            $this->_flag = [];
         }
 
         /* Add flag configuration. */
         switch ($this->_flagconfig) {
-        case Horde_Registry::VIEW_DYNAMIC:
-        case Horde_Registry::VIEW_MINIMAL:
-        case Horde_Registry::VIEW_SMARTMOBILE:
-            $flags = array();
-            foreach ($injector->getInstance('IMP_Flags')->getList() as $val) {
-                $tmp = array(
-                    'b' => $val->bgdefault ? null : $val->bgcolor,
-                    'f' => $val->fgcolor,
-                    'id' => $val->id,
-                    'l' => $val->label,
-                    's' => intval($val instanceof IMP_Flag_Imap)
-                );
+            case Horde_Registry::VIEW_DYNAMIC:
+            case Horde_Registry::VIEW_MINIMAL:
+            case Horde_Registry::VIEW_SMARTMOBILE:
+                $flags = [];
+                foreach ($injector->getInstance('IMP_Flags')->getList() as $val) {
+                    $tmp = [
+                        'b' => $val->bgdefault ? null : $val->bgcolor,
+                        'f' => $val->fgcolor,
+                        'id' => $val->id,
+                        'l' => $val->label,
+                        's' => intval($val instanceof IMP_Flag_Imap),
+                    ];
 
-                if ($this->_flagconfig === Horde_Registry::VIEW_DYNAMIC) {
-                    $tmp += array(
-                        'a' => $val->canset,
-                        'c' => $val->css,
-                        'i' => $val->css ? null : $val->cssicon,
-                        'u' => intval($val instanceof IMP_Flag_User)
-                    );
+                    if ($this->_flagconfig === Horde_Registry::VIEW_DYNAMIC) {
+                        $tmp += [
+                            'a' => $val->canset,
+                            'c' => $val->css,
+                            'i' => $val->css ? null : $val->cssicon,
+                            'u' => intval($val instanceof IMP_Flag_User),
+                        ];
+                    }
+
+                    $flags[] = array_filter($tmp);
                 }
-
-                $flags[] = array_filter($tmp);
-            }
-            $ajax->addTask('flag-config', $flags);
-            break;
+                $ajax->addTask('flag-config', $flags);
+                break;
         }
 
         /* Add folder tree information. */
@@ -256,11 +257,11 @@ class IMP_Ajax_Queue
         /* Add message information. */
         if (!empty($this->_messages)) {
             $ajax->addTask('message', $this->_messages);
-            $this->_messages = array();
+            $this->_messages = [];
         }
 
         /* Add poll information. */
-        $poll = $poll_list = array();
+        $poll = $poll_list = [];
         if (!empty($this->_poll)) {
             foreach ($this->_poll as $val) {
                 $poll_list[strval($val)] = 1;
@@ -281,20 +282,20 @@ class IMP_Ajax_Queue
 
             if (!empty($poll)) {
                 $ajax->addTask('poll', $poll);
-                $this->_poll = array();
+                $this->_poll = [];
             }
         }
 
         /* Add quota information. */
         if ($this->_quota &&
             ($quotadata = $injector->getInstance('IMP_Quota_Ui')->quota($this->_quota[0], $this->_quota[1]))) {
-            $ajax->addTask('quota', array(
+            $ajax->addTask('quota', [
                 'm' => $quotadata['message'],
                 'p' => round(floatval($quotadata['percent'])),
                 'l' => $quotadata['percent'] >= 90
                     ? 'alert'
-                    : ($quotadata['percent'] >= 75 ? 'warn' : '')
-            ));
+                    : ($quotadata['percent'] >= 75 ? 'warn' : ''),
+            ]);
             $this->_quota = false;
         }
     }
@@ -313,24 +314,24 @@ class IMP_Ajax_Queue
 
         $parts = ($ob instanceof IMP_Compose)
             ? iterator_to_array($ob)
-            : array($ob);
+            : [$ob];
         $viewer = $injector->getInstance('IMP_Factory_MimeViewer');
 
         foreach ($parts as $val) {
             $mime = $val->getPart();
             $mtype = $mime->getType();
 
-            $tmp = array(
+            $tmp = [
                 'icon' => strval(Horde_Url_Data::create('image/png', file_get_contents($viewer->getIcon($mtype)->fs))),
                 'name' => $mime->getName(true),
                 'num' => $val->id,
                 'type' => $mtype,
-                'size' => IMP::sizeFormat($mime->getBytes())
-            );
+                'size' => IMP::sizeFormat($mime->getBytes()),
+            ];
 
             if ($viewer->create($mime)->canRender('full')) {
                 $tmp['url'] = strval($val->viewUrl()->setRaw(true));
-                $tmp['view'] = intval(!in_array($type, array(IMP_Compose::FORWARD_ATTACH, IMP_Compose::FORWARD_BOTH)) && ($mtype != 'application/octet-stream'));
+                $tmp['view'] = intval(!in_array($type, [IMP_Compose::FORWARD_ATTACH, IMP_Compose::FORWARD_BOTH]) && ($mtype != 'application/octet-stream'));
             }
 
             $this->_atc[] = $tmp;
@@ -380,7 +381,7 @@ class IMP_Ajax_Queue
 
         $changed = $injector->getInstance('IMP_Flags')->changed($flags, $add);
 
-        $result = new stdClass;
+        $result = new stdClass();
         if (!empty($changed['add'])) {
             $result->add = array_map('strval', $changed['add']);
         }
@@ -405,7 +406,7 @@ class IMP_Ajax_Queue
 
         foreach ($indices as $ob) {
             $list_ob = $ob->mbox->list_ob;
-            $msgnum = array();
+            $msgnum = [];
 
             foreach ($ob->uids as $uid) {
                 $msgnum[] = $list_ob->getArrayIndex($uid) + 1;
@@ -414,15 +415,15 @@ class IMP_Ajax_Queue
             $marray = $list_ob->getMailboxArray($msgnum);
 
             foreach ($marray['overview'] as $val) {
-                $result = new stdClass;
+                $result = new stdClass();
                 $result->buids = $ob->mbox->toBuids(new IMP_Indices($ob->mbox, $val['uid']))->toArray();
-                $result->replace = array_map('strval', $imp_flags->parse(array(
+                $result->replace = array_map('strval', $imp_flags->parse([
                     'flags' => $val['flags'],
                     'headers' => $val['headers'],
                     'personal' => $val['envelope']->to,
                     'runhook' => $val,
-                    'structure' => $val['structure']
-                )));
+                    'structure' => $val['structure'],
+                ]));
                 $this->_flag[] = $result;
             }
         }
@@ -449,7 +450,7 @@ class IMP_Ajax_Queue
      *   - user_headers: (boolean) Add user headers?
      * </pre>
      */
-    public function message(IMP_Indices $indices, array $opts = array())
+    public function message(IMP_Indices $indices, array $opts = [])
     {
         global $page_output;
 
@@ -460,7 +461,7 @@ class IMP_Ajax_Queue
             );
             $msg = (object)$show_msg->showMessage();
 
-            foreach (array('from', 'to', 'cc', 'bcc') as $val) {
+            foreach (['from', 'to', 'cc', 'bcc'] as $val) {
                 if ($tmp = $show_msg->getAddressHeader($val)) {
                     $msg->$val = $tmp;
                 }
@@ -481,12 +482,12 @@ class IMP_Ajax_Queue
             }
 
             if ($resent = $show_msg->getResentData()) {
-                $msg->resent = array();
+                $msg->resent = [];
                 foreach ($resent as $val) {
-                    $msg->resent[] = array(
+                    $msg->resent[] = [
                         'date' => $val['date']->format($val['date']::DATE_LOCAL),
-                        'from' => $show_msg->getAddressHeader($val['from'])
-                    );
+                        'from' => $show_msg->getAddressHeader($val['from']),
+                    ];
                 }
             }
 
@@ -510,7 +511,7 @@ class IMP_Ajax_Queue
             Horde::startBuffer();
             $page_output->outputInlineScript(true);
             if ($js_inline = Horde::endBuffer()) {
-                $msg->js = array($js_inline);
+                $msg->js = [$js_inline];
             }
             if ($indices instanceof IMP_Indices_Mailbox) {
                 $indices = $indices->buids;
@@ -521,7 +522,7 @@ class IMP_Ajax_Queue
 
         foreach ($indices as $val) {
             foreach ($val->uids as $val2) {
-                $ob = new stdClass;
+                $ob = new stdClass();
                 $ob->buid = $val2;
                 if (isset($msg)) {
                     $ob->data = $msg;
@@ -569,14 +570,14 @@ class IMP_Ajax_Queue
             if (!$explicit) {
                 return;
             }
-            $this->_poll = array();
+            $this->_poll = [];
         } elseif (empty($this->_poll) && is_null($mboxes)) {
             $this->_poll = null;
             return;
         }
 
         if (!is_array($mboxes)) {
-            $mboxes = array($mboxes);
+            $mboxes = [$mboxes];
         }
 
         foreach (IMP_Mailbox::get($mboxes) as $val) {
@@ -602,7 +603,7 @@ class IMP_Ajax_Queue
                 $this->_quota = null;
             } elseif (!is_array($this->_quota) || !$this->_quota[1]) {
                 /* Don't change a previously issued force quota request. */
-                $this->_quota = array($mailbox, $force);
+                $this->_quota = [$mailbox, $force];
             }
         }
     }
@@ -617,20 +618,20 @@ class IMP_Ajax_Queue
         global $injector;
 
         $eltdiff = $injector->getInstance('IMP_Ftree')->eltdiff;
-        $out = $poll = array();
+        $out = $poll = [];
 
         if (!$eltdiff->track) {
             return;
         }
 
         if (($add = $eltdiff->add) &&
-            ($elts = array_values(array_filter(array_map(array($this, '_ftreeElt'), $add))))) {
+            ($elts = array_values(array_filter(array_map([$this, '_ftreeElt'], $add))))) {
             $out['a'] = $elts;
             $poll = $add;
         }
 
         if (($change = $eltdiff->change) &&
-            ($elts = array_values(array_filter(array_map(array($this, '_ftreeElt'), $change))))) {
+            ($elts = array_values(array_filter(array_map([$this, '_ftreeElt'], $change))))) {
             $out['c'] = $elts;
             $poll = array_merge($poll, $change);
         }
@@ -699,7 +700,7 @@ class IMP_Ajax_Queue
 
         $mbox_ob = $elt->mbox_ob;
 
-        $ob = new stdClass;
+        $ob = new stdClass();
         $ob->m = $mbox_ob->form_to;
 
         if ($elt->children) {
@@ -765,7 +766,7 @@ class IMP_Ajax_Queue
         if ($icon->user_icon) {
             $ob->cl = 'customimg';
             $ob->i = strval($icon->icon);
-        } elseif (!in_array($icon->class, array('folderImg', 'folderopenImg'))) {
+        } elseif (!in_array($icon->class, ['folderImg', 'folderopenImg'])) {
             $ob->cl = $icon->class;
         }
 
@@ -790,7 +791,7 @@ class IMP_Ajax_Queue
         }
 
         $imp_maillog = $injector->getInstance('IMP_Maillog');
-        $maillog = array();
+        $maillog = [];
 
         foreach ($this->_maillog as $val) {
             /* Need to grab the maillog data from the "real" ID. Then check to
@@ -803,17 +804,17 @@ class IMP_Ajax_Queue
                         new IMP_Indices($v->mbox, $v2)
                     );
 
-                    $l = $imp_maillog->getLog($msg, array(
+                    $l = $imp_maillog->getLog($msg, [
                         'IMP_Maillog_Log_Forward',
                         'IMP_Maillog_Log_Redirect',
                         'IMP_Maillog_Log_Reply',
                         'IMP_Maillog_Log_Replyall',
-                        'IMP_Maillog_Log_Replylist'
-                    ));
-                    $tmp = array();
+                        'IMP_Maillog_Log_Replylist',
+                    ]);
+                    $tmp = [];
 
                     foreach ($l as $v3) {
-                        $tmp[] = array_filter(array(
+                        $tmp[] = array_filter([
                             // 'f' = folder
                             'f' => $v3->folder,
                             // 'm' = message
@@ -821,8 +822,8 @@ class IMP_Ajax_Queue
                             // 's' = sent message-id
                             's' => $v3->searchMailboxes() ? $v3->msg_id : null,
                             // 't' = type
-                            't' => $v3->action
-                        ));
+                            't' => $v3->action,
+                        ]);
                     }
 
                     if ($tmp) {
@@ -833,7 +834,7 @@ class IMP_Ajax_Queue
 
                         foreach ($indices as $v4) {
                             foreach ($v4->uids as $v5) {
-                                $log_ob = new stdClass;
+                                $log_ob = new stdClass();
                                 $log_ob->buid = intval($v5);
                                 $log_ob->log = $tmp;
                                 $log_ob->mbox = $v4->mbox->form_to;

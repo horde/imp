@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,7 +28,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
      *
      * @var array
      */
-    protected $_indices = array();
+    protected $_indices = [];
 
     /**
      * Constructor.
@@ -40,7 +41,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
     {
         if (func_num_args()) {
             $args = func_get_args();
-            call_user_func_array(array($this, 'add'), $args);
+            call_user_func_array([$this, 'add'], $args);
         }
     }
 
@@ -73,49 +74,49 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
     public function add()
     {
         $data = func_get_arg(0);
-        $indices = array();
+        $indices = [];
 
         switch (func_num_args()) {
-        case 1:
-            if (is_array($data)) {
-                foreach ($data as $key => $val) {
-                    if (is_array($val)) {
-                        $indices[$key] = array_keys(array_flip($val));
-                    } elseif ($val instanceof Horde_Imap_Client_Ids) {
-                        $this->add($key, $val);
-                    } else {
-                        $this->add($val);
+            case 1:
+                if (is_array($data)) {
+                    foreach ($data as $key => $val) {
+                        if (is_array($val)) {
+                            $indices[$key] = array_keys(array_flip($val));
+                        } elseif ($val instanceof Horde_Imap_Client_Ids) {
+                            $this->add($key, $val);
+                        } else {
+                            $this->add($val);
+                        }
                     }
+                } elseif (is_string($data)) {
+                    $indices = $this->_fromSequenceString($data);
+                } elseif ($data instanceof IMP_Compose) {
+                    $indices = $data->getMetadata('indices')->indices();
+                } elseif ($data instanceof IMP_Contents) {
+                    $indices = [
+                        strval($data->getMailbox()) => [$data->getUid()],
+                    ];
+                } elseif ($data instanceof IMP_Indices) {
+                    $indices = $data->indices();
                 }
-            } elseif (is_string($data)) {
-                $indices = $this->_fromSequenceString($data);
-            } elseif ($data instanceof IMP_Compose) {
-                $indices = $data->getMetadata('indices')->indices();
-            } elseif ($data instanceof IMP_Contents) {
-                $indices = array(
-                    strval($data->getMailbox()) => array($data->getUid())
-                );
-            } elseif ($data instanceof IMP_Indices) {
-                $indices = $data->indices();
-            }
-            break;
+                break;
 
-        case 2:
-            $secondarg = func_get_arg(1);
-            if (is_array($secondarg)) {
-                $secondarg = array_keys(array_flip($secondarg));
-            } elseif ($secondarg instanceof Horde_Imap_Client_Ids) {
-                $secondarg = $secondarg->ids;
-            } else {
-                $secondarg = $GLOBALS['injector']->getInstance('IMP_Factory_Imap')->create()->getIdsOb($secondarg)->ids;
-            }
+            case 2:
+                $secondarg = func_get_arg(1);
+                if (is_array($secondarg)) {
+                    $secondarg = array_keys(array_flip($secondarg));
+                } elseif ($secondarg instanceof Horde_Imap_Client_Ids) {
+                    $secondarg = $secondarg->ids;
+                } else {
+                    $secondarg = $GLOBALS['injector']->getInstance('IMP_Factory_Imap')->create()->getIdsOb($secondarg)->ids;
+                }
 
-            if (!empty($secondarg)) {
-                $indices = array(
-                    strval(func_get_arg(0)) => $secondarg
-                );
-            }
-            break;
+                if (!empty($secondarg)) {
+                    $indices = [
+                        strval(func_get_arg(0)) => $secondarg,
+                    ];
+                }
+                break;
         }
 
         if (!empty($indices)) {
@@ -147,10 +148,10 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
     public function getSingle($all = false)
     {
         $val = reset($this->_indices);
-        return array(
+        return [
             IMP_Mailbox::get(key($this->_indices)),
-            $all ? $val : (is_array($val) ? reset($val) : null)
-        );
+            $all ? $val : (is_array($val) ? reset($val) : null),
+        ];
     }
 
     /**
@@ -172,7 +173,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
      */
     public function toArray()
     {
-        $converted = array();
+        $converted = [];
         $imp_imap = $GLOBALS['injector']->getInstance('IMP_Factory_Imap')->create();
 
         foreach ($this->_indices as $key => $val) {
@@ -199,7 +200,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         $str = trim($str);
 
         if (!strlen($str)) {
-            return array();
+            return [];
         }
 
         if ($str[0] != '{') {
@@ -213,7 +214,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         $end = strpos($str, '{', $i);
 
         if ($end === false) {
-            $ids = array();
+            $ids = [];
             $uidstr = substr($str, $i);
         } else {
             $ids = $this->_fromSequenceString(substr($str, $end));
@@ -263,7 +264,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
      *
      * @return boolean  True if successful, false if not.
      */
-    public function copy($targetMbox, $action, array $opts = array())
+    public function copy($targetMbox, $action, array $opts = [])
     {
         global $notification;
 
@@ -292,27 +293,27 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         $return_value = true;
 
         switch ($action) {
-        case 'move':
-            $imap_move = true;
-            $message = _("There was an error moving messages from \"%s\" to \"%s\". This is what the server said");
-            break;
+            case 'move':
+                $imap_move = true;
+                $message = _('There was an error moving messages from "%s" to "%s". This is what the server said');
+                break;
 
-        case 'copy':
-            $message = _("There was an error copying messages from \"%s\" to \"%s\". This is what the server said");
-            break;
+            case 'copy':
+                $message = _('There was an error copying messages from "%s" to "%s". This is what the server said');
+                break;
         }
 
         foreach ($this as $ob) {
             try {
                 if ($targetMbox->readonly) {
                     throw new IMP_Exception(
-                        _("The target directory is read-only.")
+                        _('The target directory is read-only.')
                     );
                 }
 
                 if (($action == 'move') && $ob->mbox->readonly) {
                     throw new IMP_Exception(
-                        _("The source directory is read-only.")
+                        _('The source directory is read-only.')
                     );
                 }
 
@@ -321,10 +322,10 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
                 /* Attempt to copy/move messages to new mailbox. */
                 $imp_imap = $ob->mbox->imp_imap;
-                $imp_imap->copy($ob->mbox, $targetMbox, array(
+                $imp_imap->copy($ob->mbox, $targetMbox, [
                     'ids' => $imp_imap->getIdsOb($ob->uids),
-                    'move' => $imap_move
-                ));
+                    'move' => $imap_move,
+                ]);
             } catch (Exception $e) {
                 $error_msg = sprintf(
                     $message,
@@ -361,7 +362,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
      * @return integer|boolean  The number of messages deleted if successful,
      *                          false if not successful.
      */
-    public function delete(array $opts = array())
+    public function delete(array $opts = [])
     {
         global $injector, $notification, $prefs;
 
@@ -373,7 +374,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         $use_trash = $prefs->getValue('use_trash');
         if ($use_trash && !$trash) {
             $notification->push(
-                _("Cannot move messages to Trash - no Trash mailbox set in preferences."),
+                _('Cannot move messages to Trash - no Trash mailbox set in preferences.'),
                 'horde.error'
             );
             return false;
@@ -411,14 +412,14 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         foreach ($this as $ob) {
             try {
                 if (!$ob->mbox->access_deletemsgs) {
-                    throw new IMP_Exception(_("This mailbox is read-only."));
+                    throw new IMP_Exception(_('This mailbox is read-only.'));
                 }
 
                 $ob->mbox->uidvalid;
             } catch (IMP_Exception $e) {
                 $notification->push(
                     sprintf(
-                        _("There was an error deleting messages from the mailbox \"%s\"."),
+                        _('There was an error deleting messages from the mailbox "%s".'),
                         $ob->mbox->display
                     ) . ' ' . $e->getMessage(),
                     'horde.error'
@@ -442,28 +443,28 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
                 if ($ob->mbox->access_expunge) {
                     try {
                         if ($mark_seen) {
-                            $imp_imap->store($ob->mbox, array(
-                                'add' => array(Horde_Imap_Client::FLAG_SEEN),
-                                'ids' => $ids_ob
-                            ));
+                            $imp_imap->store($ob->mbox, [
+                                'add' => [Horde_Imap_Client::FLAG_SEEN],
+                                'ids' => $ids_ob,
+                            ]);
                         }
 
-                        $imp_imap->copy($ob->mbox, $trash, array(
+                        $imp_imap->copy($ob->mbox, $trash, [
                             'ids' => $ids_ob,
-                            'move' => true
-                        ));
+                            'move' => true,
+                        ]);
                     } catch (IMP_Imap_Exception $e) {
                         if ($e->getCode() == $e::OVERQUOTA) {
                             $notification->push(
-                                _("You are over your quota, so your messages will be permanently deleted instead of moved to the Trash mailbox."),
+                                _('You are over your quota, so your messages will be permanently deleted instead of moved to the Trash mailbox.'),
                                 'horde.warning'
                             );
 
                             $idx = new IMP_Indices($ob->mbox, $ob->uids);
-                            return $idx->delete(array(
+                            return $idx->delete([
                                 'keeplog' => !empty($opts['keeplog']),
-                                'nuke' => true
-                            ));
+                                'nuke' => true,
+                            ]);
                         }
 
                         return false;
@@ -481,7 +482,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
                 /* Delete the messages. */
                 $expunge_now = false;
-                $del_flags = array(Horde_Imap_Client::FLAG_DELETED);
+                $del_flags = [Horde_Imap_Client::FLAG_DELETED];
 
                 if (!$use_vtrash &&
                     (!$imp_imap->access(IMP_Imap::ACCESS_TRASH) ||
@@ -495,10 +496,10 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
                 }
 
                 try {
-                    $imp_imap->store($ob->mbox, array(
+                    $imp_imap->store($ob->mbox, [
                         'add' => $del_flags,
-                        'ids' => $ids_ob
-                    ));
+                        'ids' => $ids_ob,
+                    ]);
 
                     if ($expunge_now) {
                         $ob->mbox->expunge($ids_ob);
@@ -509,7 +510,8 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
                             new IMP_Indices($ob->mbox, $ids_ob)
                         );
                     }
-                } catch (IMP_Imap_Exception $e) {}
+                } catch (IMP_Imap_Exception $e) {
+                }
             }
         }
 
@@ -529,14 +531,14 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
     {
         global $injector;
 
-        list($mbox, $uid) = $this->getSingle();
+        [$mbox, $uid] = $this->getSingle();
         if (!$uid) {
             return;
         }
 
         if ($mbox->readonly) {
             throw new IMP_Exception(
-                _("Cannot strip the part as the mailbox is read-only.")
+                _('Cannot strip the part as the mailbox is read-only.')
             );
         }
 
@@ -555,22 +557,22 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
         /* Always add the header to output. */
         $url->section = 'HEADER';
-        $parts = array(
-            array(
+        $parts = [
+            [
                 't' => 'url',
-                'v' => strval($url)
-            )
-        );
+                'v' => strval($url),
+            ],
+        ];
 
         for ($id = 1; ; ++$id) {
             if (!($part = $message[$id])) {
                 break;
             }
 
-            $parts[] = array(
+            $parts[] = [
                 't' => 'text',
-                'v' => "\r\n--" . $boundary . "\r\n"
-            );
+                'v' => "\r\n--" . $boundary . "\r\n",
+            ];
 
             if (($id != 1) && is_null($partid) || ($id == $partid)) {
                 $newPart = new Horde_Mime_Part();
@@ -579,39 +581,39 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
                 /* Need to make sure all text is in the correct charset. */
                 $newPart->setCharset('UTF-8');
                 $newPart->setContents(sprintf(
-                    _("[Part stripped: Original part type: %s, name: %s]"),
+                    _('[Part stripped: Original part type: %s, name: %s]'),
                     $part->getType(),
                     $contents->getPartName($part)
                 ));
                 $newPart->setDisposition('attachment');
 
-                $parts[] = array(
+                $parts[] = [
                     't' => 'text',
-                    'v' => $newPart->toString(array(
+                    'v' => $newPart->toString([
                         'canonical' => true,
                         'headers' => true,
-                        'stream' => true
-                    ))
-                );
+                        'stream' => true,
+                    ]),
+                ];
             } else {
                 $url->section = $id . '.MIME';
-                $parts[] = array(
+                $parts[] = [
                     't' => 'url',
-                    'v' => strval($url)
-                );
+                    'v' => strval($url),
+                ];
 
                 $url->section = $id;
-                $parts[] = array(
+                $parts[] = [
                     't' => 'url',
-                    'v' => strval($url)
-                );
+                    'v' => strval($url),
+                ];
             }
         }
 
-        $parts[] = array(
+        $parts[] = [
             't' => 'text',
-            'v' => "\r\n--" . $boundary . "--\r\n"
-        );
+            'v' => "\r\n--" . $boundary . "--\r\n",
+        ];
 
         /* Get the headers for the message. */
         $query = new Horde_Imap_Client_Fetch_Query();
@@ -619,9 +621,9 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         $query->flags();
 
         try {
-            $res = $imp_imap->fetch($mbox, $query, array(
-                'ids' => $imp_imap->getIdsOb($uid)
-            ))->first();
+            $res = $imp_imap->fetch($mbox, $query, [
+                'ids' => $imp_imap->getIdsOb($uid),
+            ])->first();
             if (is_null($res)) {
                 throw new IMP_Imap_Exception();
             }
@@ -630,34 +632,34 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
             /* If in Virtual Inbox, we need to reset flag to unseen so that it
              * appears again in the mailbox list. */
             if ($mbox->vinbox) {
-                $flags = array_values(array_diff($flags, array(Horde_Imap_Client::FLAG_SEEN)));
+                $flags = array_values(array_diff($flags, [Horde_Imap_Client::FLAG_SEEN]));
             }
 
-            $new_uid = $imp_imap->append($mbox, array(
-                array(
+            $new_uid = $imp_imap->append($mbox, [
+                [
                     'data' => $parts,
                     'flags' => $flags,
-                    'internaldate' => $res->getImapDate()
-                )
-            ))->ids;
+                    'internaldate' => $res->getImapDate(),
+                ],
+            ])->ids;
             $new_uid = reset($new_uid);
         } catch (IMP_Imap_Exception $e) {
             throw new IMP_Exception(
-                _("An error occured while attempting to strip the part.")
+                _('An error occured while attempting to strip the part.')
             );
         }
 
-        $this->delete(array(
+        $this->delete([
             'keeplog' => true,
-            'nuke' => true
-        ));
+            'nuke' => true,
+        ]);
 
         $indices_ob = $mbox->getIndicesOb($new_uid);
 
         /* We need to replace the old UID(s) in the URL params. */
         $vars = $injector->getInstance('Horde_Variables');
         if (isset($vars->buid)) {
-            list(,$vars->buid) = $mbox->toBuids($indices_ob)->getSingle();
+            [, $vars->buid] = $mbox->toBuids($indices_ob)->getSingle();
         }
         if (isset($vars->uid)) {
             $vars->uid = $new_uid;
@@ -684,18 +686,20 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
      *
      * @return boolean  True if successful, false if not.
      */
-    public function flag(array $add = array(), array $remove = array(),
-                         array $opts = array())
-    {
+    public function flag(
+        array $add = [],
+        array $remove = [],
+        array $opts = []
+    ) {
         global $injector, $notification;
 
         if (!count($this)) {
             return false;
         }
 
-        $opts = array_merge(array(
-            'unchangedsince' => array()
-        ), $opts);
+        $opts = array_merge([
+            'unchangedsince' => [],
+        ], $opts);
 
         $ajax_queue = $injector->getInstance('IMP_Ajax_Queue');
         $ret = true;
@@ -703,7 +707,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         foreach ($this as $ob) {
             try {
                 if ($ob->mbox->readonly) {
-                    throw new IMP_Exception(_("This mailbox is read-only."));
+                    throw new IMP_Exception(_('This mailbox is read-only.'));
                 }
 
                 $ob->mbox->uidvalid;
@@ -714,12 +718,12 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
                 /* Flag/unflag the messages now. */
                 $imp_imap = $ob->mbox->imp_imap;
-                $res = $imp_imap->store($ob->mbox, array_filter(array(
+                $res = $imp_imap->store($ob->mbox, array_filter([
                     'add' => $add,
                     'ids' => $imp_imap->getIdsOb($ob->uids),
                     'remove' => $remove,
-                    'unchangedsince' => $unchangedsince
-                )));
+                    'unchangedsince' => $unchangedsince,
+                ]));
 
                 $flag_change = $ob->mbox->getIndicesOb($ob->uids);
 
@@ -739,7 +743,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
                     }
                 }
 
-                foreach (array('add' => $add, 'remove' => $remove) as $key => $val) {
+                foreach (['add' => $add, 'remove' => $remove] as $key => $val) {
                     if (!empty($val)) {
                         $ajax_queue->flag($val, ($key == 'add'), $flag_change);
                         if ($this instanceof IMP_Indices_Mailbox) {
@@ -753,8 +757,9 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
                 }
             } catch (Exception $e) {
                 $msg = sprintf(
-                    _("There was an error flagging messages in the mailbox \"%s\": %s."),
-                    $ob->mbox->display, $e->getMessage()
+                    _('There was an error flagging messages in the mailbox "%s": %s.'),
+                    $ob->mbox->display,
+                    $e->getMessage()
                 );
                 if (empty($opts['silent'])) {
                     $notification->push(
@@ -798,7 +803,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         $maillog = $injector->getInstance('IMP_Maillog');
 
         if (!$maillog->storage->isAvailable($log_msg, $log_ob) ||
-            count($maillog->getLog($log_msg, array('IMP_Maillog_Log_Mdn')))) {
+            count($maillog->getLog($log_msg, ['IMP_Maillog_Log_Mdn']))) {
             return false;
         }
 
@@ -807,7 +812,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
             ((intval($pref_val) == 1) ||
              $mdn->userConfirmationNeeded())) {
             try {
-                if ($injector->getInstance('Horde_Core_Hooks')->callHook('mdn_check', 'imp', array($headers))) {
+                if ($injector->getInstance('Horde_Core_Hooks')->callHook('mdn_check', 'imp', [$headers])) {
                     return true;
                 }
             } catch (Horde_Exception_HookNotSet $e) {
@@ -831,10 +836,10 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
                 'displayed',
                 $conf['server']['name'],
                 $injector->getInstance('IMP_Mail'),
-                array(
+                [
                     'charset' => 'UTF-8',
-                    'from_addr' => $from
-                )
+                    'from_addr' => $from,
+                ]
             );
             $maillog->log($log_msg, $log_ob);
             $success = true;
@@ -866,9 +871,8 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        return isset($this->_indices[$offset])
-            ? $this->_indices[$offset]
-            : null;
+        return $this->_indices[$offset]
+            ?? null;
     }
 
     /**
@@ -882,7 +886,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
     /**
      */
-     public function offsetUnset($offset): void
+    public function offsetUnset($offset): void
     {
         unset($this->_indices[$offset]);
     }
@@ -926,7 +930,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
             return null;
         }
 
-        $ret = new stdClass;
+        $ret = new stdClass();
         $ret->mbox = IMP_Mailbox::get($this->key());
         $ret->uids = current($this->_indices);
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2001-2017 Horde LLC (http://www.horde.org/)
  *
@@ -62,12 +63,12 @@ class IMP_LoginTasks_Task_PurgeTrash extends Horde_LoginTasks_Task
         $msg_ids = IMP_Mailbox::getPref(IMP_Mailbox::MBOX_TRASH)->runSearchQuery($query);
 
         /* Go through the message list and delete the messages. */
-        if (!$msg_ids->delete(array('nuke' => true))) {
+        if (!$msg_ids->delete(['nuke' => true])) {
             return false;
         }
 
         $msgcount = count($msg_ids);
-        $notification->push(sprintf(ngettext("Purging %d message from Trash mailbox.", "Purging %d messages from Trash mailbox.", $msgcount), $msgcount), 'horde.message');
+        $notification->push(sprintf(ngettext('Purging %d message from Trash mailbox.', 'Purging %d messages from Trash mailbox.', $msgcount), $msgcount), 'horde.message');
         return true;
     }
 
@@ -79,9 +80,11 @@ class IMP_LoginTasks_Task_PurgeTrash extends Horde_LoginTasks_Task
      */
     public function describe()
     {
-        return sprintf(_("All messages in your \"%s\" mailbox older than %s days will be permanently deleted."),
-                       IMP_Mailbox::getPref(IMP_Mailbox::MBOX_TRASH)->display_html,
-                       $GLOBALS['prefs']->getValue('purge_trash_keep'));
+        return sprintf(
+            _('All messages in your "%s" mailbox older than %s days will be permanently deleted.'),
+            IMP_Mailbox::getPref(IMP_Mailbox::MBOX_TRASH)->display_html,
+            $GLOBALS['prefs']->getValue('purge_trash_keep')
+        );
     }
 
 }

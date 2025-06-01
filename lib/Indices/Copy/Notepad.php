@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,10 +21,9 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Indices_Copy_Notepad
-    extends IMP_Indices_Copy
+class IMP_Indices_Copy_Notepad extends IMP_Indices_Copy
 {
-    const NOTEPAD_EDIT = "notepad\0";
+    public const NOTEPAD_EDIT = "notepad\0";
 
     /**
      * @return array
@@ -37,10 +37,10 @@ class IMP_Indices_Copy_Notepad
             try {
                 $lists = $registry->call(
                     'notes/listNotepads',
-                    array(false, Horde_Perms::EDIT)
+                    [false, Horde_Perms::EDIT]
                 );
 
-                $out = array();
+                $out = [];
 
                 foreach ($lists as $key => $val) {
                     $mbox = IMP_Mailbox::formTo(self::NOTEPAD_EDIT . $key);
@@ -55,7 +55,7 @@ class IMP_Indices_Copy_Notepad
             }
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -82,7 +82,7 @@ class IMP_Indices_Copy_Notepad
         try {
             $res = $registry->call(
                 'notes/import',
-                array($vNote, 'text/x-vnote', $list)
+                [$vNote, 'text/x-vnote', $list]
             );
         } catch (Horde_Exception $e) {
             $notification->push($e);
@@ -91,7 +91,7 @@ class IMP_Indices_Copy_Notepad
 
         if (!$res) {
             $notification->push(
-                _("An unknown error occured while creating the new note."),
+                _('An unknown error occured while creating the new note.'),
                 'horde.error'
             );
             return false;
@@ -102,19 +102,19 @@ class IMP_Indices_Copy_Notepad
             if ($registry->hasLink('notes/show')) {
                 $name = sprintf(
                     '<a href="%s">%s</a>',
-                    Horde::url($registry->link('notes/show', array('uid' => $res))),
+                    Horde::url($registry->link('notes/show', ['uid' => $res])),
                     $name
                 );
             }
 
             $notification->push(
                 sprintf(
-                    _("%s was successfully added to \"%s\"."),
+                    _('%s was successfully added to "%s".'),
                     $name,
                     htmlspecialchars($lists[$list]->get('name'))
                 ),
                 'horde.success',
-                array('content.raw')
+                ['content.raw']
             );
         }
         return true;

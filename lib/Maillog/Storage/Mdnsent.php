@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -25,48 +26,48 @@ class IMP_Maillog_Storage_Mdnsent extends IMP_Maillog_Storage_Base
     /**
      */
     public function saveLog(
-        IMP_Maillog_Message $msg, IMP_Maillog_Log_Base $log
-    )
-    {
+        IMP_Maillog_Message $msg,
+        IMP_Maillog_Log_Base $log
+    ) {
         if (!$this->isAvailable($msg, $log)) {
             return false;
         }
 
         return $msg->indices->flag(
-            array(Horde_Imap_Client::FLAG_MDNSENT),
-            array(),
-            array('silent' => true)
+            [Horde_Imap_Client::FLAG_MDNSENT],
+            [],
+            ['silent' => true]
         );
     }
 
     /**
      */
-    public function getLog(IMP_Maillog_Message $msg, array $types = array())
+    public function getLog(IMP_Maillog_Message $msg, array $types = [])
     {
         $log_ob = new IMP_Maillog_Log_Mdn();
 
         if ((!empty($types) && !in_array('IMP_Maillog_Log_Mdn', $types)) ||
             !$this->isAvailable($msg, $log_ob)) {
-            return array();
+            return [];
         }
 
-        list($mbox, $uid) = $msg->indices->getSingle();
+        [$mbox, $uid] = $msg->indices->getSingle();
         $imp_imap = $mbox->imp_imap;
 
         $query = new Horde_Imap_Client_Fetch_Query();
         $query->flags();
 
         try {
-            $flags = $imp_imap->fetch($mbox, $query, array(
-                'ids' => $imp_imap->getIdsOb($uid)
-            ))->first()->getFlags();
+            $flags = $imp_imap->fetch($mbox, $query, [
+                'ids' => $imp_imap->getIdsOb($uid),
+            ])->first()->getFlags();
         } catch (IMP_Imap_Exception $e) {
-            $flags = array();
+            $flags = [];
         }
 
         return in_array(Horde_Imap_Client::FLAG_MDNSENT, $flags)
-            ? array($log_ob)
-            : array();
+            ? [$log_ob]
+            : [];
     }
 
     /**
@@ -81,21 +82,21 @@ class IMP_Maillog_Storage_Mdnsent extends IMP_Maillog_Storage_Base
     public function getChanges($ts)
     {
         /* No timestamp support for this driver. */
-        return array();
+        return [];
     }
 
     /**
      */
     public function isAvailable(
-        IMP_Maillog_Message $msg, IMP_Maillog_Log_Base $log
-    )
-    {
+        IMP_Maillog_Message $msg,
+        IMP_Maillog_Log_Base $log
+    ) {
         if (!($log instanceof IMP_Maillog_Log_Mdn) ||
             !$msg->indices) {
             return false;
         }
 
-        list($mbox,) = $msg->indices->getSingle();
+        [$mbox, ] = $msg->indices->getSingle();
 
         return (!$mbox->readonly &&
                 ($mbox->permflags->allowed(Horde_Imap_Client::FLAG_MDNSENT)));

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
  *
@@ -25,7 +26,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 class IMP_Imap_PermanentFlags implements IteratorAggregate
 {
     /* IMAP flag indicating flags can be created in mailbox. */
-    const CREATE = "\\*";
+    public const CREATE = '\\*';
 
     /**
      * Can new flags NOT be created?
@@ -39,14 +40,14 @@ class IMP_Imap_PermanentFlags implements IteratorAggregate
      *
      * @var array
      */
-    protected $_noset = array();
+    protected $_noset = [];
 
     /**
      * List of settable flags.
      *
      * @var array
      */
-    protected $_set = array();
+    protected $_set = [];
 
     /**
      * Constructor.
@@ -54,11 +55,12 @@ class IMP_Imap_PermanentFlags implements IteratorAggregate
      * @param array $permflags  List of permanent flags in mailbox.
      * @param array $flags      List of flags in mailbox.
      */
-    public function __construct(array $permflags = array(),
-                                array $flags = array())
-    {
+    public function __construct(
+        array $permflags = [],
+        array $flags = []
+    ) {
         $this->_nocreate = !in_array(self::CREATE, $permflags);
-        $this->_noset = array_diff($permflags, $flags, array(self::CREATE));
+        $this->_noset = array_diff($permflags, $flags, [self::CREATE]);
         $this->_set = array_intersect($permflags, $flags);
     }
 

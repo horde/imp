@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2009-2017 Horde LLC (http://www.horde.org/)
  *
@@ -28,47 +29,47 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
 
     /**
      */
-    protected $_versions = array(
+    protected $_versions = [
         '5.0',
         '6.0',
-        '6.1'
-    );
+        '6.1',
+    ];
 
     /**
      */
     protected function _upgrade($version)
     {
         switch ($version) {
-        case '5.0':
-            $this->_upgradeAbookPrefs();
-            $this->_upgradeComposePrefs();
-            $this->_upgradeDeleteAttachmentsMonthlyPrefs();
-            $this->_upgradeDeleteSentmailMonthlyPrefs();
-            $this->_upgradeForwardPrefs();
-            $this->_upgradeLoginTasksPrefs();
-            $this->_upgradeMsgDisplayPrefs();
-            $this->_upgradeNewmailPrefs();
-            $this->_upgradePurgeSentmailPrefs();
-            $this->_upgradePurgeSpamPrefs();
-            $this->_upgradePurgeTrashPrefs();
-            $this->_upgradeSortPrefs();
-            $this->_upgradeStationery();
-            $this->_upgradeVirtualFolders();
-            break;
+            case '5.0':
+                $this->_upgradeAbookPrefs();
+                $this->_upgradeComposePrefs();
+                $this->_upgradeDeleteAttachmentsMonthlyPrefs();
+                $this->_upgradeDeleteSentmailMonthlyPrefs();
+                $this->_upgradeForwardPrefs();
+                $this->_upgradeLoginTasksPrefs();
+                $this->_upgradeMsgDisplayPrefs();
+                $this->_upgradeNewmailPrefs();
+                $this->_upgradePurgeSentmailPrefs();
+                $this->_upgradePurgeSpamPrefs();
+                $this->_upgradePurgeTrashPrefs();
+                $this->_upgradeSortPrefs();
+                $this->_upgradeStationery();
+                $this->_upgradeVirtualFolders();
+                break;
 
-        case '6.0':
-            $this->_upgradeComposeCursor();
-            $this->_upgradeInnocentPrefs();
-            $this->_upgradeMailboxPrefs();
-            $this->_upgradeSaveAttachments();
-            $this->_upgradeStationeryToTemplates();
-            $this->_upgradeVirtualFolders6();
-            break;
+            case '6.0':
+                $this->_upgradeComposeCursor();
+                $this->_upgradeInnocentPrefs();
+                $this->_upgradeMailboxPrefs();
+                $this->_upgradeSaveAttachments();
+                $this->_upgradeStationeryToTemplates();
+                $this->_upgradeVirtualFolders6();
+                break;
 
-        case '6.1':
-            $this->_upgradeComposePrefs61();
-            $this->_upgradeRequestMdn();
-            break;
+            case '6.1':
+                $this->_upgradeComposePrefs61();
+                $this->_upgradeRequestMdn();
+                break;
         }
     }
 
@@ -89,7 +90,7 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
         if (!$prefs->isDefault('search_fields')) {
             $val = $prefs->getValue('search_fields');
             if (!is_array(json_decode($val, true))) {
-                $fields = array();
+                $fields = [];
                 foreach (explode("\n", $val) as $field) {
                     $field = trim($field);
                     if (!empty($field)) {
@@ -166,27 +167,27 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
         }
 
         switch ($prefs->getValue('forward_default')) {
-        case 'forward_attachments':
-            $prefs->setValue('forward_default', 'both');
-            break;
+            case 'forward_attachments':
+                $prefs->setValue('forward_default', 'both');
+                break;
 
-        case 'forward_all':
-            $prefs->setValue('forward_default', 'attach');
-            break;
+            case 'forward_all':
+                $prefs->setValue('forward_default', 'attach');
+                break;
 
-        case 'forward_body':
-            $prefs->setValue('forward_default', 'body');
-            break;
+            case 'forward_body':
+                $prefs->setValue('forward_default', 'body');
+                break;
 
-        case 'attach':
-        case 'body':
-        case 'both':
-            // Ignore - already converted.
-            break;
+            case 'attach':
+            case 'body':
+            case 'both':
+                // Ignore - already converted.
+                break;
 
-        default:
-            $prefs->setValue('forward_default', 'attach');
-            break;
+            default:
+                $prefs->setValue('forward_default', 'attach');
+                break;
         }
     }
 
@@ -325,9 +326,9 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
      */
     protected function _upgradeStationery()
     {
-        $upgrade_prefs = array(
-            'stationery'
-        );
+        $upgrade_prefs = [
+            'stationery',
+        ];
 
         $GLOBALS['injector']->getInstance('Horde_Core_Prefs_Storage_Upgrade')->upgradeSerialized($GLOBALS['prefs'], $upgrade_prefs);
     }
@@ -368,7 +369,7 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
             return;
         }
 
-        $new_vfolders = array();
+        $new_vfolders = [];
         if ($use_vinbox) {
             $new_vfolders[] = new IMP_Search_Vfolder_Vinbox();
         }
@@ -385,12 +386,12 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
             /* BC: Convert old (IMP < 4.2.1) style w/separate flag entry to
              * new style where flags are part of the fields to query. */
             if (!empty($ui['flag'])) {
-                $lookup = array(
+                $lookup = [
                     1 => 'seen',
                     2 => 'answered',
                     3 => 'flagged',
-                    4 => 'deleted'
-                );
+                    4 => 'deleted',
+                ];
 
                 foreach ($ui['flag'] as $key => $val) {
                     if (($val == 0) || ($val == 1)) {
@@ -400,84 +401,84 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
             }
 
             foreach ($ui['field'] as $key => $val) {
-                $ob = new IMP_Search_Vfolder(array(
+                $ob = new IMP_Search_Vfolder([
                     'enabled' => true,
                     'label' => $ui['vfolder_label'],
-                    'mboxes' => $ui['folders']
-                ));
+                    'mboxes' => $ui['folders'],
+                ]);
 
                 switch ($val) {
-                case 'from':
-                case 'cc':
-                case 'bcc':
-                case 'subject':
-                    $ob->add(new IMP_Search_Element_Header(
-                        $ui['text'][$key],
-                        $val,
-                        !empty($ui['text_not'][$key])
-                    ));
-                    break;
-
-                case 'to':
-                    $ob->add(new IMP_Search_Element_Recipient(
-                        $val,
-                        !empty($ui['text_not'][$key])
-                    ));
-                    break;
-
-                case 'body':
-                case 'text':
-                    $ob->add(new IMP_Search_Element_Text(
-                        $ui['text'][$key],
-                        ($val == 'body'),
-                        !empty($ui['text_not'][$key])
-                    ));
-                    break;
-
-                case 'date_on':
-                case 'date_until':
-                case 'date_since':
-                    $d = new DateTime(
-                        $ui['date'][$key]['year'] . '-' . $ui['date'][$key]['month'] . '-' . $ui['date'][$key]['day']
-                    );
-
-                    if ($val == 'date_on') {
-                        $ob->add(new IMP_Search_Element_Daterange($d, $d));
-                    } elseif ($val == 'date_until') {
-                        $ob->add(new IMP_Search_Element_Daterange(null, $d));
-                    } else {
-                        $ob->add(new IMP_Search_Element_Daterange($d, null));
-                    }
-                    break;
-
-                case 'size_smaller':
-                case 'size_larger':
-                    $ob->add(new IMP_Search_Element_Size(
-                        $ui['text'][$key],
-                        $val == 'size_larger'
-                    ));
-                    break;
-
-                case 'seen':
-                case 'unseen':
-                case 'answered':
-                case 'unanswered':
-                case 'flagged':
-                case 'unflagged':
-                case 'deleted':
-                case 'undeleted':
-                    if (strpos($val, 'un') === false) {
-                        $ob->add(new IMP_Search_Element_Flag(
+                    case 'from':
+                    case 'cc':
+                    case 'bcc':
+                    case 'subject':
+                        $ob->add(new IMP_Search_Element_Header(
+                            $ui['text'][$key],
                             $val,
-                            true
+                            !empty($ui['text_not'][$key])
                         ));
-                    } else {
-                        $ob->add(new IMP_Search_Element_Flag(
-                            substr($val, 2),
-                            false
+                        break;
+
+                    case 'to':
+                        $ob->add(new IMP_Search_Element_Recipient(
+                            $val,
+                            !empty($ui['text_not'][$key])
                         ));
-                    }
-                    break;
+                        break;
+
+                    case 'body':
+                    case 'text':
+                        $ob->add(new IMP_Search_Element_Text(
+                            $ui['text'][$key],
+                            ($val == 'body'),
+                            !empty($ui['text_not'][$key])
+                        ));
+                        break;
+
+                    case 'date_on':
+                    case 'date_until':
+                    case 'date_since':
+                        $d = new DateTime(
+                            $ui['date'][$key]['year'] . '-' . $ui['date'][$key]['month'] . '-' . $ui['date'][$key]['day']
+                        );
+
+                        if ($val == 'date_on') {
+                            $ob->add(new IMP_Search_Element_Daterange($d, $d));
+                        } elseif ($val == 'date_until') {
+                            $ob->add(new IMP_Search_Element_Daterange(null, $d));
+                        } else {
+                            $ob->add(new IMP_Search_Element_Daterange($d, null));
+                        }
+                        break;
+
+                    case 'size_smaller':
+                    case 'size_larger':
+                        $ob->add(new IMP_Search_Element_Size(
+                            $ui['text'][$key],
+                            $val == 'size_larger'
+                        ));
+                        break;
+
+                    case 'seen':
+                    case 'unseen':
+                    case 'answered':
+                    case 'unanswered':
+                    case 'flagged':
+                    case 'unflagged':
+                    case 'deleted':
+                    case 'undeleted':
+                        if (strpos($val, 'un') === false) {
+                            $ob->add(new IMP_Search_Element_Flag(
+                                $val,
+                                true
+                            ));
+                        } else {
+                            $ob->add(new IMP_Search_Element_Flag(
+                                substr($val, 2),
+                                false
+                            ));
+                        }
+                        break;
                 }
 
                 if ($or_match) {
@@ -522,11 +523,11 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
     {
         global $injector, $prefs;
 
-        $special_mboxes = array(
+        $special_mboxes = [
             'drafts_folder',
             'spam_folder',
-            'trash_folder'
-        );
+            'trash_folder',
+        ];
 
         foreach ($special_mboxes as $val) {
             if (!$prefs->isDefault($val)) {
@@ -560,13 +561,13 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
         global $prefs;
 
         switch ($prefs->getValue('save_attachments')) {
-        case 'prompt_no':
-            $prefs->setValue('save_attachments', 'never');
-            break;
+            case 'prompt_no':
+                $prefs->setValue('save_attachments', 'never');
+                break;
 
-        case 'prompt_yes':
-            $prefs->setValue('save_attachments', 'always');
-            break;
+            case 'prompt_yes':
+                $prefs->setValue('save_attachments', 'always');
+                break;
         }
     }
 
@@ -585,7 +586,7 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
              * 't' => (string) Type */
             foreach ($slist as $val) {
                 $injector->getInstance('IMP_Factory_Compose')->create()->saveTemplate(
-                    array('subject' => $val['n']),
+                    ['subject' => $val['n']],
                     $val['c']
                 );
             }
@@ -612,26 +613,26 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
                     $criteria = $tmp[$key2]->data;
 
                     switch ($criteria->t) {
-                    case IMP_Search_Element_Date::DATE_ON:
-                        $ob = new IMP_Search_Element_Daterange(
-                            new DateTime('@' . $criteria->d),
-                            new DateTime('@' . $criteria->d)
-                        );
-                        break;
+                        case IMP_Search_Element_Date::DATE_ON:
+                            $ob = new IMP_Search_Element_Daterange(
+                                new DateTime('@' . $criteria->d),
+                                new DateTime('@' . $criteria->d)
+                            );
+                            break;
 
-                    case IMP_Search_Element_Date::DATE_BEFORE:
-                        $ob = new IMP_Search_Element_Daterange(
-                            null,
-                            new DateTime('@' . $criteria->d)
-                        );
-                        break;
+                        case IMP_Search_Element_Date::DATE_BEFORE:
+                            $ob = new IMP_Search_Element_Daterange(
+                                null,
+                                new DateTime('@' . $criteria->d)
+                            );
+                            break;
 
-                    case IMP_Search_Element_Date::DATE_SINCE:
-                        $ob = new IMP_Search_Element_Daterange(
-                            new DateTime('@' . $criteria->d),
-                            null
-                        );
-                        break;
+                        case IMP_Search_Element_Date::DATE_SINCE:
+                            $ob = new IMP_Search_Element_Daterange(
+                                new DateTime('@' . $criteria->d),
+                                null
+                            );
+                            break;
                     }
 
                     $tmp[$key2] = $ob;
@@ -676,9 +677,9 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
  */
 class IMP_Search_Element_Date implements Serializable
 {
-    const DATE_ON = 1;
-    const DATE_BEFORE = 2;
-    const DATE_SINCE = 3;
+    public const DATE_ON = 1;
+    public const DATE_BEFORE = 2;
+    public const DATE_SINCE = 3;
 
     /* Data element:
      * d = (integer) UNIX timestamp.
@@ -689,11 +690,11 @@ class IMP_Search_Element_Date implements Serializable
     {
         return array_shift($this->__serialize());
     }
-    public function __serialize(): array 
+    public function __serialize(): array
     {
         return
         [
-            ''
+            '',
         ];
     }
 
@@ -701,7 +702,7 @@ class IMP_Search_Element_Date implements Serializable
     {
         $this->__unserialize([$data]);
     }
-    public function __unserialize(array $data): void 
+    public function __unserialize(array $data): void
     {
         $this->data = json_decode($data[0]);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,7 +28,7 @@ class IMP_Search_Filter_Personal extends IMP_Search_Filter_Builtin
     protected function _init()
     {
         $this->_id = 'filter_personal';
-        $this->_label = _("Personal Messages");
+        $this->_label = _('Personal Messages');
 
         $this->add(new IMP_Search_Element_Personal());
     }

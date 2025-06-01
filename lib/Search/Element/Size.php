@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -40,7 +41,7 @@ class IMP_Search_Element_Size extends IMP_Search_Element
         /* Data element:
          * l = (integer) Larger if non-zero, smaller if zero.
          * s = (integer) Size (in bytes). */
-        $this->_data = new stdClass;
+        $this->_data = new stdClass();
         $this->_data->s = intval($size);
         $this->_data->l = intval(!empty($larger));
     }
@@ -59,8 +60,8 @@ class IMP_Search_Element_Size extends IMP_Search_Element
     public function queryText()
     {
         $label = $this->_data->l
-            ? _("Size - Greater Than (KB)")
-            : _("Size - Less Than (KB)");
+            ? _('Size - Greater Than (KB)')
+            : _('Size - Less Than (KB)');
 
         return $label . ' ' . ($this->_data->s / 1024);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,7 +24,7 @@
 class IMP_Ftree_Account_Vfolder extends IMP_Ftree_Account
 {
     /* Virtual folder key. */
-    const VFOLDER_KEY = "vfolder\0";
+    public const VFOLDER_KEY = "vfolder\0";
 
     /**
      */
@@ -38,23 +39,23 @@ class IMP_Ftree_Account_Vfolder extends IMP_Ftree_Account
 
     /**
      */
-    public function getList($query = array(), $mask = 0)
+    public function getList($query = [], $mask = 0)
     {
         global $injector;
 
         $imp_search = $injector->getInstance('IMP_Search');
-        $out = array();
+        $out = [];
 
         if ($imp_search[strval($this)]->enabled) {
-            $out[] = array(
+            $out[] = [
                 'a' => IMP_Ftree::ELT_VFOLDER | IMP_Ftree::ELT_NOSELECT | IMP_Ftree::ELT_NONIMAP,
-                'v' => self::VFOLDER_KEY
-            );
-            $out[] = array(
+                'v' => self::VFOLDER_KEY,
+            ];
+            $out[] = [
                 'a' => IMP_Ftree::ELT_VFOLDER | IMP_Ftree::ELT_IS_SUBSCRIBED | IMP_Ftree::ELT_NONIMAP,
                 'p' => self::VFOLDER_KEY,
-                'v' => strval($this)
-            );
+                'v' => strval($this),
+            ];
         }
 
         return $out;

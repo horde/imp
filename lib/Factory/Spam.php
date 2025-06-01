@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,7 +28,7 @@ class IMP_Factory_Spam extends Horde_Core_Factory_Base
      *
      * @var array
      */
-    private $_instances = array();
+    private $_instances = [];
 
     /**
      * Return a IMP_Spam instance.
@@ -41,18 +42,18 @@ class IMP_Factory_Spam extends Horde_Core_Factory_Base
     {
         if (!isset($this->_instances[$action])) {
             switch ($action) {
-            case IMP_Spam::INNOCENT:
-                $config = $this->_injector->getInstance('IMP_Factory_Imap')->create()->config->innocent_params;
-                break;
+                case IMP_Spam::INNOCENT:
+                    $config = $this->_injector->getInstance('IMP_Factory_Imap')->create()->config->innocent_params;
+                    break;
 
-            case IMP_Spam::SPAM:
-                $config = $this->_injector->getInstance('IMP_Factory_Imap')->create()->config->spam_params;
-                break;
+                case IMP_Spam::SPAM:
+                    $config = $this->_injector->getInstance('IMP_Factory_Imap')->create()->config->spam_params;
+                    break;
             }
 
             $drivers = (!empty($config['drivers']) && is_array($config['drivers']))
                 ? $config['drivers']
-                : array();
+                : [];
 
             if (!empty($config['program'])) {
                 $drivers[] = new IMP_Spam_Program(
@@ -64,10 +65,10 @@ class IMP_Factory_Spam extends Horde_Core_Factory_Base
                 $drivers[] = new IMP_Spam_Email(
                     $this->_expand($config['email']),
                     $config['email_format'],
-                    array(
+                    [
                         'digest_limit_msgs' => $config['digest_limit_msgs'],
-                        'digest_limit_size' => $config['digest_limit_size']
-                    )
+                        'digest_limit_size' => $config['digest_limit_size'],
+                    ]
                 );
             }
 
@@ -93,11 +94,11 @@ class IMP_Factory_Spam extends Horde_Core_Factory_Base
     {
         global $registry;
 
-        $replace = array(
+        $replace = [
             '%u' => $registry->getAuth(),
             '%l' => $registry->getAuth('bare'),
-            '%d' => $registry->getAuth('domain')
-        );
+            '%d' => $registry->getAuth('domain'),
+        ];
 
         return str_replace(
             array_keys($replace),

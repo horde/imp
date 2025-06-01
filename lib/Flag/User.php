@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -61,41 +62,41 @@ class IMP_Flag_User extends IMP_Flag_Imap
     public function __set($name, $value)
     {
         switch ($name) {
-        case 'imapflag':
-            /* IMAP keywords must conform to RFC 3501 [9] (flag-keyword). */
-            $atom = new Horde_Imap_Client_Data_Format_Atom(
-                /* 2: Convert whitespace to underscore. */
-                strtr(
-                    /* 1: Do UTF-8 -> ASCII transliteration. */
-                    Horde_String_Transliterate::toAscii($value),
-                    ' ',
-                    '_'
-                )
-            );
-
-            /* 3: Remove all non-atom characters. */
-            $imapflag = $atom->stripNonAtomCharacters();
-
-            /* 4: If string is empty (i.e. it contained all non-ASCII
-             * characters that could not be converted), save the hashed value
-             * of original string as flag. */
-            if (!strlen($imapflag)) {
-                $imapflag = hash(
-                    (version_compare(PHP_VERSION, '5.4', '>=')) ? 'fnv132' : 'md5',
-                    $value
+            case 'imapflag':
+                /* IMAP keywords must conform to RFC 3501 [9] (flag-keyword). */
+                $atom = new Horde_Imap_Client_Data_Format_Atom(
+                    /* 2: Convert whitespace to underscore. */
+                    strtr(
+                        /* 1: Do UTF-8 -> ASCII transliteration. */
+                        Horde_String_Transliterate::toAscii($value),
+                        ' ',
+                        '_'
+                    )
                 );
-            }
 
-            $this->_imapflag = $imapflag;
-            break;
+                /* 3: Remove all non-atom characters. */
+                $imapflag = $atom->stripNonAtomCharacters();
 
-        case 'label':
-            $this->_label = $value;
-            break;
+                /* 4: If string is empty (i.e. it contained all non-ASCII
+                 * characters that could not be converted), save the hashed value
+                 * of original string as flag. */
+                if (!strlen($imapflag)) {
+                    $imapflag = hash(
+                        (version_compare(PHP_VERSION, '5.4', '>=')) ? 'fnv132' : 'md5',
+                        $value
+                    );
+                }
 
-        default:
-            parent::__set($name, $value);
-            break;
+                $this->_imapflag = $imapflag;
+                break;
+
+            case 'label':
+                $this->_label = $value;
+                break;
+
+            default:
+                parent::__set($name, $value);
+                break;
         }
     }
 
@@ -114,15 +115,15 @@ class IMP_Flag_User extends IMP_Flag_Imap
     {
         return array_shift($this->__serialize());
     }
-    public function __serialize(): array 
+    public function __serialize(): array
     {
         return
         [
-            json_encode(array(
+            json_encode([
                 parent::serialize(),
                 $this->_label,
-                $this->_imapflag
-            ))
+                $this->_imapflag,
+            ]),
         ];
     }
 
@@ -132,7 +133,7 @@ class IMP_Flag_User extends IMP_Flag_Imap
     {
         $this->__unserialize([$data]);
     }
-    public function __unserialize(array $data): void 
+    public function __unserialize(array $data): void
     {
         $data = json_decode($data[0], true);
 

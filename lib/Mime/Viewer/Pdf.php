@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2008-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,12 +28,12 @@ class IMP_Mime_Viewer_Pdf extends Horde_Mime_Viewer_Pdf
      *
      * @var array
      */
-    protected $_capability = array(
+    protected $_capability = [
         'full' => true,
         'info' => true,
         'inline' => false,
-        'raw' => false
-    );
+        'raw' => false,
+    ];
 
     /**
      * Return the full rendered version of the Horde_Mime_Part object.
@@ -63,12 +64,12 @@ class IMP_Mime_Viewer_Pdf extends Horde_Mime_Viewer_Pdf
             $data = file_get_contents($img_ob->fs);
         }
 
-        return array(
-            $this->_mimepart->getMimeId() => array(
+        return [
+            $this->_mimepart->getMimeId() => [
                 'data' => $data,
-                'type' => $type
-            )
-        );
+                'type' => $type,
+            ],
+        ];
     }
 
     /**
@@ -80,23 +81,23 @@ class IMP_Mime_Viewer_Pdf extends Horde_Mime_Viewer_Pdf
     {
         /* Check to see if convert utility is available. */
         if (!$this->_getHordeImageOb(false)) {
-            return array();
+            return [];
         }
 
         $status = new IMP_Mime_Status(
             $this->_mimepart,
-            _("This is a thumbnail of a PDF file attachment.")
+            _('This is a thumbnail of a PDF file attachment.')
         );
         $status->icon('mime/image.png');
         $status->addText($this->getConfigParam('imp_contents')->linkViewJS($this->_mimepart, 'view_attach', $this->_outputImgTag(), null, null, null));
 
-        return array(
-            $this->_mimepart->getMimeId() => array(
+        return [
+            $this->_mimepart->getMimeId() => [
                 'data' => '',
                 'status' => $status,
-                'type' => 'text/html; charset=' . $this->getConfigParam('charset')
-            )
-        );
+                'type' => 'text/html; charset=' . $this->getConfigParam('charset'),
+            ],
+        ];
     }
 
     /**
@@ -143,7 +144,7 @@ class IMP_Mime_Viewer_Pdf extends Horde_Mime_Viewer_Pdf
      */
     protected function _outputImgTag()
     {
-        return '<img src="' . $this->getConfigParam('imp_contents')->urlView($this->_mimepart, 'view_attach', array('params' => array('pdf_view_thumbnail' => 1)))->setRaw(false) . '" alt="' . htmlspecialchars(_("View PDF File"), ENT_COMPAT, $this->getConfigParam('charset')) . '" />';
+        return '<img src="' . $this->getConfigParam('imp_contents')->urlView($this->_mimepart, 'view_attach', ['params' => ['pdf_view_thumbnail' => 1]])->setRaw(false) . '" alt="' . htmlspecialchars(_('View PDF File'), ENT_COMPAT, $this->getConfigParam('charset')) . '" />';
     }
 
 }

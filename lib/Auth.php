@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
  *
@@ -35,7 +36,7 @@ class IMP_Auth
      *
      * @throws Horde_Auth_Exception
      */
-    public static function authenticate($credentials = array())
+    public static function authenticate($credentials = [])
     {
         global $injector, $registry;
 
@@ -67,9 +68,10 @@ class IMP_Auth
                 $credentials = $injector->getInstance('Horde_Core_Hooks')->callHook(
                     'imap_preauthenticate',
                     'imp',
-                    array($credentials)
+                    [$credentials]
                 );
-            } catch (Horde_Exception_HookNotSet $e) {}
+            } catch (Horde_Exception_HookNotSet $e) {
+            }
 
             try {
                 $imp_imap->createBaseImapObject($credentials['userId'], $credentials['password'], $credentials['server']);
@@ -214,11 +216,11 @@ class IMP_Auth
         if ((!empty($auto_server) || $force) &&
             $registry->getAuth() &&
             !empty($servers[$server_key]->hordeauth)) {
-            return array(
+            return [
                 'userId' => $registry->getAuth((strcasecmp($servers[$server_key]->hordeauth, 'full') === 0) ? null : 'bare'),
                 'password' => $registry->getAuthCredential('password'),
-                'server' => $server_key
-            );
+                'server' => $server_key,
+            ];
         }
 
         return false;

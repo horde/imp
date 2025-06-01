@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -28,21 +29,21 @@ class IMP_Imap_Remote extends IMP_Imap
     public function __get($key)
     {
         switch ($key) {
-        case 'base_ob':
-            return $GLOBALS['injector']->getInstance('IMP_Factory_Imap')->create();
+            case 'base_ob':
+                return $GLOBALS['injector']->getInstance('IMP_Factory_Imap')->create();
 
-        case 'config':
-            return $this->base_ob->config;
+            case 'config':
+                return $this->base_ob->config;
 
-        case 'server_key':
-            return $this->base_ob->server_key;
+            case 'server_key':
+                return $this->base_ob->server_key;
 
-        case 'thread_algo':
-            $thread = $this->base_ob->thread;
-            $thread_cap = $this->queryCapability('THREAD');
-            return in_array($thread, is_array($thread_cap) ? $thread_cap : array())
-                ? $thread
-                : 'ORDEREDSUBJECT';
+            case 'thread_algo':
+                $thread = $this->base_ob->thread;
+                $thread_cap = $this->queryCapability('THREAD');
+                return in_array($thread, is_array($thread_cap) ? $thread_cap : [])
+                    ? $thread
+                    : 'ORDEREDSUBJECT';
         }
 
         return parent::__get($key);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,8 +21,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Maillog_Log_Replyall
-extends IMP_Maillog_Log_Sentmail
+class IMP_Maillog_Log_Replyall extends IMP_Maillog_Log_Sentmail
 {
     /**
      */
@@ -32,7 +32,7 @@ extends IMP_Maillog_Log_Sentmail
     protected function _getMessage()
     {
         return sprintf(
-             _("You replied to all recipients of this message on %s."),
+            _('You replied to all recipients of this message on %s.'),
             $this->date
         );
     }

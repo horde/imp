@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -21,15 +22,13 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Compose_Attachment_Storage_VfsLinked
-extends IMP_Compose_Attachment_Storage
-implements IMP_Compose_Attachment_Linked
+class IMP_Compose_Attachment_Storage_VfsLinked extends IMP_Compose_Attachment_Storage implements IMP_Compose_Attachment_Linked
 {
     /* The name of the metadata file. */
-    const METADATA_NAME = 'metadata';
+    public const METADATA_NAME = 'metadata';
 
     /* The base virtual path to use for VFS data (permanent storage). */
-    const VFS_LINK_ATTACH_PATH = '.horde/imp/attachments';
+    public const VFS_LINK_ATTACH_PATH = '.horde/imp/attachments';
 
     /**
      * Cached metadata information.
@@ -70,9 +69,9 @@ implements IMP_Compose_Attachment_Linked
     {
         try {
             if (method_exists($this->_vfs, 'readStream')) {
-                $stream = new Horde_Stream_Existing(array(
-                    'stream' => $this->_vfs->readStream($this->_vfspath, $this->_id)
-                ));
+                $stream = new Horde_Stream_Existing([
+                    'stream' => $this->_vfs->readStream($this->_vfspath, $this->_id),
+                ]);
                 $stream->rewind();
             } else {
                 $stream = new Horde_Stream_Temp();
@@ -104,7 +103,7 @@ implements IMP_Compose_Attachment_Linked
         // Prevent 'jar:' attacks on Firefox.  See Ticket #5892.
         $type = $part->getType();
         if ($browser->isBrowser('mozilla') &&
-            in_array(Horde_String::lower($type), array('application/java-archive', 'application/x-jar'))) {
+            in_array(Horde_String::lower($type), ['application/java-archive', 'application/x-jar'])) {
             $type = 'application/octet-stream';
         }
 
@@ -148,7 +147,8 @@ implements IMP_Compose_Attachment_Linked
             if ($md->time < $keep) {
                 try {
                     $this->_vfs->deleteFile($this->_vfspath, $key);
-                } catch (Exception $e) {}
+                } catch (Exception $e) {
+                }
                 unset($this->_md[$key]);
                 $changed = true;
             }
@@ -181,10 +181,11 @@ implements IMP_Compose_Attachment_Linked
         if (!isset($this->_md)) {
             try {
                 $this->_md = json_decode($this->_vfs->read($this->_vfspath, self::METADATA_NAME), true);
-            } catch (Horde_Vfs_Exception $e) {}
+            } catch (Horde_Vfs_Exception $e) {
+            }
 
             if (!is_array($this->_md)) {
-                $this->_md = array();
+                $this->_md = [];
             }
         }
     }

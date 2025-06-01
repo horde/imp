@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -49,7 +50,7 @@ class IMP_Dynamic_Mailbox extends IMP_Dynamic_Base
 
         if ($imp_imap->access(IMP_Imap::ACCESS_FLAGS)) {
             $page_output->addScriptFile('colorpicker.js', 'horde');
-            $this->view->picker_img = Horde_Themes_Image::tag('colorpicker.png', array('alt' => _("Color Picker")));
+            $this->view->picker_img = Horde_Themes_Image::tag('colorpicker.png', ['alt' => _('Color Picker')]);
         }
 
         if ($imp_imap->access(IMP_Imap::ACCESS_REMOTE)) {
@@ -62,9 +63,9 @@ class IMP_Dynamic_Mailbox extends IMP_Dynamic_Base
         $this->view->show_search = $imp_imap->access(IMP_Imap::ACCESS_SEARCH);
         $this->view->show_spam = !empty($imp_imap->config->spam_params);
 
-        $impSubinfo = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/dynamic'
-        ));
+        $impSubinfo = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/dynamic',
+        ]);
         $impSubinfo->addHelper('Text');
         $impSubinfo->quota = (bool)$imp_imap->config->quota;
 
@@ -75,43 +76,43 @@ class IMP_Dynamic_Mailbox extends IMP_Dynamic_Base
         $page_output->topbar = true;
 
         $blank = new Horde_Url();
-        $impSidebar = new Horde_View(array(
-            'templatePath' => array(
+        $impSidebar = new Horde_View([
+            'templatePath' => [
                 $registry->get('templates', 'horde') . '/sidebar',
-                IMP_TEMPLATES . '/dynamic'
-            )
-        ));
+                IMP_TEMPLATES . '/dynamic',
+            ],
+        ]);
         $impSidebar->addHelper('Text');
-        $impSidebar->containers = array(
-            array(
-                'id' => 'imp-specialmboxes'
-            )
-        );
+        $impSidebar->containers = [
+            [
+                'id' => 'imp-specialmboxes',
+            ],
+        ];
         if ($imp_imap->isImap()) {
-            $impSidebar->containers[] = array(
-                'rows' => array(
-                    array(
+            $impSidebar->containers[] = [
+                'rows' => [
+                    [
                         'id' => 'folderopts_link',
                         'cssClass' => 'folderoptsImg',
-                        'link' => $blank->link() . _("Folder Actions") . '</a>'
-                    ),
-                    array(
+                        'link' => $blank->link() . _('Folder Actions') . '</a>',
+                    ],
+                    [
                         'id' => 'dropbase',
                         'style' => 'display:none',
                         'cssClass' => 'folderImg',
-                        'link' => $blank->link() . _("Move to Base Level") . '</a>'
-                    )
-                )
-            );
-            $impSidebar->containers[] = array(
-                'id' => 'imp-normalmboxes'
-            );
+                        'link' => $blank->link() . _('Move to Base Level') . '</a>',
+                    ],
+                ],
+            ];
+            $impSidebar->containers[] = [
+                'id' => 'imp-normalmboxes',
+            ];
         }
 
         $sidebar = $injector->getInstance('Horde_View_Sidebar');
-        $sidebar->newLink = $blank->link(array('id' => 'composelink',
-                                               'class' => 'icon'));
-        $sidebar->newText = _("New Message");
+        $sidebar->newLink = $blank->link(['id' => 'composelink',
+                                               'class' => 'icon']);
+        $sidebar->newText = _('New Message');
         $sidebar->content = $impSidebar->render('sidebar');
 
         $this->view->sidebar = $sidebar->render();
@@ -125,7 +126,7 @@ class IMP_Dynamic_Mailbox extends IMP_Dynamic_Base
 
     /**
      */
-    public static function url(array $opts = array())
+    public static function url(array $opts = [])
     {
         return Horde::url('dynamic.php')->add('page', 'mailbox');
     }
@@ -142,7 +143,7 @@ class IMP_Dynamic_Mailbox extends IMP_Dynamic_Base
 
         $subscribe = $prefs->getValue('subscribe');
 
-        $this->js_conf += array_filter(array(
+        $this->js_conf += array_filter([
             // URLs
             'URI_LISTINFO' => strval(IMP_Basic_Listinfo::url()->setRaw(true)),
             'URI_MESSAGE' => strval(IMP_Dynamic_Message::url()->setRaw(true)),
@@ -173,129 +174,129 @@ class IMP_Dynamic_Mailbox extends IMP_Dynamic_Base
             'qsearchid' => IMP_Mailbox::formTo(IMP_Search::MBOX_PREFIX . IMP_Search::QUICKSEARCH),
             'refresh_time' => intval($prefs->getValue('refresh_time')),
             'sidebar_width' => max(intval($prefs->getValue('sidebar_width')), 150),
-            'sort' => array(
-                'from' => array(
+            'sort' => [
+                'from' => [
                     'c' => 'msgFrom',
-                    't' => _("From"),
-                    'v' => Horde_Imap_Client::SORT_FROM
-                ),
-                'to' => array(
+                    't' => _('From'),
+                    'v' => Horde_Imap_Client::SORT_FROM,
+                ],
+                'to' => [
                     'c' => 'msgFrom',
                     'ec' => 'msgFromTo',
-                    't' => _("To"),
-                    'v' => Horde_Imap_Client::SORT_TO
-                ),
-                'subject' => array(
+                    't' => _('To'),
+                    'v' => Horde_Imap_Client::SORT_TO,
+                ],
+                'subject' => [
                     'c' => 'msgSubject',
-                    't' => _("Subject"),
-                    'v' => Horde_Imap_Client::SORT_SUBJECT
-                ),
-                'thread' => array(
+                    't' => _('Subject'),
+                    'v' => Horde_Imap_Client::SORT_SUBJECT,
+                ],
+                'thread' => [
                     'c' => 'msgSubject',
-                    'v' => Horde_Imap_Client::SORT_THREAD
-                ),
-                'date' => array(
+                    'v' => Horde_Imap_Client::SORT_THREAD,
+                ],
+                'date' => [
                     'c' => 'msgDate',
-                    't' => _("Date"),
-                    'v' => IMP::IMAP_SORT_DATE
-                ),
-                'msgarrival' => array(
+                    't' => _('Date'),
+                    'v' => IMP::IMAP_SORT_DATE,
+                ],
+                'msgarrival' => [
                     'c' => 'msgDate',
-                    'v' => Horde_Imap_Client::SORT_ARRIVAL
-                ),
-                'msgdate' => array(
+                    'v' => Horde_Imap_Client::SORT_ARRIVAL,
+                ],
+                'msgdate' => [
                     'c' => 'msgDate',
-                    'v' => Horde_Imap_Client::SORT_DATE
-                ),
-                'sequence' => array(
-                    'v' => Horde_Imap_Client::SORT_SEQUENCE
-                ),
-                'size' => array(
+                    'v' => Horde_Imap_Client::SORT_DATE,
+                ],
+                'sequence' => [
+                    'v' => Horde_Imap_Client::SORT_SEQUENCE,
+                ],
+                'size' => [
                     'c' => 'msgSize',
-                    't' => _("Size"),
-                    'v' => Horde_Imap_Client::SORT_SIZE
-                )
-            ),
-            'subscribe' => intval($subscribe)
-        ));
+                    't' => _('Size'),
+                    'v' => Horde_Imap_Client::SORT_SIZE,
+                ],
+            ],
+            'subscribe' => intval($subscribe),
+        ]);
 
-        $context = array(
-            'ctx_container' => array(
+        $context = [
+            'ctx_container' => [
                 '_mbox' => '',
                 '_sep1' => null,
-                'create' => _("Create subfolder"),
-                'rename' => _("Rename"),
-                'delete' => _("Delete subfolders"),
+                'create' => _('Create subfolder'),
+                'rename' => _('Rename'),
+                'delete' => _('Delete subfolders'),
                 '_sep2' => null,
-                'search' => _("Search"),
+                'search' => _('Search'),
                 '_sep3' => null,
-                'expand' => _("Expand All"),
-                'collapse' => _("Collapse All")
-            ),
-            'ctx_datesort' => array(
-                '*msgarrival' => _("Arrival Time"),
-                '*msgdate' => _("Message Date")
-            ),
-            'ctx_flag' => array(),
-            'ctx_flagunset' => array(),
-            'ctx_flag_search' => array(),
-            'ctx_mbox_flag' => array(
-                'seen' => _("Seen"),
-                'unseen' => _("Unseen")
-            ),
-            'ctx_noactions' => array(
+                'expand' => _('Expand All'),
+                'collapse' => _('Collapse All'),
+            ],
+            'ctx_datesort' => [
+                '*msgarrival' => _('Arrival Time'),
+                '*msgdate' => _('Message Date'),
+            ],
+            'ctx_flag' => [],
+            'ctx_flagunset' => [],
+            'ctx_flag_search' => [],
+            'ctx_mbox_flag' => [
+                'seen' => _('Seen'),
+                'unseen' => _('Unseen'),
+            ],
+            'ctx_noactions' => [
                 '_mbox' => '',
                 '_sep1' => null,
-                'noaction' => _("No actions available")
-            ),
-            'ctx_remoteauth' => array(
+                'noaction' => _('No actions available'),
+            ],
+            'ctx_remoteauth' => [
                 '_mbox' => '',
                 '_sep1' => null,
-                'create' => _("Create Mailbox"),
-                'logout' => _("Log Out")
-            ),
-            'ctx_sortopts' => array(
-                'from' => _("From"),
-                'to' => _("To"),
-                'subject' => _("Subject"),
-                'thread' => _("Thread"),
-                'msgarrival' => _("Date (Arrival)"),
-                'msgdate' => _("Date (Message)"),
-                'size' => _("Size"),
+                'create' => _('Create Mailbox'),
+                'logout' => _('Log Out'),
+            ],
+            'ctx_sortopts' => [
+                'from' => _('From'),
+                'to' => _('To'),
+                'subject' => _('Subject'),
+                'thread' => _('Thread'),
+                'msgarrival' => _('Date (Arrival)'),
+                'msgdate' => _('Date (Message)'),
+                'size' => _('Size'),
                 '_sep1' => null,
-                'sequence' => _("No Sort")
-            ),
-            'ctx_subjectsort' => array(
-                'thread' => _("Thread Sort"),
-            ),
-            'ctx_template' => array(
-                'edit' => _("Edit Template"),
-                'new' => _("Create New Template")
-            ),
-            'ctx_vcontainer' => array(
-                '_mbox' => _("Virtual Folders"),
+                'sequence' => _('No Sort'),
+            ],
+            'ctx_subjectsort' => [
+                'thread' => _('Thread Sort'),
+            ],
+            'ctx_template' => [
+                'edit' => _('Edit Template'),
+                'new' => _('Create New Template'),
+            ],
+            'ctx_vcontainer' => [
+                '_mbox' => _('Virtual Folders'),
                 '_sep1' => null,
-                'edit' => _("Edit Virtual Folders")
-            ),
-            'ctx_vfolder' => array(
+                'edit' => _('Edit Virtual Folders'),
+            ],
+            'ctx_vfolder' => [
                 '_mbox' => '',
                 '_sep1' => null,
-                'edit' => _("Edit Virtual Folder"),
-                'delete' => _("Delete Virtual Folder")
-            )
-        );
+                'edit' => _('Edit Virtual Folder'),
+                'delete' => _('Delete Virtual Folder'),
+            ],
+        ];
 
         /* Folder options context menu. */
         if ($imp_imap->access(IMP_Imap::ACCESS_FOLDERS)) {
-            $context['ctx_folderopts'] = array(
-                'new' => _("Create Mailbox"),
-                'sub' => _("Hide Unsubscribed"),
-                'unsub' => _("Show All Mailboxes"),
-                'expand' => _("Expand All"),
-                'collapse' => _("Collapse All"),
+            $context['ctx_folderopts'] = [
+                'new' => _('Create Mailbox'),
+                'sub' => _('Hide Unsubscribed'),
+                'unsub' => _('Show All Mailboxes'),
+                'expand' => _('Expand All'),
+                'collapse' => _('Collapse All'),
                 '_sep1' => null,
-                'reload' => _("Rebuild Folder List")
-            );
+                'reload' => _('Rebuild Folder List'),
+            ];
         }
 
         if (!$subscribe) {
@@ -306,33 +307,33 @@ class IMP_Dynamic_Mailbox extends IMP_Dynamic_Base
         }
 
         /* Message context menu. */
-        $context['ctx_message'] = array(
-            '_sub1' => array(
-                'resume' => _("Resume Draft"),
-                'template' => _("Use Template"),
-                'template_edit' => _("Edit Template"),
-                'view' => _("View Message")
-            ),
-            'reply' => _("Reply"),
-            'forward' => _("Forward"),
-            '_sub2' => array(
+        $context['ctx_message'] = [
+            '_sub1' => [
+                'resume' => _('Resume Draft'),
+                'template' => _('Use Template'),
+                'template_edit' => _('Edit Template'),
+                'view' => _('View Message'),
+            ],
+            'reply' => _('Reply'),
+            'forward' => _('Forward'),
+            '_sub2' => [
                 '_sep1' => null,
-                'setflag' => _("Mark as") . '...',
-                'unsetflag' => _("Unmark as") . '...',
-            ),
+                'setflag' => _('Mark as') . '...',
+                'unsetflag' => _('Unmark as') . '...',
+            ],
             '_sep2' => null,
-            'spam' => _("Report as Spam"),
-            'innocent' => _("Report as Innocent"),
-            'blacklist' => _("Blacklist"),
-            'whitelist' => _("Whitelist"),
-            'addfilter' => _("Create Filter"),
-            'delete' => _("Delete"),
-            'undelete' => _("Undelete"),
-            '_sub3' => array(
+            'spam' => _('Report as Spam'),
+            'innocent' => _('Report as Innocent'),
+            'blacklist' => _('Blacklist'),
+            'whitelist' => _('Whitelist'),
+            'addfilter' => _('Create Filter'),
+            'delete' => _('Delete'),
+            'undelete' => _('Undelete'),
+            '_sub3' => [
                 '_sep3' => null,
-                'source' => _("View Source")
-            )
-        );
+                'source' => _('View Source'),
+            ],
+        ];
 
         if (empty($imp_imap->config->spam_params)) {
             unset($context['ctx_message']['spam']);
@@ -350,37 +351,37 @@ class IMP_Dynamic_Mailbox extends IMP_Dynamic_Base
         }
 
         /* Mailbox context menu. */
-        $context['ctx_mbox'] = array(
+        $context['ctx_mbox'] = [
             '_mbox' => '',
             '_sep1' => null,
-            'create' => _("Create subfolder"),
-            'rename' => _("Rename"),
-            'empty' => _("Empty"),
-            'delete' => _("Delete"),
+            'create' => _('Create subfolder'),
+            'rename' => _('Rename'),
+            'empty' => _('Empty'),
+            'delete' => _('Delete'),
             '_sep2' => null,
-            'setflag' => _("Mark all as"),
+            'setflag' => _('Mark all as'),
             '_sep3' => null,
-            'poll' => _("Check for New Mail"),
-            'nopoll' => _("Do Not Check for New Mail"),
-            'sub' => _("Subscribe"),
-            'unsub' => _("Unsubscribe"),
+            'poll' => _('Check for New Mail'),
+            'nopoll' => _('Do Not Check for New Mail'),
+            'sub' => _('Subscribe'),
+            'unsub' => _('Unsubscribe'),
             '_sep4' => null,
-            'search' => _("Search"),
-            '_sub1' => array(
+            'search' => _('Search'),
+            '_sub1' => [
                 '_sep5' => null,
-                'expand' => _("Expand All"),
-                'collapse' => _("Collapse All")
-            ),
+                'expand' => _('Expand All'),
+                'collapse' => _('Collapse All'),
+            ],
             '_sep6' => null,
-            'export' => _("Export"),
-            'import' => _("Import"),
+            'export' => _('Export'),
+            'import' => _('Import'),
             '_sep7' => null,
-            'size' => _("Mailbox Size"),
-            '_sub2' => array(
+            'size' => _('Mailbox Size'),
+            '_sub2' => [
                 '_sep8' => null,
-                'acl' => _("Edit ACL")
-            ),
-        );
+                'acl' => _('Edit ACL'),
+            ],
+        ];
 
         if (!$subscribe) {
             unset(
@@ -420,30 +421,30 @@ class IMP_Dynamic_Mailbox extends IMP_Dynamic_Base
         }
 
         /* Other Actions context menu. */
-        $context['ctx_oa'] = array(
-            'preview_hide' => _("Hide Preview"),
-            'preview_show' => _("Show Preview"),
-            'layout_horiz' => _("Horizontal Layout"),
-            'layout_vert' => _("Vertical Layout"),
-            '_sub1' => array(
+        $context['ctx_oa'] = [
+            'preview_hide' => _('Hide Preview'),
+            'preview_show' => _('Show Preview'),
+            'layout_horiz' => _('Horizontal Layout'),
+            'layout_vert' => _('Vertical Layout'),
+            '_sub1' => [
                 '_sep1' => null,
-                'setflag' => _("Mark as") . '...',
-                'unsetflag' => _("Unmark as") . '...',
-            ),
-            'blacklist' => _("Blacklist"),
-            'whitelist' => _("Whitelist"),
-            '_sub2' => array(
+                'setflag' => _('Mark as') . '...',
+                'unsetflag' => _('Unmark as') . '...',
+            ],
+            'blacklist' => _('Blacklist'),
+            'whitelist' => _('Whitelist'),
+            '_sub2' => [
                 '_sep2' => null,
-                'purge_deleted' => _("Purge Deleted"),
-                'undelete' => _("Undelete")
-            ),
-            'show_deleted' => _("Show Deleted"),
-            'hide_deleted' => _("Hide Deleted"),
-            '_sub3' => array(
+                'purge_deleted' => _('Purge Deleted'),
+                'undelete' => _('Undelete'),
+            ],
+            'show_deleted' => _('Show Deleted'),
+            'hide_deleted' => _('Hide Deleted'),
+            '_sub3' => [
                 '_sep3' => null,
-                'clear_sort' => _("Clear Sort")
-            )
-        );
+                'clear_sort' => _('Clear Sort'),
+            ],
+        ];
         if ($prefs->isLocked('delhide')) {
             unset($context['ctx_oa']['hide_deleted']);
         }
@@ -463,13 +464,13 @@ class IMP_Dynamic_Mailbox extends IMP_Dynamic_Base
         }
 
         /* Preview context menu. */
-        $context['ctx_preview'] = array(
-            'save' => _("Save"),
-            'viewsource' => _("View Source"),
-            'allparts' => _("All Parts"),
-            'thread' => _("View Thread"),
-            'listinfo' => _("List Info")
-        );
+        $context['ctx_preview'] = [
+            'save' => _('Save'),
+            'viewsource' => _('View Source'),
+            'allparts' => _('All Parts'),
+            'thread' => _('View Thread'),
+            'listinfo' => _('List Info'),
+        ];
 
         if (!$view_source) {
             unset($context['ctx_preview']['viewsource']);
@@ -477,33 +478,33 @@ class IMP_Dynamic_Mailbox extends IMP_Dynamic_Base
 
         /* Search related context menus. */
         if ($imp_imap->access(IMP_Imap::ACCESS_SEARCH)) {
-            $context['ctx_filteropts'] = array(
-                '*filter' => _("Filter By"),
-                '*flag' => _("Show Only"),
-                '*flagnot' => _("Don't Show")
-            );
+            $context['ctx_filteropts'] = [
+                '*filter' => _('Filter By'),
+                '*flag' => _('Show Only'),
+                '*flagnot' => _("Don't Show"),
+            ];
             if (IMP_Filter::canApplyFilters()) {
-                $context['ctx_filteropts']['_sub1'] = array(
+                $context['ctx_filteropts']['_sub1'] = [
                     '_sep1' => null,
-                    'applyfilters' => _("Apply Filters")
-                );
+                    'applyfilters' => _('Apply Filters'),
+                ];
             }
 
-            $context['ctx_qsearchopts'] = array(
-                '*all' => _("Entire Message"),
-                '*body' => _("Body"),
-                '*from' => _("From"),
-                '*recip' => _("Recipients (To/Cc/Bcc)"),
-                '*subject' => _("Subject"),
+            $context['ctx_qsearchopts'] = [
+                '*all' => _('Entire Message'),
+                '*body' => _('Body'),
+                '*from' => _('From'),
+                '*recip' => _('Recipients (To/Cc/Bcc)'),
+                '*subject' => _('Subject'),
                 '_sep1' => null,
-                '*advanced' => _("Advanced Search...")
-            );
+                '*advanced' => _('Advanced Search...'),
+            ];
             /* Generate filter array. */
             $iterator = IMP_Search_IteratorFilter::create(
                 IMP_Search_IteratorFilter::FILTER
             );
 
-            $context['ctx_filter'] = array();
+            $context['ctx_filter'] = [];
             foreach ($iterator as $val) {
                 if ($val->enabled) {
                     $context['ctx_filter']['*' . $val->id] = $val->label;
@@ -513,60 +514,60 @@ class IMP_Dynamic_Mailbox extends IMP_Dynamic_Base
 
         /* Remote accounts context menu. */
         if ($imp_imap->access(IMP_Imap::ACCESS_REMOTE)) {
-            $context['ctx_rcontainer'] = array(
-                '*prefs' => _("Manage Remote Accounts")
-            );
+            $context['ctx_rcontainer'] = [
+                '*prefs' => _('Manage Remote Accounts'),
+            ];
         }
 
         $this->js_context = array_merge($context, $this->js_context);
 
-        $this->js_text += array(
-            'atc_downloadall' => _("Download All (%s)"),
-            'badaddr' => _("Invalid Address"),
-            'badsubject' => _("Invalid Subject"),
-            'baselevel' => _("base level of the folder tree"),
-            'check' => _("Checking..."),
-            'copyto' => _("Copy %s to %s"),
-            'create_prompt' => _("Create mailbox:"),
-            'createsub_prompt' => _("Create subfolder of %s:"),
-            'delete_mbox' => _("Permanently delete %s?"),
-            'download_mbox' => _("All messages in this mailbox will be downloaded into the format that you choose. Depending on the size of the mailbox, this action may take awhile."),
-            'empty_mbox' => _("Permanently delete all %d messages in %s?"),
-            'import_mbox' => _("Mbox or .eml file:"),
-            'import_mbox_loading' => _("Importing (this may take some time)..."),
-            'listmsg_wait' => _("The server is still generating the message list."),
-            'listmsg_timeout' => _("The server was unable to generate the message list."),
-            'loading' => _("Loading..."),
-            'message_0' => _("No messages"),
-            'message_1' => _("1 message"),
-            'message_2' => _("%d messages"),
-            'mboxsize' => _("%s is: %s."),
-            'moveto' => _("Move %s to %s"),
-            'newflag_name' => _("Flag Name:"),
-            'newflag_wait' => _("Creating New Flag..."),
-            'no_folder_name' => _("Must enter a folder name"),
-            'onlogout' => _("Logging Out..."),
-            'portal' => _("Portal"),
-            'prefs' => _("User Options"),
-            'remote_password' => _("Password for %s:"),
-            'rename_prompt' => _("Rename %s to:"),
-            'search' => _("Search"),
-            'search_input' => _("Search (%s)"),
-            'search_time' => _("Results are %d Minutes Old"),
-            'selected' => _("%s selected."),
-            'slidertext' => _("Messages %d - %d"),
-            'vfolder' => _("Virtual Folder: %s"),
-            'vp_empty' => _("There are no messages in this mailbox."),
-            'vp_empty_search' => _("No messages matched the search query.")
-        );
+        $this->js_text += [
+            'atc_downloadall' => _('Download All (%s)'),
+            'badaddr' => _('Invalid Address'),
+            'badsubject' => _('Invalid Subject'),
+            'baselevel' => _('base level of the folder tree'),
+            'check' => _('Checking...'),
+            'copyto' => _('Copy %s to %s'),
+            'create_prompt' => _('Create mailbox:'),
+            'createsub_prompt' => _('Create subfolder of %s:'),
+            'delete_mbox' => _('Permanently delete %s?'),
+            'download_mbox' => _('All messages in this mailbox will be downloaded into the format that you choose. Depending on the size of the mailbox, this action may take awhile.'),
+            'empty_mbox' => _('Permanently delete all %d messages in %s?'),
+            'import_mbox' => _('Mbox or .eml file:'),
+            'import_mbox_loading' => _('Importing (this may take some time)...'),
+            'listmsg_wait' => _('The server is still generating the message list.'),
+            'listmsg_timeout' => _('The server was unable to generate the message list.'),
+            'loading' => _('Loading...'),
+            'message_0' => _('No messages'),
+            'message_1' => _('1 message'),
+            'message_2' => _('%d messages'),
+            'mboxsize' => _('%s is: %s.'),
+            'moveto' => _('Move %s to %s'),
+            'newflag_name' => _('Flag Name:'),
+            'newflag_wait' => _('Creating New Flag...'),
+            'no_folder_name' => _('Must enter a folder name'),
+            'onlogout' => _('Logging Out...'),
+            'portal' => _('Portal'),
+            'prefs' => _('User Options'),
+            'remote_password' => _('Password for %s:'),
+            'rename_prompt' => _('Rename %s to:'),
+            'search' => _('Search'),
+            'search_input' => _('Search (%s)'),
+            'search_time' => _('Results are %d Minutes Old'),
+            'selected' => _('%s selected.'),
+            'slidertext' => _('Messages %d - %d'),
+            'vfolder' => _('Virtual Folder: %s'),
+            'vp_empty' => _('There are no messages in this mailbox.'),
+            'vp_empty_search' => _('No messages matched the search query.'),
+        ];
 
         if ($subscribe) {
-            $this->js_text += array(
-                'subscribe_mbox' => _("Subscribe to %s?"),
-                'subscribe_mbox_subfolders' => _("Subscribe to all subfolders of %s?"),
-                'unsubscribe_mbox' => _("Unsubscribe to %s?"),
-                'unsubscribe_mbox_subfolders' => _("Unsubscribe to all subfolders of %s?"),
-            );
+            $this->js_text += [
+                'subscribe_mbox' => _('Subscribe to %s?'),
+                'subscribe_mbox_subfolders' => _('Subscribe to all subfolders of %s?'),
+                'unsubscribe_mbox' => _('Unsubscribe to %s?'),
+                'unsubscribe_mbox_subfolders' => _('Unsubscribe to all subfolders of %s?'),
+            ];
         }
     }
 

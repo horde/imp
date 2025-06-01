@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2006-2017 Horde LLC (http://www.horde.org/)
  *
@@ -62,9 +63,9 @@ class IMP_LoginTasks_Task_PurgeSpam extends Horde_LoginTasks_Task
         $msg_ids = $spam->runSearchQuery($query);
 
         /* Go through the message list and delete the messages. */
-        if ($msg_ids->delete(array('nuke' => true))) {
+        if ($msg_ids->delete(['nuke' => true])) {
             $msgcount = count($msg_ids);
-            $GLOBALS['notification']->push(sprintf(ngettext("Purging %d message from Spam mailbox.", "Purging %d messages from Spam mailbox.", $msgcount), $msgcount), 'horde.message');
+            $GLOBALS['notification']->push(sprintf(ngettext('Purging %d message from Spam mailbox.', 'Purging %d messages from Spam mailbox.', $msgcount), $msgcount), 'horde.message');
             return true;
         }
 
@@ -79,9 +80,11 @@ class IMP_LoginTasks_Task_PurgeSpam extends Horde_LoginTasks_Task
      */
     public function describe()
     {
-        return sprintf(_("All messages in your \"%s\" mailbox older than %s days will be permanently deleted."),
-                       IMP_Mailbox::getPref(IMP_Mailbox::MBOX_SPAM)->display_html,
-                       $GLOBALS['prefs']->getValue('purge_spam_keep'));
+        return sprintf(
+            _('All messages in your "%s" mailbox older than %s days will be permanently deleted.'),
+            IMP_Mailbox::getPref(IMP_Mailbox::MBOX_SPAM)->display_html,
+            $GLOBALS['prefs']->getValue('purge_spam_keep')
+        );
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -73,41 +74,41 @@ class IMP_Prefs_Sort_Sortpref
         global $prefs;
 
         switch ($name) {
-        case 'mbox':
-            return $this->_mbox;
+            case 'mbox':
+                return $this->_mbox;
 
-        case 'sortby':
-            if (is_null($this->_sortby)) {
-                return ($by = $prefs->getValue('sortby'))
-                    ? $by
-                    /* Sanity check: make sure we have a sort value. */
-                    : Horde_Imap_Client::SORT_SEQUENCE;
-            }
-            return $this->_sortby;
+            case 'sortby':
+                if (is_null($this->_sortby)) {
+                    return ($by = $prefs->getValue('sortby'))
+                        ? $by
+                        /* Sanity check: make sure we have a sort value. */
+                        : Horde_Imap_Client::SORT_SEQUENCE;
+                }
+                return $this->_sortby;
 
-        case 'sortby_default':
-            return is_null($this->_sortby);
+            case 'sortby_default':
+                return is_null($this->_sortby);
 
-        case 'sortby_locked':
-            return $this->_mbox->search
-                /* For now, only allow sorting in search mailboxes guaranteed
-                 * to consist of a single mailbox. */
-                ? !$this->_mbox->systemquery
-                : $prefs->isLocked(IMP_Prefs_Sort::SORTPREF);
+            case 'sortby_locked':
+                return $this->_mbox->search
+                    /* For now, only allow sorting in search mailboxes guaranteed
+                     * to consist of a single mailbox. */
+                    ? !$this->_mbox->systemquery
+                    : $prefs->isLocked(IMP_Prefs_Sort::SORTPREF);
 
-        case 'sortdir':
-            return is_null($this->_sortdir)
-                ? $prefs->getValue('sortdir')
-                : $this->_sortdir;
+            case 'sortdir':
+                return is_null($this->_sortdir)
+                    ? $prefs->getValue('sortdir')
+                    : $this->_sortdir;
 
-        case 'sortdir_default':
-            return is_null($this->_sortdir);
+            case 'sortdir_default':
+                return is_null($this->_sortdir);
 
-        case 'sortdir_locked':
-            return $this->_mbox->search
-                /* Search results can always/easily be reversed. */
-                ? false
-                : $prefs->isLocked(IMP_Prefs_Sort::SORTPREF);
+            case 'sortdir_locked':
+                return $this->_mbox->search
+                    /* Search results can always/easily be reversed. */
+                    ? false
+                    : $prefs->isLocked(IMP_Prefs_Sort::SORTPREF);
         }
     }
 
@@ -116,13 +117,13 @@ class IMP_Prefs_Sort_Sortpref
     public function __set($name, $value)
     {
         switch ($name) {
-        case 'sortby':
-            $this->_sortby = $value;
-            break;
+            case 'sortby':
+                $this->_sortby = $value;
+                break;
 
-        case 'sortdir':
-            $this->_sortdir = $value;
-            break;
+            case 'sortdir':
+                $this->_sortdir = $value;
+                break;
         }
     }
 
@@ -133,25 +134,25 @@ class IMP_Prefs_Sort_Sortpref
     {
         if ($this->_mbox->access_sort) {
             switch ($this->sortby) {
-            case Horde_Imap_Client::SORT_THREAD:
-                if (!$this->_mbox->access_sortthread) {
-                    $this->_sortby = Horde_Imap_Client::SORT_SUBJECT;
-                }
-                break;
+                case Horde_Imap_Client::SORT_THREAD:
+                    if (!$this->_mbox->access_sortthread) {
+                        $this->_sortby = Horde_Imap_Client::SORT_SUBJECT;
+                    }
+                    break;
 
-            case Horde_Imap_Client::SORT_FROM:
-                /* If the preference is to sort by From Address, when we are
-                 * in the Drafts or Sent mailboxes, sort by To Address. */
-                if ($this->_mbox->special_outgoing) {
-                    $this->_sortby = Horde_Imap_Client::SORT_TO;
-                }
-                break;
+                case Horde_Imap_Client::SORT_FROM:
+                    /* If the preference is to sort by From Address, when we are
+                     * in the Drafts or Sent mailboxes, sort by To Address. */
+                    if ($this->_mbox->special_outgoing) {
+                        $this->_sortby = Horde_Imap_Client::SORT_TO;
+                    }
+                    break;
 
-            case Horde_Imap_Client::SORT_TO:
-                if (!$this->_mbox->special_outgoing) {
-                    $this->_sortby = Horde_Imap_Client::SORT_FROM;
-                }
-                break;
+                case Horde_Imap_Client::SORT_TO:
+                    if (!$this->_mbox->special_outgoing) {
+                        $this->_sortby = Horde_Imap_Client::SORT_FROM;
+                    }
+                    break;
             }
         } else {
             $this->_sortby = Horde_Imap_Client::SORT_SEQUENCE;
@@ -163,7 +164,7 @@ class IMP_Prefs_Sort_Sortpref
      */
     public function toArray()
     {
-        $ret = array();
+        $ret = [];
 
         if (!is_null($this->_sortby)) {
             $ret['b'] = $this->_sortby;

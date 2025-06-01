@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
  *
@@ -36,7 +37,7 @@ class IMP_Tree_Jquerymobile extends Horde_Tree_Renderer_Base
         $this->_nodes = $this->_tree->getNodes();
 
         $tree = '';
-        foreach (array(true, false) as $special) {
+        foreach ([true, false] as $special) {
             $this->_isSpecial = $special;
             foreach ($this->_tree->getRootNodes() as $node_id) {
                 $tree .= $this->_buildTree($node_id);

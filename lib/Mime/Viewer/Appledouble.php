@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2003-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,23 +28,23 @@ class IMP_Mime_Viewer_Appledouble extends Horde_Mime_Viewer_Base
      *
      * @var array
      */
-    protected $_capability = array(
+    protected $_capability = [
         'full' => false,
         'info' => true,
         'inline' => true,
-        'raw' => false
-    );
+        'raw' => false,
+    ];
 
     /**
      * Metadata for the current viewer/data.
      *
      * @var array
      */
-    protected $_metadata = array(
+    protected $_metadata = [
         'compressed' => false,
         'embedded' => false,
-        'forceinline' => true
-    );
+        'forceinline' => true,
+    ];
 
     /**
      * Return the rendered inline version of the Horde_Mime_Part object.
@@ -95,18 +96,18 @@ class IMP_Mime_Viewer_Appledouble extends Horde_Mime_Viewer_Base
 
         $data_name = $this->getConfigParam('imp_contents')->getPartName($data_part);
 
-        $status = new IMP_Mime_Status($this->_mimepart, array(
-            sprintf(_("This message contains a Macintosh file (named \"%s\")."), $data_name),
+        $status = new IMP_Mime_Status($this->_mimepart, [
+            sprintf(_('This message contains a Macintosh file (named "%s").'), $data_name),
             $this->getConfigParam('imp_contents')->linkViewJS(
                 $applefile_part,
                 'download_attach',
-                "Download the Macintosh resource fork."
-            )
-        ));
-        $status->icon('mime/apple.png', _("Macintosh File"));
+                'Download the Macintosh resource fork.'
+            ),
+        ]);
+        $status->icon('mime/apple.png', _('Macintosh File'));
 
         /* For inline viewing, attempt to display the data inline. */
-        $ret = array();
+        $ret = [];
         if ($inline && (($disp = $this->getConfigParam('imp_contents')->canDisplay($data_part, IMP_Contents::RENDER_INLINE | IMP_Contents::RENDER_INFO)))) {
             $ret = $this->getConfigParam('imp_contents')->renderMIMEPart($data_id, $disp);
         }
@@ -116,12 +117,12 @@ class IMP_Mime_Viewer_Appledouble extends Horde_Mime_Viewer_Base
 
             if (!isset($ret[$id]) && (strcmp($id, $data_id) !== 0)) {
                 $ret[$id] = (strcmp($id, $mime_id) === 0)
-                    ? array(
+                    ? [
                           'data' => '',
                           'status' => $status,
                           'type' => 'text/html; charset=' . $this->getConfigParam('charset'),
-                          'wrap' => 'mimePartWrap'
-                      )
+                          'wrap' => 'mimePartWrap',
+                      ]
                     : null;
             }
         }

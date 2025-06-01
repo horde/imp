@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,11 +21,9 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Factory_Contacts
-extends Horde_Core_Factory_Injector
-implements Horde_Shutdown_Task
+class IMP_Factory_Contacts extends Horde_Core_Factory_Injector implements Horde_Shutdown_Task
 {
-    const SESS_KEY = 'contacts';
+    public const SESS_KEY = 'contacts';
 
     /**
      * @var IMP_Contacts

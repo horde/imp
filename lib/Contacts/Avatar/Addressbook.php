@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -32,15 +33,15 @@ class IMP_Contacts_Avatar_Addressbook implements IMP_Contacts_Avatar_Backend
             $contacts = $injector->getInstance('IMP_Contacts');
 
             try {
-                $res = $registry->call('contacts/search', array(
+                $res = $registry->call('contacts/search', [
                     $email,
-                    array(
-                        'customStrict' => array('email'),
-                        'fields' => array_fill_keys($contacts->sources, array('email')),
-                        'returnFields' => array('photo', 'phototype'),
-                        'sources' => $contacts->sources
-                    )
-                ));
+                    [
+                        'customStrict' => ['email'],
+                        'fields' => array_fill_keys($contacts->sources, ['email']),
+                        'returnFields' => ['photo', 'phototype'],
+                        'sources' => $contacts->sources,
+                    ],
+                ]);
 
                 if (isset($res[$email][0]['photo'])) {
                     try {
@@ -55,12 +56,13 @@ class IMP_Contacts_Avatar_Addressbook implements IMP_Contacts_Avatar_Backend
                         $type = $res[$email][0]['phototype'];
                     }
 
-                    return array(
+                    return [
                         'desc' => '',
-                        'url' => Horde_Url_Data::create($type, $data)
-                    );
+                        'url' => Horde_Url_Data::create($type, $data),
+                    ];
                 }
-            } catch (Horde_Exception $e) {}
+            } catch (Horde_Exception $e) {
+            }
         }
 
         return null;

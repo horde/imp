@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -38,9 +39,9 @@ class IMP_Mbox_Size
 
         try {
             $imp_imap = $mbox->imp_imap;
-            $res = $imp_imap->fetch($mbox, $query, array(
-                'ids' => $imp_imap->getIdsOb(Horde_Imap_Client_Ids::ALL, true)
-            ));
+            $res = $imp_imap->fetch($mbox, $query, [
+                'ids' => $imp_imap->getIdsOb(Horde_Imap_Client_Ids::ALL, true),
+            ]);
 
             $size = 0;
             foreach ($res as $v) {
@@ -48,7 +49,7 @@ class IMP_Mbox_Size
             }
 
             return $formatted
-                ? sprintf(_("%.2fMB"), $size / (1024 * 1024))
+                ? sprintf(_('%.2fMB'), $size / (1024 * 1024))
                 : $size;
         } catch (IMP_Imap_Exception $e) {
             return 0;

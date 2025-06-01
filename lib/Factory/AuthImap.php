@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -42,11 +43,11 @@ class IMP_Factory_AuthImap extends Horde_Core_Factory_Injector
             throw new IMP_Exception('No server parameters found.');
         }
 
-        $params_map = array(
+        $params_map = [
             'password' => 'admin_password',
             'user' => 'admin_user',
-            'userhierarchy' => 'userhierarchy'
-        );
+            'userhierarchy' => 'userhierarchy',
+        ];
 
         foreach ($admin as $key => $val) {
             if (isset($params_map[$key])) {

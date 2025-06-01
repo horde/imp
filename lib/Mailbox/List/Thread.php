@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -29,11 +30,11 @@
 class IMP_Mailbox_List_Thread
 {
     /* Thread level representations. */
-    const BLANK = 0;
-    const LINE = 1;
-    const JOIN = 2;
-    const JOINBOTTOM_DOWN = 3;
-    const JOINBOTTOM = 4;
+    public const BLANK = 0;
+    public const LINE = 1;
+    public const JOIN = 2;
+    public const JOINBOTTOM_DOWN = 3;
+    public const JOINBOTTOM = 4;
 
     /**
      * Thread information.
@@ -57,33 +58,33 @@ class IMP_Mailbox_List_Thread
     public function __get($name)
     {
         switch ($name) {
-        case 'reverse_img':
-        case 'reverse_raw':
-            $ret = strtr($this->_data, array(
-                self::JOINBOTTOM_DOWN => self::JOINBOTTOM,
-                self::JOINBOTTOM => self::JOINBOTTOM_DOWN
-            ));
-            break;
+            case 'reverse_img':
+            case 'reverse_raw':
+                $ret = strtr($this->_data, [
+                    self::JOINBOTTOM_DOWN => self::JOINBOTTOM,
+                    self::JOINBOTTOM => self::JOINBOTTOM_DOWN,
+                ]);
+                break;
 
-        default:
-            $ret = $this->_data;
-            break;
+            default:
+                $ret = $this->_data;
+                break;
         }
 
         switch ($name) {
-        case 'img':
-        case 'reverse_img':
-            $tmp = '';
-            if (strlen($ret)) {
-                foreach (str_split($ret) as $val) {
-                    $tmp .= '<span class="horde-tree-image horde-tree-image-' . $val . '"></span>';
+            case 'img':
+            case 'reverse_img':
+                $tmp = '';
+                if (strlen($ret)) {
+                    foreach (str_split($ret) as $val) {
+                        $tmp .= '<span class="horde-tree-image horde-tree-image-' . $val . '"></span>';
+                    }
                 }
-            }
-            return $tmp;
+                return $tmp;
 
-        case 'raw':
-        case 'reverse_raw':
-            return $ret;
+            case 'raw':
+            case 'reverse_raw':
+                return $ret;
         }
     }
 

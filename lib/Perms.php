@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -34,45 +35,45 @@ class IMP_Perms
      */
     public function __construct()
     {
-        $this->_perms = array(
-            'allow_folders' => array(
+        $this->_perms = [
+            'allow_folders' => [
                 'imaponly' => true,
-                'title' => _("Allow folder navigation?"),
-                'type' => 'boolean'
-            ),
-            'allow_remote' => array(
+                'title' => _('Allow folder navigation?'),
+                'type' => 'boolean',
+            ],
+            'allow_remote' => [
                 'imaponly' => true,
-                'title' => _("Allow remote account access?"),
-                'type' => 'boolean'
-            ),
-            'create_mboxes' => array(
+                'title' => _('Allow remote account access?'),
+                'type' => 'boolean',
+            ],
+            'create_mboxes' => [
                 'imaponly' => true,
-                'title' => _("Allow mailbox creation?"),
-                'type' => 'boolean'
-            ),
-            'max_bodysize' => array(
+                'title' => _('Allow mailbox creation?'),
+                'type' => 'boolean',
+            ],
+            'max_bodysize' => [
                 'global' => true,
-                'handle' => function($allowed, $opts) {
+                'handle' => function ($allowed, $opts) {
                     return isset($opts['value'])
                         ? (intval($allowed[0]) >= $opts['value'])
                         : $allowed;
                 },
-                'title' => _("Maximum size (bytes) of compose body"),
-                'type' => 'int'
-            ),
-            'max_recipients' => array(
+                'title' => _('Maximum size (bytes) of compose body'),
+                'type' => 'int',
+            ],
+            'max_recipients' => [
                 'global' => true,
-                'handle' => function($allowed, $opts) {
+                'handle' => function ($allowed, $opts) {
                     return isset($opts['value'])
                         ? (intval($allowed[0]) >= $opts['value'])
                         : $allowed;
                 },
-                'title' => _("Maximum Number of Recipients per Message"),
-                'type' => 'int'
-            ),
-            'max_timelimit' => array(
+                'title' => _('Maximum Number of Recipients per Message'),
+                'type' => 'int',
+            ],
+            'max_timelimit' => [
                 'global' => true,
-                'handle' => function($allowed, $opts) {
+                'handle' => function ($allowed, $opts) {
                     if (!isset($opts['value'])) {
                         return $allowed;
                     }
@@ -87,23 +88,23 @@ class IMP_Perms
 
                     return (intval($allowed[0]) >= $opts['value']);
                 },
-                'title' => _("Maximum Number of Recipients per Time Period"),
-                'type' => 'int'
-            ),
-            'max_create_mboxes' => array(
-                'handle' => function($allowed, $opts) {
+                'title' => _('Maximum Number of Recipients per Time Period'),
+                'type' => 'int',
+            ],
+            'max_create_mboxes' => [
+                'handle' => function ($allowed, $opts) {
                     return (intval($allowed[0]) >= count($GLOBALS['injector']->getInstance('IMP_Ftree')));
                 },
                 'imaponly' => true,
-                'title' => _("Maximum Number of Mailboxes"),
-                'type' => 'int'
-            ),
-            'view_msg_source' => array(
+                'title' => _('Maximum Number of Mailboxes'),
+                'type' => 'int',
+            ],
+            'view_msg_source' => [
                 'global' => true,
-                'title' => _("Allow viewing of message source?"),
-                'type' => 'boolean'
-            )
-        );
+                'title' => _('Allow viewing of message source?'),
+                'type' => 'boolean',
+            ],
+        ];
     }
 
     /**
@@ -111,11 +112,11 @@ class IMP_Perms
      */
     public function perms()
     {
-        $perms = array(
-            'backends' => array(
-                'title' => _("Backends")
-            )
-        );
+        $perms = [
+            'backends' => [
+                'title' => _('Backends'),
+            ],
+        ];
 
         foreach ($this->_perms as $key => $val) {
             if (!empty($val['global'])) {
@@ -127,18 +128,18 @@ class IMP_Perms
         foreach (IMP_Imap::loadServerConfig() as $key => $val) {
             $bkey = 'backends:' . $key;
 
-            $perms[$bkey] = array(
-                'title' => $val->name
-            );
+            $perms[$bkey] = [
+                'title' => $val->name,
+            ];
 
             foreach ($this->_perms as $key2 => $val2) {
                 if (empty($val2['global']) &&
                     (empty($val2['imaponly']) ||
                     ($val->protocol == 'imap'))) {
-                    $perms[$bkey . ':' . $key2] = array(
+                    $perms[$bkey . ':' . $key2] = [
                         'title' => $val2['title'],
-                        'type' => $val2['type']
-                    );
+                        'type' => $val2['type'],
+                    ];
                 }
             }
         }

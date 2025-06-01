@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2003-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,23 +28,23 @@ class IMP_Mime_Viewer_Partial extends Horde_Mime_Viewer_Base
      *
      * @var array
      */
-    protected $_capability = array(
+    protected $_capability = [
         'full' => false,
         'info' => true,
         'inline' => false,
-        'raw' => false
-    );
+        'raw' => false,
+    ];
 
     /**
      * Metadata for the current viewer/data.
      *
      * @var array
      */
-    protected $_metadata = array(
+    protected $_metadata = [
         'compressed' => false,
         'embedded' => true,
-        'forceinline' => true
-    );
+        'forceinline' => true,
+    ];
 
     /**
      * Return the rendered information about the Horde_Mime_Part object.
@@ -56,15 +57,15 @@ class IMP_Mime_Viewer_Partial extends Horde_Mime_Viewer_Base
         $id = $this->_mimepart->getMimeId();
 
         if (isset($cache->partial) && isset($cache->partial[$id])) {
-            return array(
-                $id => array(
+            return [
+                $id => [
                     'data' => null,
                     'status' => $cache->partial[$id],
-                    'type' => 'text/plain; charset=' . $this->getConfigParam('charset')
-                )
-            );
+                    'type' => 'text/plain; charset=' . $this->getConfigParam('charset'),
+                ],
+            ];
         } else {
-            return array($id => null);
+            return [$id => null];
         }
     }
 
@@ -96,7 +97,7 @@ class IMP_Mime_Viewer_Partial extends Horde_Mime_Viewer_Base
         if ($msg_count != $total) {
             $status = new IMP_Mime_Status(
                 $this->_mimepart,
-                sprintf(_("Cannot display message - found only %s of %s parts of this message in the current mailbox."), $msg_count, $total)
+                sprintf(_('Cannot display message - found only %s of %s parts of this message in the current mailbox.'), $msg_count, $total)
             );
             $status->action(IMP_Mime_Status::ERROR);
 
@@ -107,7 +108,7 @@ class IMP_Mime_Viewer_Partial extends Horde_Mime_Viewer_Base
         }
 
         /* Get the contents of each of the parts. */
-        $parts = array();
+        $parts = [];
         foreach ($indices as $ob) {
             foreach ($ob->uids as $val) {
                 /* No need to fetch the current part again. */
@@ -124,7 +125,7 @@ class IMP_Mime_Viewer_Partial extends Horde_Mime_Viewer_Base
         ksort($parts, SORT_NUMERIC);
 
         /* Combine the parts. */
-        $mime_part = Horde_Mime_Part::parseMessage(implode('', $parts), array('forcemime' => true));
+        $mime_part = Horde_Mime_Part::parseMessage(implode('', $parts), ['forcemime' => true]);
 
         return ($mime_part === false)
             ? null

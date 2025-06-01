@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2005-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,10 +28,10 @@ class IMP_Contents_Message
      *
      * @var array
      */
-    public static $headersUsed = array(
+    public static $headersUsed = [
         'resent-date',
-        'resent-from'
-    );
+        'resent-from',
+    ];
 
     /**
      * Contents object.
@@ -44,7 +45,7 @@ class IMP_Contents_Message
      *
      * @var array
      */
-    protected $_cache = array();
+    protected $_cache = [];
 
     /**
      * Envelope object.
@@ -87,7 +88,7 @@ class IMP_Contents_Message
         /* Get envelope/header information. We don't use flags in this
          * view. */
         try {
-            list($mbox, $uid) = $indices->getSingle();
+            [$mbox, $uid] = $indices->getSingle();
             if (!$uid) {
                 throw new Exception();
             }
@@ -97,18 +98,18 @@ class IMP_Contents_Message
             $query->headers(
                 'imp',
                 self::$headersUsed,
-                array(
+                [
                     'cache' => true,
-                    'peek' => true
-                )
+                    'peek' => true,
+                ]
             );
 
             $imp_imap = $mbox->imp_imap;
             $imp_imap->openMailbox($mbox, Horde_Imap_Client::OPEN_READWRITE);
 
-            $ret = $imp_imap->fetch($mbox, $query, array(
-                'ids' => $imp_imap->getIdsOb($uid)
-            ));
+            $ret = $imp_imap->fetch($mbox, $query, [
+                'ids' => $imp_imap->getIdsOb($uid),
+            ]);
 
             if (!($ob = $ret->first())) {
                 throw new Exception();
@@ -120,7 +121,7 @@ class IMP_Contents_Message
                 $this->_loadHeaders();
             }
         } catch (Exception $e) {
-            throw new IMP_Exception(_("Requested message not found."));
+            throw new IMP_Exception(_('Requested message not found.'));
         }
 
         $this->_envelope = $ob->getEnvelope();
@@ -150,7 +151,7 @@ class IMP_Contents_Message
     {
         global $prefs, $registry, $session;
 
-        $result = array();
+        $result = [];
 
         // Create message text and attachment list.
         $result['msgtext'] = '';
@@ -158,15 +159,15 @@ class IMP_Contents_Message
 
         /* Do MDN processing now. */
         switch ($registry->getView()) {
-        case $registry::VIEW_DYNAMIC:
-            if ($this->_indices->mdnCheck($this->_loadHeaders())) {
-                $status = new IMP_Mime_Status(null, array(
-                    _("The sender of this message is requesting notification from you when you have read this message."),
-                    Horde::link('#', '', '', '', '', '', '', array('id' => 'send_mdn_link')) . _("Click to send the notification message.") . '</a>'
-                ));
-                $status->domid('sendMdnMessage');
-                $result['msgtext'] .= strval($status);
-            }
+            case $registry::VIEW_DYNAMIC:
+                if ($this->_indices->mdnCheck($this->_loadHeaders())) {
+                    $status = new IMP_Mime_Status(null, [
+                        _('The sender of this message is requesting notification from you when you have read this message.'),
+                        Horde::link('#', '', '', '', '', '', '', ['id' => 'send_mdn_link']) . _('Click to send the notification message.') . '</a>',
+                    ]);
+                    $status->domid('sendMdnMessage');
+                    $result['msgtext'] .= strval($status);
+                }
         }
 
         /* Build body text. This needs to be done before we build the
@@ -184,8 +185,8 @@ class IMP_Contents_Message
         if (count($inlineout['atc_parts']) ||
             (($show_parts == 'all') && count($inlineout['display_ids']) > 2)) {
             $result['atc']['label'] = ($show_parts == 'all')
-                ? _("Parts")
-                : sprintf(ngettext("%d Attachment", "%d Attachments", count($inlineout['atc_parts'])), count($inlineout['atc_parts']));
+                ? _('Parts')
+                : sprintf(ngettext('%d Attachment', '%d Attachments', count($inlineout['atc_parts'])), count($inlineout['atc_parts']));
             if (count($inlineout['atc_parts']) > 1) {
                 $result['atc']['download'] = strval($this->contents->urlView(
                     $this->contents->getMIMEMessage(),
@@ -196,7 +197,7 @@ class IMP_Contents_Message
 
         /* Show attachment information in headers? */
         if (!empty($inlineout['atc_parts'])) {
-            $partlist = array();
+            $partlist = [];
 
             $contents_mask = IMP_Contents::SUMMARY_DESCRIP |
                 IMP_Contents::SUMMARY_DESCRIP_LINK |
@@ -204,17 +205,17 @@ class IMP_Contents_Message
                 IMP_Contents::SUMMARY_ICON |
                 IMP_Contents::SUMMARY_SIZE;
 
-            $part_info = array(
+            $part_info = [
                 'icon', 'description', 'size', 'download', 'description_raw',
-                'download_url'
-            );
+                'download_url',
+            ];
             if ($show_parts == 'all') {
                 array_unshift($part_info, 'id');
             }
 
             foreach ($inlineout['atc_parts'] as $id) {
                 $summary = $this->contents->getSummary($id, $contents_mask);
-                $tmp = array();
+                $tmp = [];
                 foreach ($part_info as $val) {
                     if (isset($summary[$val])) {
                         $tmp[$val] = ($summary[$val] instanceof Horde_Url)
@@ -239,7 +240,7 @@ class IMP_Contents_Message
         global $injector;
 
         /* Add changed flag information. */
-        list($mbox,) = $this->_indices->getSingle();
+        [$mbox, ] = $this->_indices->getSingle();
         if (!$this->_peek && $mbox->is_imap) {
             $status = $mbox->imp_imap->status(
                 $mbox,
@@ -248,7 +249,7 @@ class IMP_Contents_Message
 
             if (in_array(Horde_Imap_Client::FLAG_SEEN, $status['permflags'])) {
                 $injector->getInstance('IMP_Ajax_Queue')->flag(
-                    array(Horde_Imap_Client::FLAG_SEEN),
+                    [Horde_Imap_Client::FLAG_SEEN],
                     true,
                     $this->_indices
                 );
@@ -286,7 +287,7 @@ class IMP_Contents_Message
         $addr_ob = new IMP_Ajax_Addresses($addrlist);
         $addr_array = $addr_ob->toArray($limit);
 
-        $out = array();
+        $out = [];
         if ($addr_array->limit) {
             $out['limit'] = $addr_array->total;
         }
@@ -294,7 +295,7 @@ class IMP_Contents_Message
         if (!empty($addr_array->addr)) {
             $out['addr'] = $addr_array->addr;
         } elseif ($header == 'to') {
-            $out['raw'] = _("Undisclosed Recipients");
+            $out['raw'] = _('Undisclosed Recipients');
         }
 
         return $out;
@@ -317,25 +318,25 @@ class IMP_Contents_Message
         global $registry;
 
         switch ($registry->getView()) {
-        case $registry::VIEW_MINIMAL:
-        case $registry::VIEW_SMARTMOBILE:
-            $contents_mask = 0;
-            break;
+            case $registry::VIEW_MINIMAL:
+            case $registry::VIEW_SMARTMOBILE:
+                $contents_mask = 0;
+                break;
 
-        default:
-            $contents_mask = IMP_Contents::SUMMARY_BYTES |
-                IMP_Contents::SUMMARY_SIZE |
-                IMP_Contents::SUMMARY_ICON |
-                IMP_Contents::SUMMARY_DESCRIP_LINK |
-                IMP_Contents::SUMMARY_DOWNLOAD |
-                IMP_Contents::SUMMARY_PRINT_STUB;
-            break;
+            default:
+                $contents_mask = IMP_Contents::SUMMARY_BYTES |
+                    IMP_Contents::SUMMARY_SIZE |
+                    IMP_Contents::SUMMARY_ICON |
+                    IMP_Contents::SUMMARY_DESCRIP_LINK |
+                    IMP_Contents::SUMMARY_DOWNLOAD |
+                    IMP_Contents::SUMMARY_PRINT_STUB;
+                break;
         }
 
-        return $this->_getInlineOutput(array(
+        return $this->_getInlineOutput([
             'mask' => $contents_mask,
-            'mimeid' => $mimeid
-        ));
+            'mimeid' => $mimeid,
+        ]);
     }
 
     /**
@@ -352,7 +353,7 @@ class IMP_Contents_Message
     {
         global $prefs;
 
-        $headers = array();
+        $headers = [];
         $user_hdrs = $prefs->getValue('mail_hdr');
 
         /* Split the list of headers by new lines and sort the list of headers
@@ -382,11 +383,11 @@ class IMP_Contents_Message
         foreach ($user_hdrs as $hdr) {
             if ($user_val = $headers_ob[$hdr]) {
                 $user_val = $user_val->value;
-                foreach ((is_array($user_val) ? $user_val : array($user_val)) as $val) {
-                    $headers[] = array(
+                foreach ((is_array($user_val) ? $user_val : [$user_val]) as $val) {
+                    $headers[] = [
                         'name' => $hdr,
-                        'value' => $val
-                    );
+                        'value' => $val,
+                    ];
                 }
             }
         }
@@ -410,7 +411,7 @@ class IMP_Contents_Message
         global $injector;
 
         if (!isset($this->_cache['subject'])) {
-            $out = array();
+            $out = [];
 
             if (strlen($subject = $this->_envelope->subject)) {
                 $text_filter = $injector->getInstance('Horde_Core_Factory_TextFilter');
@@ -423,16 +424,16 @@ class IMP_Contents_Message
                 $out['subject'] = $text_filter->filter(
                     $filtered_subject,
                     'text2html',
-                    array(
-                        'parselevel' => Horde_Text_Filter_Text2html::NOHTML
-                    )
+                    [
+                        'parselevel' => Horde_Text_Filter_Text2html::NOHTML,
+                    ]
                 );
                 $subjectlink = $text_filter->filter(
                     $filtered_subject,
                     'text2html',
-                    array(
-                        'parselevel' => Horde_Text_Filter_Text2html::MICRO
-                    )
+                    [
+                        'parselevel' => Horde_Text_Filter_Text2html::MICRO,
+                    ]
                 );
 
                 if ($subjectlink != $out['subject']) {
@@ -440,7 +441,7 @@ class IMP_Contents_Message
                 }
                 $out['title'] = $subject;
             } else {
-                $out['subject'] = $out['title'] = _("[No Subject]");
+                $out['subject'] = $out['title'] = _('[No Subject]');
             }
 
             $this->_cache['subject'] = $out;
@@ -469,7 +470,7 @@ class IMP_Contents_Message
      */
     public function getSaveAs()
     {
-        list($bmbox, $buid) = ($this->_indices instanceof IMP_Indices_Mailbox)
+        [$bmbox, $buid] = ($this->_indices instanceof IMP_Indices_Mailbox)
             ? $this->_indices->buids->getSingle()
             : $this->_indices->getSingle();
 
@@ -478,7 +479,7 @@ class IMP_Contents_Message
         return IMP_Contents_View::downloadUrl(
             htmlspecialchars_decode($subject['subject']),
             array_merge(
-                array('actionID' => 'save_message'),
+                ['actionID' => 'save_message'],
                 $bmbox->urlParams($buid)
             )
         );
@@ -495,7 +496,7 @@ class IMP_Contents_Message
      */
     public function getResentData()
     {
-        $out = array();
+        $out = [];
 
         if ($date = $this->_headers['Resent-Date']) {
             $dates = array_values($date->value);
@@ -513,10 +514,10 @@ class IMP_Contents_Message
              * header together that shares the same array slot. */
             if (count($dates) === count($from)) {
                 foreach ($dates as $key => $val) {
-                    $out[] = array(
+                    $out[] = [
                         'date' => new IMP_Message_Date($val),
-                        'from' => $from[$key]
-                    );
+                        'from' => $from[$key],
+                    ];
                 }
             }
         }
@@ -549,13 +550,12 @@ class IMP_Contents_Message
     {
         global $prefs, $registry;
 
-        $atc_parts = $display_ids = $i = $metadata = $msgtext = $wrap_ids = array();
+        $atc_parts = $display_ids = $i = $metadata = $msgtext = $wrap_ids = [];
         $text_out = '';
         $view = $registry->getView();
 
-        $contents_mask = isset($options['mask'])
-            ? $options['mask']
-            : 0;
+        $contents_mask = $options['mask']
+            ?? 0;
         $mimeid_filter = isset($options['mimeid'])
             ? new Horde_Mime_Id($options['mimeid'])
             : null;
@@ -573,7 +573,7 @@ class IMP_Contents_Message
             if ($mimeid_filter &&
                 ((strval($mimeid_filter) != $mime_id) &&
                  !$mimeid_filter->isChild($mime_id))) {
-                 continue;
+                continue;
             }
 
             if (!($render_mode = $this->contents->canDisplay($mime_id, IMP_Contents::RENDER_INLINE_AUTO))) {
@@ -583,9 +583,9 @@ class IMP_Contents_Message
                     }
 
                     if ($contents_mask) {
-                        $msgtext[$mime_id] = array(
-                            'text' => $this->_formatSummary($this->contents->getSummary($mime_id, $contents_mask), true)
-                        );
+                        $msgtext[$mime_id] = [
+                            'text' => $this->_formatSummary($this->contents->getSummary($mime_id, $contents_mask), true),
+                        ];
                     }
                 }
                 continue;
@@ -602,9 +602,9 @@ class IMP_Contents_Message
             if (empty($render_part)) {
                 if ($contents_mask &&
                     $part->isAttachment()) {
-                    $msgtext[$mime_id] = array(
-                        'text' => $this->_formatSummary($this->contents->getSummary($mime_id, $contents_mask), true)
-                    );
+                    $msgtext[$mime_id] = [
+                        'text' => $this->_formatSummary($this->contents->getSummary($mime_id, $contents_mask), true),
+                    ];
                 }
                 continue;
             }
@@ -624,10 +624,10 @@ class IMP_Contents_Message
                 if (empty($info['attach'])) {
                     if (isset($info['status'])) {
                         if (!is_array($info['status'])) {
-                            $info['status'] = array($info['status']);
+                            $info['status'] = [$info['status']];
                         }
 
-                        $render_issues = array();
+                        $render_issues = [];
 
                         foreach ($info['status'] as $val) {
                             if (in_array($view, $val->views)) {
@@ -651,10 +651,10 @@ class IMP_Contents_Message
                     $atc_parts[$id] = 1;
                 }
 
-                $msgtext[$id] = array(
+                $msgtext[$id] = [
                     'text' => $part_text,
-                    'wrap' => empty($info['wrap']) ? null : $info['wrap']
-                );
+                    'wrap' => empty($info['wrap']) ? null : $info['wrap'],
+                ];
 
                 if (isset($info['metadata'])) {
                     /* Format: array(identifier, ...[data]...) */
@@ -667,7 +667,7 @@ class IMP_Contents_Message
             uksort($msgtext, 'strnatcmp');
         }
 
-        foreach($msgtext as $id => $part) {
+        foreach ($msgtext as $id => $part) {
             while (!empty($wrap_ids)) {
                 $id_ob = new Horde_Mime_Id(end($wrap_ids));
                 if ($id_ob->isChild($id)) {
@@ -693,7 +693,7 @@ class IMP_Contents_Message
         if (!strlen($text_out)) {
             $text_out = strval(new IMP_Mime_Status(
                 null,
-                _("There are no parts that can be shown inline.")
+                _('There are no parts that can be shown inline.')
             ));
         }
 
@@ -701,13 +701,13 @@ class IMP_Contents_Message
             ? $i
             : array_keys($atc_parts);
 
-        return array(
+        return [
             'atc_parts' => $atc_parts,
             'display_ids' => array_keys($display_ids),
             'metadata' => $metadata,
             'msgtext' => $text_out,
-            'one_part' => (count($i) === 1)
-        );
+            'one_part' => (count($i) === 1),
+        ];
     }
 
     /**
@@ -720,19 +720,19 @@ class IMP_Contents_Message
      */
     protected function _formatSummary($summary, $atc = false)
     {
-        $display = array('icon', 'description', 'size', 'download', 'print');
-        $tmp_summary = array();
+        $display = ['icon', 'description', 'size', 'download', 'print'];
+        $tmp_summary = [];
 
         foreach ($display as $val) {
             if (isset($summary[$val])) {
                 switch ($val) {
-                case 'description':
-                    $summary[$val] = '<span class="mimePartInfoDescrip">' . $summary[$val] . '</span>';
-                    break;
+                    case 'description':
+                        $summary[$val] = '<span class="mimePartInfoDescrip">' . $summary[$val] . '</span>';
+                        break;
 
-                case 'size':
-                    $summary[$val] = '<span class="mimePartInfoSize">(' . $summary[$val] . ')</span>';
-                    break;
+                    case 'size':
+                        $summary[$val] = '<span class="mimePartInfoSize">(' . $summary[$val] . ')</span>';
+                        break;
                 }
                 $tmp_summary[] = $summary[$val];
             }

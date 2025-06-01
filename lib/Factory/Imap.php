@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,18 +21,16 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Factory_Imap
-extends Horde_Core_Factory_Base
-implements Horde_Shutdown_Task, SplObserver
+class IMP_Factory_Imap extends Horde_Core_Factory_Base implements Horde_Shutdown_Task, SplObserver
 {
-    const BASE_OB = "base\0";
+    public const BASE_OB = "base\0";
 
     /**
      * List of IMP_Imap instances.
      *
      * @var array
      */
-    private $_instance = array();
+    private $_instance = [];
 
     /**
      */

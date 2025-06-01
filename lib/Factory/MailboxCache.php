@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,12 +21,10 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Factory_MailboxCache
-extends Horde_Core_Factory_Injector
-implements Horde_Shutdown_Task
+class IMP_Factory_MailboxCache extends Horde_Core_Factory_Injector implements Horde_Shutdown_Task
 {
     /** Storage key. */
-    const STORAGE_KEY = 'mbox_cache';
+    public const STORAGE_KEY = 'mbox_cache';
 
     /**
      * Instance.

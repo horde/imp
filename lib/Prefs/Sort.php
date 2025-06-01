@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,14 +24,14 @@
 class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
 {
     /* Preference name in backend. */
-    const SORTPREF = 'sortpref';
+    public const SORTPREF = 'sortpref';
 
     /**
      * The sortpref value.
      *
      * @var array
      */
-    protected $_sortpref = array();
+    protected $_sortpref = [];
 
     /**
      * Constructor.
@@ -91,15 +92,15 @@ class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
     public function newSortbyValue($sortby)
     {
         switch ($sortby) {
-        case 1: // SORTARRIVAL
-            /* Sortarrival was the same thing as sequence sort in IMP 4. */
-            return Horde_Imap_Client::SORT_SEQUENCE;
+            case 1: // SORTARRIVAL
+                /* Sortarrival was the same thing as sequence sort in IMP 4. */
+                return Horde_Imap_Client::SORT_SEQUENCE;
 
-        case 2: // SORTDATE
-            return IMP::IMAP_SORT_DATE;
+            case 2: // SORTDATE
+                return IMP::IMAP_SORT_DATE;
 
-        case 161: // SORTTHREAD
-            return Horde_Imap_Client::SORT_THREAD;
+            case 161: // SORTTHREAD
+                return Horde_Imap_Client::SORT_THREAD;
         }
 
         return null;
@@ -130,9 +131,10 @@ class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
             $GLOBALS['injector']->getInstance('Horde_Core_Hooks')->callHook(
                 'mbox_sort',
                 'imp',
-                array($ob)
+                [$ob]
             );
-        } catch (Horde_Exception_HookNotSet $e) {}
+        } catch (Horde_Exception_HookNotSet $e) {
+        }
 
         return $ob;
     }
@@ -143,8 +145,8 @@ class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
     {
         return new IMP_Prefs_Sort_Sortpref(
             $offset,
-            isset($this->_sortpref[$offset]['b']) ? $this->_sortpref[$offset]['b'] : null,
-            isset($this->_sortpref[$offset]['d']) ? $this->_sortpref[$offset]['d'] : null
+            $this->_sortpref[$offset]['b'] ?? null,
+            $this->_sortpref[$offset]['d'] ?? null
         );
     }
 

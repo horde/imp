@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -31,7 +32,7 @@ class IMP_Ajax_Imple_VcardImport extends Horde_Core_Ajax_Imple
      *   - mime_id: (string) The MIME ID of the message part with the key.
      *   - muid: (string) MUID of the message.
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         // The mime id of the form created by Horde_Core_Mime_Viewer_Vcard
         // Don't like hard coding this, but since it's in Horde_Core we don't
@@ -44,10 +45,10 @@ class IMP_Ajax_Imple_VcardImport extends Horde_Core_Ajax_Imple
     //  */
     protected function _attach($init)
     {
-        return array(
+        return [
             'mime_id' => $this->_params['mime_id'],
-            'muid' => $this->_params['muid']
-        );
+            'muid' => $this->_params['muid'],
+        ];
     }
 
     /**
@@ -68,10 +69,10 @@ class IMP_Ajax_Imple_VcardImport extends Horde_Core_Ajax_Imple
                 ->create(new IMP_Indices_Mailbox($vars));
             if (!($mime_part = $contents->getMimePart($vars->mime_id))) {
                 throw new IMP_Exception(
-                    _("Cannot retrieve vCard data from message.")
+                    _('Cannot retrieve vCard data from message.')
                 );
             } elseif (!$iCal->parsevCalendar($mime_part->getContents(), 'VCALENDAR', $mime_part->getCharset())) {
-                throw new IMP_Exception(_("Error reading the contact data."));
+                throw new IMP_Exception(_('Error reading the contact data.'));
             }
             $components = $iCal->getComponents();
         } catch (Exception $e) {
@@ -90,19 +91,24 @@ class IMP_Ajax_Imple_VcardImport extends Horde_Core_Ajax_Imple
             foreach ($components as $c) {
                 if ($c->getType() == 'vcard') {
                     try {
-                        $registry->call('contacts/import', array($c, null, $source));
+                        $registry->call('contacts/import', [$c, null, $source]);
                         ++$count;
                     } catch (Horde_Exception $e) {
-                        $notification->push(Horde_Core_Translation::t("There was an error importing the contact data:") . ' ' . $e->getMessage(), 'horde.error');
+                        $notification->push(Horde_Core_Translation::t('There was an error importing the contact data:') . ' ' . $e->getMessage(), 'horde.error');
                     }
                 }
             }
-            $notification->push(sprintf(Horde_Core_Translation::ngettext(
-                "%d contact was successfully added to your address book.",
-                "%d contacts were successfully added to your address book.",
-                $count),
-                                        $count),
-                                'horde.success');
+            $notification->push(
+                sprintf(
+                    Horde_Core_Translation::ngettext(
+                        '%d contact was successfully added to your address book.',
+                        '%d contacts were successfully added to your address book.',
+                        $count
+                    ),
+                    $count
+                ),
+                'horde.success'
+            );
             return true;
         }
         return false;

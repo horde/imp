@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -46,24 +47,24 @@ class IMP_Script_Package_Compose extends Horde_Script_Package
         }
 
         switch ($registry->getView()) {
-        case $registry::VIEW_BASIC:
-        case $registry::VIEW_DYNAMIC:
-            $this->_files[] = new Horde_Script_File_JsDir('ckeditor/imageupload.js', 'imp');
-            $this->_files[] = new Horde_Script_File_JsDir('ckeditor/images.js', 'imp');
-            $page_output->addInlineJsVars(array(
-                'ImpCkeditorImgs.related_attr' => IMP_Compose::RELATED_ATTR
-            ));
+            case $registry::VIEW_BASIC:
+            case $registry::VIEW_DYNAMIC:
+                $this->_files[] = new Horde_Script_File_JsDir('ckeditor/imageupload.js', 'imp');
+                $this->_files[] = new Horde_Script_File_JsDir('ckeditor/images.js', 'imp');
+                $page_output->addInlineJsVars([
+                    'ImpCkeditorImgs.related_attr' => IMP_Compose::RELATED_ATTR,
+                ]);
 
-            $js = new Horde_Script_File_JsDir('ckeditor/pasteattachment.js', 'imp');
-            $upload_url = $registry->getServiceLink('ajax', 'imp')->url . 'addAttachmentCkeditor';
+                $js = new Horde_Script_File_JsDir('ckeditor/pasteattachment.js', 'imp');
+                $upload_url = $registry->getServiceLink('ajax', 'imp')->url . 'addAttachmentCkeditor';
 
-            $page_output->addInlineScript(array(
-                'if (window.CKEDITOR) { CKEDITOR.on("loaded", function(e) {' .
-                  'CKEDITOR.plugins.addExternal("pasteattachment", "' . $js->url->url . '", "");' .
-                  'CKEDITOR.config.filebrowserImageUploadUrl = "' . $upload_url . '";' .
-                '}); };'
-            ), true);
-            break;
+                $page_output->addInlineScript([
+                    'if (window.CKEDITOR) { CKEDITOR.on("loaded", function(e) {' .
+                      'CKEDITOR.plugins.addExternal("pasteattachment", "' . $js->url->url . '", "");' .
+                      'CKEDITOR.config.filebrowserImageUploadUrl = "' . $upload_url . '";' .
+                    '}); };',
+                ], true);
+                break;
         }
     }
 

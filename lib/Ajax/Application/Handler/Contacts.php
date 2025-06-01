@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,8 +21,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Ajax_Application_Handler_Contacts
-    extends Horde_Core_Ajax_Application_Handler
+class IMP_Ajax_Application_Handler_Contacts extends Horde_Core_Ajax_Application_Handler
 {
     /**
      * AJAX action: Return address list for the contacts popup.
@@ -39,12 +39,12 @@ class IMP_Ajax_Application_Handler_Contacts
 
         $contacts = $injector->getInstance('IMP_Contacts');
 
-        $out = new stdClass;
+        $out = new stdClass();
         $out->results = array_map(
             'strval',
-            iterator_to_array($contacts->searchEmail($this->vars->get('search', ''), array(
-                'sources' => array($this->vars->source)
-            )))
+            iterator_to_array($contacts->searchEmail($this->vars->get('search', ''), [
+                'sources' => [$this->vars->source],
+            ]))
         );
 
         return $out;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2006-2017 Horde LLC (http://www.horde.org/)
  *
@@ -11,6 +12,7 @@
  * @package   IMP
  */
 use function PHP81_BC\strftime;
+
 /**
  * Common code dealing with date formatting for messages.
  *
@@ -22,17 +24,17 @@ use function PHP81_BC\strftime;
  */
 class IMP_Message_Date
 {
-    const DATE_FORCE = 1;
-    const DATE_FULL = 2;
-    const DATE_LOCAL = 3;
-    const DATE_ISO_8601 = 4;
+    public const DATE_FORCE = 1;
+    public const DATE_FULL = 2;
+    public const DATE_LOCAL = 3;
+    public const DATE_ISO_8601 = 4;
 
     /**
      * Shared cache.
      *
      * @var array
      */
-    private static $_cache = array();
+    private static $_cache = [];
 
     /**
      * The date object.
@@ -90,53 +92,54 @@ class IMP_Message_Date
                     $registry->setTimeZone();
                     self::$_cache['tz'] = true;
                 }
-            } catch (Exception $e) {}
+            } catch (Exception $e) {
+            }
         }
 
         switch ($format) {
-        case self::DATE_ISO_8601:
-            $d = clone $this->_date;
-            $d->setTimezone(new DateTimeZone(date_default_timezone_get()));
-            return $d->format('c');
+            case self::DATE_ISO_8601:
+                $d = clone $this->_date;
+                $d->setTimezone(new DateTimeZone(date_default_timezone_get()));
+                return $d->format('c');
 
-        case self::DATE_LOCAL:
-            if (is_null($udate)) {
-                return '';
-            }
+            case self::DATE_LOCAL:
+                if (is_null($udate)) {
+                    return '';
+                }
 
-            $this->_buildCache();
-            $tz = strftime('%Z'); // TODO replace strftime
+                $this->_buildCache();
+                $tz = strftime('%Z'); // TODO replace strftime
 
-            if (($udate < self::$_cache['today_start']) ||
-                ($udate > self::$_cache['today_end'])) {
-                if ($udate > self::$_cache['yesterday_start']) {
-                    /* Yesterday. */
+                if (($udate < self::$_cache['today_start']) ||
+                    ($udate > self::$_cache['today_end'])) {
+                    if ($udate > self::$_cache['yesterday_start']) {
+                        /* Yesterday. */
+                        return sprintf(
+                            _('Yesterday, %s %s'),
+                            $this->_format('time_format', $udate),
+                            $tz
+                        );
+                    }
+
+                    /* Not today, use the date. */
                     return sprintf(
-                        _("Yesterday, %s %s"),
+                        '%s (%s %s)',
+                        $this->_format('date_format', $udate),
                         $this->_format('time_format', $udate),
                         $tz
                     );
                 }
 
-                /* Not today, use the date. */
+                /* Else, it's today, use the time only. */
                 return sprintf(
-                    '%s (%s %s)',
-                    $this->_format('date_format', $udate),
+                    _('Today, %s %s'),
                     $this->_format('time_format', $udate),
                     $tz
                 );
-            }
-
-            /* Else, it's today, use the time only. */
-            return sprintf(
-                _("Today, %s %s"),
-                $this->_format('time_format', $udate),
-                $tz
-            );
         }
 
         if (is_null($udate)) {
-            return _("Unknown Date");
+            return _('Unknown Date');
         }
 
         if ($format === self::DATE_FORCE) {
@@ -152,7 +155,7 @@ class IMP_Message_Date
             if ($udate > self::$_cache['yesterday_start']) {
                 /* Yesterday. */
                 return sprintf(
-                    _("Yesterday, %s"),
+                    _('Yesterday, %s'),
                     $this->_format('time_format_mini', $udate)
                 );
             }

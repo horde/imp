@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -38,14 +39,14 @@ class IMP_Ajax_Application_Handler_ImageUnblock extends Horde_Core_Ajax_Applicat
             ->create($indices)
             ->getHeader();
         if (!($f = $h['from'])) {
-             return true;
+            return true;
         }
 
         $address = $f->getAddressList(true)->first()->bare_address;
 
         if ($injector->getInstance('IMP_Prefs_Special_ImageReplacement')->addSafeAddrList($address)) {
             $this->_base->queue->message($indices);
-            $notification->push(sprintf(_("Always showing images in messages sent by %s."), $address), 'horde.success');
+            $notification->push(sprintf(_('Always showing images in messages sent by %s.'), $address), 'horde.success');
         }
 
         return true;

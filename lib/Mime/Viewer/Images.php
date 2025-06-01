@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,12 +28,12 @@ class IMP_Mime_Viewer_Images extends Horde_Mime_Viewer_Images
      *
      * @var array
      */
-    protected $_capability = array(
+    protected $_capability = [
         'full' => false,
         'info' => true,
         'inline' => true,
-        'raw' => false
-    );
+        'raw' => false,
+    ];
 
     /**
      */
@@ -41,14 +42,14 @@ class IMP_Mime_Viewer_Images extends Horde_Mime_Viewer_Images
         global $browser;
 
         switch ($mode) {
-        case 'full':
-        case 'raw':
-            /* Only display raw images we know the browser supports, and we
-             * know can't cause any sort of security issue. */
-            if ($browser->isViewable($this->_getType())) {
-                return true;
-            }
-            break;
+            case 'full':
+            case 'raw':
+                /* Only display raw images we know the browser supports, and we
+                 * know can't cause any sort of security issue. */
+                if ($browser->isViewable($this->_getType())) {
+                    return true;
+                }
+                break;
         }
 
         return parent::canRender($mode);
@@ -72,20 +73,20 @@ class IMP_Mime_Viewer_Images extends Horde_Mime_Viewer_Images
         $vars = $GLOBALS['injector']->getInstance('Horde_Variables');
 
         switch ($vars->imp_img_view) {
-        case 'data':
-            /* Request is asking us to output data. */
-            return $this->_renderImgData($vars->imp_img_base64);
+            case 'data':
+                /* Request is asking us to output data. */
+                return $this->_renderImgData($vars->imp_img_base64);
 
-        case 'view_convert':
-            /* Convert image to browser-viewable format and display. */
-            return $this->_viewConvert(false);
+            case 'view_convert':
+                /* Convert image to browser-viewable format and display. */
+                return $this->_viewConvert(false);
 
-        case 'view_thumbnail':
-            /* Create thumbnail and display. */
-            if ($this->getConfigParam('thumbnails')) {
-                return $this->_viewConvert(true);
-            }
-            break;
+            case 'view_thumbnail':
+                /* Create thumbnail and display. */
+                if ($this->getConfigParam('thumbnails')) {
+                    return $this->_viewConvert(true);
+                }
+                break;
         }
 
         return $this->_renderImgData();
@@ -116,9 +117,9 @@ class IMP_Mime_Viewer_Images extends Horde_Mime_Viewer_Images
                 return $this->_renderInfo();
             }
 
-            $part_data = array(
-                'type' => 'text/html; charset=' . $this->getConfigParam('charset')
-            );
+            $part_data = [
+                'type' => 'text/html; charset=' . $this->getConfigParam('charset'),
+            ];
 
             /* Load JPEGs via javascript, in dynamic view, to allow for
              * browser-side rotation. */
@@ -128,30 +129,30 @@ class IMP_Mime_Viewer_Images extends Horde_Mime_Viewer_Images
                 $page_output->addScriptFile('external/load-image.all.min.js');
                 $uid = strval(new Horde_Support_Randomid());
 
-                $part_data['data'] = '<div id="' . $uid . '">' . _("Loading...") . '</div>';
-                $part_data['metadata'] = array(
-                    array(
+                $part_data['data'] = '<div id="' . $uid . '">' . _('Loading...') . '</div>';
+                $part_data['metadata'] = [
+                    [
                         'image',
                         $uid,
-                        strval($this->_imgDataUrl())
-                    )
-                );
+                        strval($this->_imgDataUrl()),
+                    ],
+                ];
             } else {
                 $part_data['data'] = $this->_outputImgTag('data', $this->_mimepart->getName(true));
             }
 
             /* Viewing inline, and the browser can handle the image type
              * directly. So output an <img> tag to load the image. */
-            return array(
-                $this->_mimepart->getMimeId() => $part_data
-            );
+            return [
+                $this->_mimepart->getMimeId() => $part_data,
+            ];
         }
 
         /* The browser cannot view this image. Inform the user of this and
          * ask user if we should convert to another image type. */
         $status = new IMP_Mime_Status(
             $this->_mimepart,
-            _("Your browser does not support inline display of this image type.")
+            _('Your browser does not support inline display of this image type.')
         );
 
         /* See if we can convert to an inline browser viewable form. */
@@ -162,23 +163,23 @@ class IMP_Mime_Viewer_Images extends Horde_Mime_Viewer_Images
                 $this->getConfigParam('imp_contents')->linkViewJS(
                     $this->_mimepart,
                     'view_attach',
-                    _("Click to convert the image file into a format your browser can attempt to view."),
-                    array(
-                        'params' => array(
-                            'imp_img_view' => 'view_convert'
-                        )
-                    )
+                    _('Click to convert the image file into a format your browser can attempt to view.'),
+                    [
+                        'params' => [
+                            'imp_img_view' => 'view_convert',
+                        ],
+                    ]
                 )
             );
         }
 
-        return array(
-            $this->_mimepart->getMimeId() => array(
+        return [
+            $this->_mimepart->getMimeId() => [
                 'data' => '',
                 'status' => $status,
-                'type' => 'text/html; charset=' . $this->getConfigParam('charset')
-            )
-        );
+                'type' => 'text/html; charset=' . $this->getConfigParam('charset'),
+            ],
+        ];
     }
 
     /**
@@ -191,23 +192,23 @@ class IMP_Mime_Viewer_Images extends Horde_Mime_Viewer_Images
         /* Check to see if convert utility is available. */
         if (!$this->getConfigParam('thumbnails') ||
             !$this->_getHordeImageOb(false)) {
-            return array();
+            return [];
         }
 
         $status = new IMP_Mime_Status(
             $this->_mimepart,
-            _("This is a thumbnail of an image attachment.")
+            _('This is a thumbnail of an image attachment.')
         );
         $status->icon('mime/image.png');
-        $status->addText($this->getConfigParam('imp_contents')->linkViewJS($this->_mimepart, 'view_attach', $this->_outputImgTag('view_thumbnail', _("View Attachment")), null, null, null));
+        $status->addText($this->getConfigParam('imp_contents')->linkViewJS($this->_mimepart, 'view_attach', $this->_outputImgTag('view_thumbnail', _('View Attachment')), null, null, null));
 
-        return array(
-            $this->_mimepart->getMimeId() => array(
+        return [
+            $this->_mimepart->getMimeId() => [
                 'data' => '',
                 'status' => $status,
-                'type' => 'text/html; charset=' . $this->getConfigParam('charset')
-            )
-        );
+                'type' => 'text/html; charset=' . $this->getConfigParam('charset'),
+            ],
+        ];
     }
 
     /**
@@ -224,7 +225,7 @@ class IMP_Mime_Viewer_Images extends Horde_Mime_Viewer_Images
      */
     protected function _renderImgData($base64 = false)
     {
-        $data = $this->_mimepart->getContents(array('stream' => true));
+        $data = $this->_mimepart->getContents(['stream' => true]);
 
         if ($base64) {
             stream_filter_append(
@@ -234,12 +235,12 @@ class IMP_Mime_Viewer_Images extends Horde_Mime_Viewer_Images
             );
         }
 
-        return array(
-            $this->_mimepart->getMimeId() => array(
+        return [
+            $this->_mimepart->getMimeId() => [
                 'data' => $data,
-                'type' => $this->_getType()
-            )
-        );
+                'type' => $this->_getType(),
+            ],
+        ];
     }
 
     /**
@@ -263,7 +264,8 @@ class IMP_Mime_Viewer_Images extends Horde_Mime_Viewer_Images
             $type = $img->getContentType();
             try {
                 $data = $img->raw(true);
-            } catch (Exception $e) {}
+            } catch (Exception $e) {
+            }
         }
 
         if (!$img || !$data) {
@@ -272,12 +274,12 @@ class IMP_Mime_Viewer_Images extends Horde_Mime_Viewer_Images
             $data = file_get_contents($img_ob->fs);
         }
 
-        return array(
-            $this->_mimepart->getMimeId() => array(
+        return [
+            $this->_mimepart->getMimeId() => [
                 'data' => $data,
-                'type' => $type
-            )
-        );
+                'type' => $type,
+            ],
+        ];
     }
 
     /**
@@ -316,22 +318,23 @@ class IMP_Mime_Viewer_Images extends Horde_Mime_Viewer_Images
         $view = null;
 
         switch ($type) {
-        case 'view_thumbnail':
-            if ($this->getConfigParam('thumbnails_dataurl') &&
-                $browser->getFeature('dataurl')) {
-                $thumb = $this->_viewConvert(true);
-                $thumb = reset($thumb);
-                $src = Horde_Url_Data::create($thumb['type'], $thumb['data']);
+            case 'view_thumbnail':
+                if ($this->getConfigParam('thumbnails_dataurl') &&
+                    $browser->getFeature('dataurl')) {
+                    $thumb = $this->_viewConvert(true);
+                    $thumb = reset($thumb);
+                    $src = Horde_Url_Data::create($thumb['type'], $thumb['data']);
+                    break;
+                }
+
+                $view = 'view_thumbnail';
+
+                // Fall-through
+
+                // no break
+            default:
+                $src = $this->_imgDataUrl($view);
                 break;
-            }
-
-            $view = 'view_thumbnail';
-
-            // Fall-through
-
-        default:
-            $src = $this->_imgDataUrl($view);
-            break;
         }
 
         return '<img src="' . $src . '" alt="' . htmlspecialchars($alt, ENT_COMPAT, $this->getConfigParam('charset')) . '" />';
@@ -349,9 +352,9 @@ class IMP_Mime_Viewer_Images extends Horde_Mime_Viewer_Images
         return $this->getConfigParam('imp_contents')->urlView(
             $this->_mimepart,
             'view_attach',
-            array(
-                'params' => array('imp_img_view' => $view)
-            )
+            [
+                'params' => ['imp_img_view' => $view],
+            ]
         );
     }
 

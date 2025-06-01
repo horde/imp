@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2003-2017 Horde LLC (http://www.horde.org/)
  *
@@ -48,7 +49,7 @@ class IMP_Maillog
      */
     public function log($msgs, IMP_Maillog_Log_Base $log)
     {
-        foreach ((is_array($msgs) ? $msgs : array($msgs)) as $val) {
+        foreach ((is_array($msgs) ? $msgs : [$msgs]) as $val) {
             $this->storage->saveLog($val, $log);
         }
     }
@@ -63,7 +64,7 @@ class IMP_Maillog
      *
      * @return array  List of IMP_Maillog_Log_Base objects.
      */
-    public function getLog(IMP_Maillog_Message $msg, array $types = array())
+    public function getLog(IMP_Maillog_Message $msg, array $types = [])
     {
         return $this->storage->getLog($msg, $types);
     }

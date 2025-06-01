@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
  *
@@ -48,10 +49,10 @@ class IMP_Filter
         $imp_search = $GLOBALS['injector']->getInstance('IMP_Search');
         $mbox_list = $imp_search->isSearchMbox($mbox)
             ? $imp_search[$mbox]->mboxes
-            : array($mbox);
+            : [$mbox];
 
         foreach ($mbox_list as $val) {
-            $GLOBALS['registry']->call('mail/applyFilters', array(array('mailbox' => strval($val))));
+            $GLOBALS['registry']->call('mail/applyFilters', [['mailbox' => strval($val)]]);
         }
     }
 
@@ -68,12 +69,12 @@ class IMP_Filter
      */
     public function blacklistMessage($indices, $show_link = true)
     {
-        if (!$this->_processBWlist($indices, _("your blacklist"), 'blacklistFrom', 'showBlacklist', $show_link) ||
+        if (!$this->_processBWlist($indices, _('your blacklist'), 'blacklistFrom', 'showBlacklist', $show_link) ||
             !($msg_count = $indices->delete())) {
             return false;
         }
 
-        $GLOBALS['notification']->push(ngettext("The message has been deleted.", "The messages have been deleted.", $msg_count), 'horde.message');
+        $GLOBALS['notification']->push(ngettext('The message has been deleted.', 'The messages have been deleted.', $msg_count), 'horde.message');
 
         return true;
     }
@@ -90,7 +91,7 @@ class IMP_Filter
      */
     public function whitelistMessage($indices, $show_link = true)
     {
-        return $this->_processBWlist($indices, _("your whitelist"), 'whitelistFrom', 'showWhitelist', $show_link);
+        return $this->_processBWlist($indices, _('your whitelist'), 'whitelistFrom', 'showWhitelist', $show_link);
     }
 
     /**
@@ -128,23 +129,23 @@ class IMP_Filter
             }
         }
 
-        $GLOBALS['registry']->call('mail/' . $reg1, array($addr->bare_addresses));
+        $GLOBALS['registry']->call('mail/' . $reg1, [$addr->bare_addresses]);
 
         /* Add link to filter management page. */
         if ($link && $GLOBALS['registry']->hasMethod('mail/' . $reg2)) {
             $GLOBALS['notification']->push(
                 Horde::url($GLOBALS['registry']->link('mail/' . $reg2))->link(
-                    array(
+                    [
                         'title' => sprintf(
-                            _("Filters: %s management page"),
+                            _('Filters: %s management page'),
                             $descrip
-                        )
-                    )
+                        ),
+                    ]
                 )
-                . sprintf(_("Click to go to %s management page."), $descrip)
+                . sprintf(_('Click to go to %s management page.'), $descrip)
                 . '</a>',
                 'horde.message',
-                array('content.raw')
+                ['content.raw']
             );
         }
 
@@ -166,7 +167,8 @@ class IMP_Filter
             $apply = false;
             try {
                 $apply = $registry->call('mail/canApplyFilters');
-            } catch (Horde_Exception $e) {}
+            } catch (Horde_Exception $e) {
+            }
             $session->set('imp', 'filteravail', $apply);
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2016-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,7 +24,7 @@
  */
 class IMP_Mime_Viewer_Syntaxhighlighter extends Horde_Core_Mime_Viewer_Syntaxhighlighter
 {
-    public function __construct(Horde_Mime_Part $part, array $conf = array())
+    public function __construct(Horde_Mime_Part $part, array $conf = [])
     {
         parent::__construct($part, $conf);
         $GLOBALS['page_output']->addScriptfile('syntaxhighlighter.js');

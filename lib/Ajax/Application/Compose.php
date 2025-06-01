@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,25 +28,25 @@ class IMP_Ajax_Application_Compose
      *
      * @var array
      */
-    public $forward_map = array(
+    public $forward_map = [
         'editasnew' => IMP_Compose::EDITASNEW,
         'forward_attach' => IMP_Compose::FORWARD_ATTACH,
         'forward_auto' => IMP_Compose::FORWARD_AUTO,
         'forward_body' => IMP_Compose::FORWARD_BODY,
-        'forward_both' => IMP_Compose::FORWARD_BOTH
-    );
+        'forward_both' => IMP_Compose::FORWARD_BOTH,
+    ];
 
     /**
      * Reply mapping of id -> compose object constant.
      *
      * @var array
      */
-    public $reply_map = array(
+    public $reply_map = [
         'reply' => IMP_Compose::REPLY_SENDER,
         'reply_all' => IMP_Compose::REPLY_ALL,
         'reply_auto' => IMP_Compose::REPLY_AUTO,
-        'reply_list' => IMP_Compose::REPLY_LIST
-    );
+        'reply_list' => IMP_Compose::REPLY_LIST,
+    ];
 
     /**
      * Compose object.
@@ -118,19 +119,18 @@ class IMP_Ajax_Application_Compose
 
     /**
      */
-    public function getBaseResponse($result = array())
+    public function getBaseResponse($result = [])
     {
-        $ob = new stdClass;
+        $ob = new stdClass();
         $ob->body = '';
-        $ob->opts = new stdClass;
-        $ob->subject = isset($result['subject'])
-            ? $result['subject']
-            : '';
+        $ob->opts = new stdClass();
+        $ob->subject = $result['subject']
+            ?? '';
         $ob->type = $this->_type;
 
         if (isset($result['addr'])) {
-            $ob->addr = array();
-            foreach (array('to', 'cc', 'bcc') as $val) {
+            $ob->addr = [];
+            foreach (['to', 'cc', 'bcc'] as $val) {
                 $addr = new IMP_Ajax_Addresses($result['addr'][$val]);
                 $ob->addr[$val] = $addr->toAutocompleteArray();
             }

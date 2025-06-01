@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -35,7 +36,7 @@ class IMP_Search_Vfolder_Vtrash extends IMP_Search_Vfolder_Builtin
     protected function _init()
     {
         $this->_id = 'vtrash';
-        $this->_label = _("Virtual Trash");
+        $this->_label = _('Virtual Trash');
 
         $this->add(new IMP_Search_Element_Flag(
             Horde_Imap_Client::FLAG_DELETED,
@@ -54,16 +55,16 @@ class IMP_Search_Vfolder_Vtrash extends IMP_Search_Vfolder_Builtin
         global $injector;
 
         switch ($name) {
-        case 'mboxes':
-            $iterator = new IMP_Ftree_IteratorFilter(
-                $injector->getInstance('IMP_Ftree')
-            );
-            $iterator->add(array(
-                $iterator::CONTAINERS,
-                $iterator::NONIMAP
-            ));
+            case 'mboxes':
+                $iterator = new IMP_Ftree_IteratorFilter(
+                    $injector->getInstance('IMP_Ftree')
+                );
+                $iterator->add([
+                    $iterator::CONTAINERS,
+                    $iterator::NONIMAP,
+                ]);
 
-            return array_map('strval', iterator_to_array($iterator, false));
+                return array_map('strval', iterator_to_array($iterator, false));
         }
 
         return parent::__get($name);

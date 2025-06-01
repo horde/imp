@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -22,7 +23,7 @@
  */
 class IMP_Contents_View
 {
-    const VIEW_TOKEN_PARAM = 'view_token';
+    public const VIEW_TOKEN_PARAM = 'view_token';
 
     /**
      * @var IMP_Contents
@@ -50,7 +51,7 @@ class IMP_Contents_View
         $headers = $this->_contents->getHeader();
         $zipfile = trim(preg_replace('/[^\pL\pN\-+_. ]/u', '_', $headers['Subject']), ' _');
         if (empty($zipfile)) {
-            $zipfile = _("attachments.zip");
+            $zipfile = _('attachments.zip');
         } else {
             $zipfile .= '.zip';
         }
@@ -58,7 +59,7 @@ class IMP_Contents_View
         $page_output->disableCompression();
         $session->close();
 
-        $tosave = array();
+        $tosave = [];
         foreach ($this->_contents->downloadAllList() as $val) {
             if (!($mime = $this->_getRawDownloadPart($val))) {
                 continue;
@@ -66,25 +67,25 @@ class IMP_Contents_View
             if ($name = $mime->getName(true)) {
                 $name = preg_replace('/[\x00-\x1f]+/', '', $name);
             } else {
-                $name = sprintf(_("part %s"), $val);
+                $name = sprintf(_('part %s'), $val);
             }
-            $tosave[] = array(
-                'data' => $mime->getContents(array('stream' => true)),
-                'name' => $name
-            );
+            $tosave[] = [
+                'data' => $mime->getContents(['stream' => true]),
+                'name' => $name,
+            ];
         }
 
         if (empty($tosave)) {
-            return array();
+            return [];
         }
 
-        return array(
-            'data' => Horde_Compress::factory('Zip')->compress($tosave, array(
-                'stream' => true
-            )),
+        return [
+            'data' => Horde_Compress::factory('Zip')->compress($tosave, [
+                'stream' => true,
+            ]),
             'name' => $zipfile,
-            'type' => 'application/zip'
-        );
+            'type' => 'application/zip',
+        ];
     }
 
     /**
@@ -96,14 +97,14 @@ class IMP_Contents_View
         $session->close();
 
         if (!($mime = $this->_getRawDownloadPart($id))) {
-            return array();
+            return [];
         }
 
-        return array(
-            'data' => $mime->getContents(array('stream' => true)),
+        return [
+            'data' => $mime->getContents(['stream' => true]),
             'name' => $this->_contents->getPartName($mime),
-            'type' => $mime->getType(true)
-        );
+            'type' => $mime->getType(true),
+        ];
     }
 
     /**
@@ -117,9 +118,9 @@ class IMP_Contents_View
         $render = $this->_contents->renderMIMEPart(
             $id,
             $mode,
-            array(
-                'type' => $ctype
-            )
+            [
+                'type' => $ctype,
+            ]
         );
         return reset($render);
     }
@@ -136,21 +137,21 @@ class IMP_Contents_View
         $render = $this->_contents->renderMIMEPart(
             $id,
             $mode,
-            array(
+            [
                 'autodetect' => $autodetect,
-                'type' => $ctype
-            )
+                'type' => $ctype,
+            ]
         );
 
         if (!empty($render)) {
             return reset($render);
         } elseif ($autodetect) {
-            $e = new IMP_Exception(_("Could not auto-determine data type."));
+            $e = new IMP_Exception(_('Could not auto-determine data type.'));
             $e->logged = true;
             throw $e;
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -163,13 +164,13 @@ class IMP_Contents_View
 
         $charset = $this->_contents->getMIMEMessage()->getCharset();
 
-        return array(
-            'data' => $this->_contents->fullMessageText(array(
-                'stream' => true
-            )),
-            'name' => _("Message Source"),
-            'type' => 'text/plain; charset=' . (is_null($charset) ? 'UTF-8' : $charset)
-        );
+        return [
+            'data' => $this->_contents->fullMessageText([
+                'stream' => true,
+            ]),
+            'name' => _('Message Source'),
+            'type' => 'text/plain; charset=' . (is_null($charset) ? 'UTF-8' : $charset),
+        ];
     }
 
     /**
@@ -184,13 +185,13 @@ class IMP_Contents_View
             ? trim(preg_replace('/[^\pL\pN\-+_. ]/u', '_', $subject), ' _')
             : 'saved_message';
 
-        return array(
-            'data' => $this->_contents->fullMessageText(array(
-                'stream' => true
-            )),
+        return [
+            'data' => $this->_contents->fullMessageText([
+                'stream' => true,
+            ]),
             'name' => $name . '.eml',
-            'type' => 'message/rfc822'
-        );
+            'type' => 'message/rfc822',
+        ];
     }
 
     /**
@@ -201,7 +202,7 @@ class IMP_Contents_View
 
         if (is_null($id) ||
             !($render = $this->_contents->renderMIMEPart($id, IMP_Contents::RENDER_FULL))) {
-            return array();
+            return [];
         }
 
         $part = reset($render);
@@ -215,16 +216,16 @@ class IMP_Contents_View
         $imp_ui_mbox = new IMP_Mailbox_Ui();
         $headerob = $this->_contents->getHeader();
 
-        $headers = array();
-        $header_labels = array(
-            'date'    =>  _("Date"),
-            'from'    =>  _("From"),
-            'to'      =>  _("To"),
-            'cc'      =>  _("Cc"),
-            'subject' =>  _("Subject")
-        );
+        $headers = [];
+        $header_labels = [
+            'date'    =>  _('Date'),
+            'from'    =>  _('From'),
+            'to'      =>  _('To'),
+            'cc'      =>  _('Cc'),
+            'subject' =>  _('Subject'),
+        ];
         if ($prefs->getValue('add_bcc')) {
-            $header_labels['bcc'] = _("Bcc");
+            $header_labels['bcc'] = _('Bcc');
         }
 
         foreach ($header_labels as $key => $val) {
@@ -235,24 +236,24 @@ class IMP_Contents_View
                     $hdr_val = $date_ob->format($date_ob::DATE_FORCE);
                 }
 
-                $headers[] = array(
+                $headers[] = [
                     'header' => $val,
-                    'value' => $hdr_val
-                );
+                    'value' => $hdr_val,
+                ];
             }
         }
 
         if ($prefs->getValue('add_printedby')) {
             $user_identity = $injector->getInstance('IMP_Identity');
-            $headers[] = array(
-                'header' => _("Printed By"),
-                'value' => $user_identity->getFullname() ?: $registry->getAuth()
-            );
+            $headers[] = [
+                'header' => _('Printed By'),
+                'value' => $user_identity->getFullname() ?: $registry->getAuth(),
+            ];
         }
 
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/print'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/print',
+        ]);
         $view->addHelper('Text');
 
         $view->headers = $headers;
@@ -269,7 +270,7 @@ class IMP_Contents_View
         $elt->removeAttribute('id');
 
         if ($elt->hasAttribute('class')) {
-            $selectors = array('body');
+            $selectors = ['body'];
             foreach (explode(' ', $elt->getAttribute('class')) as $val) {
                 if (strlen($val = trim($val))) {
                     $selectors[] = '.' . $val;
@@ -334,11 +335,11 @@ class IMP_Contents_View
         }
         $headelt->appendChild($doc->dom->createElement('title', htmlspecialchars($imp_ui_mbox->getSubject($headerob['Subject']))));
 
-        return array(
+        return [
             'data' => $doc->returnHtml(),
             'name' => $part['name'],
-            'type' => $part['type']
-        );
+            'type' => $part['type'],
+        ];
     }
 
     /**
@@ -367,7 +368,7 @@ class IMP_Contents_View
      *
      * @return Horde_Url  The download URL.
      */
-    public static function downloadUrl($filename, array $params = array())
+    public static function downloadUrl($filename, array $params = [])
     {
         global $registry;
 
@@ -381,7 +382,7 @@ class IMP_Contents_View
      *
      * @return array  Parameter list with token added.
      */
-    public static function addToken(array $params = array())
+    public static function addToken(array $params = [])
     {
         global $session;
 
@@ -408,10 +409,10 @@ class IMP_Contents_View
         if ($this->_contents->canDisplay($id, IMP_Contents::RENDER_RAW)) {
             $render = $this->_contents->renderMIMEPart($id, IMP_Contents::RENDER_RAW);
             $part = reset($render);
-            $mime->setContents($part['data'], array(
+            $mime->setContents($part['data'], [
                 'encoding' => 'binary',
-                'usestream' => true
-            ));
+                'usestream' => true,
+            ]);
         }
 
         return $mime;

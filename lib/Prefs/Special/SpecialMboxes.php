@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -22,9 +23,9 @@
  */
 class IMP_Prefs_Special_SpecialMboxes
 {
-    const PREF_DEFAULT = "default\0";
-    const PREF_NO_MBOX = "nombox\0";
-    const PREF_SPECIALUSE = "specialuse\0";
+    public const PREF_DEFAULT = "default\0";
+    public const PREF_NO_MBOX = "nombox\0";
+    public const PREF_SPECIALUSE = "specialuse\0";
 
     /**
      * Cached mailbox list.
@@ -44,9 +45,13 @@ class IMP_Prefs_Special_SpecialMboxes
      *
      * @return boolean  True if preferences were updated.
      */
-    protected function _updateSpecialMboxes($pref, $form, $new, $type,
-                                            Horde_Core_Prefs_Ui $ui)
-    {
+    protected function _updateSpecialMboxes(
+        $pref,
+        $form,
+        $new,
+        $type,
+        Horde_Core_Prefs_Ui $ui
+    ) {
         global $injector, $prefs;
 
         $imp_imap = $injector->getInstance('IMP_Factory_Imap')->create();
@@ -59,11 +64,11 @@ class IMP_Prefs_Special_SpecialMboxes
         $cache = $injector->getInstance('IMP_Mailbox_SessionCache');
         if ($mbox_ob = IMP_Mailbox::getPref($pref)) {
             $cache->expire(
-                array(
+                [
                     IMP_Mailbox_SessionCache::CACHE_DISPLAY,
                     IMP_Mailbox_SessionCache::CACHE_LABEL,
-                    IMP_Mailbox_SessionCache::CACHE_SPECIALMBOXES
-                ),
+                    IMP_Mailbox_SessionCache::CACHE_SPECIALMBOXES,
+                ],
                 $mbox_ob
             );
         }
@@ -78,8 +83,8 @@ class IMP_Prefs_Special_SpecialMboxes
             $mbox = IMP_Mailbox::get($new)->namespace_append;
 
             $opts = is_null($type)
-                ? array()
-                : array('special_use' => array($type));
+                ? []
+                : ['special_use' => [$type]];
 
             if (!$mbox->create($opts)) {
                 $mbox = null;
@@ -93,10 +98,10 @@ class IMP_Prefs_Special_SpecialMboxes
         }
 
         $cache->expire(
-            array(
+            [
                 IMP_Mailbox_SessionCache::CACHE_DISPLAY,
-                IMP_Mailbox_SessionCache::CACHE_LABEL
-            ),
+                IMP_Mailbox_SessionCache::CACHE_LABEL,
+            ],
             $mbox
         );
 
@@ -115,24 +120,24 @@ class IMP_Prefs_Special_SpecialMboxes
         global $injector;
 
         if (is_null($this->_cache)) {
-            $this->_cache = $injector->getInstance('IMP_Factory_Imap')->create()->listMailboxes('*', Horde_Imap_Client::MBOX_ALL, array(
+            $this->_cache = $injector->getInstance('IMP_Factory_Imap')->create()->listMailboxes('*', Horde_Imap_Client::MBOX_ALL, [
                 'attributes' => true,
                 'special_use' => true,
-                'sort' => true
-            ));
+                'sort' => true,
+            ]);
         }
 
-        $special_use = array();
+        $special_use = [];
         /* $val['attributes'] is normalized to lowercase. */
         $use = Horde_String::lower($use);
 
         foreach ($this->_cache as $val) {
             if (in_array($use, $val['attributes'])) {
                 $mbox_ob = IMP_Mailbox::get($val['mailbox']);
-                $special_use[] = array(
+                $special_use[] = [
                     'l' => $mbox_ob->label,
-                    'v' => IMP_Mailbox::formTo(self::PREF_SPECIALUSE . $mbox_ob)
-                );
+                    'v' => IMP_Mailbox::formTo(self::PREF_SPECIALUSE . $mbox_ob),
+                ];
             }
         }
 
@@ -140,9 +145,9 @@ class IMP_Prefs_Special_SpecialMboxes
             return '';
         }
 
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/prefs'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/prefs',
+        ]);
         $view->addHelper('Text');
 
         $view->special_use = $special_use;

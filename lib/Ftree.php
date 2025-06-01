@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2000-2017 Horde LLC (http://www.horde.org/)
  *
@@ -35,30 +36,29 @@
  * @property-read boolean $unsubscribed_loaded  True if unsubscribed mailboxes
  *                                              have been loaded.
  */
-class IMP_Ftree
-implements ArrayAccess, Countable, IteratorAggregate, Serializable
+class IMP_Ftree implements ArrayAccess, Countable, IteratorAggregate, Serializable
 {
     /* Constants for mailboxElt attributes. */
-    const ELT_NOSELECT = 1;
-    const ELT_NAMESPACE_OTHER = 2;
-    const ELT_NAMESPACE_SHARED = 4;
-    const ELT_IS_OPEN = 8;
-    const ELT_IS_SUBSCRIBED = 16;
-    const ELT_NOINFERIORS = 32;
-    const ELT_IS_POLLED = 64;
-    const ELT_NOT_POLLED = 128;
-    const ELT_VFOLDER = 256;
-    const ELT_NONIMAP = 512;
-    const ELT_NEED_SORT = 1024;
-    const ELT_REMOTE = 2048;
-    const ELT_REMOTE_AUTH = 4096;
-    const ELT_REMOTE_MBOX = 8192;
+    public const ELT_NOSELECT = 1;
+    public const ELT_NAMESPACE_OTHER = 2;
+    public const ELT_NAMESPACE_SHARED = 4;
+    public const ELT_IS_OPEN = 8;
+    public const ELT_IS_SUBSCRIBED = 16;
+    public const ELT_NOINFERIORS = 32;
+    public const ELT_IS_POLLED = 64;
+    public const ELT_NOT_POLLED = 128;
+    public const ELT_VFOLDER = 256;
+    public const ELT_NONIMAP = 512;
+    public const ELT_NEED_SORT = 1024;
+    public const ELT_REMOTE = 2048;
+    public const ELT_REMOTE_AUTH = 4096;
+    public const ELT_REMOTE_MBOX = 8192;
 
     /* The string used to indicate the base of the tree. This must include
      * null since this is the only 7-bit character not allowed in IMAP
      * mailboxes (nulls allow us to sort by name but never conflict with an
      * IMAP mailbox). */
-    const BASE_ELT = "base\0";
+    public const BASE_ELT = "base\0";
 
     /**
      * Account sources.
@@ -100,7 +100,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
      *
      * @var array
      */
-    protected $_temp = array();
+    protected $_temp = [];
 
     /**
      * Constructor.
@@ -117,29 +117,29 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
         global $prefs;
 
         switch ($name) {
-        case 'changed':
-            return ($this->_changed || $this->eltdiff->changed);
+            case 'changed':
+                return ($this->_changed || $this->eltdiff->changed);
 
-        case 'expanded':
-            if (!isset($this->_temp['expanded'])) {
-                $this->_temp['expanded'] = new IMP_Ftree_Prefs_Expanded();
-            }
-            return $this->_temp['expanded'];
+            case 'expanded':
+                if (!isset($this->_temp['expanded'])) {
+                    $this->_temp['expanded'] = new IMP_Ftree_Prefs_Expanded();
+                }
+                return $this->_temp['expanded'];
 
-        case 'eltdiff':
-            return $this->_eltdiff;
+            case 'eltdiff':
+                return $this->_eltdiff;
 
-        case 'poll':
-            if (!isset($this->_temp['poll'])) {
-                $this->_temp['poll'] = new IMP_Ftree_Prefs_Poll($this);
-            }
-            return $this->_temp['poll'];
+            case 'poll':
+                if (!isset($this->_temp['poll'])) {
+                    $this->_temp['poll'] = new IMP_Ftree_Prefs_Poll($this);
+                }
+                return $this->_temp['poll'];
 
-        case 'subscriptions':
-            return $prefs->getValue('subscribe');
+            case 'subscriptions':
+                return $prefs->getValue('subscribe');
 
-        case 'unsubscribed_loaded':
-            return $this[self::BASE_ELT]->subscribed;
+            case 'unsubscribed_loaded':
+                return $this[self::BASE_ELT]->subscribed;
         }
     }
 
@@ -153,7 +153,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
         $access_folders = $injector->getInstance('IMP_Factory_Imap')->create()->access(IMP_Imap::ACCESS_FOLDERS);
 
         /* Reset class variables to the defaults. */
-        $this->_accounts = $this->_elts = $this->_parent = array();
+        $this->_accounts = $this->_elts = $this->_parent = [];
         $this->_changed = true;
 
         $old_track = (isset($this->_eltdiff) && $this->_eltdiff->track);
@@ -162,7 +162,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
         /* Create a placeholder element to the base of the tree so we can
          * keep track of whether the base level needs to be sorted. */
         $this->_elts[self::BASE_ELT] = self::ELT_NEED_SORT | self::ELT_NONIMAP;
-        $this->_parent[self::BASE_ELT] = array();
+        $this->_parent[self::BASE_ELT] = [];
 
         $mask = IMP_Ftree_Account::INIT;
         if (!$access_folders || !$this->subscriptions || $session->get('imp', 'showunsub')) {
@@ -174,7 +174,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
         $ob = $this->_accounts[self::BASE_ELT] = $access_folders
             ? new IMP_Ftree_Account_Imap()
             : new IMP_Ftree_Account_Inboxonly();
-        array_map(array($this, '_insertElt'), $ob->getList(null, $mask));
+        array_map([$this, '_insertElt'], $ob->getList(null, $mask));
 
         if ($access_folders) {
             /* Add remote servers. */
@@ -204,7 +204,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
      */
     public function insert($id)
     {
-        foreach ((is_array($id) ? $id : array($id)) as $val) {
+        foreach ((is_array($id) ? $id : [$id]) as $val) {
             if (($val instanceof IMP_Search_Vfolder) &&
                 !isset($this->_accounts[strval($val)])) {
                 /* Virtual Folders. */
@@ -218,7 +218,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
                 $val = $this->_normalize($val);
             }
 
-            array_map(array($this, '_insertElt'), $account->getList(array($val)));
+            array_map([$this, '_insertElt'], $account->getList([$val]));
         }
     }
 
@@ -231,7 +231,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
      */
     public function expand($elts, $expandall = false)
     {
-        foreach ((is_array($elts) ? $elts : array($elts)) as $val) {
+        foreach ((is_array($elts) ? $elts : [$elts]) as $val) {
             if (($elt = $this[$val]) && $elt->children) {
                 if (!$elt->open) {
                     $elt->open = true;
@@ -260,7 +260,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
      */
     public function collapse($elts)
     {
-        foreach ((is_array($elts) ? $elts : array($elts)) as $val) {
+        foreach ((is_array($elts) ? $elts : [$elts]) as $val) {
             if ($elt = $this[$val]) {
                 $elt->open = false;
             }
@@ -273,7 +273,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
     public function collapseAll()
     {
         $this->collapse(
-            array_diff_key(array_keys($this->_elts), array(self::BASE_ELT))
+            array_diff_key(array_keys($this->_elts), [self::BASE_ELT])
         );
     }
 
@@ -290,10 +290,10 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
             $this->sortList($id);
             $id = array_reverse($id);
         } else {
-            $id = array($id);
+            $id = [$id];
         }
 
-        foreach (array_filter(array_map(array($this, 'offsetGet'), $id)) as $elt) {
+        foreach (array_filter(array_map([$this, 'offsetGet'], $id)) as $elt) {
             $account = $this->getAccount($elt);
             if (!($mask = $account->delete($elt))) {
                 continue;
@@ -371,9 +371,9 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
             return;
         }
 
-        $new_list = $polled = array();
+        $new_list = $polled = [];
         $old_list = array_merge(
-            array($old),
+            [$old],
             iterator_to_array(new IMP_Ftree_IteratorFilter(new IMP_Ftree_Iterator($old_elt)), false)
         );
 
@@ -396,7 +396,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
      */
     public function subscribe($id)
     {
-        foreach ((is_array($id) ? $id : array($id)) as $val) {
+        foreach ((is_array($id) ? $id : [$id]) as $val) {
             $this->setAttribute('subscribed', $val, true);
             $this->setAttribute('container', $val, false);
         }
@@ -415,7 +415,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
             $this->sortList($id);
             $id = array_reverse($id);
         } else {
-            $id = array($id);
+            $id = [$id];
         }
 
         foreach ($id as $val) {
@@ -462,7 +462,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
         $old_track = $this->eltdiff->track;
         $this->eltdiff->track = false;
         foreach ($this->_accounts as $val) {
-            array_map(array($this, '_insertElt'), $val->getList(array(), $val::UNSUB));
+            array_map([$this, '_insertElt'], $val->getList([], $val::UNSUB));
         }
         $this->eltdiff->track = $old_track;
     }
@@ -484,76 +484,76 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
         $s_elt = strval($elt);
 
         switch ($type) {
-        case 'children':
-            return isset($this->_parent[$s_elt]);
+            case 'children':
+                return isset($this->_parent[$s_elt]);
 
-        case 'container':
-            $attr = self::ELT_NOSELECT;
-            break;
+            case 'container':
+                $attr = self::ELT_NOSELECT;
+                break;
 
-        case 'namespace_other':
-            $attr = self::ELT_NAMESPACE_OTHER;
-            break;
+            case 'namespace_other':
+                $attr = self::ELT_NAMESPACE_OTHER;
+                break;
 
-        case 'namespace_shared':
-            $attr = self::ELT_NAMESPACE_SHARED;
-            break;
+            case 'namespace_shared':
+                $attr = self::ELT_NAMESPACE_SHARED;
+                break;
 
-        case 'needsort':
-            $attr = self::ELT_NEED_SORT;
-            break;
+            case 'needsort':
+                $attr = self::ELT_NEED_SORT;
+                break;
 
-        case 'nochildren':
-            $attr = self::ELT_NOINFERIORS;
-            break;
+            case 'nochildren':
+                $attr = self::ELT_NOINFERIORS;
+                break;
 
-        case 'nonimap':
-            $attr = self::ELT_NONIMAP;
-            break;
+            case 'nonimap':
+                $attr = self::ELT_NONIMAP;
+                break;
 
-        case 'open':
-            if (!$elt->children) {
-                return false;
-            }
-            $attr = self::ELT_IS_OPEN;
-            break;
+            case 'open':
+                if (!$elt->children) {
+                    return false;
+                }
+                $attr = self::ELT_IS_OPEN;
+                break;
 
-        case 'polled':
-            if ($this->_elts[$s_elt] & self::ELT_IS_POLLED) {
-                return true;
-            } elseif ($this->_elts[$s_elt] & self::ELT_NOT_POLLED) {
-                return false;
-            }
+            case 'polled':
+                if ($this->_elts[$s_elt] & self::ELT_IS_POLLED) {
+                    return true;
+                } elseif ($this->_elts[$s_elt] & self::ELT_NOT_POLLED) {
+                    return false;
+                }
 
-            $polled = $this->poll[$elt];
-            $this->setAttribute('polled', $elt, $polled);
-            return $polled;
+                $polled = $this->poll[$elt];
+                $this->setAttribute('polled', $elt, $polled);
+                return $polled;
 
-        case 'remote':
-            $attr = self::ELT_REMOTE;
-            break;
+            case 'remote':
+                $attr = self::ELT_REMOTE;
+                break;
 
-        case 'remote_auth':
-            $attr = self::ELT_REMOTE_AUTH;
-            break;
+            case 'remote_auth':
+                $attr = self::ELT_REMOTE_AUTH;
+                break;
 
-        case 'remote_mbox':
-            $attr = self::ELT_REMOTE_MBOX;
-            break;
+            case 'remote_mbox':
+                $attr = self::ELT_REMOTE_MBOX;
+                break;
 
-        case 'subscribed':
-            if ($elt->inbox) {
-                return true;
-            }
-            $attr = self::ELT_IS_SUBSCRIBED;
-            break;
+            case 'subscribed':
+                if ($elt->inbox) {
+                    return true;
+                }
+                $attr = self::ELT_IS_SUBSCRIBED;
+                break;
 
-        case 'vfolder':
-            $attr = self::ELT_VFOLDER;
-            break;
+            case 'vfolder':
+                $attr = self::ELT_VFOLDER;
+                break;
 
-        default:
-            return null;
+            default:
+                return null;
         }
 
         return (bool)($this->_elts[$s_elt] & $attr);
@@ -576,42 +576,42 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
         $s_elt = strval($elt);
 
         switch ($type) {
-        case 'container':
-            $attr = self::ELT_NOSELECT;
-            $this->eltdiff->change($elt);
-            break;
+            case 'container':
+                $attr = self::ELT_NOSELECT;
+                $this->eltdiff->change($elt);
+                break;
 
-        case 'needsort':
-            $attr = self::ELT_NEED_SORT;
-            break;
+            case 'needsort':
+                $attr = self::ELT_NEED_SORT;
+                break;
 
-        case 'open':
-            $attr = self::ELT_IS_OPEN;
-            if ($bool) {
-                $this->expanded[$elt] = true;
-            } else {
-                unset($this->expanded[$elt]);
-            }
-            break;
+            case 'open':
+                $attr = self::ELT_IS_OPEN;
+                if ($bool) {
+                    $this->expanded[$elt] = true;
+                } else {
+                    unset($this->expanded[$elt]);
+                }
+                break;
 
-        case 'polled':
-            if ($bool) {
-                $attr = self::ELT_IS_POLLED;
-                $remove = self::ELT_NOT_POLLED;
-            } else {
-                $attr = self::ELT_NOT_POLLED;
-                $remove = self::ELT_IS_POLLED;
-            }
-            $this->_elts[$s_elt] &= ~$remove;
-            break;
+            case 'polled':
+                if ($bool) {
+                    $attr = self::ELT_IS_POLLED;
+                    $remove = self::ELT_NOT_POLLED;
+                } else {
+                    $attr = self::ELT_NOT_POLLED;
+                    $remove = self::ELT_IS_POLLED;
+                }
+                $this->_elts[$s_elt] &= ~$remove;
+                break;
 
-        case 'subscribed':
-            $attr = self::ELT_IS_SUBSCRIBED;
-            $this->eltdiff->change($elt);
-            break;
+            case 'subscribed':
+                $attr = self::ELT_IS_SUBSCRIBED;
+                $this->eltdiff->change($elt);
+                break;
 
-        default:
-            return;
+            default:
+                return;
         }
 
         if ($bool) {
@@ -632,7 +632,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
      */
     public function getAccount($id)
     {
-        foreach (array_diff(array_keys($this->_accounts), array(self::BASE_ELT)) as $val) {
+        foreach (array_diff(array_keys($this->_accounts), [self::BASE_ELT]) as $val) {
             if (strpos($id, $val) === 0) {
                 return $this->_accounts[$val];
             }
@@ -651,12 +651,13 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
     public function getChildren($id)
     {
         if (!($elt = $this[$id]) || !isset($this->_parent[strval($elt)])) {
-            return array();
+            return [];
         }
 
         $this->_sortLevel($elt);
         return array_map(
-            array($this, 'offsetGet'), $this->_parent[strval($elt)]
+            [$this, 'offsetGet'],
+            $this->_parent[strval($elt)]
         );
     }
 
@@ -706,9 +707,9 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
             ? ''
             : (strval($this->getAccount($base)) . "\0");
 
-        $basesort = $othersort = array();
+        $basesort = $othersort = [];
         /* INBOX always appears first. */
-        $sorted = array($prefix . 'INBOX');
+        $sorted = [$prefix . 'INBOX'];
 
         foreach ($mbox as $key => $val) {
             $ob = $this[$val];
@@ -767,7 +768,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
             $change = true;
         }
 
-        $p_elt = $this[isset($elt['p']) ? $elt['p'] : self::BASE_ELT];
+        $p_elt = $this[$elt['p'] ?? self::BASE_ELT];
         $parent = strval($p_elt);
 
         $this->_changed = true;
@@ -887,17 +888,17 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
     }
     public function __serialize(): array
     {
-        return 
+        return
         [
-            $GLOBALS['injector']->getInstance('Horde_Pack')->pack(array(
+            $GLOBALS['injector']->getInstance('Horde_Pack')->pack([
                 $this->_accounts,
                 $this->_eltdiff,
                 $this->_elts,
-                $this->_parent
-            ), array(
+                $this->_parent,
+            ], [
                 'compress' => false,
-                'phpob' => true
-            ))
+                'phpob' => true,
+            ]),
         ];
     }
 
@@ -911,12 +912,12 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
 
     public function __unserialize(array $data): void
     {
-        list(
+        [
             $this->_accounts,
             $this->_eltdiff,
             $this->_elts,
             $this->_parent
-        ) = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack(array_shift($data));
+        ] = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack(array_shift($data));
     }
     /**
      * Creates a Horde_Tree representation of the current tree.
@@ -947,15 +948,15 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
      *
      * @return Horde_Tree  The tree object.
      */
-    public function createTree($name, array $opts = array())
+    public function createTree($name, array $opts = [])
     {
         global $injector, $registry;
 
-        $opts = array_merge(array(
+        $opts = array_merge([
             'parent' => null,
-            'render_params' => array(),
-            'render_type' => 'Javascript'
-        ), $opts);
+            'render_params' => [],
+            'render_type' => 'Javascript',
+        ], $opts);
 
         $view = $registry->getView();
 
@@ -963,12 +964,12 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
             $tree = $name;
             $parent = $opts['parent'];
         } else {
-            $tree = $injector->getInstance('Horde_Core_Factory_Tree')->create($name, $opts['render_type'], array_merge(array(
+            $tree = $injector->getInstance('Horde_Core_Factory_Tree')->create($name, $opts['render_type'], array_merge([
                 'alternate' => true,
                 'lines' => true,
                 'lines_base' => true,
-                'nosession' => true
-            ), $opts['render_params']));
+                'nosession' => true,
+            ], $opts['render_params']));
             $parent = null;
         }
 
@@ -980,46 +981,46 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
             $after = '';
             $elt_parent = null;
             $mbox_ob = $val->mbox_ob;
-            $params = array();
+            $params = [];
 
             switch ($opts['render_type']) {
-            case 'IMP_Tree_Flist':
-                if ($mbox_ob->vfolder_container) {
-                    continue 2;
-                }
+                case 'IMP_Tree_Flist':
+                    if ($mbox_ob->vfolder_container) {
+                        continue 2;
+                    }
 
-                $is_open = true;
-                $label = $params['orig_label'] = empty($opts['basename'])
-                    ? $mbox_ob->abbrev_label
-                    : $mbox_ob->basename;
-                break;
+                    $is_open = true;
+                    $label = $params['orig_label'] = empty($opts['basename'])
+                        ? $mbox_ob->abbrev_label
+                        : $mbox_ob->basename;
+                    break;
 
-            case 'IMP_Tree_Jquerymobile':
-                $is_open = true;
-                $label = $mbox_ob->display_html;
-                $icon = $mbox_ob->icon;
-                $params['icon'] = $icon->icon;
-                $params['special'] = $mbox_ob->inbox || $mbox_ob->special;
-                $params['class'] = 'imp-folder';
-                $params['urlattributes'] = array(
-                    'id' => 'imp-mailbox-' . $mbox_ob->form_to
-                );
+                case 'IMP_Tree_Jquerymobile':
+                    $is_open = true;
+                    $label = $mbox_ob->display_html;
+                    $icon = $mbox_ob->icon;
+                    $params['icon'] = $icon->icon;
+                    $params['special'] = $mbox_ob->inbox || $mbox_ob->special;
+                    $params['class'] = 'imp-folder';
+                    $params['urlattributes'] = [
+                        'id' => 'imp-mailbox-' . $mbox_ob->form_to,
+                    ];
 
-                /* Force to flat tree so that non-polled parents don't cause
-                 * polled children to be skipped by renderer (see Bug
-                 * #11238). */
-                $elt_parent = $this[self::BASE_ELT];
-                break;
+                    /* Force to flat tree so that non-polled parents don't cause
+                     * polled children to be skipped by renderer (see Bug
+                     * #11238). */
+                    $elt_parent = $this[self::BASE_ELT];
+                    break;
 
-            case 'Javascript':
-                $is_open = $val->open;
-                $label = empty($opts['basename'])
-                    ? htmlspecialchars($mbox_ob->abbrev_label)
-                    : htmlspecialchars($mbox_ob->basename);
-                $icon = $mbox_ob->icon;
-                $params['icon'] = $icon->icon;
-                $params['iconopen'] = $icon->iconopen;
-                break;
+                case 'Javascript':
+                    $is_open = $val->open;
+                    $label = empty($opts['basename'])
+                        ? htmlspecialchars($mbox_ob->abbrev_label)
+                        : htmlspecialchars($mbox_ob->basename);
+                    $icon = $mbox_ob->icon;
+                    $params['icon'] = $icon->icon;
+                    $params['iconopen'] = $icon->iconopen;
+                    break;
             }
 
             if (!empty($opts['poll_info']) && $val->polled) {
@@ -1027,13 +1028,13 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
 
                 if ($poll_info->unseen) {
                     switch ($opts['render_type']) {
-                    case 'IMP_Tree_Jquerymobile':
-                        $after = $poll_info->unseen;
-                        break;
+                        case 'IMP_Tree_Jquerymobile':
+                            $after = $poll_info->unseen;
+                            break;
 
-                    default:
-                        $label = '<strong>' . $label . '</strong>&nbsp;(' .
-                            $poll_info->unseen . ')';
+                        default:
+                            $label = '<strong>' . $label . '</strong>&nbsp;(' .
+                                $poll_info->unseen . ')';
                     }
                 }
             }
@@ -1042,16 +1043,16 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
                 $params['container'] = true;
             } else {
                 switch ($view) {
-                case $registry::VIEW_SMARTMOBILE:
-                    $url = new Horde_Core_Smartmobile_Url();
-                    $url->add('mbox', $mbox_ob->form_to);
-                    $url->setAnchor('mailbox');
-                    $params['url'] = strval($url);
-                    break;
+                    case $registry::VIEW_SMARTMOBILE:
+                        $url = new Horde_Core_Smartmobile_Url();
+                        $url->add('mbox', $mbox_ob->form_to);
+                        $url->setAnchor('mailbox');
+                        $params['url'] = strval($url);
+                        break;
 
-                default:
-                    $params['url'] = $mbox_ob->url('mailbox')->setRaw(true);
-                    break;
+                    default:
+                        $params['url'] = $mbox_ob->url('mailbox')->setRaw(true);
+                        break;
                 }
 
                 if (!$val->subscribed) {
@@ -1071,7 +1072,7 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
                 !empty($opts['editvfolder']) &&
                 $val->container) {
                 $after = '&nbsp[' .
-                    $registry->getServiceLink('prefs', 'imp')->add('group', 'searches')->link(array('title' => _("Edit Virtual Folder"))) . _("Edit") . '</a>'.
+                    $registry->getServiceLink('prefs', 'imp')->add('group', 'searches')->link(['title' => _('Edit Virtual Folder')]) . _('Edit') . '</a>'.
                     ']';
             }
 
@@ -1079,15 +1080,15 @@ implements ArrayAccess, Countable, IteratorAggregate, Serializable
                 $elt_parent = $val->parent;
             }
 
-            $tree->addNode(array(
+            $tree->addNode([
                 'id' => $mbox_ob->form_to,
                 'parent' => $elt_parent->base_elt ? $parent : $elt_parent->mbox_ob->form_to,
                 'label' => $label,
-                'expanded' => isset($opts['open']) ? $opts['open'] : $is_open,
+                'expanded' => $opts['open'] ?? $is_open,
                 'params' => $params,
                 'right' => $after,
-                'left' => empty($opts['checkbox']) ? null : $checkbox . ' />'
-            ));
+                'left' => empty($opts['checkbox']) ? null : $checkbox . ' />',
+            ]);
         }
 
         return $tree;

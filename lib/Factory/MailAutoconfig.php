@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,8 +21,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Factory_MailAutoconfig
-extends Horde_Core_Factory_Injector
+class IMP_Factory_MailAutoconfig extends Horde_Core_Factory_Injector
 {
     /**
      * Return the mail autoconfig instance.
@@ -34,7 +34,7 @@ extends Horde_Core_Factory_Injector
          * objects for Http_Client and Net_DNS2_Resolver. The return from
          * getDrivers() is already in priority order, so we don't need to
          * worry about that. */
-        $drivers = array();
+        $drivers = [];
         foreach (Horde_Mail_Autoconfig::getDrivers() as $val) {
             $val = clone $val;
 
@@ -48,7 +48,7 @@ extends Horde_Core_Factory_Injector
             $drivers[] = $val;
         }
 
-        return new Horde_Mail_Autoconfig(array('drivers' => $drivers));
+        return new Horde_Mail_Autoconfig(['drivers' => $drivers]);
     }
 
 }

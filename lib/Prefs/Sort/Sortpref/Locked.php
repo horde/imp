@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,8 +28,8 @@ class IMP_Prefs_Sort_Sortpref_Locked extends IMP_Prefs_Sort_Sortpref
     public function __get($name)
     {
         switch ($name) {
-        case 'sortby_locked':
-            return true;
+            case 'sortby_locked':
+                return true;
         }
 
         return parent::__get($name);

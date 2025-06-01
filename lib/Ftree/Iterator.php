@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,7 +28,7 @@ class IMP_Ftree_Iterator implements RecursiveIterator
      *
      * @var array
      */
-    protected $_elts = array();
+    protected $_elts = [];
 
     /**
      * Constructor.

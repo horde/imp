@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,26 +21,24 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Factory_MailboxList
-extends Horde_Core_Factory_Base
-implements Horde_Shutdown_Task
+class IMP_Factory_MailboxList extends Horde_Core_Factory_Base implements Horde_Shutdown_Task
 {
     /* Storage key for list data. */
-    const STORAGE_KEY = 'mboxlist';
+    public const STORAGE_KEY = 'mboxlist';
 
     /**
      * Cache instances.
      *
      * @var array
      */
-    private $_cache = array();
+    private $_cache = [];
 
     /**
      * Instances.
      *
      * @var array
      */
-    private $_instances = array();
+    private $_instances = [];
 
     /**
      * Return the mailbox list instance.
@@ -96,7 +95,7 @@ implements Horde_Shutdown_Task
         foreach ($this->_cache as $val) {
             $val->clear();
         }
-        $this->_instances = array();
+        $this->_instances = [];
     }
 
     /**
@@ -123,23 +122,23 @@ implements Horde_Shutdown_Task
              * session on-demand). */
             if ($key) {
                 $cache = new Horde_Cache(
-                    new Horde_Cache_Storage_Hashtable(array(
-                        'hashtable' => new Horde_Core_HashTable_PersistentSession()
-                    )),
-                    array(
+                    new Horde_Cache_Storage_Hashtable([
+                        'hashtable' => new Horde_Core_HashTable_PersistentSession(),
+                    ]),
+                    [
                         'compress' => true,
-                        'logger' => $injector->getInstance('Horde_Core_Log_Wrapper')
-                    )
+                        'logger' => $injector->getInstance('Horde_Core_Log_Wrapper'),
+                    ]
                 );
             } else {
                 $cache = $injector->getInstance('Horde_Cache');
             }
 
-            $this->_cache[$key] = new Horde_Core_Cache_Session(array(
+            $this->_cache[$key] = new Horde_Core_Cache_Session([
                 'app' => 'imp',
                 'cache' => $cache,
-                'storage_key' => self::STORAGE_KEY
-            ));
+                'storage_key' => self::STORAGE_KEY,
+            ]);
         }
 
         return $this->_cache[$key];

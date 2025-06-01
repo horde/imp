@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -42,13 +43,13 @@
 class IMP_Search_Query implements Serializable
 {
     /* Serialized version. */
-    const VERSION = 1;
+    public const VERSION = 1;
 
     /* Prefix indicating subfolder search. */
-    const SUBFOLDER = "sub\0";
+    public const SUBFOLDER = "sub\0";
 
     /* Mailbox value indicating a search all mailboxes search. */
-    const ALLSEARCH = "all\0";
+    public const ALLSEARCH = "all\0";
 
     /**
      * Is this query enabled?
@@ -62,7 +63,7 @@ class IMP_Search_Query implements Serializable
      *
      * @var array
      */
-    protected $_cache = array();
+    protected $_cache = [];
 
     /**
      * Can this query be edited?
@@ -76,7 +77,7 @@ class IMP_Search_Query implements Serializable
      *
      * @var array
      */
-    protected $_criteria = array();
+    protected $_criteria = [];
 
     /**
      * The search ID.
@@ -97,14 +98,14 @@ class IMP_Search_Query implements Serializable
      *
      * @var array
      */
-    protected $_mboxes = array();
+    protected $_mboxes = [];
 
     /**
      * List of serialize entries not to save.
      *
      * @var array
      */
-    protected $_nosave = array();
+    protected $_nosave = [];
 
     /**
      * Constructor.
@@ -128,23 +129,21 @@ class IMP_Search_Query implements Serializable
      *                 for.
      *                 DEFAULT: None
      */
-    public function __construct(array $opts = array())
+    public function __construct(array $opts = [])
     {
         $this->enabled = empty($opts['disable']);
         if (isset($opts['add'])) {
             $this->replace($opts['add']);
         }
 
-        $this->_id = isset($opts['id'])
-            ? $opts['id']
-            : strval(new Horde_Support_Randomid());
+        $this->_id = $opts['id']
+            ?? strval(new Horde_Support_Randomid());
 
-        $this->_label = isset($opts['label'])
-            ? $opts['label']
-            : _("Search Results");
+        $this->_label = $opts['label']
+            ?? _('Search Results');
 
         if (!empty($opts['all'])) {
-            $this->_mboxes = array(self::ALLSEARCH);
+            $this->_mboxes = [self::ALLSEARCH];
         } else {
             if (isset($opts['mboxes'])) {
                 $this->_mboxes = $opts['mboxes'];
@@ -167,128 +166,128 @@ class IMP_Search_Query implements Serializable
         global $injector;
 
         switch ($name) {
-        case 'all':
-            return in_array(self::ALLSEARCH, $this->_mboxes);
+            case 'all':
+                return in_array(self::ALLSEARCH, $this->_mboxes);
 
-        case 'canEdit':
-            return $this->_canEdit;
+            case 'canEdit':
+                return $this->_canEdit;
 
-        case 'criteria':
-            $out = array();
-            foreach ($this->_criteria as $elt) {
-                $out[] = array(
-                    'criteria' => $elt->getCriteria(),
-                    'element' => get_class($elt)
-                );
-            }
-            return $out;
-
-        case 'formid':
-            return $this->mbox_ob->form_to;
-
-        case 'id':
-            return $this->_id;
-
-        case 'label':
-            return $this->_label;
-
-        case 'mboxes':
-            if (!isset($this->_cache['mboxes'])) {
-                $out = $this->mbox_list;
-
-                if (!$this->all &&
-                    ($s_list = $this->subfolder_list)) {
-                    foreach ($s_list as $val) {
-                        $out = array_merge($out, $val->subfolders);
-                    }
+            case 'criteria':
+                $out = [];
+                foreach ($this->_criteria as $elt) {
+                    $out[] = [
+                        'criteria' => $elt->getCriteria(),
+                        'element' => get_class($elt),
+                    ];
                 }
+                return $out;
 
-                $this->_cache['mboxes'] = array_unique($out, SORT_REGULAR);
-            }
+            case 'formid':
+                return $this->mbox_ob->form_to;
 
-            return $this->_cache['mboxes'];
+            case 'id':
+                return $this->_id;
 
-        case 'mbox_list':
-        case 'subfolder_list':
-            if (!isset($this->_cache['mbox_list'])) {
-                $mbox = $subfolder = array();
+            case 'label':
+                return $this->_label;
 
-                if ($this->all) {
-                    $mbox = array();
-                    $iterator = new IMP_Ftree_IteratorFilter(
-                        $injector->getInstance('IMP_Ftree')
-                    );
-                    $iterator->add(array(
-                        $iterator::CONTAINERS,
-                        $iterator::NONIMAP
-                    ));
+            case 'mboxes':
+                if (!isset($this->_cache['mboxes'])) {
+                    $out = $this->mbox_list;
 
-                    foreach ($iterator as $val) {
-                        $mbox[] = $val->mbox_ob;
-                    }
-                } else {
-                    foreach ($this->_mboxes as $val) {
-                        if (strpos($val, self::SUBFOLDER) === 0) {
-                            $subfolder[] = IMP_Mailbox::get(substr($val, strlen(self::SUBFOLDER)));
-                        } else {
-                            $mbox[] = IMP_Mailbox::get($val);
+                    if (!$this->all &&
+                        ($s_list = $this->subfolder_list)) {
+                        foreach ($s_list as $val) {
+                            $out = array_merge($out, $val->subfolders);
                         }
                     }
+
+                    $this->_cache['mboxes'] = array_unique($out, SORT_REGULAR);
                 }
 
-                $this->_cache['mbox_list'] = $mbox;
-                $this->_cache['subfolder_list'] = $subfolder;
-            }
+                return $this->_cache['mboxes'];
 
-            return $this->_cache[$name];
+            case 'mbox_list':
+            case 'subfolder_list':
+                if (!isset($this->_cache['mbox_list'])) {
+                    $mbox = $subfolder = [];
 
-        case 'mbox_ob':
-            return IMP_Mailbox::get($this->mid);
+                    if ($this->all) {
+                        $mbox = [];
+                        $iterator = new IMP_Ftree_IteratorFilter(
+                            $injector->getInstance('IMP_Ftree')
+                        );
+                        $iterator->add([
+                            $iterator::CONTAINERS,
+                            $iterator::NONIMAP,
+                        ]);
 
-        case 'mid':
-            return IMP_Search::MBOX_PREFIX . $this->_id;
+                        foreach ($iterator as $val) {
+                            $mbox[] = $val->mbox_ob;
+                        }
+                    } else {
+                        foreach ($this->_mboxes as $val) {
+                            if (strpos($val, self::SUBFOLDER) === 0) {
+                                $subfolder[] = IMP_Mailbox::get(substr($val, strlen(self::SUBFOLDER)));
+                            } else {
+                                $mbox[] = IMP_Mailbox::get($val);
+                            }
+                        }
+                    }
 
-        case 'query':
-            $qout = array();
-
-            foreach ($this->mboxes as $mbox) {
-                if ($mbox->container) {
-                    continue;
+                    $this->_cache['mbox_list'] = $mbox;
+                    $this->_cache['subfolder_list'] = $subfolder;
                 }
-                $query = new Horde_Imap_Client_Search_Query();
+
+                return $this->_cache[$name];
+
+            case 'mbox_ob':
+                return IMP_Mailbox::get($this->mid);
+
+            case 'mid':
+                return IMP_Search::MBOX_PREFIX . $this->_id;
+
+            case 'query':
+                $qout = [];
+
+                foreach ($this->mboxes as $mbox) {
+                    if ($mbox->container) {
+                        continue;
+                    }
+                    $query = new Horde_Imap_Client_Search_Query();
+                    foreach ($this->_criteria as $elt) {
+                        $query = $elt->createQuery($mbox, $query);
+                    }
+                    $qout[strval($mbox)] = $query;
+                }
+
+                return $qout;
+
+            case 'querytext':
+                $text = [];
+
                 foreach ($this->_criteria as $elt) {
-                    $query = $elt->createQuery($mbox, $query);
+                    if ($elt instanceof IMP_Search_Element_Or) {
+                        array_pop($text);
+                        $text[] = $elt->queryText();
+                    } else {
+                        $text[] = $elt->queryText();
+                        $text[] = _('and');
+                    }
                 }
-                $qout[strval($mbox)] = $query;
-            }
+                array_pop($text);
 
-            return $qout;
+                $mbox_display = [];
 
-        case 'querytext':
-            $text = array();
-
-            foreach ($this->_criteria as $elt) {
-                if ($elt instanceof IMP_Search_Element_Or) {
-                    array_pop($text);
-                    $text[] = $elt->queryText();
+                if ($this->all) {
+                    $mbox_display[] = _('All Mailboxes');
                 } else {
-                    $text[] = $elt->queryText();
-                    $text[] = _("and");
+                    foreach ($this->mboxes as $val) {
+                        $mbox_display[] = $val->display;
+                    }
                 }
-            }
-            array_pop($text);
 
-            $mbox_display = array();
-
-            if ($this->all) {
-                $mbox_display[] = _("All Mailboxes");
-            } else {
-                foreach ($this->mboxes as $val) {
-                    $mbox_display[] = $val->display;
-                }
-            }
-
-            return sprintf(_("Search %s in %s"), implode(' ', $text), '[' . implode(', ', $mbox_display) . ']');
+                return sprintf(_('Search %s in %s'), implode(' ', $text), '[' . implode(', ', $mbox_display) . ']');
         }
     }
 
@@ -318,9 +317,9 @@ class IMP_Search_Query implements Serializable
      * @param array $criteria  A list of criteria to add (Horde_Search_Element
      *                         objects).
      */
-    public function replace(array $criteria = array())
+    public function replace(array $criteria = [])
     {
-        $this->_criteria = array();
+        $this->_criteria = [];
 
         foreach ($criteria as $val) {
             $this->add($val);
@@ -359,14 +358,14 @@ class IMP_Search_Query implements Serializable
      */
     public function serialize()
     {
-        $data = array_filter(array(
+        $data = array_filter([
             'c' => $this->_criteria,
             'e' => intval($this->enabled),
             'i' => $this->_id,
             'l' => $this->_label,
             'm' => $this->_mboxes,
-            'v' => self::VERSION
-        ));
+            'v' => self::VERSION,
+        ]);
 
         foreach ($this->_nosave as $val) {
             unset($data[$val]);
@@ -374,16 +373,16 @@ class IMP_Search_Query implements Serializable
 
         return serialize($data);
     }
-    public function __serialize(): array 
+    public function __serialize(): array
     {
-        $data = array_filter(array(
+        $data = array_filter([
             'c' => $this->_criteria,
             'e' => intval($this->enabled),
             'i' => $this->_id,
             'l' => $this->_label,
             'm' => $this->_mboxes,
-            'v' => self::VERSION
-        ));
+            'v' => self::VERSION,
+        ]);
 
         foreach ($this->_nosave as $val) {
             unset($data[$val]);
@@ -422,7 +421,7 @@ class IMP_Search_Query implements Serializable
             $this->_mboxes = $data['m'];
         }
     }
-    public function __unserialize(array $data): void 
+    public function __unserialize(array $data): void
     {
         if (!isset($data['v']) ||
             ($data['v'] != self::VERSION)) {

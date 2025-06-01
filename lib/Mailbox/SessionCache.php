@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -25,28 +26,28 @@
 class IMP_Mailbox_SessionCache implements Serializable
 {
     /** Changed constants. */
-    const CHANGED_NO = 0;
-    const CHANGED_YES = 1;
+    public const CHANGED_NO = 0;
+    public const CHANGED_YES = 1;
 
     /** Cache identifiers. */
-    const CACHE_ACL = 'a'; // (array) ACL rights
-    const CACHE_DISPLAY = 'd'; // (string) Display string
-    const CACHE_ICONS = 'i'; // (array) Icons array
-    const CACHE_LABEL = 'l'; // (string) Label string
-    const CACHE_UIDVALIDITY = 'v'; // (integer) UIDVALIDITY
+    public const CACHE_ACL = 'a'; // (array) ACL rights
+    public const CACHE_DISPLAY = 'd'; // (string) Display string
+    public const CACHE_ICONS = 'i'; // (array) Icons array
+    public const CACHE_LABEL = 'l'; // (string) Label string
+    public const CACHE_UIDVALIDITY = 'v'; // (integer) UIDVALIDITY
 
     /** Cache identifiers - temporary data. */
-    const CACHE_EXISTS = 'e';
-    const CACHE_ICONHOOK = 'ic';
-    const CACHE_PREFTO = 'pt';
-    const CACHE_SPECIALMBOXES = 's';
+    public const CACHE_EXISTS = 'e';
+    public const CACHE_ICONHOOK = 'ic';
+    public const CACHE_PREFTO = 'pt';
+    public const CACHE_SPECIALMBOXES = 's';
 
     /**
      * Cached data.
      *
      * @var array
      */
-    protected $_cache = array();
+    protected $_cache = [];
 
     /**
      * Has this object changed?
@@ -60,15 +61,15 @@ class IMP_Mailbox_SessionCache implements Serializable
      *
      * @var array
      */
-    protected $_temp = array();
+    protected $_temp = [];
 
     /**
      */
     public function __get($name)
     {
         switch ($name) {
-        case 'changed':
-            return $this->_changed;
+            case 'changed':
+                return $this->_changed;
         }
     }
 
@@ -149,9 +150,8 @@ class IMP_Mailbox_SessionCache implements Serializable
      */
     public function getPrefTo($mbox)
     {
-        return isset($this->_temp[$mbox][self::CACHE_PREFTO])
-            ? $this->_temp[$mbox][self::CACHE_PREFTO]
-            : false;
+        return $this->_temp[$mbox][self::CACHE_PREFTO]
+            ?? false;
     }
 
     /**
@@ -175,9 +175,8 @@ class IMP_Mailbox_SessionCache implements Serializable
      */
     public function getUidvalidity($mbox)
     {
-        return isset($this->_cache[$mbox][self::CACHE_UIDVALIDITY])
-            ? $this->_cache[$mbox][self::CACHE_UIDVALIDITY]
-            : false;
+        return $this->_cache[$mbox][self::CACHE_UIDVALIDITY]
+            ?? false;
     }
 
     /**
@@ -201,9 +200,8 @@ class IMP_Mailbox_SessionCache implements Serializable
      */
     public function getDisplay($mbox)
     {
-        return isset($this->_cache[$mbox][self::CACHE_DISPLAY])
-            ? $this->_cache[$mbox][self::CACHE_DISPLAY]
-            : false;
+        return $this->_cache[$mbox][self::CACHE_DISPLAY]
+            ?? false;
     }
 
     /**
@@ -237,13 +235,12 @@ class IMP_Mailbox_SessionCache implements Serializable
             try {
                 $this->_temp[self::CACHE_ICONHOOK] = $injector->getInstance('Horde_Core_Hooks')->callHook('mbox_icons', 'imp');
             } catch (Horde_Exception_HookNotSet $e) {
-                $this->_temp[self::CACHE_ICONHOOK] = array();
+                $this->_temp[self::CACHE_ICONHOOK] = [];
             }
         }
 
-        $icons = isset($this->_temp[self::CACHE_ICONHOOK][$mbox])
-            ? $this->_temp[self::CACHE_ICONHOOK][$mbox]
-            : false;
+        $icons = $this->_temp[self::CACHE_ICONHOOK][$mbox]
+            ?? false;
 
         $this->_cache[$mbox][self::CACHE_ICONS] = $icons;
         $this->_changed = self::CHANGED_YES;
@@ -264,14 +261,14 @@ class IMP_Mailbox_SessionCache implements Serializable
         global $injector, $prefs;
 
         if (!isset($this->_temp[self::CACHE_SPECIALMBOXES])) {
-            $sm = array(
+            $sm = [
                 IMP_Mailbox::SPECIAL_COMPOSETEMPLATES => IMP_Mailbox::getPref(IMP_Mailbox::MBOX_TEMPLATES),
                 IMP_Mailbox::SPECIAL_DRAFTS => IMP_Mailbox::getPref(IMP_Mailbox::MBOX_DRAFTS),
                 IMP_Mailbox::SPECIAL_SENT => $injector->getInstance('IMP_Identity')->getAllSentmail(),
                 IMP_Mailbox::SPECIAL_SPAM => IMP_Mailbox::getPref(IMP_Mailbox::MBOX_SPAM),
                 IMP_Mailbox::SPECIAL_TRASH => $prefs->getValue('use_trash') ? IMP_Mailbox::getPref(IMP_Mailbox::MBOX_TRASH) : null,
-                IMP_Mailbox::SPECIAL_USER => array()
-            );
+                IMP_Mailbox::SPECIAL_USER => [],
+            ];
 
             foreach ($injector->getInstance('IMP_Factory_Imap')->create()->config->user_special_mboxes as $key => $val) {
                 $ob = IMP_Mailbox::get($key);
@@ -308,7 +305,7 @@ class IMP_Mailbox_SessionCache implements Serializable
                     $mbox_list = $mbox->imp_imap->listMailboxes(
                         $mbox->imap_mbox_ob,
                         null,
-                        array('attributes' => true)
+                        ['attributes' => true]
                     );
                     $exists = (isset($mbox_list[strval($mbox)]) &&
                                !in_array('\\noselect', $mbox_list[strval($mbox)]['attributes']));
@@ -334,17 +331,17 @@ class IMP_Mailbox_SessionCache implements Serializable
     public function expire($entries, $mbox = null)
     {
         if (is_null($entries)) {
-            $entries = array(
+            $entries = [
                 self::CACHE_ACL,
                 self::CACHE_DISPLAY,
                 self::CACHE_EXISTS,
                 self::CACHE_ICONS,
                 self::CACHE_LABEL,
                 self::CACHE_PREFTO,
-                self::CACHE_UIDVALIDITY
-            );
+                self::CACHE_UIDVALIDITY,
+            ];
         } elseif (!is_array($entries)) {
-            $entries = array($entries);
+            $entries = [$entries];
         }
 
         if (in_array(self::CACHE_DISPLAY, $entries)) {
@@ -353,40 +350,40 @@ class IMP_Mailbox_SessionCache implements Serializable
 
         foreach ($entries as $val) {
             switch ($val) {
-            case self::CACHE_ACL:
-            case self::CACHE_DISPLAY:
-            case self::CACHE_EXISTS:
-            case self::CACHE_ICONS:
-            case self::CACHE_LABEL:
-            case self::CACHE_PREFTO:
-            case self::CACHE_UIDVALIDITY:
-                if (!isset($mbox_list)) {
-                    $mbox_list = $mbox
-                        ? array(strval($mbox))
-                        : array_merge(array_keys($this->_cache), array_keys($this->_temp));
-                }
-
-                foreach ($mbox_list as $val2) {
-                    if (isset($this->_cache[$val2][$val])) {
-                        $this->_changed = self::CHANGED_YES;
+                case self::CACHE_ACL:
+                case self::CACHE_DISPLAY:
+                case self::CACHE_EXISTS:
+                case self::CACHE_ICONS:
+                case self::CACHE_LABEL:
+                case self::CACHE_PREFTO:
+                case self::CACHE_UIDVALIDITY:
+                    if (!isset($mbox_list)) {
+                        $mbox_list = $mbox
+                            ? [strval($mbox)]
+                            : array_merge(array_keys($this->_cache), array_keys($this->_temp));
                     }
-                    unset(
-                        $this->_cache[$val2][$val],
-                        $this->_temp[$val2][$val]
-                    );
-                }
-                break;
 
-            case self::CACHE_ICONHOOK:
-            case self::CACHE_SPECIALMBOXES:
-                if (($c = isset($this->_cache[$val])) ||
-                    isset($this->_temp[$val])) {
-                    if ($c) {
-                        $this->_changed = self::CHANGED_YES;
+                    foreach ($mbox_list as $val2) {
+                        if (isset($this->_cache[$val2][$val])) {
+                            $this->_changed = self::CHANGED_YES;
+                        }
+                        unset(
+                            $this->_cache[$val2][$val],
+                            $this->_temp[$val2][$val]
+                        );
                     }
-                    unset($this->_cache[$val], $this->_temp[$val]);
-                }
-                break;
+                    break;
+
+                case self::CACHE_ICONHOOK:
+                case self::CACHE_SPECIALMBOXES:
+                    if (($c = isset($this->_cache[$val])) ||
+                        isset($this->_temp[$val])) {
+                        if ($c) {
+                            $this->_changed = self::CHANGED_YES;
+                        }
+                        unset($this->_cache[$val], $this->_temp[$val]);
+                    }
+                    break;
             }
         }
     }
@@ -399,17 +396,17 @@ class IMP_Mailbox_SessionCache implements Serializable
     {
         return array_shift($this->__serialize());
     }
-    public function __serialize(): array 
+    public function __serialize(): array
     {
         return
         [
             $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
                 $this->_cache,
-                array(
+                [
                     'compression' => false,
-                    'phpob' => false
-                )
-            )
+                    'phpob' => false,
+                ]
+            ),
         ];
     }
 
@@ -419,7 +416,7 @@ class IMP_Mailbox_SessionCache implements Serializable
     {
         $this->__unserialize([$data]);
     }
-    public function __unserialize(array $data): void 
+    public function __unserialize(array $data): void
     {
         $this->_cache = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack(array_shift($data));
     }

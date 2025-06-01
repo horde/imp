@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -29,7 +30,7 @@ class IMP_Factory_Mail extends Horde_Core_Factory_Mail
     {
         global $injector;
 
-        list($transport, $params) = $this->getConfig();
+        [$transport, $params] = $this->getConfig();
 
         if ($transport == 'smtp') {
             $params = array_merge(
@@ -38,10 +39,10 @@ class IMP_Factory_Mail extends Horde_Core_Factory_Mail
             );
         }
 
-        return parent::create(array(
+        return parent::create([
             'params' => $params,
-            'transport' => $transport
-        ));
+            'transport' => $transport,
+        ]);
     }
 
 }

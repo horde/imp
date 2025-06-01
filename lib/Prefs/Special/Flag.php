@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -48,29 +49,29 @@ class IMP_Prefs_Special_Flag implements Horde_Core_Prefs_Ui_Special
         $p_css = new Horde_Themes_Element('prefs.css');
         $page_output->addStylesheet($p_css->fs, $p_css->uri);
 
-        $page_output->addInlineJsVars(array(
-            'ImpFlagPrefs.new_prompt' => _("Please enter the label for the new flag:"),
-            'ImpFlagPrefs.confirm_delete' => _("Are you sure you want to delete this flag?")
-        ));
+        $page_output->addInlineJsVars([
+            'ImpFlagPrefs.new_prompt' => _('Please enter the label for the new flag:'),
+            'ImpFlagPrefs.confirm_delete' => _('Are you sure you want to delete this flag?'),
+        ]);
 
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/prefs'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/prefs',
+        ]);
         $view->addHelper('FormTag');
         $view->addHelper('Tag');
 
         $view->locked = $prefs->isLocked('msgflags');
-        $view->picker_img = Horde_Themes_Image::tag('colorpicker.png', array(
-            'alt' => _("Color Picker")
-        ));
+        $view->picker_img = Horde_Themes_Image::tag('colorpicker.png', [
+            'alt' => _('Color Picker'),
+        ]);
 
-        $out = array();
+        $out = [];
         $flaglist = $injector->getInstance('IMP_Flags')->getList();
         foreach ($flaglist as $val) {
             $hash = $val->hash;
             $bgid = 'bg_' . $hash;
             $color = $val->bgdefault ? '' : $val->bgcolor;
-            $tmp = array();
+            $tmp = [];
 
             if ($val instanceof IMP_Flag_User) {
                 $tmp['label'] = htmlspecialchars($val->label);
@@ -102,7 +103,7 @@ class IMP_Prefs_Special_Flag implements Horde_Core_Prefs_Ui_Special
         $imp_flags = $injector->getInstance('IMP_Flags');
 
         if ($ui->vars->flag_action == 'add') {
-            $notification->push(sprintf(_("Added flag \"%s\"."), $ui->vars->flag_data), 'horde.success');
+            $notification->push(sprintf(_('Added flag "%s".'), $ui->vars->flag_data), 'horde.success');
             $imp_flags->addFlag($ui->vars->flag_data);
             return;
         }
@@ -114,30 +115,30 @@ class IMP_Prefs_Special_Flag implements Horde_Core_Prefs_Ui_Special
             $hash = $val->hash;
 
             switch ($ui->vars->flag_action) {
-            case 'delete':
-                if ($ui->vars->flag_data == ('bg_' . $hash)) {
-                    unset($imp_flags[$val->id]);
-                    $notification->push(sprintf(_("Deleted flag \"%s\"."), $val->label), 'horde.success');
-                }
-                break;
+                case 'delete':
+                    if ($ui->vars->flag_data == ('bg_' . $hash)) {
+                        unset($imp_flags[$val->id]);
+                        $notification->push(sprintf(_('Deleted flag "%s".'), $val->label), 'horde.success');
+                    }
+                    break;
 
-            default:
-                /* Change labels for user-defined flags. */
-                if ($val instanceof IMP_Flag_User) {
-                    $label = $ui->vars->get('label_' . $hash);
-                    if (strlen($label) && ($label != $val->label)) {
-                        $imp_flags->updateFlag($val->id, 'label', $label);
+                default:
+                    /* Change labels for user-defined flags. */
+                    if ($val instanceof IMP_Flag_User) {
+                        $label = $ui->vars->get('label_' . $hash);
+                        if (strlen($label) && ($label != $val->label)) {
+                            $imp_flags->updateFlag($val->id, 'label', $label);
+                            $update = true;
+                        }
+                    }
+
+                    /* Change background for all flags. */
+                    $bg = strtolower($ui->vars->get('bg_' . $hash));
+                    if ($bg != $val->bgcolor) {
+                        $imp_flags->updateFlag($val->id, 'bgcolor', $bg);
                         $update = true;
                     }
-                }
-
-                /* Change background for all flags. */
-                $bg = strtolower($ui->vars->get('bg_' . $hash));
-                if ($bg != $val->bgcolor) {
-                    $imp_flags->updateFlag($val->id, 'bgcolor', $bg);
-                    $update = true;
-                }
-                break;
+                    break;
             }
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -38,7 +39,8 @@ class IMP_Script_Package_DynamicBase extends Horde_Script_Package
             foreach ($dprefs as $key => $val) {
                 $ob->jsvars['ImpCore.prefs.' . $key] = $val;
             }
-        } catch (Horde_Exception $e) {}
+        } catch (Horde_Exception $e) {
+        }
 
         $this->_files[] = $ob;
 

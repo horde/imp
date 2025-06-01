@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,9 +21,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Flag_System_Attachment
-extends IMP_Flag_Base
-implements IMP_Flag_Match_Header, IMP_Flag_Match_Order, IMP_Flag_Match_Structure
+class IMP_Flag_System_Attachment extends IMP_Flag_Base implements IMP_Flag_Match_Header, IMP_Flag_Match_Order, IMP_Flag_Match_Structure
 {
     /**
      */
@@ -36,17 +35,17 @@ implements IMP_Flag_Match_Header, IMP_Flag_Match_Order, IMP_Flag_Match_Structure
      */
     protected function _getLabel()
     {
-        return _("Message has Attachments");
+        return _('Message has Attachments');
     }
 
     /**
      */
     public function matchOrder()
     {
-        return array(
+        return [
             'IMP_Flag_Match_Structure',
-            'IMP_Flag_Match_Header'
-        );
+            'IMP_Flag_Match_Header',
+        ];
     }
 
     /**
@@ -54,9 +53,9 @@ implements IMP_Flag_Match_Header, IMP_Flag_Match_Order, IMP_Flag_Match_Structure
     public function matchHeader(Horde_Mime_Headers $data)
     {
         if ($ctype = $data['Content-Type']) {
-            @list($primary, $sub) = explode('/', $ctype->value, 2);
+            @[$primary, $sub] = explode('/', $ctype->value, 2);
             if (($primary == 'multipart') &&
-                !in_array($sub, array('alternative', 'encrypt', 'related', 'signed'))) {
+                !in_array($sub, ['alternative', 'encrypt', 'related', 'signed'])) {
                 return true;
             }
         }

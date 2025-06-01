@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -38,7 +39,7 @@
 abstract class IMP_Flag_Base implements Serializable
 {
     /* Default background color. */
-    const DEFAULT_BG = '#fff';
+    public const DEFAULT_BG = '#fff';
 
     /**
      * The background color.
@@ -80,49 +81,49 @@ abstract class IMP_Flag_Base implements Serializable
     public function __get($name)
     {
         switch ($name) {
-        case 'bgcolor':
-            return $this->_bgcolor
-                ? $this->_bgcolor
-                : self::DEFAULT_BG;
+            case 'bgcolor':
+                return $this->_bgcolor
+                    ? $this->_bgcolor
+                    : self::DEFAULT_BG;
 
-        case 'bgdefault':
-            return ($this->bgcolor == self::DEFAULT_BG);
+            case 'bgdefault':
+                return ($this->bgcolor == self::DEFAULT_BG);
 
-        case 'canset':
-            return $this->_canset;
+            case 'canset':
+                return $this->_canset;
 
-        case 'css':
-            return $this->_css;
+            case 'css':
+                return $this->_css;
 
-        case 'cssicon':
-            return $this->_cssIcon
-                ? $this->_cssIcon
-                : $this->_css;
+            case 'cssicon':
+                return $this->_cssIcon
+                    ? $this->_cssIcon
+                    : $this->_css;
 
-        case 'span':
-            return $this->_css
-                ? '<span class="iconImg msgflags ' . $this->css . '" title="' . htmlspecialchars($this->label) . '">&nbsp;</span>'
-                : '';
+            case 'span':
+                return $this->_css
+                    ? '<span class="iconImg msgflags ' . $this->css . '" title="' . htmlspecialchars($this->label) . '">&nbsp;</span>'
+                    : '';
 
-        case 'fgcolor':
-            return (Horde_Image::brightness($this->bgcolor) < 128)
-                ? '#f6f6f6'
-                : '#000';
+            case 'fgcolor':
+                return (Horde_Image::brightness($this->bgcolor) < 128)
+                    ? '#f6f6f6'
+                    : '#000';
 
-        case 'form_set':
-            return $this->id;
+            case 'form_set':
+                return $this->id;
 
-        case 'form_unset':
-            return '0\\' . $this->id;
+            case 'form_unset':
+                return '0\\' . $this->id;
 
-        case 'hash':
-            return hash('md5', $this->id);
+            case 'hash':
+                return hash('md5', $this->id);
 
-        case 'id':
-            return $this->_id;
+            case 'id':
+                return $this->_id;
 
-        case 'label':
-            return $this->getLabel();
+            case 'label':
+                return $this->getLabel();
         }
     }
 
@@ -136,11 +137,11 @@ abstract class IMP_Flag_Base implements Serializable
     public function __set($name, $value)
     {
         switch ($name) {
-        case 'bgcolor':
-            $this->_bgcolor = ($value == self::DEFAULT_BG)
-                ? ''
-                : $value;
-            break;
+            case 'bgcolor':
+                $this->_bgcolor = ($value == self::DEFAULT_BG)
+                    ? ''
+                    : $value;
+                break;
         }
     }
 
@@ -171,7 +172,7 @@ abstract class IMP_Flag_Base implements Serializable
     {
         return $set
             ? $this->_getLabel()
-            : sprintf(_("Not %s"), $this->_getLabel());
+            : sprintf(_('Not %s'), $this->_getLabel());
     }
 
     /**
@@ -206,9 +207,9 @@ abstract class IMP_Flag_Base implements Serializable
     public function __serialize(): array
     {
         return [
-            $this->_bgcolor
+            $this->_bgcolor,
         ];
-    } 
+    }
     /**
      */
     public function unserialize($data)
@@ -216,7 +217,7 @@ abstract class IMP_Flag_Base implements Serializable
         $this->_bgcolor = $data;
     }
 
-    public function __unserialize(array $data): void 
+    public function __unserialize(array $data): void
     {
         $this->_bgcolor = $data[0];
     }

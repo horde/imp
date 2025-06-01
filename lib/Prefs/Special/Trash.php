@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -35,16 +36,16 @@ class IMP_Prefs_Special_Trash extends IMP_Prefs_Special_SpecialMboxes implements
         global $injector, $page_output, $prefs;
 
         $page_output->addScriptFile('prefs/folder.js');
-        $page_output->addInlineJsVars(array(
-            'ImpFolderPrefs.mboxes.trash' => _("Enter the name for your new trash mailbox.")
-        ));
+        $page_output->addInlineJsVars([
+            'ImpFolderPrefs.mboxes.trash' => _('Enter the name for your new trash mailbox.'),
+        ]);
 
         $imp_search = $injector->getInstance('IMP_Search');
         $trash = IMP_Mailbox::getPref(IMP_Mailbox::MBOX_TRASH);
 
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/prefs'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/prefs',
+        ]);
         $view->addHelper('FormTag');
         $view->addHelper('Horde_Core_View_Helper_Label');
         $view->addHelper('Tag');
@@ -52,17 +53,17 @@ class IMP_Prefs_Special_Trash extends IMP_Prefs_Special_SpecialMboxes implements
         $iterator = new IMP_Ftree_IteratorFilter(
             $injector->getInstance('IMP_Ftree')
         );
-        $iterator->add(array(
+        $iterator->add([
             $iterator::NONIMAP,
-            $iterator::REMOTE
-        ));
-        $iterator->mboxes = array('INBOX');
+            $iterator::REMOTE,
+        ]);
+        $iterator->mboxes = ['INBOX'];
 
-        $view->flist = new IMP_Ftree_Select(array(
+        $view->flist = new IMP_Ftree_Select([
             'iterator' => $iterator,
             'new_mbox' => true,
-            'selected' => $trash
-        ));
+            'selected' => $trash,
+        ]);
         $view->nombox = IMP_Mailbox::formTo(self::PREF_NO_MBOX);
         $view->special_use = $this->_getSpecialUse(Horde_Imap_Client::SPECIALUSE_TRASH);
 

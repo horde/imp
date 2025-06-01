@@ -1,4 +1,5 @@
 <?php
+
 /**
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -53,7 +54,7 @@ class IMP_LoginTasks_Task_DeleteAttachmentsMonthly extends Horde_LoginTasks_Task
      */
     public function describe()
     {
-        return sprintf(_("All old linked attachments more than %s months old will be deleted."), $GLOBALS['prefs']->getValue('delete_attachments_monthly_keep'));
+        return sprintf(_('All old linked attachments more than %s months old will be deleted.'), $GLOBALS['prefs']->getValue('delete_attachments_monthly_keep'));
     }
 
 }

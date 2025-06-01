@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -36,10 +37,10 @@ class IMP_Ftree_IteratorFilter_Nonimap extends FilterIterator
             $iterator = new IMP_Ftree_IteratorFilter(
                 new IMP_Ftree_Iterator($curr)
             );
-            $iterator->add(array(
+            $iterator->add([
                 $iterator::CONTAINERS,
-                $iterator::NONIMAP
-            ));
+                $iterator::NONIMAP,
+            ]);
 
             foreach ($iterator as $val) {
                 return true;

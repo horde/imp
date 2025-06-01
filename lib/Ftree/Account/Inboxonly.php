@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -24,14 +25,14 @@ class IMP_Ftree_Account_Inboxonly extends IMP_Ftree_Account
 {
     /**
      */
-    public function getList($query = array(), $mask = 0)
+    public function getList($query = [], $mask = 0)
     {
-        return array(
-            array(
+        return [
+            [
                 'a' => IMP_Ftree::ELT_IS_SUBSCRIBED,
-                'v' => 'INBOX'
-            )
-        );
+                'v' => 'INBOX',
+            ],
+        ];
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -31,7 +32,8 @@ abstract class IMP_Maillog_Storage_Base
      * @return boolean  True if log entry was saved.
      */
     abstract public function saveLog(
-        IMP_Maillog_Message $msg, IMP_Maillog_Log_Base $log
+        IMP_Maillog_Message $msg,
+        IMP_Maillog_Log_Base $log
     );
 
     /**
@@ -45,7 +47,8 @@ abstract class IMP_Maillog_Storage_Base
      * @return array  Array of IMP_Maillog_Log_Base objects.
      */
     abstract public function getLog(
-        IMP_Maillog_Message $msg, array $types = array()
+        IMP_Maillog_Message $msg,
+        array $types = []
     );
 
     /**
@@ -76,7 +79,8 @@ abstract class IMP_Maillog_Storage_Base
      *                  given input.
      */
     abstract public function isAvailable(
-        IMP_Maillog_Message $msg, IMP_Maillog_Log_Base $log
+        IMP_Maillog_Message $msg,
+        IMP_Maillog_Log_Base $log
     );
 
 }

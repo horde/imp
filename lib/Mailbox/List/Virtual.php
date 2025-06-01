@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -24,20 +25,20 @@
 class IMP_Mailbox_List_Virtual extends IMP_Mailbox_List
 {
     /* String used to separate mailboxes/UIDs in search mailboxes. */
-    const IDX_SEP = "\0";
+    public const IDX_SEP = "\0";
 
     /**
      * The mailboxes corresponding to the sorted indices list.
      *
      * @var array
      */
-    protected $_sortedMbox = array();
+    protected $_sortedMbox = [];
 
     /**
      */
     protected function _buildMailboxQuery()
     {
-        $this->_sortedMbox = array();
+        $this->_sortedMbox = [];
         $imp_search = $GLOBALS['injector']->getInstance('IMP_Search');
 
         return $imp_search[strval($this->_mailbox)]->query;
@@ -50,7 +51,8 @@ class IMP_Mailbox_List_Virtual extends IMP_Mailbox_List
         if (count($sorted)) {
             $imp_search = $GLOBALS['injector']->getInstance('IMP_Search');
             $sorted = $imp_search[strval($this->_mailbox)]->runElementCallbacks(
-                $mbox, $sorted
+                $mbox,
+                $sorted
             );
 
             /* array_fill() in PHP < 5.6 did not allow 2nd arg to be 0. */
@@ -67,13 +69,13 @@ class IMP_Mailbox_List_Virtual extends IMP_Mailbox_List
 
     /**
      */
-    public function unseenMessages($results, array $opts = array())
+    public function unseenMessages($results, array $opts = [])
     {
         $count = ($results == Horde_Imap_Client::SEARCH_RESULTS_COUNT);
 
         return ($count && $this->_mailbox->vinbox)
             ? count($this)
-            : ($count ? 0 : array());
+            : ($count ? 0 : []);
     }
 
     /**
@@ -146,10 +148,10 @@ class IMP_Mailbox_List_Virtual extends IMP_Mailbox_List
 
         $pos = strrpos($this->_buids[$buid], self::IDX_SEP);
 
-        return array(
+        return [
             'm' => IMP_Mailbox::get(substr($this->_buids[$buid], 0, $pos)),
-            'u' => intval(substr($this->_buids[$buid], $pos + 1))
-        );
+            'u' => intval(substr($this->_buids[$buid], $pos + 1)),
+        ];
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -29,15 +30,15 @@ class IMP_Compose_Attachment_Metadata
      *
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
      */
     public function __get($name)
     {
         switch ($name) {
-        case 'data':
-            return array_filter($this->_data);
+            case 'data':
+                return array_filter($this->_data);
         }
 
         return null;
@@ -48,9 +49,9 @@ class IMP_Compose_Attachment_Metadata
     public function __set($name, $value)
     {
         switch ($name) {
-        case 'data':
-            $this->_data = $value;
-            break;
+            case 'data':
+                $this->_data = $value;
+                break;
         }
     }
 

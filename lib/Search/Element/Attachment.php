@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,9 +21,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Search_Element_Attachment
-extends IMP_Search_Element
-implements IMP_Search_Element_Callback
+class IMP_Search_Element_Attachment extends IMP_Search_Element implements IMP_Search_Element_Callback
 {
     /**
      * Constructor.
@@ -48,8 +47,8 @@ implements IMP_Search_Element_Callback
     public function queryText()
     {
         return $this->_data
-            ? _("messages without attachment(s)")
-            : _("messages with attachment(s)");
+            ? _('messages without attachment(s)')
+            : _('messages with attachment(s)');
     }
 
     /**
@@ -59,11 +58,11 @@ implements IMP_Search_Element_Callback
         $fetch_query = new Horde_Imap_Client_Fetch_Query();
         $fetch_query->structure();
 
-        $fetch_res = $mbox->imp_imap->fetch($mbox, $fetch_query, array(
-            'ids' => $mbox->imp_imap->getIdsOb($ids)
-        ));
+        $fetch_res = $mbox->imp_imap->fetch($mbox, $fetch_query, [
+            'ids' => $mbox->imp_imap->getIdsOb($ids),
+        ]);
 
-        $out = array();
+        $out = [];
 
         foreach ($ids as $v) {
             if (isset($fetch_res[$v])) {

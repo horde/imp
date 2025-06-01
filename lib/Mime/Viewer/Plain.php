@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
  *
@@ -66,19 +67,19 @@ class IMP_Mime_Viewer_Plain extends Horde_Mime_Viewer_Plain
         $mime_id = $this->_mimepart->getMimeId();
 
         if (isset($cache->plain[$mime_id])) {
-            return array($mime_id => null);
+            return [$mime_id => null];
         }
 
         // Trim extra whitespace in the text.
         $charset = $this->_mimepart->getCharset();
         $text = trim($this->_mimepart->getContents());
         if ($text == '') {
-            return array(
-                $mime_id => array(
+            return [
+                $mime_id => [
                     'data' => '',
-                    'type' => 'text/html; charset=' . $charset
-                )
-            );
+                    'type' => 'text/html; charset=' . $charset,
+                ],
+            ];
         }
 
         // Convert to the local charset.
@@ -97,19 +98,19 @@ class IMP_Mime_Viewer_Plain extends Horde_Mime_Viewer_Plain
              * escape character or else the line will display as being
              * quoted. Flowed conversion would have already taken care of this
              * for us. */
-            $text = preg_replace('/(\n+)> ?From(\s+)/', "$1From$2", $text);
+            $text = preg_replace('/(\n+)> ?From(\s+)/', '$1From$2', $text);
         }
 
         $text = IMP::filterText($text);
 
         // Build filter stack. Starts with HTML markup and tab expansion.
-        $filters = array(
-            'text2html' => array(
+        $filters = [
+            'text2html' => [
                 'charset' => $charset,
-                'parselevel' => $inline ? Horde_Text_Filter_Text2html::MICRO : Horde_Text_Filter_Text2html::MICRO_LINKURL
-            ),
-            'tabs2spaces' => array(),
-        );
+                'parselevel' => $inline ? Horde_Text_Filter_Text2html::MICRO : Horde_Text_Filter_Text2html::MICRO_LINKURL,
+            ],
+            'tabs2spaces' => [],
+        ];
 
         // Highlight quoted parts of an email.
         if ($prefs->getValue('highlight_text')) {
@@ -121,7 +122,7 @@ class IMP_Mime_Viewer_Plain extends Horde_Mime_Viewer_Plain
                     $hideBlocks = (($show == 'hidden') ||
                                    (($show == 'thread') && ($injector->getInstance('Horde_Variables')->page == 'thread')));
                     if (!$hideBlocks &&
-                        in_array($show, array('list', 'listthread'))) {
+                        in_array($show, ['list', 'listthread'])) {
                         $list_info = $contents->getListInformation();
                         $hideBlocks = $list_info['exists'];
                     }
@@ -129,60 +130,60 @@ class IMP_Mime_Viewer_Plain extends Horde_Mime_Viewer_Plain
             }
 
             if ($js_blocks) {
-                $filters['highlightquotes'] = array(
+                $filters['highlightquotes'] = [
                     'hideBlocks' => $hideBlocks,
-                    'noJS' => ($registry->getView() == Horde_Registry::VIEW_DYNAMIC)
-                );
+                    'noJS' => ($registry->getView() == Horde_Registry::VIEW_DYNAMIC),
+                ];
             } else {
-                $filters['Horde_Text_Filter_Highlightquotes'] = array(
-                    'hideBlocks' => $hideBlocks
-                );
+                $filters['Horde_Text_Filter_Highlightquotes'] = [
+                    'hideBlocks' => $hideBlocks,
+                ];
             }
         }
 
         // Highlight simple markup of an email.
         if ($prefs->getValue('highlight_simple_markup')) {
-            $filters['simplemarkup'] = array('html' => true);
+            $filters['simplemarkup'] = ['html' => true];
         }
 
         // Dim signatures.
         if ($prefs->getValue('dim_signature')) {
-            $filters['dimsignature'] = array();
+            $filters['dimsignature'] = [];
         }
 
         if ($prefs->getValue('emoticons')) {
-            $filters['emoticons'] = array('entities' => true);
+            $filters['emoticons'] = ['entities' => true];
         }
 
         // Run filters.
-        $status = array();
+        $status = [];
         $text = $this->_textFilter($text, array_keys($filters), array_values($filters));
 
         if (strlen($text)) {
             // Wordwrap.
-            $text = str_replace(array('  ', "\n "), array(' &nbsp;', "\n&nbsp;"), $text);
+            $text = str_replace(['  ', "\n "], [' &nbsp;', "\n&nbsp;"], $text);
             if (!strncmp($text, ' ', 1)) {
                 $text = '&nbsp;' . substr($text, 1);
             }
         } else {
             $error = new IMP_Mime_Status_RenderIssue(
                 $this->_mimepart,
-                array(
-                    _("Cannot display message text."),
-                    _("The message part may contain incorrect character set information preventing correct display.")
-                )
+                [
+                    _('Cannot display message text.'),
+                    _('The message part may contain incorrect character set information preventing correct display.'),
+                ]
             );
             $error->action(IMP_Mime_Status::ERROR);
             $status[] = $error;
         }
 
-        return array(
-            $mime_id => array(
+        return [
+            $mime_id => [
                 'data' => "<div class=\"fixed leftAlign\">\n" . $text . '</div>',
                 'status' => $status,
-                'type' => $type
-            )
-        );
+                'type' => $type,
+            ],
+        ];
     }
 
     /**
@@ -224,9 +225,9 @@ class IMP_Mime_Viewer_Plain extends Horde_Mime_Viewer_Plain
     protected function _parsePGP()
     {
         $part = $GLOBALS['injector']->getInstance('Horde_Crypt_Pgp_Parse')->parseToPart(
-            new Horde_Stream_Existing(array(
-                'stream' => $this->_mimepart->getContents(array('stream' => true))
-            )),
+            new Horde_Stream_Existing([
+                'stream' => $this->_mimepart->getContents(['stream' => true]),
+            ]),
             $this->_mimepart->getCharset()
         );
 
@@ -281,16 +282,16 @@ class IMP_Mime_Viewer_Plain extends Horde_Mime_Viewer_Plain
      */
     public function overLimitText()
     {
-        $stream = $this->_mimepart->getContents(array('stream' => true));
+        $stream = $this->_mimepart->getContents(['stream' => true]);
         rewind($stream);
 
         // Escape text
-        $filters = array(
-            'text2html' => array(
-                'parselevel' => Horde_Text_Filter_Text2html::MICRO
-            ),
-            'tabs2spaces' => array(),
-        );
+        $filters = [
+            'text2html' => [
+                'parselevel' => Horde_Text_Filter_Text2html::MICRO,
+            ],
+            'tabs2spaces' => [],
+        ];
 
         return '<div class="fixed">' .
             $this->_textFilter(Horde_String::convertCharset(fread($stream, 1024), $this->_mimepart->getCharset(), 'UTF-8'), array_keys($filters), array_values($filters)) .

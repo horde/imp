@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -32,21 +33,21 @@
 class IMP_Remote_Account implements Serializable
 {
     /* Constants used for the 'type' property. */
-    const IMAP = 1;
-    const POP3 = 2;
+    public const IMAP = 1;
+    public const POP3 = 2;
 
     /* Return values for login(). */
-    const LOGIN_BAD = 0;
-    const LOGIN_BAD_CHANGED = 1;
-    const LOGIN_OK = 2;
-    const LOGIN_OK_CHANGED = 3;
+    public const LOGIN_BAD = 0;
+    public const LOGIN_BAD_CHANGED = 1;
+    public const LOGIN_OK = 2;
+    public const LOGIN_OK_CHANGED = 3;
 
     /**
      * Configuration.
      *
      * @var array
      */
-    protected $_config = array();
+    protected $_config = [];
 
     /**
      */
@@ -74,26 +75,26 @@ class IMP_Remote_Account implements Serializable
         }
 
         switch ($name) {
-        case 'hostspec':
-            return 'localhost';
+            case 'hostspec':
+                return 'localhost';
 
-        case 'imp_imap':
-            return $GLOBALS['injector']->getInstance('IMP_Factory_Imap')->create(strval($this));
+            case 'imp_imap':
+                return $GLOBALS['injector']->getInstance('IMP_Factory_Imap')->create(strval($this));
 
-        case 'label':
-            return $this->hostspec;
+            case 'label':
+                return $this->hostspec;
 
-        case 'port':
-            return ($this->type == self::POP3) ? 110 : 143;
+            case 'port':
+                return ($this->type == self::POP3) ? 110 : 143;
 
-        case 'secure':
-            return null;
+            case 'secure':
+                return null;
 
-        case 'type':
-            return self::IMAP;
+            case 'type':
+                return self::IMAP;
 
-        case 'username':
-            return '';
+            case 'username':
+                return '';
         }
     }
 
@@ -102,20 +103,20 @@ class IMP_Remote_Account implements Serializable
     public function __set($name, $value)
     {
         switch ($name) {
-        case 'hostspec':
-        case 'label':
-        case 'username':
-            $this->_config[$name] = strval($value);
-            break;
+            case 'hostspec':
+            case 'label':
+            case 'username':
+                $this->_config[$name] = strval($value);
+                break;
 
-        case 'port':
-        case 'type':
-            $this->_config[$name] = intval($value);
-            break;
+            case 'port':
+            case 'type':
+                $this->_config[$name] = intval($value);
+                break;
 
-        case 'secure':
-            $this->_config[$name] = $value;
-            break;
+            case 'secure':
+                $this->_config[$name] = $value;
+                break;
         }
     }
 
@@ -137,12 +138,12 @@ class IMP_Remote_Account implements Serializable
             return self::LOGIN_OK;
         }
 
-        $blowfish_params = array(
+        $blowfish_params = [
             'cipher' => 'cbc',
             /* PBKDF2 is already using a salt, so no need to use yet another
              * salt (IV) also. */
-            'iv' => str_repeat("\0", Horde_Crypt_Blowfish::IV_LENGTH)
-        );
+            'iv' => str_repeat("\0", Horde_Crypt_Blowfish::IV_LENGTH),
+        ];
 
         if (is_null($password)) {
             if (!isset($this->_config['password_save'])) {
@@ -153,7 +154,7 @@ class IMP_Remote_Account implements Serializable
              * PBKDF2 for key lengthening. This means that stored passwords
              * will be invalidated anytime the "master" password is
              * changed, but that is ok (not really another option). */
-            list($salt, $pass) = explode(
+            [$salt, $pass] = explode(
                 "\0",
                 base64_decode($this->_config['password_save']),
                 2
@@ -162,7 +163,7 @@ class IMP_Remote_Account implements Serializable
                 strval(new Horde_Crypt_Blowfish_Pbkdf2(
                     $registry->getAuthCredential('password'),
                     24,
-                    array('salt' => $salt)
+                    ['salt' => $salt]
                 )),
                 $blowfish_params
             );
@@ -170,13 +171,13 @@ class IMP_Remote_Account implements Serializable
             $password = $blowfish->decrypt($pass);
         }
 
-        $this->imp_imap->createImapObject(array(
+        $this->imp_imap->createImapObject([
             'hostspec' => $this->hostspec,
             'password' => new IMP_Imap_Password($password),
             'port' => $this->port,
             'secure' => $this->secure,
             'username' => $this->username,
-        ), $this->type == self::IMAP, strval($this));
+        ], $this->type == self::IMAP, strval($this));
 
         try {
             $this->imp_imap->login();
@@ -208,7 +209,7 @@ class IMP_Remote_Account implements Serializable
          *   - Encrypted data (Remote account password) */
         $this->_config['password_save'] = base64_encode(implode(
             "\0",
-            array($pbkdf2->salt, $blowfish->encrypt($password))
+            [$pbkdf2->salt, $blowfish->encrypt($password)]
         ));
 
         return self::LOGIN_OK_CHANGED;
@@ -234,11 +235,11 @@ class IMP_Remote_Account implements Serializable
     {
         return array_shift($this->__serialize());
     }
-    public function __serialize(): array 
+    public function __serialize(): array
     {
         return
         [
-            json_encode($this->_config)
+            json_encode($this->_config),
         ];
     }
 
@@ -248,7 +249,7 @@ class IMP_Remote_Account implements Serializable
     {
         $this->__unserialize([$data]);
     }
-    public function __unserialize(array $data): void 
+    public function __unserialize(array $data): void
     {
         $this->_config = json_decode($data[0], true);
     }

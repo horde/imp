@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -28,7 +29,7 @@ class IMP_Tree_Flist extends Horde_Tree_Renderer_Select
      *
      * @var array
      */
-    protected $_filter = array();
+    protected $_filter = [];
 
     /**
      * Constructor.
@@ -58,11 +59,11 @@ class IMP_Tree_Flist extends Horde_Tree_Renderer_Select
      *   - new_mbox: (boolean) Display an option to create a new mailbox?
      *               DEFAULT: No
      */
-    public function __construct(Horde_Tree $tree, array $params = array())
+    public function __construct(Horde_Tree $tree, array $params = [])
     {
-        $params = array_merge(array(
-            'abbrev' => 30
-        ), $params);
+        $params = array_merge([
+            'abbrev' => 30,
+        ], $params);
 
         parent::__construct($tree, $params);
     }
@@ -78,9 +79,9 @@ class IMP_Tree_Flist extends Horde_Tree_Renderer_Select
 
         $filter = $injector->createInstance('Horde_Text_Filter');
 
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/flist'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/flist',
+        ]);
         $view->addHelper('FormTag');
         $view->addHelper('Tag');
 
@@ -111,15 +112,15 @@ class IMP_Tree_Flist extends Horde_Tree_Renderer_Select
             $iterator = IMP_Search_IteratorFilter::create(
                 IMP_Search_IteratorFilter::VFOLDER
             );
-            $vfolder_list = array();
+            $vfolder_list = [];
 
             foreach ($iterator as $val) {
                 $form_to = IMP_Mailbox::formTo($val);
-                $vfolder_list[] = array(
-                    'l' => $filter->filter($val->label, 'space2html', array('encode' => true)),
+                $vfolder_list[] = [
+                    'l' => $filter->filter($val->label, 'space2html', ['encode' => true]),
                     'sel' => !empty($this->_nodes[$form_to]['selected']),
-                    'v' => $form_to
-                );
+                    'v' => $form_to,
+                ];
             }
 
             if (!empty($vfolder_list)) {
@@ -130,33 +131,33 @@ class IMP_Tree_Flist extends Horde_Tree_Renderer_Select
         /* Add the list of editable tasklists to the list. */
         if ($this->getOption('inc_tasklists')) {
             $tasklist = new IMP_Indices_Copy_Tasklist();
-            $view->tasklist = array();
+            $view->tasklist = [];
 
             foreach ($tasklist->getTasklists() as $key => $val) {
-                $view->tasklist[] = array(
-                    'l' => $filter->filter($val->get('name'), 'space2html', array('encode' => true)),
-                    'v' => $key
-                );
+                $view->tasklist[] = [
+                    'l' => $filter->filter($val->get('name'), 'space2html', ['encode' => true]),
+                    'v' => $key,
+                ];
             }
         }
 
         /* Add the list of editable notepads to the list. */
         if ($this->getOption('inc_notepads')) {
             $notepad = new IMP_Indices_Copy_Notepad();
-            $view->notepad = array();
+            $view->notepad = [];
 
             foreach ($notepad->getNotepads() as $key => $val) {
-                $view->notepad[] = array(
-                    'l' => $filter->filter($val->get('name'), 'space2html', array('encode' => true)),
-                    'v' => $key
-                );
+                $view->notepad[] = [
+                    'l' => $filter->filter($val->get('name'), 'space2html', ['encode' => true]),
+                    'v' => $key,
+                ];
             }
         }
 
         /* Prepare filter list. */
         $this->_filter = ($filter = $this->getOption('filter'))
             ? array_flip($filter)
-            : array();
+            : [];
 
         $tree = '';
         foreach ($this->_tree->getRootNodes() as $node_id) {

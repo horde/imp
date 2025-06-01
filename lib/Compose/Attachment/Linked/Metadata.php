@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -26,39 +27,36 @@
  * @property integer $time  Timestamp.
  * @property string $type  MIME type.
  */
-class IMP_Compose_Attachment_Linked_Metadata
-extends IMP_Compose_Attachment_Metadata
+class IMP_Compose_Attachment_Linked_Metadata extends IMP_Compose_Attachment_Metadata
 {
     /**
      * Mapping from array keys -> property names.
      *
      * @var array
      */
-    protected $_map = array(
+    protected $_map = [
         'd' => 'dtoken',
         'f' => 'filename',
         'm' => 'type',
-        't' => 'time'
-    );
+        't' => 'time',
+    ];
 
     /**
      */
     public function __get($name)
     {
         switch ($name) {
-        case 'dtoken':
-        case 'filename':
-        case 'type':
-            $key = array_search($name, $this->_map);
-            return isset($this->_data[$key])
-                ? $this->_data[$key]
-                : null;
+            case 'dtoken':
+            case 'filename':
+            case 'type':
+                $key = array_search($name, $this->_map);
+                return $this->_data[$key]
+                    ?? null;
 
-        case 'time':
-            $key = array_search($name, $this->_map);
-            return isset($this->_data[$key])
-                ? $this->_data[$key]
-                : 0;
+            case 'time':
+                $key = array_search($name, $this->_map);
+                return $this->_data[$key]
+                    ?? 0;
         }
 
         return parent::__get($name);

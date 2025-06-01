@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -39,9 +40,9 @@ class IMP_Prefs_Special_ImageReplacement implements Horde_Core_Prefs_Ui_Special
      */
     public function display(Horde_Core_Prefs_Ui $ui)
     {
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/prefs'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/prefs',
+        ]);
         $view->addHelper('Text');
 
         $view->safe_addrs = implode("\n", $this->safeAddrList()->bare_addresses);
@@ -72,7 +73,7 @@ class IMP_Prefs_Special_ImageReplacement implements Horde_Core_Prefs_Ui_Special
         if (!isset($this->_addrlist)) {
             $alist = json_decode($GLOBALS['prefs']->getValue('image_replacement_addrs'));
             if (empty($alist)) {
-                $alist = array();
+                $alist = [];
             }
 
             $this->_addrlist = new Horde_Mail_Rfc822_List($alist);

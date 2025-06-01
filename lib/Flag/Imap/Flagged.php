@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -42,7 +43,7 @@ class IMP_Flag_Imap_Flagged extends IMP_Flag_Imap
      */
     protected function _getLabel()
     {
-        return _("Flagged for Followup");
+        return _('Flagged for Followup');
     }
 
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2009-2017 Horde LLC (http://www.horde.org/)
  *
@@ -43,7 +44,8 @@ class IMP_LoginTasks_SystemTask_GarbageCollection extends Horde_LoginTasks_Syste
 
             /* Purge non-existent search sorts. */
             $injector->getInstance('IMP_Prefs_Sort')->gc();
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+        }
 
         /* Only do these tasks as admin, or else they are duplicative across
          * all users. */

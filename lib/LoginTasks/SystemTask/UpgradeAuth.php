@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2009-2017 Horde LLC (http://www.horde.org/)
  *
@@ -33,23 +34,23 @@ class IMP_LoginTasks_SystemTask_UpgradeAuth extends Horde_Core_LoginTasks_System
 
     /**
      */
-    protected $_versions = array(
+    protected $_versions = [
         '5.0',
-        '6.0.2'
-    );
+        '6.0.2',
+    ];
 
     /**
      */
     protected function _upgrade($version)
     {
         switch ($version) {
-        case '5.0':
-            $this->_upgradeExpireImapCache();
-            break;
+            case '5.0':
+                $this->_upgradeExpireImapCache();
+                break;
 
-        case '6.0.2':
-            $this->_upgradeExpireImapCache();
-            break;
+            case '6.0.2':
+                $this->_upgradeExpireImapCache();
+                break;
         }
     }
 
@@ -62,13 +63,14 @@ class IMP_LoginTasks_SystemTask_UpgradeAuth extends Horde_Core_LoginTasks_System
             $ob = $GLOBALS['injector']->getInstance('IMP_Factory_Imap')->create();
 
             if ($cache = $ob->getCache()) {
-                $mboxes = $ob->listMailboxes('*', Horde_Imap_Client::MBOX_ALL, array('flat' => true));
+                $mboxes = $ob->listMailboxes('*', Horde_Imap_Client::MBOX_ALL, ['flat' => true]);
 
                 foreach ($mboxes as $val) {
                     $cache->deleteMailbox($val);
                 }
             }
-        } catch (Throwable $e) {}
+        } catch (Throwable $e) {
+        }
     }
 
 }

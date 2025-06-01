@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,16 +24,16 @@
 class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
 {
     /* The mailbox search prefix. */
-    const MBOX_PREFIX = "impsearch\0";
+    public const MBOX_PREFIX = "impsearch\0";
 
     /* The special search mailbox names. */
-    const FILTERSEARCH = 'impfsearch';
-    const QUICKSEARCH = 'impqsearch';
+    public const FILTERSEARCH = 'impfsearch';
+    public const QUICKSEARCH = 'impqsearch';
 
     /* Query creation types. */
-    const CREATE_FILTER = 1;
-    const CREATE_QUERY = 2;
-    const CREATE_VFOLDER = 3;
+    public const CREATE_FILTER = 1;
+    public const CREATE_QUERY = 2;
+    public const CREATE_VFOLDER = 3;
 
     /**
      * Has the object data changed?
@@ -50,11 +51,11 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
      *
      * @var array
      */
-    protected $_search = array(
-        'filters' => array(),
-        'query' => array(),
-        'vfolders' => array()
-    );
+    protected $_search = [
+        'filters' => [],
+        'query' => [],
+        'vfolders' => [],
+    ];
 
     /**
      * Constructor.
@@ -90,78 +91,78 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
      * @return IMP_Search_Query  Returns the query object.
      * @throws InvalidArgumentException
      */
-    public function createQuery($criteria, array $opts = array())
+    public function createQuery($criteria, array $opts = [])
     {
         global $injector;
 
-        $opts = array_merge(array(
+        $opts = array_merge([
             'id' => null,
             'label' => null,
-            'mboxes' => array(),
-            'subfolders' => array(),
-            'type' => self::CREATE_QUERY
-        ), $opts);
+            'mboxes' => [],
+            'subfolders' => [],
+            'type' => self::CREATE_QUERY,
+        ], $opts);
 
         /* Make sure mailbox names are not IMP_Mailbox objects. */
         $opts['mboxes'] = array_map('strval', $opts['mboxes']);
         $opts['subfolders'] = array_map('strval', $opts['subfolders']);
 
         switch ($opts['type']) {
-        case self::CREATE_FILTER:
-            $cname = 'IMP_Search_Filter';
-            break;
+            case self::CREATE_FILTER:
+                $cname = 'IMP_Search_Filter';
+                break;
 
-        case self::CREATE_QUERY:
-            $cname = 'IMP_Search_Query';
-            if (empty($opts['mboxes']) && empty($opts['subfolders'])) {
-                throw new InvalidArgumentException('Search query requires at least one mailbox.');
-            }
-            break;
+            case self::CREATE_QUERY:
+                $cname = 'IMP_Search_Query';
+                if (empty($opts['mboxes']) && empty($opts['subfolders'])) {
+                    throw new InvalidArgumentException('Search query requires at least one mailbox.');
+                }
+                break;
 
-        case self::CREATE_VFOLDER:
-            $cname = 'IMP_Search_Vfolder';
-            if (empty($opts['mboxes']) && empty($opts['subfolders'])) {
-                throw new InvalidArgumentException('Search query requires at least one mailbox.');
-            }
-            break;
+            case self::CREATE_VFOLDER:
+                $cname = 'IMP_Search_Vfolder';
+                if (empty($opts['mboxes']) && empty($opts['subfolders'])) {
+                    throw new InvalidArgumentException('Search query requires at least one mailbox.');
+                }
+                break;
         }
 
-        $ob = new $cname(array_filter(array(
+        $ob = new $cname(array_filter([
             'add' => $criteria,
             'all' => in_array(IMP_Search_Query::ALLSEARCH, $opts['mboxes']),
             'id' => $this->_strip($opts['id']),
             'label' => $opts['label'],
             'mboxes' => $opts['mboxes'],
-            'subfolders' => $opts['subfolders']
-        )));
+            'subfolders' => $opts['subfolders'],
+        ]));
 
         switch ($opts['type']) {
-        case self::CREATE_FILTER:
-            /* This will overwrite previous value, if it exists. */
-            $this->_search['filters'][$ob->id] = $ob;
-            $this->setFilters($this->_search['filters']);
-            break;
+            case self::CREATE_FILTER:
+                /* This will overwrite previous value, if it exists. */
+                $this->_search['filters'][$ob->id] = $ob;
+                $this->setFilters($this->_search['filters']);
+                break;
 
-        case self::CREATE_QUERY:
-            $this->_search['query'][$ob->id] = $ob;
-            $ob->mbox_ob->list_ob->rebuild(true);
-            break;
+            case self::CREATE_QUERY:
+                $this->_search['query'][$ob->id] = $ob;
+                $ob->mbox_ob->list_ob->rebuild(true);
+                break;
 
-        case self::CREATE_VFOLDER:
-            /* This will overwrite previous value, if it exists. */
-            $this->_search['vfolders'][$ob->id] = $ob;
-            $this->setVFolders($this->_search['vfolders']);
-            $injector->getInstance('IMP_Mailbox_SessionCache')->expire(
-                array(
-                    IMP_Mailbox_SessionCache::CACHE_DISPLAY,
-                    IMP_Mailbox_SessionCache::CACHE_LABEL
-                ),
-                $ob->mbox_ob
-            );
-            $ftree = $injector->getInstance('IMP_Ftree');
-            $ftree->delete($ob);
-            $ftree->insert($ob);
-            break;
+            case self::CREATE_VFOLDER:
+                /* This will overwrite previous value, if it exists. */
+                $this->_search['vfolders'][$ob->id] = $ob;
+                $this->setVFolders($this->_search['vfolders']);
+                $injector->getInstance('IMP_Mailbox_SessionCache')->expire(
+                    [
+                        IMP_Mailbox_SessionCache::CACHE_DISPLAY,
+                        IMP_Mailbox_SessionCache::CACHE_LABEL,
+                    ],
+                    $ob->mbox_ob
+                );
+                $ftree = $injector->getInstance('IMP_Ftree');
+                $ftree->delete($ob);
+                $ftree->insert($ob);
+                break;
         }
 
         /* Reset the sort direction for system queries. */
@@ -190,7 +191,7 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
      */
     protected function _getFilters()
     {
-        $filters = array();
+        $filters = [];
 
         /* Build list of default filters. */
         $di = new DirectoryIterator(IMP_BASE . '/lib/Search/Filter');
@@ -276,20 +277,20 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
      */
     protected function _getVFolders()
     {
-        $vf = array();
+        $vf = [];
 
         /* Build list of default virtual folders. */
         $di = new DirectoryIterator(IMP_BASE . '/lib/Search/Vfolder');
-        $disable = array('IMP_Search_Vfolder_Vtrash');
+        $disable = ['IMP_Search_Vfolder_Vtrash'];
 
         foreach ($di as $val) {
             if ($val->isFile()) {
                 $cname = 'IMP_Search_Vfolder_' . $val->getBasename('.php');
                 if (($cname != 'IMP_Search_Vfolder_Builtin') &&
                     class_exists($cname)) {
-                    $vfolder = new $cname(array(
-                        'disable' => in_array($cname, $disable)
-                    ));
+                    $vfolder = new $cname([
+                        'disable' => in_array($cname, $disable),
+                    ]);
                     $vf[$vfolder->id] = $vfolder;
                 }
             }
@@ -376,7 +377,7 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
     public function isSystemQuery($id)
     {
         return (isset($this->_search['query'][$this->_strip($id)]) &&
-                in_array($this[$id]->id, array(self::FILTERSEARCH, self::QUICKSEARCH)));
+                in_array($this[$id]->id, [self::FILTERSEARCH, self::QUICKSEARCH]));
     }
 
     /**
@@ -391,10 +392,10 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
         $mbox = IMP_Mailbox::get($this->createSearchId($id));
 
         return IMP_Dynamic_Mailbox::url()->setAnchor(
-            'search:' . json_encode(array(
+            'search:' . json_encode([
                 'edit_query' => 1,
-                'mailbox' => $mbox->form_to
-            ))
+                'mailbox' => $mbox->form_to,
+            ])
         );
     }
 
@@ -555,12 +556,12 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
     {
         return [
                 $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
-                $this->_search,
-                [
+                    $this->_search,
+                    [
                     'compression' => false,
-                    'phpob' => true
+                    'phpob' => true,
                 ]
-            )
+                ),
         ];
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -21,8 +22,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Compose_Attachment_Storage_AutoDetermine
-extends IMP_Compose_Attachment_Storage
+class IMP_Compose_Attachment_Storage_AutoDetermine extends IMP_Compose_Attachment_Storage
 {
     /**
      * The underlying storage driver.
@@ -49,8 +49,8 @@ extends IMP_Compose_Attachment_Storage
     public function __get($name)
     {
         switch ($name) {
-        case 'linked':
-            return ($this->_storage instanceof IMP_Compose_Attachment_Linked);
+            case 'linked':
+                return ($this->_storage instanceof IMP_Compose_Attachment_Linked);
         }
 
         return parent::__get($name);

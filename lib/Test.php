@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -24,46 +25,46 @@ class IMP_Test extends Horde_Test
 {
     /**
      */
-    protected $_moduleList = array(
-        'openssl' => array(
+    protected $_moduleList = [
+        'openssl' => [
             'descrip' => 'OpenSSL Support',
-            'error' => 'The OpenSSL extension is required for S/MIME support and to securely connect to the remote IMAP/POP3 server.'
-        )
-    );
+            'error' => 'The OpenSSL extension is required for S/MIME support and to securely connect to the remote IMAP/POP3 server.',
+        ],
+    ];
 
     /**
      */
-    protected $_settingsList = array(
-        'file_uploads'  =>  array(
+    protected $_settingsList = [
+        'file_uploads'  =>  [
             'error' => 'file_uploads must be enabled to use various features of IMP. See the INSTALL file for more information.',
-            'setting' => true
-        )
-    );
+            'setting' => true,
+        ],
+    ];
 
     /**
      */
-    protected $_pearList = array();
+    protected $_pearList = [];
 
     /**
      */
-    protected $_appList = array(
-        'ingo' => array(
+    protected $_appList = [
+        'ingo' => [
             'error' => 'Ingo provides mail filtering capabilities to IMP.',
-            'version' => '3.0'
-        ),
-        'kronolith' => array(
+            'version' => '3.0',
+        ],
+        'kronolith' => [
             'error' => 'Kronolith provides calendaring capabilities to IMP.',
-            'version' => '4.0'
-        ),
-        'nag' => array(
+            'version' => '4.0',
+        ],
+        'nag' => [
             'error' => 'Nag allows tasks to be directly created from e-mail data.',
-            'version' => '4.0'
-        ),
-        'turba' => array(
+            'version' => '4.0',
+        ],
+        'turba' => [
             'error' => 'Turba provides addressbook/contacts capabilities to IMP.',
-            'version' => '4.0'
-        )
-    );
+            'version' => '4.0',
+        ],
+    ];
 
     /**
      */
@@ -71,11 +72,11 @@ class IMP_Test extends Horde_Test
     {
         parent::__construct();
 
-        $this->_fileList += array(
+        $this->_fileList += [
             'config/backends.php' => null,
             'config/mime_drivers.php' => null,
-            'config/prefs.php' => null
-        );
+            'config/prefs.php' => null,
+        ];
     }
 
     /**
@@ -106,13 +107,13 @@ class IMP_Test extends Horde_Test
      */
     protected function _doConnectionTest($vars)
     {
-        $imap_config = array(
+        $imap_config = [
             'username' => $vars->user,
             'password' => $vars->passwd,
             'hostspec' => $vars->server,
             'port' => $vars->port,
-            'secure' => $vars->encrypt ? 'tls' : false
-        );
+            'secure' => $vars->encrypt ? 'tls' : false,
+        ];
 
         $driver = ($vars->server_type == 'imap')
             ? 'Horde_Imap_Client_Socket'
@@ -152,22 +153,22 @@ class IMP_Test extends Horde_Test
 
             try {
                 $namespaces = $imap_client->getNamespaces(
-                    array(),
-                    array('ob_return' => true)
+                    [],
+                    ['ob_return' => true]
                 );
                 foreach ($namespaces as $val) {
                     switch ($val->type) {
-                    case $val::NS_PERSONAL:
-                        $type = 'Personal';
-                        break;
+                        case $val::NS_PERSONAL:
+                            $type = 'Personal';
+                            break;
 
-                    case $val::NS_OTHER:
-                        $type = 'Other Users\'';
-                        break;
+                        case $val::NS_OTHER:
+                            $type = 'Other Users\'';
+                            break;
 
-                    case $val::NS_SHARED:
-                        $type = 'Shared';
-                        break;
+                        case $val::NS_SHARED:
+                            $type = 'Shared';
+                            break;
                     }
 
                     $ret .= 'NAMESPACE: "' . htmlspecialchars($val->name) . "\"\n" .
