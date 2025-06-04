@@ -1,4 +1,19 @@
 ---
+7.0.0-alpha17:
+  api: 7.0.0-alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2025-06-04
+  license:
+    identifier: GPL-2.0-only
+    uri: http://www.horde.org/licenses/gpl
+  notes: |
+    fix: Add conditional to hook class template to prevent double declaration issues
+    fix: add 'sandbox' attr to Horde_Mime_Part iframes (#19)
+    fix: Move $sent_mail assignment up
+    fix: Shield against null returned from getCharset
+    fix: Shield against null returned from getContentTypeParameter
 7.0.0-alpha16:
   api: 7.0.0-alpha1
   state:
