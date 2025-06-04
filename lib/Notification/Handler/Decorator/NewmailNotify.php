@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,14 +21,13 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Notification_Handler_Decorator_NewmailNotify
-extends Horde_Core_Notification_Handler_Decorator_Base
+class IMP_Notification_Handler_Decorator_NewmailNotify extends Horde_Core_Notification_Handler_Decorator_Base
 {
     /* Rate limit interval (in seconds). */
-    const RATELIMIT = 30;
+    public const RATELIMIT = 30;
 
     /* Session variables used internally. */
-    const SESS_RATELIMIT = 'newmail_ratelimit';
+    public const SESS_RATELIMIT = 'newmail_ratelimit';
 
     /**
      */
@@ -38,8 +38,7 @@ extends Horde_Core_Notification_Handler_Decorator_Base
     protected function _notify(
         Horde_Notification_Handler $handler,
         Horde_Notification_Listener $listener
-    )
-    {
+    ) {
         global $injector, $prefs, $session;
 
         if (!$prefs->getValue('newmail_notify') ||
@@ -61,10 +60,10 @@ extends Horde_Core_Notification_Handler_Decorator_Base
 
         $ajax_queue = $injector->getInstance('IMP_Ajax_Queue');
         $imp_imap = $injector->getInstance('IMP_Factory_Imap')->create();
-        $recent = array();
+        $recent = [];
 
         try {
-            foreach ($imp_imap->status($injector->getInstance('IMP_Ftree')->poll->getPollList(), Horde_Imap_Client::STATUS_RECENT_TOTAL, array('sort' => true)) as $key => $val) {
+            foreach ($imp_imap->status($injector->getInstance('IMP_Ftree')->poll->getPollList(), Horde_Imap_Client::STATUS_RECENT_TOTAL, ['sort' => true]) as $key => $val) {
                 if (!empty($val['recent_total'])) {
                     /* Open the mailbox R/W so we ensure the 'recent' flag is
                      * cleared. */
@@ -75,7 +74,8 @@ extends Horde_Core_Notification_Handler_Decorator_Base
                     $ajax_queue->poll($mbox);
                 }
             }
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+        }
 
         if (empty($recent)) {
             return;
@@ -85,27 +85,27 @@ extends Horde_Core_Notification_Handler_Decorator_Base
         reset($recent);
 
         switch (count($recent)) {
-        case 1:
-            $mbox_list = key($recent);
-            break;
+            case 1:
+                $mbox_list = key($recent);
+                break;
 
-        case 2:
-            $mbox_list = implode(_(" and "), array_keys($recent));
-            break;
+            case 2:
+                $mbox_list = implode(_(' and '), array_keys($recent));
+                break;
 
-        default:
-            $akeys = array_keys($recent);
-            $mbox_list = $akeys[0] . ', ' . $akeys[1] . ', ' . _("and") . ' ' . $akeys[2];
-            if ($addl_mbox = count($recent) - 3) {
-                $mbox_list .= ' (' . sprintf(ngettext("and %d more mailbox", "and %d more mailboxes", $addl_mbox), $addl_mbox) . ')';
-            }
-            break;
+            default:
+                $akeys = array_keys($recent);
+                $mbox_list = $akeys[0] . ', ' . $akeys[1] . ', ' . _('and') . ' ' . $akeys[2];
+                if ($addl_mbox = count($recent) - 3) {
+                    $mbox_list .= ' (' . sprintf(ngettext('and %d more mailbox', 'and %d more mailboxes', $addl_mbox), $addl_mbox) . ')';
+                }
+                break;
         }
 
         $text = sprintf(
             ngettext(
-                "You have %d new mail message in %s.",
-                "You have %d new mail messages in %s.",
+                'You have %d new mail message in %s.',
+                'You have %d new mail messages in %s.',
                 $recent_sum
             ),
             $recent_sum,
@@ -120,7 +120,7 @@ extends Horde_Core_Notification_Handler_Decorator_Base
         $handler->push(
             Horde_Core_Notification_Event_Webnotification::createEvent(
                 $text,
-                array('icon' => strval(Horde_Themes::img('unseen.png')))
+                ['icon' => strval(Horde_Themes::img('unseen.png'))]
             ),
             'webnotification'
         );

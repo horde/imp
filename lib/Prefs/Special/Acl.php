@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -49,12 +50,12 @@ class IMP_Prefs_Special_Acl implements Horde_Core_Prefs_Ui_Special
         try {
             $curr_acl = $acl->getACL($mbox);
             if (!($canEdit = $acl->canEdit($mbox))) {
-                $notification->push(_("You do not have permission to change access to this mailbox."), 'horde.warning');
+                $notification->push(_('You do not have permission to change access to this mailbox.'), 'horde.warning');
             }
         } catch (IMP_Exception $e) {
             $notification->push($e);
             $canEdit = false;
-            $curr_acl = array();
+            $curr_acl = [];
         }
 
         $rightslist = $acl->getRights();
@@ -64,30 +65,30 @@ class IMP_Prefs_Special_Acl implements Horde_Core_Prefs_Ui_Special
         );
         $iterator->add($iterator::NONIMAP);
 
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/prefs'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/prefs',
+        ]);
         $view->addHelper('FormTag');
         $view->addHelper('Tag');
         $view->addHelper('Text');
 
         $view->canedit = $canEdit;
-        $view->current = sprintf(_("Current access to %s"), $mbox->display_html);
+        $view->current = sprintf(_('Current access to %s'), $mbox->display_html);
         $view->hasacl = count($curr_acl);
         $view->mbox = $mbox->form_to;
-        $view->options = new IMP_Ftree_Select(array(
+        $view->options = new IMP_Ftree_Select([
             'iterator' => $iterator,
-            'selected' => $mbox
-        ));
+            'selected' => $mbox,
+        ]);
 
         if ($view->hasacl) {
-            $cval = array();
+            $cval = [];
 
             foreach ($curr_acl as $index => $rule) {
-                $entry = array(
+                $entry = [
                     'index' => $index,
-                    'rule' => array()
-                );
+                    'rule' => [],
+                ];
 
                 if ($rule instanceof Horde_Imap_Client_Data_AclNegative) {
                     $entry['negative'] = substr($index, 1);
@@ -98,11 +99,11 @@ class IMP_Prefs_Special_Acl implements Horde_Core_Prefs_Ui_Special
                  * the user. */
                 $rightsmbox = $acl->getRightsMbox($mbox, $index);
                 foreach (array_keys($rightslist) as $val) {
-                    $entry['rule'][] = array(
+                    $entry['rule'][] = [
                         'disable' => !$canEdit || !$rightsmbox[$val],
                         'on' => $rule[$val],
-                        'val' => $val
-                    );
+                        'val' => $val,
+                    ];
                 }
                 $cval[] = $entry;
             }
@@ -110,10 +111,10 @@ class IMP_Prefs_Special_Acl implements Horde_Core_Prefs_Ui_Special
             $view->curr_acl = $cval;
         }
 
-        $new_user = array();
+        $new_user = [];
         try {
             $auth_imap = $injector->getInstance('IMP_AuthImap');
-            foreach ((array('anyone') + $auth_imap->listUsers()) as $user) {
+            foreach ((['anyone'] + $auth_imap->listUsers()) as $user) {
                 if (!isset($curr_acl[$user])) {
                     $new_user[] = htmlspecialchars($user);
                 }
@@ -126,7 +127,7 @@ class IMP_Prefs_Special_Acl implements Horde_Core_Prefs_Ui_Special
             $notification->push('Could not authenticate as admin user to obtain ACLs. Perhaps your admin configuration is incorrect in config/backends.local.php?', 'horde.warning');
         }
 
-        $rights = array();
+        $rights = [];
         foreach ($rightslist as $key => $val) {
             $val['val'] = $key;
             $rights[] = $val;
@@ -159,7 +160,7 @@ class IMP_Prefs_Special_Acl implements Horde_Core_Prefs_Ui_Special
         }
 
         if (!($acl_list = $ui->vars->acl)) {
-            $acl_list = array();
+            $acl_list = [];
         }
         $new_user = $ui->vars->new_user;
 
@@ -169,7 +170,7 @@ class IMP_Prefs_Special_Acl implements Horde_Core_Prefs_Ui_Special
             } else {
                 try {
                     $acl->addRights($mbox, $new_user, implode('', $ui->vars->new_acl));
-                    $notification->push(sprintf(_("ACL for \"%s\" successfully created for the mailbox \"%s\"."), $new_user, $mbox->label), 'horde.success');
+                    $notification->push(sprintf(_('ACL for "%s" successfully created for the mailbox "%s".'), $new_user, $mbox->label), 'horde.success');
                 } catch (IMP_Exception $e) {
                     $notification->push($e);
                 }
@@ -194,7 +195,7 @@ class IMP_Prefs_Special_Acl implements Horde_Core_Prefs_Ui_Special
                     }
 
                     if ($update) {
-                        $notification->push(sprintf(_("ACL rights for \"%s\" updated for the mailbox \"%s\"."), $index, $mbox->label), 'horde.success');
+                        $notification->push(sprintf(_('ACL rights for "%s" updated for the mailbox "%s".'), $index, $mbox->label), 'horde.success');
                     }
                 } catch (IMP_Exception $e) {
                     $notification->push($e);
@@ -204,7 +205,7 @@ class IMP_Prefs_Special_Acl implements Horde_Core_Prefs_Ui_Special
                  * rights. */
                 try {
                     $acl->removeRights($mbox, $index, null);
-                    $notification->push(sprintf(_("All rights on mailbox \"%s\" successfully removed for \"%s\"."), $mbox->label, $index), 'horde.success');
+                    $notification->push(sprintf(_('All rights on mailbox "%s" successfully removed for "%s".'), $mbox->label, $index), 'horde.success');
                 } catch (IMP_Exception $e) {
                     $notification->push($e);
                 }

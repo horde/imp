@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -10,6 +11,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
+use function PHP81_BC\strftime;
 
 /**
  * This class manages the attrib_text preference.
@@ -49,61 +51,61 @@ class IMP_Prefs_AttribText
             '/\%./',
             function ($matches) use ($from, $h) {
                 switch ($matches[0]) {
-                case '%n': /* New line. */
-                    return "\n";
+                    case '%n': /* New line. */
+                        return "\n";
 
-                case '%%': /* Percent character. */
-                    return '%';
+                    case '%%': /* Percent character. */
+                        return '%';
 
-                case '%f': /* Name and email address of original sender. */
-                    if ($from) {
-                        $from = new Horde_Mail_Rfc822_Address($from);
-                        return $from->writeAddress(array('noquote' => true));
-                    }
-                    return _("Unknown Sender");
-
-                case '%a': /* Senders email address(es). */
-                case '%p': /* Senders name(s). */
-                    $out = array();
-                    foreach (IMP::parseAddressList($from) as $addr) {
-                        if ($matches[0] == '%a') {
-                            if (!is_null($addr->mailbox)) {
-                                $out[] = $addr->bare_address;
-                            }
-                        } else {
-                            $out[] = $addr->label;
+                    case '%f': /* Name and email address of original sender. */
+                        if ($from) {
+                            $from = new Horde_Mail_Rfc822_Address($from);
+                            return $from->writeAddress(['noquote' => true]);
                         }
-                    }
-                    return count($out)
-                        ? implode(', ', $out)
-                        : _("Unknown Sender");
+                        return _('Unknown Sender');
 
-                case '%r': /* RFC 822 date and time. */
-                    return $h['Date'];
+                    case '%a': /* Senders email address(es). */
+                    case '%p': /* Senders name(s). */
+                        $out = [];
+                        foreach (IMP::parseAddressList($from) as $addr) {
+                            if ($matches[0] == '%a') {
+                                if (!is_null($addr->mailbox)) {
+                                    $out[] = $addr->bare_address;
+                                }
+                            } else {
+                                $out[] = $addr->label;
+                            }
+                        }
+                        return count($out)
+                            ? implode(', ', $out)
+                            : _('Unknown Sender');
 
-                case '%d': /* Date as ddd, dd mmm yyyy. */
-                    return strftime(
-                        "%a, %d %b %Y",
-                        strtotime($h['Date'])
-                    );
+                    case '%r': /* RFC 822 date and time. */
+                        return $h['Date'];
 
-                case '%c': /* Date and time in locale's default. */
-                case '%x': /* Date in locale's default. */
-                    return strftime(
-                        $matches[0],
-                        strtotime($h['Date'])
-                    );
+                    case '%d': /* Date as ddd, dd mmm yyyy. */
+                        return strftime(
+                            '%a, %d %b %Y',
+                            strtotime($h['Date'])
+                        );
 
-                case '%m': /* Message-ID. */
-                    return strval($h['Message-Id']);
+                    case '%c': /* Date and time in locale's default. */
+                    case '%x': /* Date in locale's default. */
+                        return strftime(
+                            $matches[0],
+                            strtotime($h['Date'])
+                        );
 
-                case '%s': /* Message subject. */
-                    return strlen($subject = $h['Subject'])
-                        ? $subject
-                        : _("[No Subject]");
+                    case '%m': /* Message-ID. */
+                        return strval($h['Message-Id']);
 
-                default:
-                    return '';
+                    case '%s': /* Message subject. */
+                        return strlen($subject = $h['Subject'])
+                            ? $subject
+                            : _('[No Subject]');
+
+                    default:
+                        return '';
                 }
             },
             is_null($attrib) ? $prefs->getValue('attrib_text') : $attrib

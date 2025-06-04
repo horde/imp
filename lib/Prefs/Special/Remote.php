@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -42,31 +43,31 @@ class IMP_Prefs_Special_Remote implements Horde_Core_Prefs_Ui_Special
 
         $page_output->addScriptFile('external/base64.js');
         $page_output->addScriptFile('prefs/remote.js');
-        $page_output->addInlineJsVars(array(
-            'ImpRemotePrefs.confirm_delete' => _("Are you sure you want to delete this account?"),
-            'ImpRemotePrefs.empty_email' => _("The e-mail field cannot be empty."),
-            'ImpRemotePrefs.empty_password' => _("The password field cannot be empty."),
-            'ImpRemotePrefs.next' => _("Next"),
-            'ImpRemotePrefs.wait' => _("Please wait...")
-        ));
+        $page_output->addInlineJsVars([
+            'ImpRemotePrefs.confirm_delete' => _('Are you sure you want to delete this account?'),
+            'ImpRemotePrefs.empty_email' => _('The e-mail field cannot be empty.'),
+            'ImpRemotePrefs.empty_password' => _('The password field cannot be empty.'),
+            'ImpRemotePrefs.next' => _('Next'),
+            'ImpRemotePrefs.wait' => _('Please wait...'),
+        ]);
 
         $p_css = new Horde_Themes_Element('prefs.css');
         $page_output->addStylesheet($p_css->fs, $p_css->uri);
 
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/prefs'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/prefs',
+        ]);
         $view->addHelper('Horde_Core_View_Helper_Image');
         $view->addHelper('Text');
 
         switch ($ui->vars->remote_action) {
-        case 'new':
-            $view->new = true;
-            break;
+            case 'new':
+                $view->new = true;
+                break;
 
-        default:
-            $view->accounts = iterator_to_array($injector->getInstance('IMP_Remote'));
-            break;
+            default:
+                $view->accounts = iterator_to_array($injector->getInstance('IMP_Remote'));
+                break;
         }
 
         return $view->render('remote');
@@ -85,82 +86,82 @@ class IMP_Prefs_Special_Remote implements Horde_Core_Prefs_Ui_Special
         $remote = $injector->getInstance('IMP_Remote');
 
         switch ($ui->vars->remote_action) {
-        case 'add':
-            try {
-                $ob = new IMP_Remote_Account();
-                $ob->hostspec = $ui->vars->remote_server;
-                $ob->username = $ui->vars->remote_user;
-                if (strlen($ui->vars->remote_label)) {
-                    $ob->label = $ui->vars->remote_label;
-                }
-                if ($ui->vars->remote_port) {
-                    $ob->port = $ui->vars->remote_port;
-                }
-                if ($ui->vars->get('remote_type') == 'pop3') {
-                    $ob->type = $ob::POP3;
-                }
-
-                if (isset($ui->vars->remote_secure_autoconfig)) {
-                    switch ($ui->vars->remote_secure_autoconfig) {
-                    case 'starttls':
-                        $ob->secure = 'tls';
-                        break;
-
-                    case 'tls':
-                        $ob->secure = 'ssl';
-                        break;
-
-                    default:
-                        $ob->secure = true;
-                        break;
+            case 'add':
+                try {
+                    $ob = new IMP_Remote_Account();
+                    $ob->hostspec = $ui->vars->remote_server;
+                    $ob->username = $ui->vars->remote_user;
+                    if (strlen($ui->vars->remote_label)) {
+                        $ob->label = $ui->vars->remote_label;
                     }
-                } else {
-                    switch ($ui->vars->remote_secure) {
-                    case 'auto':
-                        $ob->secure = true;
-                        break;
+                    if ($ui->vars->remote_port) {
+                        $ob->port = $ui->vars->remote_port;
+                    }
+                    if ($ui->vars->get('remote_type') == 'pop3') {
+                        $ob->type = $ob::POP3;
+                    }
 
-                    case 'yes':
-                        switch ($ob->type) {
-                        case $ob::IMAP:
-                            $tmp = new Horde_Mail_Autoconfig_Server_Imap();
-                            break;
+                    if (isset($ui->vars->remote_secure_autoconfig)) {
+                        switch ($ui->vars->remote_secure_autoconfig) {
+                            case 'starttls':
+                                $ob->secure = 'tls';
+                                break;
 
-                        case $ob::POP3:
-                            $tmp = new Horde_Mail_Autoconfig_Server_Pop3();
-                            break;
+                            case 'tls':
+                                $ob->secure = 'ssl';
+                                break;
+
+                            default:
+                                $ob->secure = true;
+                                break;
                         }
+                    } else {
+                        switch ($ui->vars->remote_secure) {
+                            case 'auto':
+                                $ob->secure = true;
+                                break;
 
-                        $tmp->host = $ob->hostspec;
-                        $tmp->port = $ob->port;
-                        $tmp->tls = 'tls';
+                            case 'yes':
+                                switch ($ob->type) {
+                                    case $ob::IMAP:
+                                        $tmp = new Horde_Mail_Autoconfig_Server_Imap();
+                                        break;
 
-                        $ob->secure = $tmp->valid()
-                            ? 'ssl'
-                            : 'tls';
-                        break;
+                                    case $ob::POP3:
+                                        $tmp = new Horde_Mail_Autoconfig_Server_Pop3();
+                                        break;
+                                }
+
+                                $tmp->host = $ob->hostspec;
+                                $tmp->port = $ob->port;
+                                $tmp->tls = 'tls';
+
+                                $ob->secure = $tmp->valid()
+                                    ? 'ssl'
+                                    : 'tls';
+                                break;
+                        }
                     }
+
+                    $remote[strval($ob)] = $ob;
+
+                    $notification->push(sprintf(_('Account "%s" added.'), $ob->label), 'horde.success');
+
+                    $injector->getInstance('IMP_Ftree')->insert($ob);
+                } catch (IMP_Exception $e) {
+                    $notification->push($e, 'horde.error');
                 }
+                break;
 
-                $remote[strval($ob)] = $ob;
+            case 'delete':
+                if (isset($remote[$ui->vars->remote_data])) {
+                    $ob = $remote[$ui->vars->remote_data];
+                    unset($remote[$ui->vars->remote_data]);
+                    $notification->push(sprintf(_('Account "%s" deleted.'), $ob->label), 'horde.success');
 
-                $notification->push(sprintf(_("Account \"%s\" added."), $ob->label), 'horde.success');
-
-                $injector->getInstance('IMP_Ftree')->insert($ob);
-            } catch (IMP_Exception $e) {
-                $notification->push($e, 'horde.error');
-            }
-            break;
-
-        case 'delete':
-            if (isset($remote[$ui->vars->remote_data])) {
-                $ob = $remote[$ui->vars->remote_data];
-                unset($remote[$ui->vars->remote_data]);
-                $notification->push(sprintf(_("Account \"%s\" deleted."), $ob->label), 'horde.success');
-
-                $injector->getInstance('IMP_Ftree')->delete($ob);
-            }
-            break;
+                    $injector->getInstance('IMP_Ftree')->delete($ob);
+                }
+                break;
         }
 
         return false;

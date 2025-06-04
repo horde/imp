@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
  *
@@ -10,6 +11,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
+use function PHP81_BC\strftime;
 
 /**
  * Displays vCalendar/iCalendar data and provides an option to import the data
@@ -27,33 +29,33 @@
  */
 class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
 {
-    const AUTO_UPDATE_EVENT_REPLY = 'auto_update_eventreply';
-    const AUTO_UPDATE_FB_PUBLISH  = 'auto_update_fbpublish';
-    const AUTO_UPDATE_FB_REPLY    = 'auto_update_fbreply';
-    const AUTO_UPDATE_TASK_REPLY  = 'auto_update_taskreply';
+    public const AUTO_UPDATE_EVENT_REPLY = 'auto_update_eventreply';
+    public const AUTO_UPDATE_FB_PUBLISH  = 'auto_update_fbpublish';
+    public const AUTO_UPDATE_FB_REPLY    = 'auto_update_fbreply';
+    public const AUTO_UPDATE_TASK_REPLY  = 'auto_update_taskreply';
 
     /**
      * This driver's display capabilities.
      *
      * @var array
      */
-    protected $_capability = array(
+    protected $_capability = [
         'full' => true,
         'info' => false,
         'inline' => true,
-        'raw' => false
-    );
+        'raw' => false,
+    ];
 
     /**
      * Metadata for the current viewer/data.
      *
      * @var array
      */
-    protected $_metadata = array(
+    protected $_metadata = [
         'compressed' => false,
         'embedded' => false,
-        'forceinline' => true
-    );
+        'forceinline' => true,
+    ];
 
     /**
      * Return the full rendered version of the Horde_Mime_Part object.
@@ -72,9 +74,9 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
             $mimecss = new Horde_Themes_Element('mime.css');
             $page_output->addStylesheet($mimecss->fs, $mimecss->uri);
             Horde::startBuffer();
-            $page_output->header(array(
-                'html_id' => 'htmlAllowScroll'
-            ));
+            $page_output->header([
+                'html_id' => 'htmlAllowScroll',
+            ]);
             echo $ret[key($ret)]['data'];
             $page_output->footer();
             $ret[key($ret)]['data'] = Horde::endBuffer();
@@ -99,30 +101,30 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
         if (!$vCal->parsevCalendar($data, 'VCALENDAR', $this->_mimepart->getCharset())) {
             $status = new IMP_Mime_Status(
                 $this->_mimepart,
-                _("The calendar data is invalid")
+                _('The calendar data is invalid')
             );
             $status->action(IMP_Mime_Status::ERROR);
-            return array(
-                $mime_id => array(
+            return [
+                $mime_id => [
                     'data' => '',
                     'status' => $status,
-                    'type' => 'text/html; charset=UTF-8'
-                )
-            );
+                    'type' => 'text/html; charset=UTF-8',
+                ],
+            ];
         }
 
         // Check if we got vcard data with the wrong vcalendar mime type.
         $imp_contents = $this->getConfigParam('imp_contents');
         $c = $vCal->getComponentClasses();
         if ((count($c) == 1) && !empty($c['horde_icalendar_vcard'])) {
-            return $imp_contents->renderMIMEPart($mime_id, IMP_Contents::RENDER_INLINE, array('type' => 'text/x-vcard'));
+            return $imp_contents->renderMIMEPart($mime_id, IMP_Contents::RENDER_INLINE, ['type' => 'text/x-vcard']);
         }
 
-        $imple = $GLOBALS['injector']->getInstance('Horde_Core_Factory_Imple')->create('IMP_Ajax_Imple_ItipRequest', array(
+        $imple = $GLOBALS['injector']->getInstance('Horde_Core_Factory_Imple')->create('IMP_Ajax_Imple_ItipRequest', [
             'ctype' => $this->_conf['type'],
             'mime_id' => $mime_id,
             'muid' => strval($imp_contents->getIndicesOb()),
-        ));
+        ]);
 
         // Get the method type.
         try {
@@ -131,37 +133,37 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
             $method = '';
         }
 
-        $out = array();
-        $exceptions = array();
+        $out = [];
+        $exceptions = [];
         $components = $vCal->getComponents();
         foreach ($components as $key => $component) {
             switch ($component->getType()) {
-            case 'vEvent':
-                try {
-                    if ($component->getAttribute('RECURRENCE-ID')) {
-                        $exceptions[] = $this->_vEvent($component, $key, $method, $components);
+                case 'vEvent':
+                    try {
+                        if ($component->getAttribute('RECURRENCE-ID')) {
+                            $exceptions[] = $this->_vEvent($component, $key, $method, $components);
+                        }
+                    } catch (Horde_ICalendar_Exception $e) {
+                        $out[] = $this->_vEvent($component, $key, $method, $components);
                     }
-                } catch (Horde_ICalendar_Exception $e) {
-                    $out[] = $this->_vEvent($component, $key, $method, $components);
-                }
-                break;
+                    break;
 
-            case 'vTodo':
-                $out[] = $this->_vTodo($component, $key, $method);
-                break;
+                case 'vTodo':
+                    $out[] = $this->_vTodo($component, $key, $method);
+                    break;
 
-            case 'vTimeZone':
-                // Ignore them.
-                break;
+                case 'vTimeZone':
+                    // Ignore them.
+                    break;
 
-            case 'vFreebusy':
-                $out[] = $this->_vFreebusy($component, $key, $method);
-                break;
+                case 'vFreebusy':
+                    $out[] = $this->_vFreebusy($component, $key, $method);
+                    break;
 
-            // @todo: handle stray vcards here as well.
-            default:
-                $out[] = sprintf(_("Unhandled component of type: %s"), $component->getType());
-                break;
+                    // @todo: handle stray vcards here as well.
+                default:
+                    $out[] = sprintf(_('Unhandled component of type: %s'), $component->getType());
+                    break;
             }
         }
 
@@ -176,12 +178,12 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
         $view->formid = $imple->getDomId();
         $view->out = implode('', $out);
 
-        return array(
-            $mime_id => array(
+        return [
+            $mime_id => [
                 'data' => $view->render('base'),
-                'type' => 'text/html; charset=UTF-8'
-            )
-        );
+                'type' => 'text/html; charset=UTF-8',
+            ],
+        ];
     }
 
     /**
@@ -195,18 +197,18 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
         $sender = $vfb->getName();
 
         switch ($method) {
-        case 'PUBLISH':
-            $desc = _("%s has sent you free/busy information.");
-            break;
+            case 'PUBLISH':
+                $desc = _('%s has sent you free/busy information.');
+                break;
 
-        case 'REQUEST':
-            $sender = $this->getConfigParam('imp_contents')->getHeader()->getHeader('From');
-            $desc = _("%s requests your free/busy information.");
-            break;
+            case 'REQUEST':
+                $sender = $this->getConfigParam('imp_contents')->getHeader()->getHeader('From');
+                $desc = _('%s requests your free/busy information.');
+                break;
 
-        case 'REPLY':
-            $desc = _("%s has replied to a free/busy request.");
-            break;
+            case 'REPLY':
+                $desc = _('%s has replied to a free/busy request.');
+                break;
         }
 
         $view = $this->_getViewOb();
@@ -217,7 +219,8 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
             $view->start = is_array($start)
                 ? strftime($prefs->getValue('date_format'), mktime(0, 0, 0, $start['month'], $start['mday'], $start['year']))
                 : strftime($prefs->getValue('date_format'), $start) . ' ' . date($prefs->getValue('twentyFour') ? ' G:i' : ' g:i a', $start);
-        } catch (Horde_Icalendar_Exception $e) {}
+        } catch (Horde_Icalendar_Exception $e) {
+        }
 
         try {
             $end = $vfb->getAttribute('DTEND');
@@ -233,38 +236,39 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
             } else {
                 $view->end = '';
             }
-        } catch (Horde_Icalendar_Exception $e) {}
+        } catch (Horde_Icalendar_Exception $e) {
+        }
 
-        $options = array();
+        $options = [];
         switch ($method) {
-        case 'PUBLISH':
-        case 'REPLY':
-            if ($registry->hasMethod('calendar/import_vfreebusy')) {
-                if ($this->_autoUpdateReply(($method == 'PUBLISH') ? self::AUTO_UPDATE_FB_PUBLISH : self::AUTO_UPDATE_EVENT_REPLY, $sender)) {
-                    try {
-                        $registry->call('calendar/import_vfreebusy', array($vfb));
-                        $notification->push(_("The user's free/busy information was sucessfully stored."), 'horde.success');
-                    } catch (Horde_Exception $e) {
-                        $notification->push(sprintf(_("There was an error importing user's free/busy information: %s"), $e->getMessage()), 'horde.error');
+            case 'PUBLISH':
+            case 'REPLY':
+                if ($registry->hasMethod('calendar/import_vfreebusy')) {
+                    if ($this->_autoUpdateReply(($method == 'PUBLISH') ? self::AUTO_UPDATE_FB_PUBLISH : self::AUTO_UPDATE_EVENT_REPLY, $sender)) {
+                        try {
+                            $registry->call('calendar/import_vfreebusy', [$vfb]);
+                            $notification->push(_("The user's free/busy information was sucessfully stored."), 'horde.success');
+                        } catch (Horde_Exception $e) {
+                            $notification->push(sprintf(_("There was an error importing user's free/busy information: %s"), $e->getMessage()), 'horde.error');
+                        }
+                    } else {
+                        $options['import'] = _('Remember the free/busy information.');
                     }
                 } else {
-                    $options['import'] = _("Remember the free/busy information.");
+                    $options['nosup'] = _('Reply with Not Supported Message');
                 }
-            } else {
-                $options['nosup'] = _("Reply with Not Supported Message");
-            }
-            break;
+                break;
 
-        case 'REQUEST':
-            if ($registry->hasMethod('calendar/getFreeBusy')) {
-                $options['reply'] = _("Reply with requested free/busy information.");
-                $options['reply2m'] = _("Reply with free/busy for next 2 months.");
-            } else {
-                $options['nosup'] = _("Reply with Not Supported Message");
-            }
+            case 'REQUEST':
+                if ($registry->hasMethod('calendar/getFreeBusy')) {
+                    $options['reply'] = _('Reply with requested free/busy information.');
+                    $options['reply2m'] = _('Reply with free/busy for next 2 months.');
+                } else {
+                    $options['nosup'] = _('Reply with Not Supported Message');
+                }
 
-            $options['deny'] = _("Deny request for free/busy information");
-            break;
+                $options['deny'] = _('Deny request for free/busy information');
+                break;
         }
 
         if (!empty($options)) {
@@ -279,126 +283,127 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
     /**
      * Generate the HTML for a vEvent.
      */
-    protected function _vEvent($vevent, $id, $method = 'PUBLISH', $components = array())
+    protected function _vEvent($vevent, $id, $method = 'PUBLISH', $components = [])
     {
         global $injector, $prefs, $registry, $notification;
 
         $attendees = null;
         $desc = '';
         $sender = $vevent->organizerName();
-        $options = array();
+        $options = [];
 
         try {
             if (($attendees = $vevent->getAttribute('ATTENDEE')) &&
                 !is_array($attendees)) {
-                $attendees = array($attendees);
+                $attendees = [$attendees];
             }
-        } catch (Horde_Icalendar_Exception $e) {}
+        } catch (Horde_Icalendar_Exception $e) {
+        }
 
         switch ($method) {
-        case 'PUBLISH':
-            $desc = _("%s wishes to make you aware of \"%s\".");
-            if ($registry->hasMethod('calendar/import')) {
-                $options['import'] = _("Add this to my calendar");
-            }
-            break;
+            case 'PUBLISH':
+                $desc = _('%s wishes to make you aware of "%s".');
+                if ($registry->hasMethod('calendar/import')) {
+                    $options['import'] = _('Add this to my calendar');
+                }
+                break;
 
-        case 'REQUEST':
-            // Check if this is an update.
-            try {
-                $calendars = $registry->call('calendar/listCalendars', array(true));
-                $registry->call('calendar/export', array($vevent->getAttributeSingle('UID'), 'text/calendar', array(), $calendars));
-                $desc = _("%s wants to notify you about changes in \"%s\".");
-                $is_update = true;
-            } catch (Horde_Exception $e) {
-                $desc = _("%s wishes to make you aware of \"%s\".");
-                $is_update = false;
+            case 'REQUEST':
+                // Check if this is an update.
+                try {
+                    $calendars = $registry->call('calendar/listCalendars', [true]);
+                    $registry->call('calendar/export', [$vevent->getAttributeSingle('UID'), 'text/calendar', [], $calendars]);
+                    $desc = _('%s wants to notify you about changes in "%s".');
+                    $is_update = true;
+                } catch (Horde_Exception $e) {
+                    $desc = _('%s wishes to make you aware of "%s".');
+                    $is_update = false;
 
-                // Check that you are one of the attendees here.
-                if (!empty($attendees)) {
-                    $identity = $injector->getInstance('IMP_Identity');
-                    for ($i = 0, $c = count($attendees); $i < $c; ++$i) {
-                        $attendee = parse_url($attendees[$i]);
-                        if (!empty($attendee['path']) &&
-                            $identity->hasAddress($attendee['path'])) {
-                            $desc = _("%s requests your presence at \"%s\".");
-                            break;
+                    // Check that you are one of the attendees here.
+                    if (!empty($attendees)) {
+                        $identity = $injector->getInstance('IMP_Identity');
+                        for ($i = 0, $c = count($attendees); $i < $c; ++$i) {
+                            $attendee = parse_url($attendees[$i]);
+                            if (!empty($attendee['path']) &&
+                                $identity->hasAddress($attendee['path'])) {
+                                $desc = _('%s requests your presence at "%s".');
+                                break;
+                            }
                         }
                     }
                 }
-            }
 
-            if ($is_update && $registry->hasMethod('calendar/replace')) {
-                $options['accept-import'] = _("Accept and update in my calendar");
-                $options['import'] = _("Update in my calendar");
-            } elseif ($registry->hasMethod('calendar/import')) {
-                $options['accept-import'] = _("Accept and add to my calendar");
-                $options['import'] = _("Add to my calendar");
-            }
-
-            $options['accept'] = _("Accept request");
-            $options['tentative'] = _("Tentatively Accept request");
-            $options['deny'] = _("Deny request");
-            // $options['delegate'] = _("Delegate position");
-            break;
-
-        case 'ADD':
-            $desc = _("%s wishes to amend \"%s\".");
-            if ($registry->hasMethod('calendar/import')) {
-                $options['import'] = _("Update this event on my calendar");
-            }
-            break;
-
-        case 'REFRESH':
-            $desc = _("%s wishes to receive the latest information about \"%s\".");
-            $options['send'] = _("Send Latest Information");
-            break;
-
-        case 'REPLY':
-            $desc = _("%s has replied to the invitation to \"%s\".");
-            $from = $this->getConfigParam('imp_contents')->getHeader()->getHeader('from');
-            $sender = $from
-                ? $from->getAddressList(true)->first()->bare_address
-                : null;
-            if ($registry->hasMethod('calendar/updateAttendee') &&
-                $this->_autoUpdateReply(self::AUTO_UPDATE_EVENT_REPLY, $sender)) {
-                try {
-                    $registry->call('calendar/updateAttendee', array(
-                        $vevent,
-                        $sender
-                    ));
-                    $notification->push(_("Respondent Status Updated."), 'horde.success');
-                } catch (Horde_Exception $e) {
-                    $notification->push(sprintf(_("There was an error updating the event: %s"), $e->getMessage()), 'horde.error');
+                if ($is_update && $registry->hasMethod('calendar/replace')) {
+                    $options['accept-import'] = _('Accept and update in my calendar');
+                    $options['import'] = _('Update in my calendar');
+                } elseif ($registry->hasMethod('calendar/import')) {
+                    $options['accept-import'] = _('Accept and add to my calendar');
+                    $options['import'] = _('Add to my calendar');
                 }
-            } else {
-                $options['update'] = _("Update respondent status");
-            }
-            break;
 
-        case 'CANCEL':
-            try {
-                $vevent->getAttributeSingle('RECURRENCE-ID');
-                $params = $vevent->getAttribute('RECURRENCE-ID', true);
-                foreach ($params as $param) {
-                    if (array_key_exists('RANGE', $param)) {
-                        $desc = _("%s has cancelled multiple instances of the recurring \"%s\".");
+                $options['accept'] = _('Accept request');
+                $options['tentative'] = _('Tentatively Accept request');
+                $options['deny'] = _('Deny request');
+                // $options['delegate'] = _("Delegate position");
+                break;
+
+            case 'ADD':
+                $desc = _('%s wishes to amend "%s".');
+                if ($registry->hasMethod('calendar/import')) {
+                    $options['import'] = _('Update this event on my calendar');
+                }
+                break;
+
+            case 'REFRESH':
+                $desc = _('%s wishes to receive the latest information about "%s".');
+                $options['send'] = _('Send Latest Information');
+                break;
+
+            case 'REPLY':
+                $desc = _('%s has replied to the invitation to "%s".');
+                $from = $this->getConfigParam('imp_contents')->getHeader()->getHeader('from');
+                $sender = $from
+                    ? $from->getAddressList(true)->first()->bare_address
+                    : null;
+                if ($registry->hasMethod('calendar/updateAttendee') &&
+                    $this->_autoUpdateReply(self::AUTO_UPDATE_EVENT_REPLY, $sender)) {
+                    try {
+                        $registry->call('calendar/updateAttendee', [
+                            $vevent,
+                            $sender,
+                        ]);
+                        $notification->push(_('Respondent Status Updated.'), 'horde.success');
+                    } catch (Horde_Exception $e) {
+                        $notification->push(sprintf(_('There was an error updating the event: %s'), $e->getMessage()), 'horde.error');
                     }
-                    break;
+                } else {
+                    $options['update'] = _('Update respondent status');
                 }
-                if (empty($desc)) {
-                    $desc = _("%s has cancelled an instance of the recurring \"%s\".");
+                break;
+
+            case 'CANCEL':
+                try {
+                    $vevent->getAttributeSingle('RECURRENCE-ID');
+                    $params = $vevent->getAttribute('RECURRENCE-ID', true);
+                    foreach ($params as $param) {
+                        if (array_key_exists('RANGE', $param)) {
+                            $desc = _('%s has cancelled multiple instances of the recurring "%s".');
+                        }
+                        break;
+                    }
+                    if (empty($desc)) {
+                        $desc = _('%s has cancelled an instance of the recurring "%s".');
+                    }
+                    if ($registry->hasMethod('calendar/replace')) {
+                        $options['delete'] = _('Update in my calendar');
+                    }
+                } catch (Horde_Icalendar_Exception $e) {
+                    $desc = _('%s has cancelled "%s".');
+                    if ($registry->hasMethod('calendar/delete')) {
+                        $options['delete'] = _('Delete from my calendar');
+                    }
                 }
-                if ($registry->hasMethod('calendar/replace')) {
-                    $options['delete'] = _("Update in my calendar");
-                }
-            } catch (Horde_Icalendar_Exception $e) {
-                $desc = _("%s has cancelled \"%s\".");
-                if ($registry->hasMethod('calendar/delete')) {
-                    $options['delete'] = _("Delete from my calendar");
-                }
-            }
-            break;
+                break;
         }
 
         $view = $this->_getViewOb();
@@ -426,28 +431,31 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
             $summary = $vevent->getAttributeSingle('SUMMARY');
             $view->summary = $summary;
         } catch (Horde_Icalendar_Exception $e) {
-            $summary = _("Unknown Meeting");
-            $view->summary_error = _("None");
+            $summary = _('Unknown Meeting');
+            $view->summary_error = _('None');
         }
 
         $view->desc = sprintf($desc, $sender, $summary);
 
         try {
             $view->desc2 = $vevent->getAttributeSingle('DESCRIPTION');
-        } catch (Horde_Icalendar_Exception $e) {}
+        } catch (Horde_Icalendar_Exception $e) {
+        }
 
         try {
             $view->comment = $vevent->getAttributeSingle('COMMENT');
-        } catch (Horde_Icalendar_Exception $e) {}
+        } catch (Horde_Icalendar_Exception $e) {
+        }
 
         try {
             $view->loc = $vevent->getAttributeSingle('LOCATION');
-        } catch (Horde_Icalendar_Exception $e) {}
+        } catch (Horde_Icalendar_Exception $e) {
+        }
 
         try {
             $rrule = $vevent->getAttribute('RRULE');
         } catch (Horde_Icalendar_Exception $e) {
-            $rrule = array();
+            $rrule = [];
         }
         if (!is_array($rrule)) {
             $recurrence = new Horde_Date_Recurrence($start_date);
@@ -466,14 +474,16 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                             $recurrence->addException(
                                 (int)$exdate['year'],
                                 (int)$exdate['month'],
-                                (int)$exdate['mday']);
+                                (int)$exdate['mday']
+                            );
                         }
                     }
                 }
-            } catch (Horde_ICalendar_Exception $e) {}
+            } catch (Horde_ICalendar_Exception $e) {
+            }
 
             $view->recurrence = $recurrence->toString($prefs->getValue('date_format'), $prefs->getValue('time_format'));
-            $view->exceptions = array();
+            $view->exceptions = [];
             foreach ($components as $key => $component) {
                 try {
                     if ($component->getAttribute('RECURRENCE-ID') && $component->getAttributeSingle('UID') == $vevent->getAttributeSingle('UID')) {
@@ -481,7 +491,8 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                             $view->exceptions[] = $ex;
                         }
                     }
-                } catch (Horde_Icalendar_Exception $e) {}
+                } catch (Horde_Icalendar_Exception $e) {
+                }
             }
         }
 
@@ -491,7 +502,7 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
 
         if (!is_null($start) &&
             !is_null($end) &&
-            in_array($method, array('PUBLISH', 'REQUEST', 'ADD')) &&
+            in_array($method, ['PUBLISH', 'REQUEST', 'ADD']) &&
             $registry->hasMethod('calendar/getFbCalendars') &&
             $registry->hasMethod('calendar/listEvents')) {
             try {
@@ -510,15 +521,15 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                     $time_span_end = $vevent_end->add($prefs->getValue('conflict_interval') * 60);
                 }
 
-                $events = $registry->call('calendar/listEvents', array($start, $vevent_end, $calendars, false));
+                $events = $registry->call('calendar/listEvents', [$start, $vevent_end, $calendars, false]);
 
                 // TODO: Check if there are too many events to show.
-                $conflicts = array();
+                $conflicts = [];
                 foreach ($events as $calendar) {
                     foreach ($calendar as $event) {
                         // TODO: WTF? Why are we using Kronolith constants
                         // here?
-                        if (in_array($event->status, array(Kronolith::STATUS_CANCELLED, Kronolith::STATUS_FREE))) {
+                        if (in_array($event->status, [Kronolith::STATUS_CANCELLED, Kronolith::STATUS_FREE])) {
                             continue;
                         }
 
@@ -534,18 +545,19 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                             $type = 'collision';
                         }
 
-                        $conflicts[] = array(
+                        $conflicts[] = [
                             'collision' => ($type == 'collision'),
                             'range' => $event->getTimeRange(),
-                            'title' => $event->getTitle()
-                        );
+                            'title' => $event->getTitle(),
+                        ];
                     }
                 }
 
                 if (!empty($conflicts)) {
                     $view->conflicts = $conflicts;
                 }
-            } catch (Horde_Exception $e) {}
+            } catch (Horde_Exception $e) {
+            }
         }
 
         if (!empty($options)) {
@@ -565,14 +577,15 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
         global $prefs, $registry;
 
         $attendees = null;
-        $options = array();
+        $options = [];
 
         try {
             if (($attendees = $vevent->getAttribute('ATTENDEE')) &&
                 !is_array($attendees)) {
-                $attendees = array($attendees);
+                $attendees = [$attendees];
             }
-        } catch (Horde_Icalendar_Exception $e) {}
+        } catch (Horde_Icalendar_Exception $e) {
+        }
 
         $view = $this->_getViewOb();
 
@@ -603,17 +616,19 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
             $summary = $vevent->getAttribute('SUMMARY');
             $view->summary = $summary;
         } catch (Horde_Icalendar_Exception $e) {
-            $summary = _("Unknown Meeting");
-            $view->summary_error = _("None");
+            $summary = _('Unknown Meeting');
+            $view->summary_error = _('None');
         }
 
         try {
             $view->desc2 = $vevent->getAttribute('DESCRIPTION');
-        } catch (Horde_Icalendar_Exception $e) {}
+        } catch (Horde_Icalendar_Exception $e) {
+        }
 
         try {
             $view->loc = $vevent->getAttribute('LOCATION');
-        } catch (Horde_Icalendar_Exception $e) {}
+        } catch (Horde_Icalendar_Exception $e) {
+        }
 
         if (!empty($attendees)) {
             $view->attendees = $this->_parseAttendees($vevent, $attendees);
@@ -621,7 +636,7 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
 
         if (!is_null($start) &&
             !is_null($end) &&
-            in_array($method, array('PUBLISH', 'REQUEST', 'ADD')) &&
+            in_array($method, ['PUBLISH', 'REQUEST', 'ADD']) &&
             $registry->hasMethod('calendar/getFbCalendars') &&
             $registry->hasMethod('calendar/listEvents')) {
             try {
@@ -639,15 +654,15 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                     $time_span_end = $vevent_end->add($prefs->getValue('conflict_interval') * 60);
                 }
 
-                $events = $registry->call('calendar/listEvents', array($start, $vevent_end, $calendars, false));
+                $events = $registry->call('calendar/listEvents', [$start, $vevent_end, $calendars, false]);
 
                 // TODO: Check if there are too many events to show.
-                $conflicts = array();
+                $conflicts = [];
                 foreach ($events as $calendar) {
                     foreach ($calendar as $event) {
                         // TODO: WTF? Why are we using Kronolith constants
                         // here?
-                        if (in_array($event->status, array(Kronolith::STATUS_CANCELLED, Kronolith::STATUS_FREE))) {
+                        if (in_array($event->status, [Kronolith::STATUS_CANCELLED, Kronolith::STATUS_FREE])) {
                             continue;
                         }
 
@@ -663,18 +678,19 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                             $type = 'collision';
                         }
 
-                        $conflicts[] = array(
+                        $conflicts[] = [
                             'collision' => ($type == 'collision'),
                             'range' => $event->getTimeRange(),
-                            'title' => $event->getTitle()
-                        );
+                            'title' => $event->getTitle(),
+                        ];
                     }
                 }
 
                 if (!empty($conflicts)) {
                     $view->conflicts = $conflicts;
                 }
-            } catch (Horde_Exception $e) {}
+            } catch (Horde_Exception $e) {
+            }
         }
 
         if (!empty($options)) {
@@ -695,7 +711,7 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
         global $notification;
 
         $desc = '';
-        $options = array();
+        $options = [];
 
         try {
             $organizer = $vtodo->getAttribute('ORGANIZER', true);
@@ -706,79 +722,83 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                 $sender = $organizer['path'];
             }
         } catch (Horde_Icalendar_Exception $e) {
-            $sender = _("An unknown person");
+            $sender = _('An unknown person');
         }
 
         try {
             if (($attendees = $vtodo->getAttribute('ATTENDEE')) &&
                 !is_array($attendees)) {
-                $attendees = array($attendees);
+                $attendees = [$attendees];
             }
-        } catch (Horde_Icalendar_Exception $e) {}
+        } catch (Horde_Icalendar_Exception $e) {
+        }
 
         switch ($method) {
-        case 'PUBLISH':
-            $desc = _("%s wishes to make you aware of \"%s\".");
-            if ($registry->hasMethod('tasks/import')) {
-                $options['import'] = _("Add this to my tasklist");
-            }
-            break;
-
-        case 'REQUEST':
-            $desc = _("%s wishes to assign you \"%s\".");
-            if ($registry->hasMethod('tasks/import')) {
-                $options['accept-import'] = _("Accept and add this to my tasklist");
-                $options['import'] = _("Add this to my tasklist");
-                $options['deny'] = _("Deny task assignment");
-            }
-            break;
-
-        case 'REPLY':
-            $desc = _("%s has replied to the assignment of task \"%s\".");
-            $from = $this->getConfigParam('imp_contents')->getHeader()->getHeader('from');
-            $sender = $from
-                ? $from->getAddressList(true)->first()->bare_address
-                : null;
-
-            if ($registry->hasMethod('tasks/updateAttendee') &&
-                $this->_autoUpdateReply(self::AUTO_UPDATE_TASK_REPLY, $sender)) {
-                try {
-                    $registry->call('tasks/updateAttendee', array(
-                        $vtodo,
-                        $sender
-                    ));
-                    $notification->push(_("Respondent Status Updated."), 'horde.success');
-                } catch (Horde_Exception $e) {
-                    $notification->push(sprintf(_("There was an error updating the task: %s"), $e->getMessage()), 'horde.error');
+            case 'PUBLISH':
+                $desc = _('%s wishes to make you aware of "%s".');
+                if ($registry->hasMethod('tasks/import')) {
+                    $options['import'] = _('Add this to my tasklist');
                 }
-            } elseif ($registry->hasMethod('tasks/updateAttendee')) {
-                $options['update'] = _("Update respondent status");
-            }
-            break;
+                break;
+
+            case 'REQUEST':
+                $desc = _('%s wishes to assign you "%s".');
+                if ($registry->hasMethod('tasks/import')) {
+                    $options['accept-import'] = _('Accept and add this to my tasklist');
+                    $options['import'] = _('Add this to my tasklist');
+                    $options['deny'] = _('Deny task assignment');
+                }
+                break;
+
+            case 'REPLY':
+                $desc = _('%s has replied to the assignment of task "%s".');
+                $from = $this->getConfigParam('imp_contents')->getHeader()->getHeader('from');
+                $sender = $from
+                    ? $from->getAddressList(true)->first()->bare_address
+                    : null;
+
+                if ($registry->hasMethod('tasks/updateAttendee') &&
+                    $this->_autoUpdateReply(self::AUTO_UPDATE_TASK_REPLY, $sender)) {
+                    try {
+                        $registry->call('tasks/updateAttendee', [
+                            $vtodo,
+                            $sender,
+                        ]);
+                        $notification->push(_('Respondent Status Updated.'), 'horde.success');
+                    } catch (Horde_Exception $e) {
+                        $notification->push(sprintf(_('There was an error updating the task: %s'), $e->getMessage()), 'horde.error');
+                    }
+                } elseif ($registry->hasMethod('tasks/updateAttendee')) {
+                    $options['update'] = _('Update respondent status');
+                }
+                break;
         }
 
         $view = $this->_getViewOb();
 
         try {
             $view->priority = intval($vtodo->getAttribute('PRIORITY'));
-        } catch (Horde_Icalendar_Exception $e) {}
+        } catch (Horde_Icalendar_Exception $e) {
+        }
 
         try {
             $summary = $view->summary = $vtodo->getAttribute('SUMMARY');
         } catch (Horde_Icalendar_Exception $e) {
-            $summary = _("Unknown Task");
-            $view->summary_error = _("None");
+            $summary = _('Unknown Task');
+            $view->summary_error = _('None');
         }
 
         $view->desc = sprintf($desc, $sender, $summary);
 
         try {
             $view->desc2 = $vtodo->getAttribute('DESCRIPTION');
-        } catch (Horde_Icalendar_Exception $e) {}
+        } catch (Horde_Icalendar_Exception $e) {
+        }
 
         try {
             $view->percentComplete = $vtodo->getAttribute('PERCENT-COMPLETE');
-        } catch (Horde_Icalendar_Exception $e) {}
+        } catch (Horde_Icalendar_Exception $e) {
+        }
 
         if (!empty($attendees)) {
             $view->attendees = $this->_parseAttendees($vtodo, $attendees);
@@ -804,29 +824,29 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
     protected function _partstatToString($value, $default = null)
     {
         switch ($value) {
-        case 'ACCEPTED':
-            return _("Accepted");
+            case 'ACCEPTED':
+                return _('Accepted');
 
-        case 'DECLINED':
-            return _("Declined");
+            case 'DECLINED':
+                return _('Declined');
 
-        case 'TENTATIVE':
-            return _("Tentatively Accepted");
+            case 'TENTATIVE':
+                return _('Tentatively Accepted');
 
-        case 'DELEGATED':
-            return _("Delegated");
+            case 'DELEGATED':
+                return _('Delegated');
 
-        case 'COMPLETED':
-            return _("Completed");
+            case 'COMPLETED':
+                return _('Completed');
 
-        case 'IN-PROCESS':
-            return _("In Process");
+            case 'IN-PROCESS':
+                return _('In Process');
 
-        case 'NEEDS-ACTION':
-        default:
-            return is_null($default)
-                ? _("Needs Action")
-                : $default;
+            case 'NEEDS-ACTION':
+            default:
+                return is_null($default)
+                    ? _('Needs Action')
+                    : $default;
         }
     }
 
@@ -837,9 +857,9 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
      */
     protected function _getViewOb()
     {
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/itip'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/itip',
+        ]);
         $view->addHelper('Text');
 
         return $view;
@@ -850,7 +870,7 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
     protected function _parseAttendees($data, $attendees)
     {
         $params = $data->getAttribute('ATTENDEE', true);
-        $tmp = array();
+        $tmp = [];
 
         foreach ($attendees as $key => $val) {
             if (!empty($params[$key]['CN'])) {
@@ -858,42 +878,42 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
             } else {
                 $val = parse_url($val);
                 $attendee = empty($val['path'])
-                    ? _("Unknown")
+                    ? _('Unknown')
                     : $val['path'];
             }
 
-            $role = _("Required Participant");
+            $role = _('Required Participant');
             if (isset($params[$key]['ROLE'])) {
                 switch ($params[$key]['ROLE']) {
-                case 'CHAIR':
-                    $role = _("Chair Person");
-                    break;
+                    case 'CHAIR':
+                        $role = _('Chair Person');
+                        break;
 
-                case 'OPT-PARTICIPANT':
-                    $role = _("Optional Participant");
-                    break;
+                    case 'OPT-PARTICIPANT':
+                        $role = _('Optional Participant');
+                        break;
 
-                case 'NON-PARTICIPANT':
-                    $role = _("Non Participant");
-                    break;
+                    case 'NON-PARTICIPANT':
+                        $role = _('Non Participant');
+                        break;
 
-                case 'REQ-PARTICIPANT':
-                default:
-                    // Already set above.
-                    break;
+                    case 'REQ-PARTICIPANT':
+                    default:
+                        // Already set above.
+                        break;
                 }
             }
 
-            $status = _("Awaiting Response");
+            $status = _('Awaiting Response');
             if (isset($params[$key]['PARTSTAT'])) {
                 $status = $this->_partstatToString($params[$key]['PARTSTAT'], $status);
             }
 
-            $tmp[] = array(
+            $tmp[] = [
                 'attendee' => $attendee,
                 'role' => $role,
-                'status' => $status
-            );
+                'status' => $status,
+            ];
         }
 
         return $tmp;

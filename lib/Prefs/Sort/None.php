@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -58,7 +59,7 @@ class IMP_Prefs_Sort_None extends IMP_Prefs_Sort
         return true;
     }
 
-    
+
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): IMP_Prefs_Sort_Sortpref_Locked
     {

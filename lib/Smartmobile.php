@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -40,9 +41,9 @@ class IMP_Smartmobile
 
         $this->vars = $vars;
 
-        $this->view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/smartmobile'
-        ));
+        $this->view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/smartmobile',
+        ]);
         $this->view->addHelper('Horde_Core_Smartmobile_View_Helper');
         $this->view->addHelper('Text');
 
@@ -64,11 +65,11 @@ class IMP_Smartmobile
 
         $page_output->smartmobileInit = array_merge(
             $page_output->smartmobileInit,
-            array(
+            [
                 '$.mobile.buttonMarkup.hoverDelay = 80;',
                 '$.mobile.defaultPageTransition = \'none\';',
-                '$.event.special.tap.tapholdThreshold = 600;'
-            )
+                '$.event.special.tap.tapholdThreshold = 600;',
+            ]
         );
 
         $page_output->addStylesheet(
@@ -78,7 +79,7 @@ class IMP_Smartmobile
         // Load full jQuery Mobile source.
         //$page_output->debug = true;
 
-        $notification->notify(array('listeners' => 'status'));
+        $notification->notify(['listeners' => 'status']);
     }
 
     /**
@@ -120,13 +121,13 @@ class IMP_Smartmobile
         if ($this->view->canCompose = IMP_Compose::canCompose()) {
             /* Setting up identities. */
             $identity = $injector->getInstance('IMP_Identity');
-            $this->view->identities = array();
+            $this->view->identities = [];
             foreach ($identity->getSelectList() as $id => $from) {
-                $this->view->identities[] = array(
+                $this->view->identities[] = [
                     'label' => $from,
                     'sel' => ($id == $identity->getDefault()),
-                    'val' => $id
-                );
+                    'val' => $id,
+                ];
             }
 
             $this->view->user = $registry->getAuth();
@@ -152,45 +153,45 @@ class IMP_Smartmobile
 
         $imp_imap = $injector->getInstance('IMP_Factory_Imap')->create();
 
-        $code = array(
+        $code = [
             /* Variables. */
-            'conf' => array_filter(array(
+            'conf' => array_filter([
                 'allow_folders' => $imp_imap->access(IMP_Imap::ACCESS_FOLDERS),
                 'disable_compose' => !IMP_Compose::canCompose(),
-                'flags' => array(
+                'flags' => [
                     'deleted' => '\\deleted',
                     'draft' => '\\draft',
-                    'seen' => '\\seen'
-                ),
+                    'seen' => '\\seen',
+                ],
                 'mailbox_return' => $prefs->getValue('mailbox_return'),
                 'qsearchid' => IMP_Mailbox::formTo(IMP_Search::MBOX_PREFIX . IMP_Search::QUICKSEARCH),
-                'refresh_time' => intval($prefs->getValue('refresh_time'))
-            )),
+                'refresh_time' => intval($prefs->getValue('refresh_time')),
+            ]),
 
             /* Gettext strings. */
-            'text' => array(
-                'cc' => _("Cc"),
-                'exitsearch' => _("Exit Search"),
-                'folders' => _("Folders"),
-                'from' => _("From"),
-                'message_0' => _("No messages"),
-                'message_1' => _("1 message"),
-                'message_2' => _("%d messages"),
-                'more_msgs' => _("Load More Messages..."),
-                'move_nombox' => _("Must enter a non-empty name for the new destination mailbox."),
-                'msg_error' => _("Error when loading the message."),
-                'new_message' => _("New Message"),
-                'nofrom' => _("Invalid Address"),
-                'nosubject' => _("The message does not have a Subject entered.") . "\n" . _("Send message without a Subject?"),
-                'searchresults' => _("Search Results"),
-                'subject' => _("Subject"),
-                'to' => _("To")
-            )
-        );
+            'text' => [
+                'cc' => _('Cc'),
+                'exitsearch' => _('Exit Search'),
+                'folders' => _('Folders'),
+                'from' => _('From'),
+                'message_0' => _('No messages'),
+                'message_1' => _('1 message'),
+                'message_2' => _('%d messages'),
+                'more_msgs' => _('Load More Messages...'),
+                'move_nombox' => _('Must enter a non-empty name for the new destination mailbox.'),
+                'msg_error' => _('Error when loading the message.'),
+                'new_message' => _('New Message'),
+                'nofrom' => _('Invalid Address'),
+                'nosubject' => _('The message does not have a Subject entered.') . "\n" . _('Send message without a Subject?'),
+                'searchresults' => _('Search Results'),
+                'subject' => _('Subject'),
+                'to' => _('To'),
+            ],
+        ];
 
-        $page_output->addInlineJsVars(array(
-            'var IMP' => $code
-        ), array('top' => true));
+        $page_output->addInlineJsVars([
+            'var IMP' => $code,
+        ], ['top' => true]);
     }
 
 }

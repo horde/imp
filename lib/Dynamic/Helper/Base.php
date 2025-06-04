@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -35,7 +36,7 @@ class IMP_Dynamic_Helper_Base extends Horde_View_Helper_Base
      *
      * @return string  An HTML link to $url.
      */
-    public function actionButton(array $params = array())
+    public function actionButton(array $params = [])
     {
         $class = '';
         if (!empty($params['icon'])) {
@@ -46,16 +47,16 @@ class IMP_Dynamic_Helper_Base extends Horde_View_Helper_Base
         }
 
         return Horde::link(
-                '',
-                '',
-                $class,
-                '',
-                '',
-                isset($params['htmltitle']) ? $params['htmltitle'] : $params['title'],
-                '',
-                empty($params['id']) ? array() : array('id' => $params['id']),
-                true
-            )
+            '',
+            '',
+            $class,
+            '',
+            '',
+            $params['htmltitle'] ?? $params['title'],
+            '',
+            empty($params['id']) ? [] : ['id' => $params['id']],
+            true
+        )
           . $params['title'] . '</a>';
     }
 

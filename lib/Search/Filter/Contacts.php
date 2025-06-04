@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
  *
@@ -28,7 +29,7 @@ class IMP_Search_Filter_Contacts extends IMP_Search_Filter_Builtin
     protected function _init()
     {
         $this->_id = 'filter_contacts';
-        $this->_label = _("Messages From Personal Contacts");
+        $this->_label = _('Messages From Personal Contacts');
 
         $this->add(new IMP_Search_Element_Contacts());
     }

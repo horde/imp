@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -30,10 +31,10 @@ class IMP_Script_Package_Editor extends Horde_Script_Package
     {
         global $injector, $page_output, $language, $prefs;
 
-        $injector->getInstance('Horde_Editor')->initialize(array(
+        $injector->getInstance('Horde_Editor')->initialize([
             'basic' => true,
-            'config' => 'IMP.ckeditor_config'
-        ));
+            'config' => 'IMP.ckeditor_config',
+        ]);
 
         $font_family = $prefs->getValue('compose_html_font_family');
         if (!$font_family) {
@@ -47,7 +48,7 @@ class IMP_Script_Package_Editor extends Horde_Script_Package
             ? min(24, max(8, $font_size)) . 'px'
             : '14px';
 
-        $config = array(
+        $config = [
             /* To more closely match "normal" textarea behavior, send <BR> on
              * enter instead of <P>. */
             // CKEDITOR.ENTER_BR
@@ -77,18 +78,18 @@ class IMP_Script_Package_Editor extends Horde_Script_Package
              * the message, however. */
             'contentsCss: "body { font-family: ' . $font_family . '; font-size: ' . $font_size . '; }"',
             'font_defaultLabel: "' . $font_family . '"',
-            'fontSize_defaultLabel: "' . $font_size . '"'
-        );
+            'fontSize_defaultLabel: "' . $font_size . '"',
+        ];
 
         $buttons = $prefs->getValue('ckeditor_buttons');
         if (!empty($buttons)) {
             $config[] = 'toolbar: ' . $buttons;
         }
 
-        $page_output->addInlineScript(array(
+        $page_output->addInlineScript([
             'window.IMP = window.IMP || {}',
-            'IMP.ckeditor_config = {' . implode(',', $config) . '}'
-        ));
+            'IMP.ckeditor_config = {' . implode(',', $config) . '}',
+        ]);
     }
 
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -43,11 +44,11 @@ class IMP_Ajax_Application_Handler_Remote extends Horde_Core_Ajax_Application_Ha
         $remote = $injector->getInstance('IMP_Remote');
         $remoteid = IMP_Mailbox::formFrom($this->vars->remoteid);
 
-        $res = new stdClass;
+        $res = new stdClass();
         $res->success = false;
 
         if (!isset($remote[$remoteid])) {
-            $notification->push(_("Could not find remote server configuration."), 'horde.error');
+            $notification->push(_('Could not find remote server configuration.'), 'horde.error');
             return $res;
         }
 
@@ -60,22 +61,23 @@ class IMP_Ajax_Application_Handler_Remote extends Horde_Core_Ajax_Application_Ha
 
         try {
             switch ($remote_ob->login($password, $this->vars->password_save)) {
-            case $remote_ob::LOGIN_BAD_CHANGED:
-                $remote[$remoteid] = $remote_ob;
-                // Fall-through
+                case $remote_ob::LOGIN_BAD_CHANGED:
+                    $remote[$remoteid] = $remote_ob;
+                    // Fall-through
 
-            case $remote_ob::LOGIN_BAD:
-                throw new Exception();
+                    // no break
+                case $remote_ob::LOGIN_BAD:
+                    throw new Exception();
 
-            case $remote_ob::LOGIN_OK_CHANGED:
-                $remote[$remoteid] = $remote_ob;
-                break;
+                case $remote_ob::LOGIN_OK_CHANGED:
+                    $remote[$remoteid] = $remote_ob;
+                    break;
             }
 
             $res->success = true;
             $notification->push(
                 sprintf(
-                    _("Successfully authenticated to %s."),
+                    _('Successfully authenticated to %s.'),
                     $remote_ob->label
                 ),
                 'horde.success'
@@ -98,21 +100,21 @@ class IMP_Ajax_Application_Handler_Remote extends Horde_Core_Ajax_Application_Ha
             }
 
             switch ($prefs->getValue('nav_expanded')) {
-            case IMP_Ftree_Prefs_Expanded::NO:
-                $iterator->add($iterator::CHILDREN);
-                break;
+                case IMP_Ftree_Prefs_Expanded::NO:
+                    $iterator->add($iterator::CHILDREN);
+                    break;
 
-            case IMP_Ftree_Prefs_Expanded::LAST:
-                $iterator->add($iterator::EXPANDED);
-                break;
+                case IMP_Ftree_Prefs_Expanded::LAST:
+                    $iterator->add($iterator::EXPANDED);
+                    break;
             }
 
             array_map(
-                array($ftree->eltdiff, 'add'),
+                [$ftree->eltdiff, 'add'],
                 iterator_to_array($iterator, false)
             );
         } catch (Exception $e) {
-            $notification->push(sprintf(_("Could not authenticate to %s."), $remote_ob->label), 'horde.error');
+            $notification->push(sprintf(_('Could not authenticate to %s.'), $remote_ob->label), 'horde.error');
         }
 
         return $res;
@@ -140,7 +142,7 @@ class IMP_Ajax_Application_Handler_Remote extends Horde_Core_Ajax_Application_Ha
         $ftree->delete($remote_ob);
         $ftree->insert($remote_ob);
 
-        $notification->push(sprintf(_("Logged out of %s."), $remote_ob->label), 'horde.success');
+        $notification->push(sprintf(_('Logged out of %s.'), $remote_ob->label), 'horde.success');
 
         return true;
     }

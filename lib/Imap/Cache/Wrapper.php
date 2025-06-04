@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -37,7 +38,7 @@ class IMP_Imap_Cache_Wrapper implements Serializable
      *
      * @var array
      */
-    protected $_params = array();
+    protected $_params = [];
 
     /**
      * Cache lifetime.
@@ -51,7 +52,7 @@ class IMP_Imap_Cache_Wrapper implements Serializable
      */
     public function __construct($driver, $lifetime = null)
     {
-        $params = array('driver' => $driver);
+        $params = ['driver' => $driver];
         if (!is_null($lifetime)) {
             $params['lifetime'] = intval($lifetime);
         }
@@ -68,44 +69,44 @@ class IMP_Imap_Cache_Wrapper implements Serializable
         $this->_params = $params;
 
         switch ($this->_params['driver']) {
-        case 'cache':
-            $ob = new Horde_Imap_Client_Cache_Backend_Cache(array_filter(array(
-                'cacheob' => $injector->getInstance('Horde_Cache'),
-                'lifetime' => (isset($this->_params['lifetime']) ? $this->_params['lifetime'] : null)
-            )));
-            break;
+            case 'cache':
+                $ob = new Horde_Imap_Client_Cache_Backend_Cache(array_filter([
+                    'cacheob' => $injector->getInstance('Horde_Cache'),
+                    'lifetime' => ($this->_params['lifetime'] ?? null),
+                ]));
+                break;
 
-        case 'hashtable':
-            $ob = new Horde_Imap_Client_Cache_Backend_Hashtable(array_filter(array(
-                'hashtable' => $injector->getInstance('Horde_HashTable'),
-                'lifetime' => (isset($this->_params['lifetime']) ? $this->_params['lifetime'] : null)
-            )));
-            break;
+            case 'hashtable':
+                $ob = new Horde_Imap_Client_Cache_Backend_Hashtable(array_filter([
+                    'hashtable' => $injector->getInstance('Horde_HashTable'),
+                    'lifetime' => ($this->_params['lifetime'] ?? null),
+                ]));
+                break;
 
-        case 'none':
-            $ob = new Horde_Imap_Client_Cache_Backend_Null();
-            break;
+            case 'none':
+                $ob = new Horde_Imap_Client_Cache_Backend_Null();
+                break;
 
-        case 'nosql':
-            $ob = new Horde_Imap_Client_Cache_Backend_Mongo(array(
-                'mongo_db' => $injector->getInstance('Horde_Nosql_Adapter')
-            ));
-            break;
+            case 'nosql':
+                $ob = new Horde_Imap_Client_Cache_Backend_Mongo([
+                    'mongo_db' => $injector->getInstance('Horde_Nosql_Adapter'),
+                ]);
+                break;
 
-        case 'sql':
-            $ob = new Horde_Imap_Client_Cache_Backend_Db(array(
-                'db' => $injector->getInstance('Horde_Db_Adapter')
-            ));
-            break;
+            case 'sql':
+                $ob = new Horde_Imap_Client_Cache_Backend_Db([
+                    'db' => $injector->getInstance('Horde_Db_Adapter'),
+                ]);
+                break;
 
-        default:
-            $this->_params['driver'] = 'none';
-            Horde::log(
-                'IMAP caching has been disabled for this session due to an error',
-                'WARN'
-            );
-            $ob = new Horde_Imap_Client_Cache_Backend_Null();
-            break;
+            default:
+                $this->_params['driver'] = 'none';
+                Horde::log(
+                    'IMAP caching has been disabled for this session due to an error',
+                    'WARN'
+                );
+                $ob = new Horde_Imap_Client_Cache_Backend_Null();
+                break;
         }
 
         $this->backend = $ob;
@@ -116,7 +117,7 @@ class IMP_Imap_Cache_Wrapper implements Serializable
      */
     public function __call($name, $arguments)
     {
-        return call_user_func_array(array($this->backend, $name), $arguments);
+        return call_user_func_array([$this->backend, $name], $arguments);
     }
 
     /* Serializable methods. */
@@ -127,11 +128,11 @@ class IMP_Imap_Cache_Wrapper implements Serializable
     {
         return array_shift($this->__serialize());
     }
-    public function __serialize(): array 
+    public function __serialize(): array
     {
         return
         [
-            json_encode($this->_params)
+            json_encode($this->_params),
         ];
     }
 
@@ -141,7 +142,7 @@ class IMP_Imap_Cache_Wrapper implements Serializable
     {
         $this->__unserialize([$data]);
     }
-    public function __unserialize(array $data): void 
+    public function __unserialize(array $data): void
     {
         $this->_initOb(json_decode($data[0], true));
     }

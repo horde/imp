@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -24,8 +25,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Compose_Attachment_Storage_Temp
-extends IMP_Compose_Attachment_Storage
+class IMP_Compose_Attachment_Storage_Temp extends IMP_Compose_Attachment_Storage
 {
     /**
      * The VFS HashTable object.
@@ -58,7 +58,7 @@ extends IMP_Compose_Attachment_Storage
      */
     protected function _write($filename, Horde_Mime_Part $part)
     {
-        if (!$this->_ht->set($this->_id, $filename, array('filename' => true))) {
+        if (!$this->_ht->set($this->_id, $filename, ['filename' => true])) {
             throw new IMP_Compose_Exception('Could not save attachment data.');
         }
     }

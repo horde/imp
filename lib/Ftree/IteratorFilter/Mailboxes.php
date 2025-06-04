@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,7 +28,7 @@ class IMP_Ftree_IteratorFilter_Mailboxes extends FilterIterator
      *
      * @var array
      */
-    public $mboxes = array();
+    public $mboxes = [];
 
     /**
      */

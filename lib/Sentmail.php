@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -30,18 +31,18 @@
 abstract class IMP_Sentmail
 {
     /* Action constants. */
-    const NEWMSG = 'new';
-    const REPLY = 'reply';
-    const FORWARD = 'forward';
-    const REDIRECT = 'redirect';
-    const MDN = 'mdn';
+    public const NEWMSG = 'new';
+    public const REPLY = 'reply';
+    public const FORWARD = 'forward';
+    public const REDIRECT = 'redirect';
+    public const MDN = 'mdn';
 
     /**
      * Hash containing configuration parameters.
      *
      * @var array
      */
-    protected $_params = array();
+    protected $_params = [];
 
     /**
      * Constructor.
@@ -50,7 +51,7 @@ abstract class IMP_Sentmail
      *
      * @throws IMP_Exception
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         $this->_params = array_merge($this->_params, $params);
     }
@@ -60,11 +61,11 @@ abstract class IMP_Sentmail
     public function __get($name)
     {
         switch ($name) {
-        case 'limit_period':
-        case 'threshold':
-            return isset($this->_params[$name])
-                ? intval($this->_params[$name])
-                : 0;
+            case 'limit_period':
+            case 'threshold':
+                return isset($this->_params[$name])
+                    ? intval($this->_params[$name])
+                    : 0;
         }
     }
 
@@ -80,7 +81,7 @@ abstract class IMP_Sentmail
     public function log($action, $message_id, $recipients, $success = true)
     {
         if (!is_array($recipients)) {
-            $recipients = array($recipients);
+            $recipients = [$recipients];
         }
 
         foreach ($recipients as $addresses) {
@@ -107,8 +108,12 @@ abstract class IMP_Sentmail
      * @param string $recipient   A message recipient.
      * @param boolean $success    Whether the attempt was successful.
      */
-    abstract protected function _log($action, $message_id, $recipient,
-                                     $success);
+    abstract protected function _log(
+        $action,
+        $message_id,
+        $recipient,
+        $success
+    );
 
     /**
      * Returns the favourite recipients.

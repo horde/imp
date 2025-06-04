@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -38,19 +39,19 @@ class IMP_Prefs_Special_Sentmail extends IMP_Prefs_Special_SpecialMboxes impleme
 
         $identity = $injector->getInstance('IMP_Identity');
 
-        $js = array();
+        $js = [];
         foreach ($identity->getAllSentmail(false) as $key => $val) {
             $js[$key] = $val->form_to;
         };
 
-        $page_output->addInlineJsVars(array(
-            'ImpFolderPrefs.mboxes' => array('sent_mail' => _("Create a new sent-mail mailbox")),
-            'ImpFolderPrefs.sentmail' => $js
-        ));
+        $page_output->addInlineJsVars([
+            'ImpFolderPrefs.mboxes' => ['sent_mail' => _('Create a new sent-mail mailbox')],
+            'ImpFolderPrefs.sentmail' => $js,
+        ]);
 
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/prefs'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/prefs',
+        ]);
         $view->addHelper('Horde_Core_View_Helper_Label');
 
         $view->default = IMP_Mailbox::formTo(self::PREF_DEFAULT);
@@ -58,16 +59,16 @@ class IMP_Prefs_Special_Sentmail extends IMP_Prefs_Special_SpecialMboxes impleme
         $iterator = new IMP_Ftree_IteratorFilter(
             $injector->getInstance('IMP_Ftree')
         );
-        $iterator->add(array(
+        $iterator->add([
             $iterator::NONIMAP,
-            $iterator::REMOTE
-        ));
-        $iterator->mboxes = array('INBOX');
+            $iterator::REMOTE,
+        ]);
+        $iterator->mboxes = ['INBOX'];
 
-        $view->flist = new IMP_Ftree_Select(array(
+        $view->flist = new IMP_Ftree_Select([
             'iterator' => $iterator,
-            'new_mbox' => true
-        ));
+            'new_mbox' => true,
+        ]);
         $view->special_use = $this->_getSpecialUse(Horde_Imap_Client::SPECIALUSE_SENT);
 
         return $view->render('sentmail');

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,19 +21,17 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Factory_Compose
-extends Horde_Core_Factory_Base
-implements Horde_Shutdown_Task
+class IMP_Factory_Compose extends Horde_Core_Factory_Base implements Horde_Shutdown_Task
 {
     /** Storage key for compose objects. */
-    const STORAGE_KEY = 'compose_ob/';
+    public const STORAGE_KEY = 'compose_ob/';
 
     /**
      * Instances.
      *
      * @var array
      */
-    private $_instances = array();
+    private $_instances = [];
 
     /**
      */
@@ -77,13 +76,13 @@ implements Horde_Shutdown_Task
 
         foreach ($this->_instances as $key => $val) {
             switch ($val->changed) {
-            case 'changed':
-                $session->set('imp', self::STORAGE_KEY . $key, $val);
-                break;
+                case 'changed':
+                    $session->set('imp', self::STORAGE_KEY . $key, $val);
+                    break;
 
-            case 'deleted':
-                $session->remove('imp', self::STORAGE_KEY . $key);
-                break;
+                case 'deleted':
+                    $session->remove('imp', self::STORAGE_KEY . $key);
+                    break;
             }
         }
     }

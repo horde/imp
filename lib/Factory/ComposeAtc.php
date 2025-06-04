@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -41,7 +42,7 @@ class IMP_Factory_ComposeAtc extends Horde_Core_Factory_Base
      *
      * @var array
      */
-    private $_instances = array();
+    private $_instances = [];
 
     /**
      * Return the requested attachment storage instance.
@@ -75,7 +76,7 @@ class IMP_Factory_ComposeAtc extends Horde_Core_Factory_Base
             return new $classname($user);
         }
 
-        $sig = hash('md5', implode('|', array($user, $id)));
+        $sig = hash('md5', implode('|', [$user, $id]));
 
         if (!isset($this->_instances[$sig])) {
             $this->_instances[$sig] = new $classname($user, $id);

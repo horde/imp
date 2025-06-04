@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -37,7 +38,7 @@ class IMP_Flag_Imap_Forwarded extends IMP_Flag_Imap
      */
     protected function _getLabel()
     {
-        return _("Forwarded");
+        return _('Forwarded');
     }
 
 }

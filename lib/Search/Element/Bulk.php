@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -50,7 +51,7 @@ class IMP_Search_Element_Bulk extends IMP_Search_Element
      */
     public function queryText()
     {
-        return ($this->_data ? _("not") . ' ' : '') . _("Bulk Messages");
+        return ($this->_data ? _('not') . ' ' : '') . _('Bulk Messages');
     }
 
 }

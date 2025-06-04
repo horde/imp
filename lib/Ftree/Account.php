@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,13 +24,13 @@
 abstract class IMP_Ftree_Account implements Serializable
 {
     /* Mask constants for getList(). */
-    const INIT = 1;
-    const UNSUB = 2;
+    public const INIT = 1;
+    public const UNSUB = 2;
 
     /* Mask constants for delete(). */
-    const DELETE_ELEMENT = 1;
-    const DELETE_ELEMENT_QUICK = 2;
-    const DELETE_RECURSIVE = 4;
+    public const DELETE_ELEMENT = 1;
+    public const DELETE_ELEMENT_QUICK = 2;
+    public const DELETE_RECURSIVE = 4;
 
     /**
      * Account ID.
@@ -65,7 +66,7 @@ abstract class IMP_Ftree_Account implements Serializable
      * @return array  Array of elements to be added via
      *                IMP_Ftree#_insertElt().
      */
-    abstract public function getList($query = array(), $mask = 0);
+    abstract public function getList($query = [], $mask = 0);
 
     /**
      * Return the mailbox selction to delete.
@@ -88,7 +89,7 @@ abstract class IMP_Ftree_Account implements Serializable
     {
         return
         [
-            $this->_id
+            $this->_id,
         ];
     }
     /**
@@ -97,7 +98,7 @@ abstract class IMP_Ftree_Account implements Serializable
     {
         $this->_id = $data;
     }
-    public function __unserialize(array $data): void 
+    public function __unserialize(array $data): void
     {
         $this->_id = $data[0];
     }

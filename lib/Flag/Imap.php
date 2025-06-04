@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -22,9 +23,7 @@
  *
  * @property-read string $imapflag  The IMAP flag string.
  */
-abstract class IMP_Flag_Imap
-extends IMP_Flag_Base
-implements IMP_Flag_Match_Flag
+abstract class IMP_Flag_Imap extends IMP_Flag_Base implements IMP_Flag_Match_Flag
 {
     /**
      * The IMAP flag string used on the server.
@@ -38,12 +37,12 @@ implements IMP_Flag_Match_Flag
     public function __get($name)
     {
         switch ($name) {
-        case 'id':
-        case 'imapflag':
-            return $this->_imapflag;
+            case 'id':
+            case 'imapflag':
+                return $this->_imapflag;
 
-        default:
-            return parent::__get($name);
+            default:
+                return parent::__get($name);
         }
     }
 

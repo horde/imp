@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -46,10 +47,10 @@ class IMP_Mailbox_List_Pop3 extends IMP_Mailbox_List
             return null;
         }
 
-        return array(
+        return [
             'm' => $this->_mailbox,
-            'u' => $this->_buids[$buid]
-        );
+            'u' => $this->_buids[$buid],
+        ];
     }
 
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -44,7 +45,7 @@ class IMP_Ajax_Application_Handler_ComposeAttach extends Horde_Core_Ajax_Applica
     {
         global $injector, $notification;
 
-        $result = new stdClass;
+        $result = new stdClass();
         $result->action = 'addAttachment';
         if (isset($this->vars->file_id)) {
             $result->file_id = intval($this->vars->file_id);
@@ -54,7 +55,7 @@ class IMP_Ajax_Application_Handler_ComposeAttach extends Horde_Core_Ajax_Applica
         /* A max POST size failure will result in ALL HTTP parameters being
          * empty. Catch that here. */
         if (!isset($this->vars->composeCache)) {
-            $notification->push(_("Your attachment was not uploaded. Most likely, the file exceeded the maximum size allowed by the server configuration."), 'horde.warning');
+            $notification->push(_('Your attachment was not uploaded. Most likely, the file exceeded the maximum size allowed by the server configuration.'), 'horde.warning');
         } else {
             $imp_compose = $injector->getInstance('IMP_Factory_Compose')->create($this->vars->composeCache);
 
@@ -69,19 +70,19 @@ class IMP_Ajax_Application_Handler_ComposeAttach extends Horde_Core_Ajax_Applica
                             /* This currently only occurs when
                              * pasting/dropping image into HTML editor. */
                             if ($this->vars->img_data) {
-                                $result->img = new stdClass;
+                                $result->img = new stdClass();
                                 $result->img->src = strval($val->viewUrl()->setRaw(true));
 
                                 $temp1 = new DOMDocument();
                                 $temp2 = $temp1->createElement('span');
                                 $imp_compose->addRelatedAttachment($val, $temp2, 'src');
-                                $result->img->related = array(
+                                $result->img->related = [
                                     $imp_compose::RELATED_ATTR,
-                                    $temp2->getAttribute($imp_compose::RELATED_ATTR)
-                                );
+                                    $temp2->getAttribute($imp_compose::RELATED_ATTR),
+                                ];
                             } else {
                                 $this->_base->queue->attachment($val);
-                                $notification->push(sprintf(_("Added \"%s\" as an attachment."), $val->getPart()->getName()), 'horde.success');
+                                $notification->push(sprintf(_('Added "%s" as an attachment.'), $val->getPart()->getName()), 'horde.success');
                             }
                         }
                     }
@@ -91,7 +92,7 @@ class IMP_Ajax_Application_Handler_ComposeAttach extends Horde_Core_Ajax_Applica
                     $notification->push($e, 'horde.error');
                 }
             } else {
-                $notification->push(_("Uploading attachments has been disabled on this server."), 'horde.error');
+                $notification->push(_('Uploading attachments has been disabled on this server.'), 'horde.error');
             }
         }
 

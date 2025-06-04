@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2009-2017 Horde LLC (http://www.horde.org/)
  *
@@ -28,12 +29,12 @@ class IMP_Mime_Viewer_Rfc822 extends Horde_Mime_Viewer_Rfc822
      *
      * @var array
      */
-    protected $_capability = array(
+    protected $_capability = [
         'full' => true,
         'info' => true,
         'inline' => false,
-        'raw' => true
-    );
+        'raw' => true,
+    ];
 
     /**
      */
@@ -73,12 +74,12 @@ class IMP_Mime_Viewer_Rfc822 extends Horde_Mime_Viewer_Rfc822
     protected function _getHeaderValue($ob, $header)
     {
         switch ($header) {
-        case 'date':
-            $date_ob = new IMP_Message_Date($ob['Date']);
-            return $date_ob->format($date_ob::DATE_LOCAL);
+            case 'date':
+                $date_ob = new IMP_Message_Date($ob['Date']);
+                return $date_ob->format($date_ob::DATE_LOCAL);
 
-        default:
-            return parent::_getHeaderValue($ob, $header);
+            default:
+                return parent::_getHeaderValue($ob, $header);
         }
     }
 

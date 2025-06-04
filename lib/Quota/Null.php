@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,10 +28,10 @@ class IMP_Quota_Null extends IMP_Quota
      */
     public function getQuota($mailbox = null)
     {
-        return array(
+        return [
             'limit' => 0,
-            'usage' => 0
-        );
+            'usage' => 0,
+        ];
     }
 
 }

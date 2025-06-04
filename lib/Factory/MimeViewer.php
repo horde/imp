@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -34,7 +35,7 @@ class IMP_Factory_MimeViewer extends Horde_Core_Factory_MimeViewer
      *
      * @var array
      */
-    private $_instances = array();
+    private $_instances = [];
 
     /**
      * Attempts to return a concrete Horde_Mime_Viewer object based on the
@@ -48,25 +49,25 @@ class IMP_Factory_MimeViewer extends Horde_Core_Factory_MimeViewer
      * @return Horde_Mime_Viewer_Base  The newly created instance.
      * @throws Horde_Mime_Viewer_Exception
      */
-    public function create(Horde_Mime_Part $mime, array $opts = array())
+    public function create(Horde_Mime_Part $mime, array $opts = [])
     {
-        $opts = array_merge(array(
+        $opts = array_merge([
             'contents' => null,
-            'type' => null
-        ), $opts);
+            'type' => null,
+        ], $opts);
 
-        $sig = implode('|', array(
+        $sig = implode('|', [
             spl_object_hash($mime),
             $opts['contents'] ? spl_object_hash($opts['contents']) : '',
-            strval($opts['type'])
-        ));
+            strval($opts['type']),
+        ]);
 
         if (!isset($this->_instances[$sig])) {
             $this->_contents = $opts['contents'];
-            $this->_instances[$sig] = parent::create($mime, array_filter(array(
+            $this->_instances[$sig] = parent::create($mime, array_filter([
                 'app' => 'imp',
-                'type' => $opts['type']
-            )));
+                'type' => $opts['type'],
+            ]));
             unset($this->_contents);
         }
 
@@ -87,34 +88,36 @@ class IMP_Factory_MimeViewer extends Horde_Core_Factory_MimeViewer
      * @return Horde_Mime_Viewer_Base  The newly created instance.
      * @throws Horde_Mime_Viewer_Exception
      */
-    public function createCallback(Horde_Mime_Viewer_Base $viewer,
-                                   Horde_Mime_Part $mime, $type)
-    {
-        return $this->create($mime, array(
+    public function createCallback(
+        Horde_Mime_Viewer_Base $viewer,
+        Horde_Mime_Part $mime,
+        $type
+    ) {
+        return $this->create($mime, [
             'contents' => $viewer->getConfigParam('imp_contents'),
-            'type' => $type
-        ));
+            'type' => $type,
+        ]);
     }
 
     /**
      */
     public function getViewerConfig($type, $app)
     {
-        list($driver, $params) = parent::getViewerConfig($type, $app);
+        [$driver, $params] = parent::getViewerConfig($type, $app);
 
         switch ($driver) {
-        case 'Horde_Mime_Viewer_Report':
-        case 'Horde_Mime_Viewer_Security':
-        case 'Report':
-        case 'Security':
-            $params['viewer_callback'] = array($this, 'createCallback');
-            break;
+            case 'Horde_Mime_Viewer_Report':
+            case 'Horde_Mime_Viewer_Security':
+            case 'Report':
+            case 'Security':
+                $params['viewer_callback'] = [$this, 'createCallback'];
+                break;
         }
 
         $params['imp_contents'] = $this->_contents;
         $params['type'] = $type;
 
-        return array($driver, $params);
+        return [$driver, $params];
     }
 
 }

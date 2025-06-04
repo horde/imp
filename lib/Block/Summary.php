@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2005-2017 Horde LLC (http://www.horde.org/)
  *
@@ -28,11 +29,11 @@ class IMP_Block_Summary extends Horde_Core_Block
 
     /**
      */
-    public function __construct($app, $params = array())
+    public function __construct($app, $params = [])
     {
         parent::__construct($app, $params);
 
-        $this->_name = _("Mailbox Summary");
+        $this->_name = _('Mailbox Summary');
     }
 
     /**
@@ -46,13 +47,13 @@ class IMP_Block_Summary extends Horde_Core_Block
      */
     protected function _params()
     {
-        return array(
-            'show_unread' => array(
+        return [
+            'show_unread' => [
                 'type' => 'boolean',
-                'name' => _("Only display mailboxes with unread messages in them?"),
-                'default' => 0
-            )
-        );
+                'name' => _('Only display mailboxes with unread messages in them?'),
+                'default' => 0,
+            ],
+        ];
     }
 
     /**
@@ -91,9 +92,9 @@ class IMP_Block_Summary extends Horde_Core_Block
                 } else {
                     $out .= '<td><strong>' . intval($mbox_status['unseen']) . '</strong>';
                     if (!empty($mbox_status['recent_total'])) {
-                        $out .= ' (<span style="color:red">' . sprintf(ngettext("%d new", "%d new", $mbox_status['recent_total']), $mbox_status['recent_total']) . '</span>)';
+                        $out .= ' (<span style="color:red">' . sprintf(ngettext('%d new', '%d new', $mbox_status['recent_total']), $mbox_status['recent_total']) . '</span>)';
                     }
-                    $out .='</td>';
+                    $out .= '</td>';
                 }
 
                 $out .= '<td>' . intval($mbox_status['messages']) . '</td></tr>';
@@ -101,10 +102,10 @@ class IMP_Block_Summary extends Horde_Core_Block
         }
 
         if (!empty($this->_params['show_unread']) && !$anyUnseen) {
-            return '<em>' . _("No mailboxes with unseen messages") . '</em>';
+            return '<em>' . _('No mailboxes with unseen messages') . '</em>';
         }
 
-        return '<table class="impBlockSummary"><thead><tr><th>' . _("Mailbox") . '</th><th>' . _("Unseen") . '</th><th>' . _("Total") . '</th></tr></thead><tbody>' .
+        return '<table class="impBlockSummary"><thead><tr><th>' . _('Mailbox') . '</th><th>' . _('Unseen') . '</th><th>' . _('Total') . '</th></tr></thead><tbody>' .
             $out .
             '</tbody></table>';
     }

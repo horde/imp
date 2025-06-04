@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -75,8 +76,8 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
         /* Change sort preferences if necessary. */
         if (isset($vp_vars->sortby) || isset($vp_vars->sortdir)) {
             $this->_base->indices->mailbox->setSort(
-                isset($vp_vars->sortby) ? $vp_vars->sortby : null,
-                isset($vp_vars->sortdir) ? $vp_vars->sortdir : null
+                $vp_vars->sortby ?? null,
+                $vp_vars->sortdir ?? null
             );
 
             /* Ensure that results are updated for search mailboxes. */
@@ -164,9 +165,9 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
             $newMbox = false;
         }
 
-        $result = $this->_base->indices->copy($mbox, 'move', array(
-            'create' => $newMbox
-        ));
+        $result = $this->_base->indices->copy($mbox, 'move', [
+            'create' => $newMbox,
+        ]);
 
         if ($result) {
             $this->_base->deleteMsgs($this->_base->indices, $change, true);
@@ -206,9 +207,9 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
             $newMbox = false;
         }
 
-        $result = $this->_base->indices->copy($mbox, 'copy', array(
-            'create' => $newMbox
-        ));
+        $result = $this->_base->indices->copy($mbox, 'copy', [
+            'create' => $newMbox,
+        ]);
 
         if ($result) {
             $this->_base->queue->poll($mbox);
@@ -310,9 +311,9 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
         try {
             $compose = $this->_base->initCompose();
 
-            $reply_msg = $compose->compose->replyMessage($compose->ajax->reply_map[$this->vars->type], $compose->contents, array(
-                'format' => $this->vars->format
-            ));
+            $reply_msg = $compose->compose->replyMessage($compose->ajax->reply_map[$this->vars->type], $compose->contents, [
+                'format' => $this->vars->format,
+            ]);
 
             $result = $this->vars->headeronly
                 ? $compose->ajax->getBaseResponse($reply_msg)
@@ -357,9 +358,9 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
             $compose = $this->_base->initCompose();
 
             $type = $compose->ajax->forward_map[$this->vars->type];
-            $fwd_msg = $compose->compose->forwardMessage($type, $compose->contents, true, array(
-                'format' => $this->vars->format
-            ));
+            $fwd_msg = $compose->compose->forwardMessage($type, $compose->contents, true, [
+                'format' => $this->vars->format,
+            ]);
 
             if ($this->vars->dataonly) {
                 $result = $compose->ajax->getBaseResponse($fwd_msg);
@@ -399,7 +400,7 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
 
         $compose->compose->redirectMessage($compose->contents->getIndicesOb());
 
-        $ob = new stdClass;
+        $ob = new stdClass();
         $ob->type = $this->vars->type;
 
         return $ob;
@@ -433,27 +434,27 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
             $compose = $this->_base->initCompose();
 
             switch ($this->vars->type) {
-            case 'editasnew':
-                $resume = $compose->compose->editAsNew($compose->contents->getIndicesOb(), array(
-                    'format' => $this->vars->format
-                ));
-                break;
+                case 'editasnew':
+                    $resume = $compose->compose->editAsNew($compose->contents->getIndicesOb(), [
+                        'format' => $this->vars->format,
+                    ]);
+                    break;
 
-            case 'resume':
-                $resume = $compose->compose->resumeDraft($compose->contents->getIndicesOb(), array(
-                    'format' => $this->vars->format
-                ));
-                break;
+                case 'resume':
+                    $resume = $compose->compose->resumeDraft($compose->contents->getIndicesOb(), [
+                        'format' => $this->vars->format,
+                    ]);
+                    break;
 
-            case 'template':
-                $resume = $compose->compose->useTemplate($compose->contents->getIndicesOb(), array(
-                    'format' => $this->vars->format
-                ));
-                break;
+                case 'template':
+                    $resume = $compose->compose->useTemplate($compose->contents->getIndicesOb(), [
+                        'format' => $this->vars->format,
+                    ]);
+                    break;
 
-            case 'template_edit':
-                $resume = $compose->compose->editTemplate($compose->contents->getIndicesOb());
-                break;
+                case 'template_edit':
+                    $resume = $compose->compose->editTemplate($compose->contents->getIndicesOb());
+                    break;
             }
 
             $result = $compose->ajax->getResponse($resume);
@@ -515,7 +516,7 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
         global $notification, $page_output, $prefs;
 
         try {
-            list($result, $imp_compose, $headers, $identity) = $this->_base->composeSetup('sendMessage');
+            [$result, $imp_compose, $headers, $identity] = $this->_base->composeSetup('sendMessage');
             if (!IMP_Compose::canCompose()) {
                 $result->success = 0;
                 return $result;
@@ -523,7 +524,7 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
         } catch (Horde_Exception $e) {
             $notification->push($e);
 
-            $result = new stdClass;
+            $result = new stdClass();
             $result->action = 'sendMessage';
             $result->success = 0;
             return $result;
@@ -538,7 +539,7 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
                 $this->vars->message,
                 $headers,
                 $identity,
-                array(
+                [
                     'encrypt' => ($prefs->isLocked('default_encrypt')
                         ? $prefs->getValue('default_encrypt')
                         : $this->vars->encrypt),
@@ -562,14 +563,14 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
                          strcasecmp($prefs->getValue('save_attachments'), 'always') !== 0),
                     'vcard_attach' => ($this->vars->vcard_attach
                         ? $identity->getValue('fullname')
-                        : null)
-                )
+                        : null),
+                ]
             );
             $notification->push(
                 empty($headers['subject'])
-                    ? _("Message sent successfully.")
+                    ? _('Message sent successfully.')
                     : sprintf(
-                        _("Message \"%s\" sent successfully."),
+                        _('Message "%s" sent successfully.'),
                         Horde_String::truncate($headers['subject'])
                     ),
                 'horde.success'
@@ -590,23 +591,23 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
 
             if ($e->encrypt) {
                 switch ($e->encrypt) {
-                case 'pgp_symmetric_passphrase_dialog':
-                    $this->_passphraseDialog('pgp_symm', $imp_compose->getCacheId());
-                    break;
+                    case 'pgp_symmetric_passphrase_dialog':
+                        $this->_passphraseDialog('pgp_symm', $imp_compose->getCacheId());
+                        break;
 
-                case 'pgp_passphrase_dialog':
-                    $this->_passphraseDialog('pgp');
-                    break;
+                    case 'pgp_passphrase_dialog':
+                        $this->_passphraseDialog('pgp');
+                        break;
 
-                case 'smime_passphrase_dialog':
-                    $this->_passphraseDialog('smime');
-                    break;
+                    case 'smime_passphrase_dialog':
+                        $this->_passphraseDialog('smime');
+                        break;
                 }
 
                 Horde::startBuffer();
                 $page_output->outputInlineScript(true);
                 if ($js_inline = Horde::endBuffer()) {
-                    $result->encryptjs = array($js_inline);
+                    $result->encryptjs = [$js_inline];
                 }
             } else {
                 /* Don't push notification if showing passphrase dialog -
@@ -645,7 +646,7 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
     public function redirectMessage()
     {
         try {
-            list($result, $imp_compose, $headers, ) = $this->_base->composeSetup('sendMessage');
+            [$result, $imp_compose, $headers, ] = $this->_base->composeSetup('sendMessage');
             if (!IMP_Compose::canCompose()) {
                 $result->success = 0;
                 return $result;
@@ -655,7 +656,7 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
 
             foreach ($res as $val) {
                 $subject = $val->headers['Subject'];
-                $GLOBALS['notification']->push(empty($subject) ? _("Message redirected successfully.") : sprintf(_("Message \"%s\" redirected successfully."), Horde_String::truncate($subject)), 'horde.success');
+                $GLOBALS['notification']->push(empty($subject) ? _('Message redirected successfully.') : sprintf(_('Message "%s" redirected successfully.'), Horde_String::truncate($subject)), 'horde.success');
 
                 $this->_base->queue->maillog(
                     new IMP_Indices($val->mbox, $val->uid)
@@ -688,23 +689,23 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
      */
     public function showMessage()
     {
-        $result = new stdClass;
+        $result = new stdClass();
         $result->buid = intval($this->vars->buid);
         $result->view = $this->vars->view;
 
         try {
             $change = $this->_base->changed(true);
             if (is_null($change)) {
-                throw new IMP_Exception(_("Could not open mailbox."));
+                throw new IMP_Exception(_('Could not open mailbox.'));
             }
 
             $this->_base->queue->message(
                 $this->_base->indices,
-                array(
+                [
                     'is_list' => (bool)$this->vars->is_list,
                     'peek' => (bool)$this->vars->peek,
-                    'preview' => (bool)$this->vars->preview
-                )
+                    'preview' => (bool)$this->vars->preview,
+                ]
             );
 
             /* Explicitly load the message here; non-existent messages are
@@ -777,29 +778,29 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
      */
     protected function _passphraseDialog($type, $cacheid = null)
     {
-        $params = array('onload' => true);
+        $params = ['onload' => true];
 
         switch ($type) {
-        case 'pgp':
-            $type = 'pgpPersonal';
-            break;
+            case 'pgp':
+                $type = 'pgpPersonal';
+                break;
 
-        case 'pgp_symm':
-            $params = array('symmetricid' => 'imp_compose_' . $cacheid);
-            $type = 'pgpSymmetric';
-            break;
+            case 'pgp_symm':
+                $params = ['symmetricid' => 'imp_compose_' . $cacheid];
+                $type = 'pgpSymmetric';
+                break;
 
-        case 'smime':
-            $type = 'smimePersonal';
-            $params['secondary'] = IMP_Smime::KEY_SECONDARY_OR_PRIMARY;
-            break;
+            case 'smime':
+                $type = 'smimePersonal';
+                $params['secondary'] = IMP_Smime::KEY_SECONDARY_OR_PRIMARY;
+                break;
         }
 
-        $GLOBALS['injector']->getInstance('Horde_Core_Factory_Imple')->create('IMP_Ajax_Imple_PassphraseDialog', array(
+        $GLOBALS['injector']->getInstance('Horde_Core_Factory_Imple')->create('IMP_Ajax_Imple_PassphraseDialog', [
             'onload' => true,
             'params' => $params,
-            'type' => $type
-        ));
+            'type' => $type,
+        ]);
     }
 
 }

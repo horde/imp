@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,7 +24,7 @@
 class IMP_Quota_Ui
 {
     /** Session key for interval data. */
-    const SESSION_INTERVAL_KEY = 'quota_interval';
+    public const SESSION_INTERVAL_KEY = 'quota_interval';
 
     /**
      * Returns data needed to output quota.
@@ -44,7 +45,7 @@ class IMP_Quota_Ui
             return false;
         }
 
-        $qlist = array();
+        $qlist = [];
 
         if (!is_null($mailbox)) {
             $mailbox = IMP_Mailbox::get($mailbox);
@@ -82,11 +83,11 @@ class IMP_Quota_Ui
         }
 
         $strings = $quotaDriver->getMessages();
-        list($calc, $unit) = $quotaDriver->getUnit();
-        $ret = array(
+        [$calc, $unit] = $quotaDriver->getUnit();
+        $ret = [
             'class' => '',
-            'percent' => 0
-        );
+            'percent' => 0,
+        ];
 
         if ($quota['limit'] != 0) {
             $quota['usage'] = $quota['usage'] / $calc;
@@ -99,7 +100,7 @@ class IMP_Quota_Ui
             }
 
             $ret['message'] = sprintf($strings['short'], $ret['percent'], $quota['limit'], $unit);
-            $ret['percent'] = sprintf("%.2f", $ret['percent']);
+            $ret['percent'] = sprintf('%.2f', $ret['percent']);
         } elseif ($quotaDriver->isHiddenWhenUnlimited()) {
             return false;
         } elseif ($quota['usage'] != 0) {
@@ -107,7 +108,7 @@ class IMP_Quota_Ui
 
             $ret['message'] = sprintf($strings['nolimit_short'], $quota['usage'], $unit);
         } else {
-            $ret['message'] = _("No limit");
+            $ret['message'] = _('No limit');
         }
 
         return $ret;

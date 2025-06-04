@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
  *
@@ -25,31 +26,31 @@
 class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
 {
     /** CSS background regex. */
-    const CSS_BG_PREG = '/(background(?:-image)?:[^;\}]*(?:url\(["\']?))(.*?)((?:["\']?\)))/i';
+    public const CSS_BG_PREG = '/(background(?:-image)?:[^;\}]*(?:url\(["\']?))(.*?)((?:["\']?\)))/i';
 
     /** Blocked attributes. */
-    const CSSBLOCK = 'htmlcssblocked';
-    const IMGBLOCK = 'htmlimgblocked';
-    const SRCSETBLOCK = 'htmlimgblocked_srcset';
+    public const CSSBLOCK = 'htmlcssblocked';
+    public const IMGBLOCK = 'htmlimgblocked';
+    public const SRCSETBLOCK = 'htmlimgblocked_srcset';
 
     /**
      * Temp array for storing data when parsing the HTML document.
      *
      * @var array
      */
-    protected $_imptmp = array();
+    protected $_imptmp = [];
 
     /**
      * This driver's display capabilities.
      *
      * @var array
      */
-    protected $_capability = array(
+    protected $_capability = [
         'full' => true,
         'info' => true,
         'inline' => true,
-        'raw' => false
-    );
+        'raw' => false,
+    ];
 
     /**
      * Return the full rendered version of the Horde_Mime_Part object.
@@ -58,9 +59,9 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
      */
     protected function _render()
     {
-        return array(
-            $this->_mimepart->getMimeId() => $this->_IMPrender(false)
-        );
+        return [
+            $this->_mimepart->getMimeId() => $this->_IMPrender(false),
+        ];
     }
 
     /**
@@ -77,13 +78,13 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
 
         $page_output->addScriptPackage('IMP_Script_Package_Imp');
 
-        $data['metadata'] = array(array('html', $uid, $data['data']));
+        $data['metadata'] = [['html', $uid, $data['data']]];
         $data['data'] = '<div>' . _("Loading...") . '</div><iframe sandbox="allow-same-origin" class="htmlMsgData" id="' . $uid . '" src="javascript:false" frameborder="0" style="display:none;height:auto;"></iframe>';
         $data['type'] = 'text/html; charset=UTF-8';
 
-        return array(
-            $this->_mimepart->getMimeId() => $data
-        );
+        return [
+            $this->_mimepart->getMimeId() => $data,
+        ];
     }
 
     /**
@@ -95,23 +96,23 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
     {
         if ($this->canRender('inline') ||
             ($this->_mimepart->getDisposition() == 'attachment')) {
-            return array();
+            return [];
         }
 
-        $status = new IMP_Mime_Status($this->_mimepart, array(
-            _("This message part contains HTML data, but inline HTML display is disabled."),
-            $this->getConfigParam('imp_contents')->linkViewJS($this->_mimepart, 'view_attach', _("View HTML data in new window.")),
-            $this->getConfigParam('imp_contents')->linkViewJS($this->_mimepart, 'view_attach', _("Convert HTML data to plain text and view in new window."), array('params' => array('convert_text' => 1)))
-        ));
+        $status = new IMP_Mime_Status($this->_mimepart, [
+            _('This message part contains HTML data, but inline HTML display is disabled.'),
+            $this->getConfigParam('imp_contents')->linkViewJS($this->_mimepart, 'view_attach', _('View HTML data in new window.')),
+            $this->getConfigParam('imp_contents')->linkViewJS($this->_mimepart, 'view_attach', _('Convert HTML data to plain text and view in new window.'), ['params' => ['convert_text' => 1]]),
+        ]);
         $status->icon('mime/html.png');
 
-        return array(
-            $this->_mimepart->getMimeId() => array(
+        return [
+            $this->_mimepart->getMimeId() => [
                 'data' => '',
                 'status' => $status,
-                'type' => 'text/html; charset=' . $this->getConfigParam('charset')
-            )
-        );
+                'type' => 'text/html; charset=' . $this->getConfigParam('charset'),
+            ],
+        ];
     }
 
     /**
@@ -132,21 +133,21 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
         $convert_text = $injector->getInstance('Horde_Variables')->convert_text;
 
         /* Don't do IMP DOM processing if converting to text. */
-        $this->_imptmp = array(
+        $this->_imptmp = [
             'inline' => $inline,
-            'img' => null
-        );
+            'img' => null,
+        ];
         if ($inline && !$convert_text) {
-            $this->_imptmp += array(
+            $this->_imptmp += [
                 'cid' => null,
-                'cid_used' => array(),
+                'cid_used' => [],
                 'cssblock' => false,
                 'cssbroken' => false,
                 'imgblock' => false,
                 'imgbroken' => false,
                 'inline' => $inline,
-                'style' => array()
-            );
+                'style' => [],
+            ];
         }
 
         /* Search for inlined data that we can display (multipart/related
@@ -156,10 +157,10 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
         }
 
         /* Sanitize the HTML. */
-        $data = $this->_cleanHTML($data, array(
+        $data = $this->_cleanHTML($data, [
             'noprefetch' => $inline,
-            'phishing' => $inline
-        ));
+            'phishing' => $inline,
+        ]);
 
         if (!empty($this->_imptmp['style'])) {
             $this->_processDomDocument($data->dom);
@@ -167,106 +168,106 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
 
         if ($inline) {
             $charset = 'UTF-8';
-            $data = $data->returnHtml(array(
+            $data = $data->returnHtml([
                 'charset' => $charset,
-                'metacharset' => true
-            ));
+                'metacharset' => true,
+            ]);
         } else {
             $charset = $this->_mimepart->getCharset();
             $data = $data->returnHtml();
         }
 
-        $status = array();
+        $status = [];
         if ($this->_phishWarn) {
-            $tmp = new IMP_Mime_Status($this->_mimepart, array(
-                _("This message may not be from whom it claims to be."),
-                _("Beware of following any links in it or of providing the sender with any personal information."),
-                _("The links that caused this warning have this background color:") . ' <span style="' . $this->_phishCss . '">' . _("EXAMPLE LINK") . '</span>'
-            ));
+            $tmp = new IMP_Mime_Status($this->_mimepart, [
+                _('This message may not be from whom it claims to be.'),
+                _('Beware of following any links in it or of providing the sender with any personal information.'),
+                _('The links that caused this warning have this background color:') . ' <span style="' . $this->_phishCss . '">' . _('EXAMPLE LINK') . '</span>',
+            ]);
             $tmp->action($tmp::WARNING);
             $status[] = $tmp;
         }
 
         /* We are done processing if converting to text. */
         if ($convert_text) {
-            $data = $this->_textFilter($data, 'Html2text', array(
-                'width' => 0
-            ));
+            $data = $this->_textFilter($data, 'Html2text', [
+                'width' => 0,
+            ]);
 
             // Filter bad language.
-            return array(
+            return [
                 'data' => IMP::filterText($data),
-                'type' => 'text/plain; charset=' . $charset
-            );
+                'type' => 'text/plain; charset=' . $charset,
+            ];
         }
 
         if ($inline) {
             switch ($view) {
-            case $registry::VIEW_SMARTMOBILE:
-                if ($this->_imptmp['imgblock']) {
-                    $tmp_txt = _("Show images...");
-                } elseif ($this->_imptmp['cssblock']) {
-                    $tmp_txt = _("Load message styling...");
-                } else {
-                    $tmp_txt = null;
-                }
+                case $registry::VIEW_SMARTMOBILE:
+                    if ($this->_imptmp['imgblock']) {
+                        $tmp_txt = _('Show images...');
+                    } elseif ($this->_imptmp['cssblock']) {
+                        $tmp_txt = _('Load message styling...');
+                    } else {
+                        $tmp_txt = null;
+                    }
 
-                if (!is_null($tmp_txt)) {
-                    $tmp = new IMP_Mime_Status($this->_mimepart, array(
-                        '<a href="#unblock-image" data-role="button" data-theme="e">' . $tmp_txt . '</a>'
-                    ));
-                    $tmp->views = array($view);
-                    $status[] = $tmp;
-                }
-                break;
+                    if (!is_null($tmp_txt)) {
+                        $tmp = new IMP_Mime_Status($this->_mimepart, [
+                            '<a href="#unblock-image" data-role="button" data-theme="e">' . $tmp_txt . '</a>',
+                        ]);
+                        $tmp->views = [$view];
+                        $status[] = $tmp;
+                    }
+                    break;
 
-            default:
-                $attr = array('muid' => strval($contents->getIndicesOb()));
-                if (!$injector->getInstance('IMP_Prefs_Special_ImageReplacement')->canAddToSafeAddrList() ||
-                    (($from = $contents->getHeader()->getHeader('from')) &&
-                     $injector->getInstance('IMP_Identity')->hasAddress($from->getAddressList(true)))) {
-                    $attr['noUnblockImageAdd'] = 1;
-                }
+                default:
+                    $attr = ['muid' => strval($contents->getIndicesOb())];
+                    if (!$injector->getInstance('IMP_Prefs_Special_ImageReplacement')->canAddToSafeAddrList() ||
+                        (($from = $contents->getHeader()->getHeader('from')) &&
+                         $injector->getInstance('IMP_Identity')->hasAddress($from->getAddressList(true)))) {
+                        $attr['noUnblockImageAdd'] = 1;
+                    }
 
-                $link = $text = null;
-                if ($this->_imptmp['imgblock']) {
-                    $text = _("Images have been blocked in this message part.");
-                    $link = _("Show Images?");
-                } elseif ($this->_imptmp['cssblock']) {
-                    $text = _("Message styling has been suppressed in this message part since the style data lives on a remote server.");
-                    $link = _("Load Styling?");
-                }
+                    $link = $text = null;
+                    if ($this->_imptmp['imgblock']) {
+                        $text = _('Images have been blocked in this message part.');
+                        $link = _('Show Images?');
+                    } elseif ($this->_imptmp['cssblock']) {
+                        $text = _('Message styling has been suppressed in this message part since the style data lives on a remote server.');
+                        $link = _('Load Styling?');
+                    }
 
-                if (!is_null($link)) {
-                    $tmp = new IMP_Mime_Status($this->_mimepart, $text);
-                    $tmp->addMimeAction('unblockImageLink', $link, $attr);
-                    $tmp->icon('mime/image.png');
-                    $status[] = $tmp;
-                }
+                    if (!is_null($link)) {
+                        $tmp = new IMP_Mime_Status($this->_mimepart, $text);
+                        $tmp->addMimeAction('unblockImageLink', $link, $attr);
+                        $tmp->icon('mime/image.png');
+                        $status[] = $tmp;
+                    }
 
-                if ($this->_imptmp['cssbroken']) {
-                    $tmp = new IMP_Mime_Status_RenderIssue(
-                        $this->_mimepart,
-                        array(
-                            _("This message contains corrupt styling data so the message contents may not appear correctly below."),
-                            $contents->linkViewJS($this->_mimepart, 'view_attach', _("Click to view HTML data in new window; it is possible this will allow you to view the message correctly."))
-                        )
-                    );
-                    $tmp->icon('mime/image.png');
-                    $status[] = $tmp;
-                }
+                    if ($this->_imptmp['cssbroken']) {
+                        $tmp = new IMP_Mime_Status_RenderIssue(
+                            $this->_mimepart,
+                            [
+                                _('This message contains corrupt styling data so the message contents may not appear correctly below.'),
+                                $contents->linkViewJS($this->_mimepart, 'view_attach', _('Click to view HTML data in new window; it is possible this will allow you to view the message correctly.')),
+                            ]
+                        );
+                        $tmp->icon('mime/image.png');
+                        $status[] = $tmp;
+                    }
 
-                if ($this->_imptmp['imgbroken']) {
-                    $tmp = new IMP_Mime_Status_RenderIssue(
-                        $this->_mimepart,
-                        array(
-                            _("This message contains images that cannot be loaded.")
-                        )
-                    );
-                    $tmp->icon('mime/image.png');
-                    $status[] = $tmp;
-                }
-                break;
+                    if ($this->_imptmp['imgbroken']) {
+                        $tmp = new IMP_Mime_Status_RenderIssue(
+                            $this->_mimepart,
+                            [
+                                _('This message contains images that cannot be loaded.'),
+                            ]
+                        );
+                        $tmp->icon('mime/image.png');
+                        $status[] = $tmp;
+                    }
+                    break;
             }
         }
 
@@ -275,11 +276,11 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
             $related_part->setMetadata('related_cids_used', $this->_imptmp['cid_used']);
         }
 
-        return array(
+        return [
             'data' => $data,
             'status' => $status,
-            'type' => 'text/html; charset=' . $charset
-        );
+            'type' => 'text/html; charset=' . $charset,
+        ];
     }
 
     /**
@@ -317,197 +318,198 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
         }
 
         switch ($tag) {
-        case 'a':
-        case 'area':
-            /* Convert links to open in new windows. Ignore mailto: links and
-             * links that already have a target. */
-            if ($node->hasAttribute('href')) {
-                $url = parse_url($node->getAttribute('href'));
-                if (isset($url['scheme']) && ($url['scheme'] == 'mailto')) {
-                    /* We don't include HordePopup in IFRAME, so need to use
-                     * 'simple' links. */
-                    $clink = new IMP_Compose_Link($node->getAttribute('href'));
-                    $node->setAttribute('href', $clink->link());
-                    $node->removeAttribute('target');
-                } elseif (!empty($this->_imptmp['inline']) &&
-                          isset($url['fragment']) &&
-                          empty($url['path']) &&
-                          $GLOBALS['browser']->isBrowser('mozilla')) {
-                    /* See Bug #8695: internal anchors are broken in
-                     * Mozilla. */
-                    $node->removeAttribute('href');
-                } elseif (empty($url)) {
-                    /* Empty URL - remove href/target so the link is not
-                     * clickable. */
-                    $node->removeAttribute('href');
-                    $node->removeAttribute('target');
-                } else {
-                    $node->setAttribute('target', strval(new Horde_Support_Randomid()));
-                    $node->setAttribute('rel', 'noopener noreferrer');
-                }
-            }
-            break;
-
-        case 'body':
-            $style = $node->hasAttribute('style')
-                ? (rtrim($node->getAttribute('style'), ';') . ';')
-                : '';
-            $node->setAttribute('style', $style . 'width:auto !important');
-            break;
-
-        case 'source':
-            if ($this->_imgBlock() &&
-                $node->hasAttribute('srcset'))
-            {
-                $node->setAttribute(self::SRCSETBLOCK, $node->getAttribute('srcset'));
-                $node->setAttribute('srcset', '');
-                $this->_imptmp['imgblock'] = true;
-                break;
-            }
-
-        case 'img':
-        case 'input':
-            if ($node->hasAttribute('src')) {
-                $val = $node->getAttribute('src');
-
-                /* Multipart/related. */
-                if (($tag == 'img') && ($id = $this->_cidSearch($val))) {
-                    $val = $this->getConfigParam('imp_contents')->urlView(null, 'view_attach', array('params' => array(
-                        'ctype' => 'image/*',
-                        'id' => $id,
-                        'imp_img_view' => 'data'
-                    )));
-                }
-
-                /* Block images.*/
-                if ($this->_imgBlock()) {
-                    if (Horde_Url_Data::isData($val)) {
-                        $url = new Horde_Url_Data($val);
+            case 'a':
+            case 'area':
+                /* Convert links to open in new windows. Ignore mailto: links and
+                 * links that already have a target. */
+                if ($node->hasAttribute('href')) {
+                    $url = parse_url($node->getAttribute('href'));
+                    if (isset($url['scheme']) && ($url['scheme'] == 'mailto')) {
+                        /* We don't include HordePopup in IFRAME, so need to use
+                         * 'simple' links. */
+                        $clink = new IMP_Compose_Link($node->getAttribute('href'));
+                        $node->setAttribute('href', $clink->link());
+                        $node->removeAttribute('target');
+                    } elseif (!empty($this->_imptmp['inline']) &&
+                              isset($url['fragment']) &&
+                              empty($url['path']) &&
+                              $GLOBALS['browser']->isBrowser('mozilla')) {
+                        /* See Bug #8695: internal anchors are broken in
+                         * Mozilla. */
+                        $node->removeAttribute('href');
+                    } elseif (empty($url)) {
+                        /* Empty URL - remove href/target so the link is not
+                         * clickable. */
+                        $node->removeAttribute('href');
+                        $node->removeAttribute('target');
                     } else {
-                        /* Check for relative URLs. These won't be loaded and
-                         * will cause unnecessary 404 hits to the local web
-                         * server. */
-                        $parsed_url = parse_url($val);
-                        if (isset($parsed_url['host'])) {
-                            $url = new Horde_Url($val);
-                            $url->setScheme();
+                        $node->setAttribute('target', strval(new Horde_Support_Randomid()));
+                        $node->setAttribute('rel', 'noopener noreferrer');
+                    }
+                }
+                break;
+
+            case 'body':
+                $style = $node->hasAttribute('style')
+                    ? (rtrim($node->getAttribute('style'), ';') . ';')
+                    : '';
+                $node->setAttribute('style', $style . 'width:auto !important');
+                break;
+
+            case 'source':
+                if ($this->_imgBlock() &&
+                    $node->hasAttribute('srcset')) {
+                    $node->setAttribute(self::SRCSETBLOCK, $node->getAttribute('srcset'));
+                    $node->setAttribute('srcset', '');
+                    $this->_imptmp['imgblock'] = true;
+                    break;
+                }
+
+                // no break
+            case 'img':
+            case 'input':
+                if ($node->hasAttribute('src')) {
+                    $val = $node->getAttribute('src');
+
+                    /* Multipart/related. */
+                    if (($tag == 'img') && ($id = $this->_cidSearch($val))) {
+                        $val = $this->getConfigParam('imp_contents')->urlView(null, 'view_attach', ['params' => [
+                            'ctype' => 'image/*',
+                            'id' => $id,
+                            'imp_img_view' => 'data',
+                        ]]);
+                    }
+
+                    /* Block images.*/
+                    if ($this->_imgBlock()) {
+                        if (Horde_Url_Data::isData($val)) {
+                            $url = new Horde_Url_Data($val);
                         } else {
-                            $url = null;
+                            /* Check for relative URLs. These won't be loaded and
+                             * will cause unnecessary 404 hits to the local web
+                             * server. */
+                            $parsed_url = parse_url($val);
+                            if (isset($parsed_url['host'])) {
+                                $url = new Horde_Url($val);
+                                $url->setScheme();
+                            } else {
+                                $url = null;
+                            }
+                        }
+
+                        if ($url) {
+                            $node->setAttribute(self::IMGBLOCK, $url);
+                            $node->setAttribute('src', $this->_imgBlockImg());
+                            $this->_imptmp['imgblock'] = true;
+                        } else {
+                            $node->parentNode->removeChild($node);
+                            $this->_imptmp['imgbroken'] = true;
+                        }
+                    } else {
+                        if (empty($this->_imptmp['inline'])) {
+                            $node->setAttribute('src', $val);
+                        } else {
+                            $node->removeAttribute('src');
+                            $node->setAttribute('data-src', $val);
                         }
                     }
-
-                    if ($url) {
-                        $node->setAttribute(self::IMGBLOCK, $url);
-                        $node->setAttribute('src', $this->_imgBlockImg());
-                        $this->_imptmp['imgblock'] = true;
-                    } else {
-                        $node->parentNode->removeChild($node);
-                        $this->_imptmp['imgbroken'] = true;
-                    }
-                } else {
-                    if (empty($this->_imptmp['inline'])) {
-                        $node->setAttribute('src', $val);
-                    } else {
-                        $node->removeAttribute('src');
-                        $node->setAttribute('data-src', $val);
-                    }
-                }
-            }
-
-            /* IMG only */
-            if (($tag == 'img') &&
-                $this->_imgBlock() &&
-                $node->hasAttribute('srcset')) {
-                $node->setAttribute(self::SRCSETBLOCK, $node->getAttribute('srcset'));
-                $node->setAttribute('srcset', '');
-                $this->_imptmp['imgblock'] = true;
-            }
-            break;
-
-        case 'link':
-            /* Block all link tags that reference foreign URLs, other than
-             * CSS. There's no inherently wrong with linking to a foreign
-             * CSS file other than privacy concerns. Therefore, block
-             * linking until requested by the user. */
-            $delete_link = true;
-
-            switch (Horde_String::lower($node->getAttribute('type'))) {
-            case 'text/css':
-                if ($node->hasAttribute('href')) {
-                    $tmp = $node->getAttribute('href');
-
-                    if (($id = $this->_cidSearch($tmp, false)) &&
-                        ($mime_part = $this->getConfigParam('imp_contents')->getMimePart($id))) {
-                        $this->_imptmp['style'][] = $mime_part->getContents();
-                    } elseif ($this->_imgBlock()) {
-                        $node->setAttribute(self::CSSBLOCK, $node->getAttribute('href'));
-                        $node->removeAttribute('href');
-                        $this->_imptmp['cssblock'] = true;
-                        $delete_link = false;
-                    }
-                }
-                break;
-            }
-
-            if ($delete_link &&
-                $node->hasAttribute('href') &&
-                $node->parentNode) {
-                $node->parentNode->removeChild($node);
-            }
-            break;
-
-        case 'style':
-            switch (Horde_String::lower($node->getAttribute('type'))) {
-            case 'text/css':
-                $this->_imptmp['style'][] = str_replace(
-                    array('<!--', '-->'),
-                    '',
-                    $node->nodeValue
-                );
-                $node->parentNode->removeChild($node);
-                break;
-            }
-            if ($node->parentNode) {
-                $node->parentNode->removeChild($node);
-            }
-            break;
-
-        case 'table':
-            /* If displaying inline (in IFRAME), tables with 100% height seems
-             * to confuse many browsers re: the IFRAME internal height. */
-            if (!empty($this->_imptmp['inline']) &&
-                $node->hasAttribute('height') &&
-                ($node->getAttribute('height') == '100%')) {
-                $node->removeAttribute('height');
-            }
-
-            // Fall-through
-
-        case 'body':
-        case 'td':
-            if ($node->hasAttribute('background')) {
-                $val = $node->getAttribute('background');
-
-                /* Multipart/related. */
-                if ($id = $this->_cidSearch($val)) {
-                    $val = $this->getConfigParam('imp_contents')->urlView(null, 'view_attach', array('params' => array(
-                        'id' => $id,
-                        'imp_img_view' => 'data'
-                    )));
-                    $node->setAttribute('background', $val);
                 }
 
-                /* Block images.*/
-                if ($this->_imgBlock()) {
-                    $node->setAttribute(self::IMGBLOCK, $val);
-                    $node->setAttribute('background', $this->_imgBlockImg());
+                /* IMG only */
+                if (($tag == 'img') &&
+                    $this->_imgBlock() &&
+                    $node->hasAttribute('srcset')) {
+                    $node->setAttribute(self::SRCSETBLOCK, $node->getAttribute('srcset'));
+                    $node->setAttribute('srcset', '');
                     $this->_imptmp['imgblock'] = true;
                 }
-            }
-            break;
+                break;
+
+            case 'link':
+                /* Block all link tags that reference foreign URLs, other than
+                 * CSS. There's no inherently wrong with linking to a foreign
+                 * CSS file other than privacy concerns. Therefore, block
+                 * linking until requested by the user. */
+                $delete_link = true;
+
+                switch (Horde_String::lower($node->getAttribute('type'))) {
+                    case 'text/css':
+                        if ($node->hasAttribute('href')) {
+                            $tmp = $node->getAttribute('href');
+
+                            if (($id = $this->_cidSearch($tmp, false)) &&
+                                ($mime_part = $this->getConfigParam('imp_contents')->getMimePart($id))) {
+                                $this->_imptmp['style'][] = $mime_part->getContents();
+                            } elseif ($this->_imgBlock()) {
+                                $node->setAttribute(self::CSSBLOCK, $node->getAttribute('href'));
+                                $node->removeAttribute('href');
+                                $this->_imptmp['cssblock'] = true;
+                                $delete_link = false;
+                            }
+                        }
+                        break;
+                }
+
+                if ($delete_link &&
+                    $node->hasAttribute('href') &&
+                    $node->parentNode) {
+                    $node->parentNode->removeChild($node);
+                }
+                break;
+
+            case 'style':
+                switch (Horde_String::lower($node->getAttribute('type'))) {
+                    case 'text/css':
+                        $this->_imptmp['style'][] = str_replace(
+                            ['<!--', '-->'],
+                            '',
+                            $node->nodeValue
+                        );
+                        $node->parentNode->removeChild($node);
+                        break;
+                }
+                if ($node->parentNode) {
+                    $node->parentNode->removeChild($node);
+                }
+                break;
+
+            case 'table':
+                /* If displaying inline (in IFRAME), tables with 100% height seems
+                 * to confuse many browsers re: the IFRAME internal height. */
+                if (!empty($this->_imptmp['inline']) &&
+                    $node->hasAttribute('height') &&
+                    ($node->getAttribute('height') == '100%')) {
+                    $node->removeAttribute('height');
+                }
+
+                // Fall-through
+
+                // no break
+            case 'body':
+            case 'td':
+                if ($node->hasAttribute('background')) {
+                    $val = $node->getAttribute('background');
+
+                    /* Multipart/related. */
+                    if ($id = $this->_cidSearch($val)) {
+                        $val = $this->getConfigParam('imp_contents')->urlView(null, 'view_attach', ['params' => [
+                            'id' => $id,
+                            'imp_img_view' => 'data',
+                        ]]);
+                        $node->setAttribute('background', $val);
+                    }
+
+                    /* Block images.*/
+                    if ($this->_imgBlock()) {
+                        $node->setAttribute(self::IMGBLOCK, $val);
+                        $node->setAttribute('background', $this->_imgBlockImg());
+                        $this->_imptmp['imgblock'] = true;
+                    }
+                }
+                break;
         }
 
-        $remove = array();
+        $remove = [];
         foreach ($node->attributes as $val) {
             /* Catch random mailto: strings in attributes that will cause
              * problems with e-mail linking. */
@@ -526,7 +528,7 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
                 $node->removeAttribute('style');
             } elseif (!empty($this->_imptmp['cid']) || $this->_imgBlock()) {
                 $this->_imptmp['node'] = $node;
-                $style = preg_replace_callback(self::CSS_BG_PREG, array($this, '_styleCallback'), $node->getAttribute('style'), -1, $matches);
+                $style = preg_replace_callback(self::CSS_BG_PREG, [$this, '_styleCallback'], $node->getAttribute('style'), -1, $matches);
                 if ($matches) {
                     $node->setAttribute('style', $style);
                 }
@@ -614,18 +616,18 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
                         $item->setListComponents($components);
                     } else {
                         switch ($val2->getRule()) {
-                        case 'cursor':
-                            /* Don't allow overriding default pointer rules,
-                             * since this can make visual recognition of
-                             * clickable elements difficult. */
-                            $val->removeRule($val2);
-                            break;
-
-                        default:
-                            if ($blocked) {
+                            case 'cursor':
+                                /* Don't allow overriding default pointer rules,
+                                 * since this can make visual recognition of
+                                 * clickable elements difficult. */
                                 $val->removeRule($val2);
-                            }
-                            break;
+                                break;
+
+                            default:
+                                if ($blocked) {
+                                    $val->removeRule($val2);
+                                }
+                                break;
                         }
                     }
                 }
@@ -652,10 +654,10 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
     protected function _styleCallback($matches)
     {
         if ($id = $this->_cidSearch($matches[2])) {
-            $replace = $this->getConfigParam('imp_contents')->urlView(null, 'view_attach', array('params' => array(
+            $replace = $this->getConfigParam('imp_contents')->urlView(null, 'view_attach', ['params' => [
                 'id' => $id,
-                'imp_img_view' => 'data'
-            )));
+                'imp_img_view' => 'data',
+            ]]);
         } else {
             $this->_imptmp['node']->setAttribute(self::IMGBLOCK, $matches[2]);
             $this->_imptmp['imgblock'] = true;

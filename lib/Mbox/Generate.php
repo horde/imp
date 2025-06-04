@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
  *
@@ -43,7 +44,7 @@ class IMP_Mbox_Generate
             if (!strlen($mboxes)) {
                 return $body;
             }
-            $mboxes = array($mboxes);
+            $mboxes = [$mboxes];
         }
 
         if (empty($mboxes)) {
@@ -53,12 +54,12 @@ class IMP_Mbox_Generate
         $query = new Horde_Imap_Client_Fetch_Query();
         $query->envelope();
         $query->imapDate();
-        $query->headerText(array(
-            'peek' => true
-        ));
-        $query->bodyText(array(
-            'peek' => true
-        ));
+        $query->headerText([
+            'peek' => true,
+        ]);
+        $query->bodyText([
+            'peek' => true,
+        ]);
 
         foreach (IMP_Mailbox::get($mboxes) as $val) {
             $imp_imap = $val->imp_imap;
@@ -69,10 +70,10 @@ class IMP_Mbox_Generate
 
             foreach ($slices as $slice) {
                 try {
-                    $res = $imp_imap->fetch($val, $query, array(
+                    $res = $imp_imap->fetch($val, $query, [
                         'ids' => $slice,
-                        'nocache' => true
-                    ));
+                        'nocache' => true,
+                    ]);
                 } catch (IMP_Imap_Exception $e) {
                     continue;
                 }

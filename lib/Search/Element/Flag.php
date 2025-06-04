@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -42,7 +43,7 @@ class IMP_Search_Element_Flag extends IMP_Search_Element
         /* Data element:
          * f = (string) Flag/keyword name.
          * s = (integer) Search for set flag? */
-        $this->_data = new stdClass;
+        $this->_data = new stdClass();
         $this->_data->f = $name;
         $this->_data->s = intval(!empty($set));
     }
@@ -63,7 +64,7 @@ class IMP_Search_Element_Flag extends IMP_Search_Element
         $imp_flags = $GLOBALS['injector']->getInstance('IMP_Flags');
 
         return ($tmp = $imp_flags[$this->_data->f])
-            ? sprintf(_("flagged \"%s\""), $tmp->getLabel($this->_data->s))
+            ? sprintf(_('flagged "%s"'), $tmp->getLabel($this->_data->s))
             : '';
     }
 

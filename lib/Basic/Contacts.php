@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,6 +24,7 @@
  */
 class IMP_Basic_Contacts extends IMP_Basic_Base
 {
+    protected $header;
     /**
      * URL Parameters:
      *   - search: (string) Search term (defaults to '').
@@ -52,9 +54,9 @@ class IMP_Basic_Contacts extends IMP_Basic_Base
         }
 
         /* Prepare the contacts view. */
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/contacts'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/contacts',
+        ]);
         $view->addHelper('FormTag');
         $view->addHelper('Tag');
 
@@ -62,13 +64,13 @@ class IMP_Basic_Contacts extends IMP_Basic_Base
         $view->to_only = intval($this->vars->to_only);
 
         if (count($source_list) > 1) {
-            $s_list = array();
+            $s_list = [];
             foreach ($source_list as $key => $select) {
-                $s_list[] = array(
+                $s_list[] = [
                     'label' => $select,
                     'selected' => ($key == $this->vars->source),
-                    'val' => $key
-                );
+                    'val' => $key,
+                ];
             }
             $view->source_list = $s_list;
         } else {
@@ -79,9 +81,10 @@ class IMP_Basic_Contacts extends IMP_Basic_Base
         if (strlen($this->vars->search)) {
             $initial = array_map(
                 'strval',
-                iterator_to_array($contacts->searchEmail($this->vars->search, array(
-                'sources' => array($this->vars->source)
-            ))));
+                iterator_to_array($contacts->searchEmail($this->vars->search, [
+                'sources' => [$this->vars->source],
+            ]))
+            );
         } else {
             $initial = null;
         }
@@ -90,33 +93,33 @@ class IMP_Basic_Contacts extends IMP_Basic_Base
         $page_output->addScriptFile('hordecore.js', 'horde');
         $page_output->addScriptFile('form_ghost.js', 'horde');
         $page_output->addScriptFile('contacts.js');
-        $page_output->addInlineJsVars(array_filter(array(
+        $page_output->addInlineJsVars(array_filter([
             'ImpContacts.initial' => $initial,
-            'ImpContacts.text' => array(
-                'rcpt' => array(
-                    'to' => _("To"),
-                    'cc' => _("Cc"),
-                    'bcc' => _("Bcc")
-                ),
-                'closed' => _("The message being composed has been closed."),
-                'no_contacts_selected' => _("No addresses were selected."),
-                'searching' => _("Searching..."),
-                'select' => _("You must select an address first.")
-            )
-        )));
+            'ImpContacts.text' => [
+                'rcpt' => [
+                    'to' => _('To'),
+                    'cc' => _('Cc'),
+                    'bcc' => _('Bcc'),
+                ],
+                'closed' => _('The message being composed has been closed.'),
+                'no_contacts_selected' => _('No addresses were selected.'),
+                'searching' => _('Searching...'),
+                'select' => _('You must select an address first.'),
+            ],
+        ]));
 
         $c_css = new Horde_Themes_Element('contacts.css');
         $page_output->addStylesheet($c_css->fs, $c_css->uri);
 
         $page_output->topbar = $page_output->sidebar = false;
 
-        $this->header = _("Address Book");
+        $this->header = _('Address Book');
         $this->output = $view->render('contacts');
     }
 
     /**
      */
-    public static function url(array $opts = array())
+    public static function url(array $opts = [])
     {
         return Horde::url('basic.php', !empty($opts['full']))->add('page', 'contacts')->unique();
     }

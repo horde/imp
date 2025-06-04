@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -36,7 +37,7 @@ class IMP_Search_Element_Or extends IMP_Search_Element
      */
     public function queryText()
     {
-        return _("OR");
+        return _('OR');
     }
 
 }

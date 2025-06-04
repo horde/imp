@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -21,8 +22,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Script_Package_Autocomplete
-extends Horde_Core_Script_Package_Keynavlist
+class IMP_Script_Package_Autocomplete extends Horde_Core_Script_Package_Keynavlist
 {
     /**
      * Constructor.

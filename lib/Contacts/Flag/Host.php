@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -28,10 +29,10 @@ class IMP_Contacts_Flag_Host implements IMP_Contacts_Flag_Backend
     {
         $addr = new Horde_Mail_Rfc822_Address($email);
         if ($flag = Horde_Core_Ui_FlagImage::getFlagImageObByHost($addr->host)) {
-            return array(
+            return [
                 'desc' => $flag['name'],
-                'url' => $flag['ob']
-            );
+                'url' => $flag['ob'],
+            ];
         }
 
         return null;

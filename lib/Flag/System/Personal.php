@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,9 +21,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Flag_System_Personal
-extends IMP_Flag_Base
-implements IMP_Flag_Match_Address
+class IMP_Flag_System_Personal extends IMP_Flag_Base implements IMP_Flag_Match_Address
 {
     /**
      */
@@ -36,7 +35,7 @@ implements IMP_Flag_Match_Address
      */
     protected function _getLabel()
     {
-        return _("Personal");
+        return _('Personal');
     }
 
     /**

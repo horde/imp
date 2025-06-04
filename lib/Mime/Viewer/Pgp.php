@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
  *
@@ -32,14 +33,14 @@
 class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
 {
     /* Metadata constants. */
-    const PGP_SIGN_ENC = 'imp-pgp-signed-encrypted';
+    public const PGP_SIGN_ENC = 'imp-pgp-signed-encrypted';
 
     /**
      * This driver's display capabilities.
      *
      * @var array
      */
-    protected $_capability = array(
+    protected $_capability = [
         'full' => false,
         'info' => false,
         'inline' => true,
@@ -47,19 +48,19 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
          * application/pgp-signature parts that have been processed by the
          * text/plain driver and for displaying raw pgp keys. Altering this
          * value is handled via the canRender() function. */
-        'raw' => false
-    );
+        'raw' => false,
+    ];
 
     /**
      * Metadata for the current viewer/data.
      *
      * @var array
      */
-    protected $_metadata = array(
+    protected $_metadata = [
         'compressed' => false,
         'embedded' => true,
-        'forceinline' => true
-    );
+        'forceinline' => true,
+    ];
 
     /**
      * The address of the sender.
@@ -76,24 +77,24 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
     protected function _render()
     {
         switch ($this->_mimepart->getType()) {
-        case 'application/pgp-keys':
-            $vars = $GLOBALS['injector']->getInstance('Horde_Variables');
-            if ($vars->pgp_view_key) {
-                // Throws exception on error.
-                return array(
-                    $this->_mimepart->getMimeId() => array(
-                        'data' => '<html><body><tt>' . nl2br(str_replace(' ', '&nbsp;', $GLOBALS['injector']->getInstance('IMP_Pgp')->prettyKey($this->_mimepart->getContents()))) . '</tt></body></html>',
-                        'type' => 'text/html; charset=' . $this->getConfigParam('charset')
-                    )
-                );
-            }
+            case 'application/pgp-keys':
+                $vars = $GLOBALS['injector']->getInstance('Horde_Variables');
+                if ($vars->pgp_view_key) {
+                    // Throws exception on error.
+                    return [
+                        $this->_mimepart->getMimeId() => [
+                            'data' => '<html><body><tt>' . nl2br(str_replace(' ', '&nbsp;', $GLOBALS['injector']->getInstance('IMP_Pgp')->prettyKey($this->_mimepart->getContents()))) . '</tt></body></html>',
+                            'type' => 'text/html; charset=' . $this->getConfigParam('charset'),
+                        ],
+                    ];
+                }
 
-            return array(
-                $this->_mimepart->getMimeId() => array(
-                    'data' => $this->_mimepart->getContents(),
-                    'type' => 'text/plain; charset=' . $this->_mimepart->getCharset()
-                )
-            );
+                return [
+                    $this->_mimepart->getMimeId() => [
+                        'data' => $this->_mimepart->getContents(),
+                        'type' => 'text/plain; charset=' . $this->_mimepart->getCharset(),
+                    ],
+                ];
         }
         return [];
     }
@@ -105,27 +106,27 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
      */
     protected function _renderRaw()
     {
-        $ret = array(
+        $ret = [
             'data' => '',
-            'type' => 'text/plain; charset=' . $this->getConfigParam('charset')
-        );
+            'type' => 'text/plain; charset=' . $this->getConfigParam('charset'),
+        ];
 
         switch ($this->_mimepart->getType()) {
-        case 'application/pgp-signature':
-            $parse = new Horde_Crypt_Pgp_Parse();
-            $parts = $parse->parse($this->_mimepart->getContents());
-            foreach (array_keys($parts) as $key) {
-                if ($parts[$key]['type'] == Horde_Crypt_Pgp::ARMOR_SIGNATURE) {
-                    $ret['data'] = implode("\r\n", $parts[$key]['data']);
-                    break;
+            case 'application/pgp-signature':
+                $parse = new Horde_Crypt_Pgp_Parse();
+                $parts = $parse->parse($this->_mimepart->getContents());
+                foreach (array_keys($parts) as $key) {
+                    if ($parts[$key]['type'] == Horde_Crypt_Pgp::ARMOR_SIGNATURE) {
+                        $ret['data'] = implode("\r\n", $parts[$key]['data']);
+                        break;
+                    }
                 }
-            }
-            break;
+                break;
         }
 
-        return array(
-            $this->_mimepart->getMimeId() => $ret
-        );
+        return [
+            $this->_mimepart->getMimeId() => $ret,
+        ];
     }
 
     /**
@@ -138,31 +139,32 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
         $id = $this->_mimepart->getMimeId();
 
         switch ($this->_mimepart->getType()) {
-        case 'application/pgp-keys':
-            return $this->_outputPGPKey();
+            case 'application/pgp-keys':
+                return $this->_outputPGPKey();
 
-        case 'multipart/signed':
-            return $this->_outputPGPSigned();
+            case 'multipart/signed':
+                return $this->_outputPGPSigned();
 
-        case 'multipart/encrypted':
-            $cache = $this->getConfigParam('imp_contents')->getViewCache();
+            case 'multipart/encrypted':
+                $cache = $this->getConfigParam('imp_contents')->getViewCache();
 
-            if (isset($cache->pgp[$id])) {
-                return array_merge(array(
-                    $id => array(
-                        'data' => null,
-                        'status' => $cache->pgp[$id]['status'],
-                        'type' => 'text/plain; charset=' . $this->getConfigParam('charset'),
-                        'wrap' => $cache->pgp[$id]['wrap']
-                    )
-                ), $cache->pgp[$id]['other']);
-            }
-            // Fall-through
+                if (isset($cache->pgp[$id])) {
+                    return array_merge([
+                        $id => [
+                            'data' => null,
+                            'status' => $cache->pgp[$id]['status'],
+                            'type' => 'text/plain; charset=' . $this->getConfigParam('charset'),
+                            'wrap' => $cache->pgp[$id]['wrap'],
+                        ],
+                    ], $cache->pgp[$id]['other']);
+                }
+                // Fall-through
 
-        case 'application/pgp-encrypted':
-        case 'application/pgp-signature':
-        default:
-            return array();
+                // no break
+            case 'application/pgp-encrypted':
+            case 'application/pgp-signature':
+            default:
+                return [];
         }
     }
 
@@ -193,19 +195,19 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
         $status->icon('mime/encryption.png', 'PGP');
 
         $cache = $imp_contents->getViewCache();
-        $cache->pgp[$base_id] = array(
-            'status' => array($status),
-            'other' => array(
+        $cache->pgp[$base_id] = [
+            'status' => [$status],
+            'other' => [
                 $version_id => null,
-                $data_id => null
-            ),
-            'wrap' => ''
-        );
+                $data_id => null,
+            ],
+            'wrap' => '',
+        ];
 
         /* Is PGP active? */
         if (!IMP_Pgp::enabled()) {
             $status->addText(
-                _("The data in this part has been encrypted via PGP, however, PGP support is disabled so the message cannot be decrypted.")
+                _('The data in this part has been encrypted via PGP, however, PGP support is disabled so the message cannot be decrypted.')
             );
             return null;
         }
@@ -229,17 +231,17 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
                 $symmetric_pass = $imp_pgp->getPassphrase('symmetric', $symmetric_id);
 
                 if (is_null($symmetric_pass)) {
-                    $status->addText(_("The data in this part has been encrypted via PGP."));
+                    $status->addText(_('The data in this part has been encrypted via PGP.'));
 
                     /* Ask for the correct passphrase if this is encrypted
                      * symmetrically. */
-                    $imple = $GLOBALS['injector']->getInstance('Horde_Core_Factory_Imple')->create('IMP_Ajax_Imple_PassphraseDialog', array(
-                        'params' => array(
-                            'symmetricid' => $symmetric_id
-                        ),
-                        'type' => 'pgpSymmetric'
-                    ));
-                    $status->addText(Horde::link('#', '', '', '', '', '', '', array('id' => $imple->getDomId())) . _("You must enter the passphrase used to encrypt this message to view it.") . '</a>');
+                    $imple = $GLOBALS['injector']->getInstance('Horde_Core_Factory_Imple')->create('IMP_Ajax_Imple_PassphraseDialog', [
+                        'params' => [
+                            'symmetricid' => $symmetric_id,
+                        ],
+                        'type' => 'pgpSymmetric',
+                    ]);
+                    $status->addText(Horde::link('#', '', '', '', '', '', '', ['id' => $imple->getDomId()]) . _('You must enter the passphrase used to encrypt this message to view it.') . '</a>');
                     return null;
                 }
             }
@@ -258,9 +260,9 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
 
         $literal = !empty($info['literal']);
         if ($literal) {
-            $status->addText(_("The data in this part has been compressed via PGP."));
+            $status->addText(_('The data in this part has been compressed via PGP.'));
         } else {
-            $status->addText(_("The data in this part has been encrypted via PGP."));
+            $status->addText(_('The data in this part has been encrypted via PGP.'));
 
             if (!$symmetric) {
                 if ($imp_pgp->getPersonalPrivateKey()) {
@@ -268,16 +270,16 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
                     if (is_null($personal_pass)) {
                         /* Ask for the private key's passphrase if this is
                          * encrypted asymmetrically. */
-                        $imple = $GLOBALS['injector']->getInstance('Horde_Core_Factory_Imple')->create('IMP_Ajax_Imple_PassphraseDialog', array(
-                            'type' => 'pgpPersonal'
-                        ));
-                        $status->addText(Horde::link('#', '', '', '', '', '', '', array('id' => $imple->getDomId())) . _("You must enter the passphrase for your PGP private key to view this message.") . '</a>');
+                        $imple = $GLOBALS['injector']->getInstance('Horde_Core_Factory_Imple')->create('IMP_Ajax_Imple_PassphraseDialog', [
+                            'type' => 'pgpPersonal',
+                        ]);
+                        $status->addText(Horde::link('#', '', '', '', '', '', '', ['id' => $imple->getDomId()]) . _('You must enter the passphrase for your PGP private key to view this message.') . '</a>');
                         return null;
                     }
                 } else {
                     /* Output if there is no personal private key to decrypt
                      * with. */
-                    $status->addText(_("However, no personal private key exists so the message cannot be decrypted."));
+                    $status->addText(_('However, no personal private key exists so the message cannot be decrypted.'));
                     return null;
                 }
             }
@@ -285,20 +287,20 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
 
         try {
             if (!is_null($symmetric_pass)) {
-                $decrypted_data = $imp_pgp->decryptMessage($encrypted_data, 'symmetric', array(
+                $decrypted_data = $imp_pgp->decryptMessage($encrypted_data, 'symmetric', [
                     'passphrase' => $symmetric_pass,
-                    'sender' => $this->_getSender()->bare_address
-                ));
+                    'sender' => $this->_getSender()->bare_address,
+                ]);
             } elseif (!is_null($personal_pass)) {
-                $decrypted_data = $imp_pgp->decryptMessage($encrypted_data, 'personal', array(
+                $decrypted_data = $imp_pgp->decryptMessage($encrypted_data, 'personal', [
                     'passphrase' => $personal_pass,
-                    'sender' => $this->_getSender()->bare_address
-                ));
+                    'sender' => $this->_getSender()->bare_address,
+                ]);
             } else {
                 $decrypted_data = $imp_pgp->decryptMessage($encrypted_data, 'literal');
             }
         } catch (Horde_Exception $e) {
-            $status->addText(_("The data in this part does not appear to be a valid PGP encrypted message. Error: ") . $e->getMessage());
+            $status->addText(_('The data in this part does not appear to be a valid PGP encrypted message. Error: ') . $e->getMessage());
             if (!is_null($symmetric_pass)) {
                 $imp_pgp->unsetPassphrase('symmetric', $this->_getSymmetricID());
                 return $this->_getEmbeddedMimeParts();
@@ -311,8 +313,8 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
         /* Check for combined encryption/signature data. */
         if ($decrypted_data->result) {
             $sig_text = is_bool($decrypted_data->result)
-                ? _("The data in this part has been digitally signed via PGP.")
-                : $this->_textFilter($decrypted_data->result, 'text2html', array('parselevel' => Horde_Text_Filter_Text2html::NOHTML));
+                ? _('The data in this part has been digitally signed via PGP.')
+                : $this->_textFilter($decrypted_data->result, 'text2html', ['parselevel' => Horde_Text_Filter_Text2html::NOHTML]);
 
             $status2 = new IMP_Mime_Status($this->_mimepart, $sig_text);
             $status2->action(IMP_Mime_Status::SUCCESS);
@@ -326,9 +328,9 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
                                        $decrypted_data->message;
         }
 
-        $new_part = Horde_Mime_Part::parseMessage($decrypted_data->message, array(
-            'forcemime' => true
-        ));
+        $new_part = Horde_Mime_Part::parseMessage($decrypted_data->message, [
+            'forcemime' => true,
+        ]);
 
         if ($new_part->getType() == 'multipart/signed') {
             $data = new Horde_Stream_Temp();
@@ -336,12 +338,13 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
                 $data->add(Horde_Mime_Part::getRawPartText($decrypted_data->message, 'header', '1'));
                 $data->add("\n\n");
                 $data->add(Horde_Mime_Part::getRawPartText($decrypted_data->message, 'body', '1'));
-            } catch (Horde_Mime_Exception $e) {}
+            } catch (Horde_Mime_Exception $e) {
+            }
 
             $new_part->setMetadata(self::PGP_SIGN_ENC, $data->stream);
-            $new_part->setContents($decrypted_data->message, array(
-                'encoding' => 'binary'
-            ));
+            $new_part->setContents($decrypted_data->message, [
+                'encoding' => 'binary',
+            ]);
         }
 
         return $new_part;
@@ -356,13 +359,13 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
     {
         /* Is PGP active? */
         if (!IMP_Pgp::enabled()) {
-            return array();
+            return [];
         }
 
         /* Initialize status message. */
         $status = new IMP_Mime_Status(
             $this->_mimepart,
-            _("A PGP Public Key is attached to the message.")
+            _('A PGP Public Key is attached to the message.')
         );
         $status->icon('mime/encryption.png', 'PGP');
 
@@ -372,22 +375,22 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
         if ($GLOBALS['prefs']->getValue('add_source') &&
             $GLOBALS['registry']->hasMethod('contacts/addField')) {
             // TODO: Check for key existence.
-            $imple = $GLOBALS['injector']->getInstance('Horde_Core_Factory_Imple')->create('IMP_Ajax_Imple_ImportEncryptKey', array(
+            $imple = $GLOBALS['injector']->getInstance('Horde_Core_Factory_Imple')->create('IMP_Ajax_Imple_ImportEncryptKey', [
                 'mime_id' => $mime_id,
                 'muid' => strval($imp_contents->getIndicesOb()),
-                'type' => 'pgp'
-            ));
-            $status->addText(Horde::link('#', '', '', '', '', '', '', array('id' => $imple->getDomId())) . _("Save the key to your address book.") . '</a>');
+                'type' => 'pgp',
+            ]);
+            $status->addText(Horde::link('#', '', '', '', '', '', '', ['id' => $imple->getDomId()]) . _('Save the key to your address book.') . '</a>');
         }
-        $status->addText($imp_contents->linkViewJS($this->_mimepart, 'view_attach', _("View key details."), array('params' => array('mode' => IMP_Contents::RENDER_FULL, 'pgp_view_key' => 1))));
+        $status->addText($imp_contents->linkViewJS($this->_mimepart, 'view_attach', _('View key details.'), ['params' => ['mode' => IMP_Contents::RENDER_FULL, 'pgp_view_key' => 1]]));
 
-        return array(
-            $mime_id => array(
+        return [
+            $mime_id => [
                 'data' => '',
                 'status' => $status,
-                'type' => 'text/html; charset=' . $this->getConfigParam('charset')
-            )
-        );
+                'type' => 'text/html; charset=' . $this->getConfigParam('charset'),
+            ],
+        ];
     }
 
     /**
@@ -409,25 +412,25 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
         $sig_id = $id_ob->idArithmetic($id_ob::ID_NEXT);
 
         if (!IMP_Pgp::enabled()) {
-            return array(
-                $sig_id => null
-            );
+            return [
+                $sig_id => null,
+            ];
         }
 
         $status = new IMP_Mime_Status($this->_mimepart);
-        $status->addText(_("The data in this part has been digitally signed via PGP."));
+        $status->addText(_('The data in this part has been digitally signed via PGP.'));
         $status->icon('mime/encryption.png', 'PGP');
 
-        $ret = array(
-            $base_id => array(
+        $ret = [
+            $base_id => [
                 'data' => '',
                 'nosummary' => true,
-                'status' => array($status),
+                'status' => [$status],
                 'type' => 'text/html; charset=' . $this->getConfigParam('charset'),
-                'wrap' => 'mimePartWrap'
-            ),
-            $sig_id => null
-        );
+                'wrap' => 'mimePartWrap',
+            ],
+            $sig_id => null,
+        ];
 
         if ($prefs->getValue('pgp_verify') ||
             $injector->getInstance('Horde_Variables')->pgp_verify_msg) {
@@ -438,7 +441,7 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
 
             if (!$sig_part) {
                 $status2->action(IMP_Mime_Status::ERROR);
-                $sig_text = _("This digitally signed message is broken.");
+                $sig_text = _('This digitally signed message is broken.');
                 $ret[$base_id]['wrap'] = 'mimePartWrapInvalid';
             } else {
                 /* Close session, since this may be a long-running
@@ -452,13 +455,13 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
                     } else {
                         $stream = $imp_contents->isEmbedded($signed_id)
                             ? $this->_mimepart->getMetadata(self::PGP_SIGN_ENC)
-                            : $imp_contents->getBodyPart($signed_id, array('mimeheaders' => true, 'stream' => true))->data;
+                            : $imp_contents->getBodyPart($signed_id, ['mimeheaders' => true, 'stream' => true])->data;
 
                         rewind($stream);
                         stream_filter_register('horde_eol', 'Horde_Stream_Filter_Eol');
-                        $filter = stream_filter_append($stream, 'horde_eol', STREAM_FILTER_READ, array(
-                            'eol' => Horde_Mime_Part::RFC_EOL
-                        ));
+                        $filter = stream_filter_append($stream, 'horde_eol', STREAM_FILTER_READ, [
+                            'eol' => Horde_Mime_Part::RFC_EOL,
+                        ]);
 
                         $sig_result = $imp_pgp->verifySignature(stream_get_contents($stream), $this->_getSender()->bare_address, $sig_part->getContents());
                         stream_filter_remove($filter);
@@ -474,14 +477,14 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
                 }
             }
 
-            $status2->addText($this->_textFilter($sig_text, 'text2html', array(
-                'parselevel' => Horde_Text_Filter_Text2html::NOHTML
-            )));
+            $status2->addText($this->_textFilter($sig_text, 'text2html', [
+                'parselevel' => Horde_Text_Filter_Text2html::NOHTML,
+            ]));
             $ret[$base_id]['status'][] = $status2;
         } else {
             $status->addMimeAction(
                 'pgpVerifyMsg',
-                _("Click to verify the message.")
+                _('Click to verify the message.')
             );
         }
 
@@ -525,18 +528,18 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
     public function canRender($mode)
     {
         switch ($mode) {
-        case 'full':
-            if ($this->_mimepart->getType() == 'application/pgp-keys') {
-                return true;
-            }
-            break;
+            case 'full':
+                if ($this->_mimepart->getType() == 'application/pgp-keys') {
+                    return true;
+                }
+                break;
 
-        case 'raw':
-            if (($this->_mimepart->getType() == 'application/pgp-signature') &&
-                $this->_mimepart->getMetadata(Horde_Crypt_Pgp_Parse::SIG_RAW)) {
-                return true;
-            }
-            break;
+            case 'raw':
+                if (($this->_mimepart->getType() == 'application/pgp-signature') &&
+                    $this->_mimepart->getMetadata(Horde_Crypt_Pgp_Parse::SIG_RAW)) {
+                    return true;
+                }
+                break;
         }
 
         return parent::canRender($mode);

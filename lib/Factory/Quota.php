@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -38,15 +39,14 @@ class IMP_Factory_Quota extends Horde_Core_Factory_Injector
         }
         $driver = $qparams['driver'];
 
-        $params = isset($qparams['params'])
-            ? $qparams['params']
-            : array();
+        $params = $qparams['params']
+            ?? [];
         $params['username'] = $imap_ob->getParam('username');
 
         switch (Horde_String::lower($driver)) {
-        case 'imap':
-            $params['imap_ob'] = $imap_ob;
-            break;
+            case 'imap':
+                $params['imap_ob'] = $imap_ob;
+                break;
         }
 
         $class = $this->_getDriverName($driver, 'IMP_Quota');

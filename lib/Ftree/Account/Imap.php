@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -25,28 +26,28 @@
 class IMP_Ftree_Account_Imap extends IMP_Ftree_Account
 {
     /* Defines used with namespace display. */
-    const OTHER_KEY = "other\0";
-    const SHARED_KEY = "shared\0";
+    public const OTHER_KEY = "other\0";
+    public const SHARED_KEY = "shared\0";
 
     /**
      */
     public function __get($name)
     {
         switch ($name) {
-        case 'imp_imap':
-            return $GLOBALS['injector']->getInstance('IMP_Factory_Imap')->create($this->_id == IMP_Ftree::BASE_ELT ? null : $this->_id);
+            case 'imp_imap':
+                return $GLOBALS['injector']->getInstance('IMP_Factory_Imap')->create($this->_id == IMP_Ftree::BASE_ELT ? null : $this->_id);
         }
     }
 
     /**
      */
-    public function getList($query = array(), $mask = 0)
+    public function getList($query = [], $mask = 0)
     {
         global $prefs;
 
         $imp_imap = $this->imp_imap;
         $ns = $imp_imap->getNamespaces();
-        $out = array();
+        $out = [];
 
         if ($mask & self::INIT) {
             /* Add namespace elements. */
@@ -55,27 +56,27 @@ class IMP_Ftree_Account_Imap extends IMP_Ftree_Account
                     $type = null;
 
                     switch ($val->type) {
-                    case $val::NS_OTHER:
-                        $attr = IMP_Ftree::ELT_NAMESPACE_OTHER;
-                        $type = self::OTHER_KEY;
-                        break;
+                        case $val::NS_OTHER:
+                            $attr = IMP_Ftree::ELT_NAMESPACE_OTHER;
+                            $type = self::OTHER_KEY;
+                            break;
 
-                    case $val::NS_SHARED:
-                        $attr = IMP_Ftree::ELT_NAMESPACE_SHARED;
-                        $type = self::SHARED_KEY;
-                        break;
+                        case $val::NS_SHARED:
+                            $attr = IMP_Ftree::ELT_NAMESPACE_SHARED;
+                            $type = self::SHARED_KEY;
+                            break;
                     }
 
                     if (!is_null($type)) {
-                        $out[$type] = array(
+                        $out[$type] = [
                             'a' => $attr | IMP_Ftree::ELT_NOSELECT | IMP_Ftree::ELT_NONIMAP,
-                            'v' => $type
-                        );
+                            'v' => $type,
+                        ];
                     }
                 }
             }
 
-            $query = array('INBOX');
+            $query = ['INBOX'];
             foreach ($ns as $val) {
                 $query[] = $val . '*';
             }
@@ -85,7 +86,7 @@ class IMP_Ftree_Account_Imap extends IMP_Ftree_Account
                 : Horde_Imap_Client::MBOX_SUBSCRIBED_EXISTS;
         } elseif ($mask & self::UNSUB) {
             $lmquery = Horde_Imap_Client::MBOX_UNSUBSCRIBED;
-            $query = array();
+            $query = [];
             foreach ($ns as $val) {
                 $query[] = $val . '*';
             }
@@ -95,11 +96,11 @@ class IMP_Ftree_Account_Imap extends IMP_Ftree_Account
             $lmquery = Horde_Imap_Client::MBOX_ALL_SUBSCRIBED;
         }
 
-        $res = $imp_imap->listMailboxes($query, $lmquery, array(
+        $res = $imp_imap->listMailboxes($query, $lmquery, [
             'attributes' => true,
             'delimiter' => true,
-            'sort' => true
-        ));
+            'sort' => true,
+        ]);
 
         foreach ($res as $val) {
             if (in_array('\nonexistent', $val['attributes'])) {
@@ -127,17 +128,17 @@ class IMP_Ftree_Account_Imap extends IMP_Ftree_Account
 
                 if ($prefs->getValue('tree_view')) {
                     switch ($ns_info->type) {
-                    case $ns_info::NS_OTHER:
-                        $parent = self::OTHER_KEY;
-                        break;
+                        case $ns_info::NS_OTHER:
+                            $parent = self::OTHER_KEY;
+                            break;
 
-                    case $ns_info::NS_SHARED:
-                        $parent = self::SHARED_KEY;
-                        break;
+                        case $ns_info::NS_SHARED:
+                            $parent = self::SHARED_KEY;
+                            break;
                     }
                 }
             } else {
-                $parts = array($mbox);
+                $parts = [$mbox];
             }
 
             for ($i = 1, $p_count = count($parts); $i <= $p_count; ++$i) {
@@ -162,10 +163,10 @@ class IMP_Ftree_Account_Imap extends IMP_Ftree_Account
                         $attr = IMP_Ftree::ELT_NOSELECT;
                     }
 
-                    $out[$part] = array(
+                    $out[$part] = [
                         'a' => $attr,
-                        'v' => $part
-                    );
+                        'v' => $part,
+                    ];
                     if (!is_null($parent)) {
                         $out[$part]['p'] = $parent;
                     }

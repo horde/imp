@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -33,17 +34,17 @@ class IMP_Basic_Listinfo extends IMP_Basic_Base
         try {
             $imp_contents = $injector->getInstance('IMP_Factory_Contents')->create($this->indices);
         } catch (IMP_Exception $e) {
-            throw new IMP_Exception(_("Could not load message."));
+            throw new IMP_Exception(_('Could not load message.'));
         }
 
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/listinfo'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/listinfo',
+        ]);
 
         $listheaders = $injector->getInstance('Horde_ListHeaders');
         $mime_headers = $imp_contents->getHeader();
 
-        $view->headers = array();
+        $view->headers = [];
         foreach ($listheaders->headers() as $key => $val) {
             if ($data = $mime_headers[$key]) {
                 $view->headers[$val] = $this->_parseListHeaders($key, $data->value);
@@ -51,11 +52,11 @@ class IMP_Basic_Listinfo extends IMP_Basic_Base
         }
 
         $this->output = $view->render('listinfo');
-        $this->title = _("Mailing List Information");
+        $this->title = _('Mailing List Information');
 
-        $page_output->addInlineScript(array(
-            'window.resizeBy(0, window.document.body.scrollHeight - window.innerHeight + 20)'
-        ), true);
+        $page_output->addInlineScript([
+            'window.resizeBy(0, window.document.body.scrollHeight - window.innerHeight + 20)',
+        ], true);
 
         $page_output->topbar = $page_output->sidebar = false;
     }
@@ -72,7 +73,7 @@ class IMP_Basic_Listinfo extends IMP_Basic_Base
      *   - full: (boolean) Full URL?
      *   - mailbox: (string) Mailbox of message.
      */
-    public static function url(array $opts = array())
+    public static function url(array $opts = [])
     {
         $url = Horde::url('basic.php')
             ->add('page', 'listinfo')
@@ -80,10 +81,10 @@ class IMP_Basic_Listinfo extends IMP_Basic_Base
             ->setRaw(!empty($opts['full']));
 
         if (!empty($opts['mailbox'])) {
-            $url->add(array(
+            $url->add([
                 'buid' => $opts['buid'],
-                'mailbox' => IMP_Mailbox::get($opts['mailbox'])->form_to
-            ));
+                'mailbox' => IMP_Mailbox::get($opts['mailbox'])->form_to,
+            ]);
         }
 
         return $url;
@@ -137,7 +138,7 @@ class IMP_Basic_Listinfo extends IMP_Basic_Base
         /* Pass through Linkurls filter anyway, since it is possible the
          * sender did not correctly put URL between brackets. */
         return Horde_Text_Filter_Linkurls::decode(htmlspecialchars(
-            $text_filter->filter($data, 'Linkurls', array('encode' => true))
+            $text_filter->filter($data, 'Linkurls', ['encode' => true])
         ));
     }
 

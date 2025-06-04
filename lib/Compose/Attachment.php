@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -91,9 +92,11 @@ class IMP_Compose_Attachment implements Serializable
      * @param Horde_Mime_Part $part  MIME part object.
      * @param string $tmp_file       Temporary filename containing the data.
      */
-    public function __construct(IMP_Compose $ob, Horde_Mime_Part $part,
-                                $tmp_file)
-    {
+    public function __construct(
+        IMP_Compose $ob,
+        Horde_Mime_Part $part,
+        $tmp_file
+    ) {
         $this->id = ++$ob->atcId;
         $this->_composeCache = strval($ob);
         $this->_part = $part;
@@ -114,24 +117,24 @@ class IMP_Compose_Attachment implements Serializable
         global $injector;
 
         switch ($name) {
-        case 'linked':
-            return ($this->forceLinked || ($this->_linked === true));
+            case 'linked':
+                return ($this->forceLinked || ($this->_linked === true));
 
-        case 'link_url':
-            return $this->storage->link_url;
+            case 'link_url':
+                return $this->storage->link_url;
 
-        case 'storage':
-            $linked = $this->linked
-                ? 'linked'
-                : (is_null($this->_linked) ? null : 'atc');
-            return $injector->getInstance('IMP_Factory_ComposeAtc')->create(
-                null,
-                $this->_uuid,
-                $linked
-            );
+            case 'storage':
+                $linked = $this->linked
+                    ? 'linked'
+                    : (is_null($this->_linked) ? null : 'atc');
+                return $injector->getInstance('IMP_Factory_ComposeAtc')->create(
+                    null,
+                    $this->_uuid,
+                    $linked
+                );
 
-        case 'tmpfile':
-            return $this->storage->getTempFile();
+            case 'tmpfile':
+                return $this->storage->getTempFile();
         }
     }
 
@@ -148,7 +151,7 @@ class IMP_Compose_Attachment implements Serializable
         if ($build && !$this->_isBuilt) {
             $this->_part->setContents(
                 $this->storage->read()->stream,
-                array('stream' => true)
+                ['stream' => true]
             );
             $this->_isBuilt = true;
         }
@@ -164,7 +167,8 @@ class IMP_Compose_Attachment implements Serializable
         if (!$this->linked) {
             try {
                 $this->storage->delete();
-            } catch (Exception $e) {}
+            } catch (Exception $e) {
+            }
         }
     }
 
@@ -175,11 +179,11 @@ class IMP_Compose_Attachment implements Serializable
      */
     public function viewUrl()
     {
-        return Horde::url('view.php', true)->add(array(
+        return Horde::url('view.php', true)->add([
             'actionID' => 'compose_attach_preview',
             'composeCache' => strval($GLOBALS['injector']->getInstance('IMP_Factory_Compose')->create($this->_composeCache)),
-            'id' => $this->id
-        ));
+            'id' => $this->id,
+        ]);
     }
 
     /* Serializable methods. */
@@ -204,17 +208,19 @@ class IMP_Compose_Attachment implements Serializable
         return
         [
             $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
-            array(
+                [
                 $this->_composeCache,
                 $this->id,
                 $this->_linked,
                 $this->_part,
                 $this->related,
-                $this->_uuid
-            ), array(
+                $this->_uuid,
+            ],
+                [
                 'compression' => false,
-                'phpob' => true
-            ))
+                'phpob' => true,
+            ]
+            ),
         ];
     }
 
@@ -227,13 +233,13 @@ class IMP_Compose_Attachment implements Serializable
 
     public function __unserialize(array $data): void
     {
-        list(
+        [
             $this->_composeCache,
             $this->id,
             $this->_linked,
             $this->_part,
             $this->related,
             $this->_uuid
-        ) = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack(array_shift($data));
+        ] = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack(array_shift($data));
     }
 }

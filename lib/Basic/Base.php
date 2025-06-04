@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -25,7 +26,7 @@ abstract class IMP_Basic_Base
     /**
      * @var array
      */
-    public $header_params = array();
+    public $header_params = [];
 
     /**
      * @var IMP_Indices_Mailbox
@@ -57,11 +58,11 @@ abstract class IMP_Basic_Base
 
         $this->indices = new IMP_Indices_Mailbox($vars);
 
-        $page_output->addLinkTag(array(
+        $page_output->addLinkTag([
             'href' => IMP_Basic_Search::url(),
             'rel' => 'search',
-            'type' => null
-        ));
+            'type' => null,
+        ]);
 
         $mimecss = new Horde_Themes_Element('mime.css');
         $page_output->addStylesheet($mimecss->fs, $mimecss->uri);
@@ -81,9 +82,9 @@ abstract class IMP_Basic_Base
     public function status()
     {
         Horde::startBuffer();
-        $GLOBALS['notification']->notify(array(
-            'listeners' => array('status', 'audio')
-        ));
+        $GLOBALS['notification']->notify([
+            'listeners' => ['status', 'audio'],
+        ]);
         return Horde::endBuffer();
     }
 
@@ -93,7 +94,7 @@ abstract class IMP_Basic_Base
 
     /**
      */
-    public static function url(array $opts = array())
+    public static function url(array $opts = [])
     {
     }
 

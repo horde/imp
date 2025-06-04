@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -31,9 +32,9 @@ class IMP_Factory_Pgp extends Horde_Core_Factory_Injector
     {
         global $conf;
 
-        $params = array(
-            'program' => $conf['gnupg']['path']
-        );
+        $params = [
+            'program' => $conf['gnupg']['path'],
+        ];
 
         if (isset($conf['http']['proxy']['proxy_host'])) {
             $params['proxy_host'] = $conf['http']['proxy']['proxy_host'];

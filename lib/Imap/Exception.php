@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
  *
@@ -74,21 +75,21 @@ class IMP_Imap_Exception extends Horde_Imap_Client_Exception
     public function authError()
     {
         switch ($this->getCode()) {
-        case self::LOGIN_AUTHENTICATIONFAILED:
-        case self::LOGIN_AUTHORIZATIONFAILED:
-            return Horde_Auth::REASON_BADLOGIN;
+            case self::LOGIN_AUTHENTICATIONFAILED:
+            case self::LOGIN_AUTHORIZATIONFAILED:
+                return Horde_Auth::REASON_BADLOGIN;
 
-        case self::LOGIN_EXPIRED:
-            return Horde_Auth::REASON_EXPIRED;
+            case self::LOGIN_EXPIRED:
+                return Horde_Auth::REASON_EXPIRED;
 
-        case self::SERVER_CONNECT:
-        case self::LOGIN_UNAVAILABLE:
-            return Horde_Auth::REASON_MESSAGE;
+            case self::SERVER_CONNECT:
+            case self::LOGIN_UNAVAILABLE:
+                return Horde_Auth::REASON_MESSAGE;
 
-        case self::LOGIN_NOAUTHMETHOD:
-        case self::LOGIN_PRIVACYREQUIRED:
-        case self::LOGIN_TLSFAILURE:
-            return Horde_Auth::REASON_FAILED;
+            case self::LOGIN_NOAUTHMETHOD:
+            case self::LOGIN_PRIVACYREQUIRED:
+            case self::LOGIN_TLSFAILURE:
+                return Horde_Auth::REASON_FAILED;
         }
 
         return null;
@@ -99,8 +100,8 @@ class IMP_Imap_Exception extends Horde_Imap_Client_Exception
     public function __get($name)
     {
         switch ($name) {
-        case 'notified':
-            return $this->_notified;
+            case 'notified':
+                return $this->_notified;
         }
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -61,77 +62,77 @@
 class IMP_Imap_Config implements Serializable
 {
     /* Passwords session storage key. */
-    const PASSWORDS_KEY = 'imap_config_pass';
+    public const PASSWORDS_KEY = 'imap_config_pass';
 
     /**
      * Array options.
      *
      * @var array
      */
-    private $_aoptions = array(
+    private $_aoptions = [
         'admin', 'cache_params', 'capability_ignore', 'id', 'lang',
-        'namespace', 'preferred', 'quota', 'smtp', 'spam', 'special_mboxes'
-    );
+        'namespace', 'preferred', 'quota', 'smtp', 'spam', 'special_mboxes',
+    ];
 
     /**
      * Boolean options defaulting to false.
      *
      * @var array
      */
-    private $_boptions_false = array(
-        'autocreate_special', 'debug_raw', 'sort_force'
-    );
+    private $_boptions_false = [
+        'autocreate_special', 'debug_raw', 'sort_force',
+    ];
 
     /**
      * Boolean options defaulting to true.
      *
      * @var array
      */
-    private $_boptions_true = array(
-        'acl', 'atc_structure'
-    );
+    private $_boptions_true = [
+        'acl', 'atc_structure',
+    ];
 
     /**
      * Config data.
      *
      * @var array
      */
-    private $_config = array();
+    private $_config = [];
 
     /**
      * Mixed options.
      *
      * @var array
      */
-    private $_moptions = array(
-        'cache', 'hordeauth', 'secure'
-    );
+    private $_moptions = [
+        'cache', 'hordeauth', 'secure',
+    ];
 
     /**
      * Passwords.
      *
      * @var array
      */
-    private $_passwords = array();
+    private $_passwords = [];
 
     /**
      * Password storage options (must be an array option).
      *
      * @var array
      */
-    private $_poptions = array(
-        'admin', 'quota'
-    );
+    private $_poptions = [
+        'admin', 'quota',
+    ];
 
     /**
      * String options.
      *
      * @var array
      */
-    private $_soptions = array(
+    private $_soptions = [
         'cache_lifetime', 'comparator', 'debug', 'hostspec', 'import_limit',
-        'maildomain', 'name', 'port', 'protocol', 'thread', 'timeout'
-    );
+        'maildomain', 'name', 'port', 'protocol', 'thread', 'timeout',
+    ];
 
     /**
      * Constructor.
@@ -156,23 +157,23 @@ class IMP_Imap_Config implements Serializable
 
         /* Normalize values. */
         switch ($name) {
-        case 'quota':
-            $value['params']['interval'] = isset($value['params']['interval'])
-                ? intval($value['params']['interval'])
-                : 900; // DEFAULT: 15 minutes
-            break;
+            case 'quota':
+                $value['params']['interval'] = isset($value['params']['interval'])
+                    ? intval($value['params']['interval'])
+                    : 900; // DEFAULT: 15 minutes
+                break;
 
-        case 'preferred':
-            if (!is_array($value)) {
-                $value = array($value);
-            }
-            break;
+            case 'preferred':
+                if (!is_array($value)) {
+                    $value = [$value];
+                }
+                break;
 
-        case 'protocol':
-            $value = (strcasecmp($value, 'pop') === 0)
-                ? 'pop'
-                : 'imap';
-            break;
+            case 'protocol':
+                $value = (strcasecmp($value, 'pop') === 0)
+                    ? 'pop'
+                    : 'imap';
+                break;
         }
 
         if (in_array($name, $this->_aoptions) ||
@@ -197,9 +198,8 @@ class IMP_Imap_Config implements Serializable
 
         if (in_array($name, $this->_aoptions)) {
             /* Array options. */
-            $out = isset($this->_config[$name])
-                ? $this->_config[$name]
-                : array();
+            $out = $this->_config[$name]
+                ?? [];
 
             if (isset($this->_passwords[$name])) {
                 $out['password'] = $this->_passwords[$name];
@@ -214,143 +214,142 @@ class IMP_Imap_Config implements Serializable
         } elseif (in_array($name, $this->_soptions) ||
                   in_array($name, $this->_moptions)) {
             /* Mixed and/or string options. */
-            $out = isset($this->_config[$name])
-                ? $this->_config[$name]
-                : null;
+            $out = $this->_config[$name]
+                ?? null;
         } else {
             $out = null;
         }
 
         switch ($name) {
-        case 'autocreate_special':
-            $out = ($out && $injector->getInstance('IMP_Factory_Imap')->create()->access(IMP_Imap::ACCESS_FOLDERS));
-            break;
+            case 'autocreate_special':
+                $out = ($out && $injector->getInstance('IMP_Factory_Imap')->create()->access(IMP_Imap::ACCESS_FOLDERS));
+                break;
 
-        case 'cache_params':
-            $ob = null;
-            if ($c = $this->cache) {
-                if ($c instanceof Horde_Imap_Client_Cache_Backend) {
-                    $ob = $c;
-                } else {
-                    switch ($driver = Horde_String::lower($c)) {
-                    case 'hashtable':
-                    case 'sql':
-                        // No-op.
-                        break;
+            case 'cache_params':
+                $ob = null;
+                if ($c = $this->cache) {
+                    if ($c instanceof Horde_Imap_Client_Cache_Backend) {
+                        $ob = $c;
+                    } else {
+                        switch ($driver = Horde_String::lower($c)) {
+                            case 'hashtable':
+                            case 'sql':
+                                // No-op.
+                                break;
 
-                    case 'nosql':
-                        $db = $injector->getInstance('Horde_Nosql_Adapter');
-                        if (!$db instanceof Horde_Mongo_Client) {
-                            $driver = null;
-                            Horde::log(sprintf('IMAP client package does not support %s as a cache driver.', get_class($db)), 'ERR');
+                            case 'nosql':
+                                $db = $injector->getInstance('Horde_Nosql_Adapter');
+                                if (!$db instanceof Horde_Mongo_Client) {
+                                    $driver = null;
+                                    Horde::log(sprintf('IMAP client package does not support %s as a cache driver.', get_class($db)), 'ERR');
+                                }
+                                break;
+
+                            case 'cache':
+                                /* TODO: For IMP 6.x BC, treat everything else as the
+                                 * 'cache' option. */
+                            default:
+                                $driver = 'cache';
+                                break;
                         }
-                        break;
 
-                    case 'cache':
-                    /* TODO: For IMP 6.x BC, treat everything else as the
-                     * 'cache' option. */
-                    default:
-                        $driver = 'cache';
-                        break;
-                    }
-
-                    if (!is_null($driver)) {
-                        $ob = new IMP_Imap_Cache_Wrapper($driver, $this->cache_lifetime);
+                        if (!is_null($driver)) {
+                            $ob = new IMP_Imap_Cache_Wrapper($driver, $this->cache_lifetime);
+                        }
                     }
                 }
-            }
 
-            if (is_null($ob)) {
-                $ob = new Horde_Imap_Client_Cache_Backend_Cache(array(
-                    'cacheob' => new Horde_Cache(new Horde_Cache_Storage_Mock(), array(
-                        'compress' => true
-                    ))
-                ));
-            }
+                if (is_null($ob)) {
+                    $ob = new Horde_Imap_Client_Cache_Backend_Cache([
+                        'cacheob' => new Horde_Cache(new Horde_Cache_Storage_Mock(), [
+                            'compress' => true,
+                        ]),
+                    ]);
+                }
 
-            $out = array('backend' => $ob);
-            break;
+                $out = ['backend' => $ob];
+                break;
 
-        case 'id':
-            $out = array_merge(array(
-                'name' => 'IMP',
-                'support-url' => 'http://www.horde.org/imp/',
-                'vendor' => 'Horde',
-                'version' => $registry->getVersion('imp')
-            ), $out);
-            break;
+            case 'id':
+                $out = array_merge([
+                    'name' => 'IMP',
+                    'support-url' => 'http://www.horde.org/imp/',
+                    'vendor' => 'Horde',
+                    'version' => $registry->getVersion('imp'),
+                ], $out);
+                break;
 
-        case 'import_limit':
-            $out = is_null($out)
-                ? 2500
-                : intval($out);
-            break;
+            case 'import_limit':
+                $out = is_null($out)
+                    ? 2500
+                    : intval($out);
+                break;
 
-        case 'innocent_params':
-            $p = $this->spam;
-            $out = array_merge(array(
-                'digest_limit_msgs' => 1,
-                'digest_limit_size' => 10485760, // Default is 10 MB
-                'email_format' => 'digest'
-            ), isset($p['innocent']) ? $p['innocent'] : array());
-            break;
+            case 'innocent_params':
+                $p = $this->spam;
+                $out = array_merge([
+                    'digest_limit_msgs' => 1,
+                    'digest_limit_size' => 10485760, // Default is 10 MB
+                    'email_format' => 'digest',
+                ], $p['innocent'] ?? []);
+                break;
 
-        case 'maildomain':
-            /* Sanity checking - this should be null, not empty string. */
-            if (!is_null($out) && !strlen($out)) {
-                $out = null;
-            }
-            break;
+            case 'maildomain':
+                /* Sanity checking - this should be null, not empty string. */
+                if (!is_null($out) && !strlen($out)) {
+                    $out = null;
+                }
+                break;
 
-        case 'port':
-            if (is_null($out)) {
-                if ($this->protocol === 'imap') {
-                    $out = ($this->secure === 'ssl') ? 993 : 143;
+            case 'port':
+                if (is_null($out)) {
+                    if ($this->protocol === 'imap') {
+                        $out = ($this->secure === 'ssl') ? 993 : 143;
+                    } else {
+                        $out = ($this->secure === 'ssl') ? 995 : 110;
+                    }
                 } else {
-                    $out = ($this->secure === 'ssl') ? 995 : 110;
+                    $out = intval($out);
                 }
-            } else {
-                $out = intval($out);
-            }
-            break;
+                break;
 
-        case 'protocol':
-            if (is_null($out)) {
-                $out = 'imap';
-            }
-            break;
-
-        case 'smtp':
-            if (empty($out['horde_auth'])) {
-                if (!isset($out['username'])) {
-                    $out['username'] = $injector->getInstance('IMP_Factory_Imap')->create()->getParam('username');
+            case 'protocol':
+                if (is_null($out)) {
+                    $out = 'imap';
                 }
-                if (!isset($out['password'])) {
-                    $out['password'] = $injector->getInstance('IMP_Factory_Imap')->create()->getParam('password');
+                break;
+
+            case 'smtp':
+                if (empty($out['horde_auth'])) {
+                    if (!isset($out['username'])) {
+                        $out['username'] = $injector->getInstance('IMP_Factory_Imap')->create()->getParam('username');
+                    }
+                    if (!isset($out['password'])) {
+                        $out['password'] = $injector->getInstance('IMP_Factory_Imap')->create()->getParam('password');
+                    }
                 }
-            }
-            break;
+                break;
 
-        case 'spam_params':
-            $p = $this->spam;
-            $out = array_merge(array(
-                'digest_limit_msgs' => 1,
-                'digest_limit_size' => 10485760, // Default is 10 MB
-                'email_format' => 'digest'
-            ), isset($p['spam']) ? $p['spam'] : array());
-            break;
+            case 'spam_params':
+                $p = $this->spam;
+                $out = array_merge([
+                    'digest_limit_msgs' => 1,
+                    'digest_limit_size' => 10485760, // Default is 10 MB
+                    'email_format' => 'digest',
+                ], $p['spam'] ?? []);
+                break;
 
-        case 'thread':
-            if (is_null($out)) {
-                $out = 'REFERENCES';
-            }
-            break;
+            case 'thread':
+                if (is_null($out)) {
+                    $out = 'REFERENCES';
+                }
+                break;
 
-        case 'user_special_mboxes':
-            $out = (isset($this->_config['special_mboxes'][IMP_Mailbox::MBOX_USERSPECIAL]) && is_array($this->_config['special_mboxes'][IMP_Mailbox::MBOX_USERSPECIAL]))
-                ? $this->_config['special_mboxes'][IMP_Mailbox::MBOX_USERSPECIAL]
-                : array();
-            break;
+            case 'user_special_mboxes':
+                $out = (isset($this->_config['special_mboxes'][IMP_Mailbox::MBOX_USERSPECIAL]) && is_array($this->_config['special_mboxes'][IMP_Mailbox::MBOX_USERSPECIAL]))
+                    ? $this->_config['special_mboxes'][IMP_Mailbox::MBOX_USERSPECIAL]
+                    : [];
+                break;
         }
 
         return $out;
@@ -379,7 +378,7 @@ class IMP_Imap_Config implements Serializable
     {
         return array_shift($this->__serialize());
     }
-    public function __serialize(): array 
+    public function __serialize(): array
     {
         global $injector, $session;
 
@@ -391,11 +390,11 @@ class IMP_Imap_Config implements Serializable
         [
             $injector->getInstance('Horde_Pack')->pack(
                 array_filter($this->_config),
-                array(
+                [
                     'compression' => false,
-                    'phpob' => false
-                )
-            )
+                    'phpob' => false,
+                ]
+            ),
         ];
 
     }
@@ -405,7 +404,7 @@ class IMP_Imap_Config implements Serializable
     {
         $this->__unserialize([$data]);
     }
-    public function __unserialize(array $data): void 
+    public function __unserialize(array $data): void
     {
         global $injector, $session;
 

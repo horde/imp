@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -32,31 +33,33 @@ class IMP_Compose_View
     /**
      * @throws IMP_Exception
      */
-    public function composeAttachPreview($id, $autodetect = false,
-                                         $ctype = null)
-    {
+    public function composeAttachPreview(
+        $id,
+        $autodetect = false,
+        $ctype = null
+    ) {
         if (!($atc = $this->_compose[$id]) || !($mime = $atc->getPart(true))) {
-            $e = new IMP_Exception(_("Could not display attachment data."));
+            $e = new IMP_Exception(_('Could not display attachment data.'));
             $e->logged = true;
             throw $e;
         }
         $mime->setMimeId($id);
 
         $contents = new IMP_Contents($mime);
-        $render = $contents->renderMIMEPart($id, $contents::RENDER_RAW_FALLBACK, array(
+        $render = $contents->renderMIMEPart($id, $contents::RENDER_RAW_FALLBACK, [
             'autodetect' => $autodetect,
-            'type' => $ctype
-        ));
+            'type' => $ctype,
+        ]);
 
         if (!empty($render)) {
             return reset($render);
         } elseif ($autodetect) {
-            $e = new IMP_Exception(_("Could not display attachment data."));
+            $e = new IMP_Exception(_('Could not display attachment data.'));
             $e->logged = true;
             throw $e;
         }
 
-        return array();
+        return [];
     }
 
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2001-2017 Horde LLC (http://www.horde.org/)
  *
@@ -62,12 +63,12 @@ class IMP_LoginTasks_Task_PurgeSentmail extends Horde_LoginTasks_Task
             $msg_ids = $mbox->runSearchQuery($query);
 
             /* Go through the message list and delete the messages. */
-            if ($msg_ids->delete(array('nuke' => true))) {
+            if ($msg_ids->delete(['nuke' => true])) {
                 $msgcount = count($msg_ids);
                 if ($msgcount == 1) {
-                    $notification->push(sprintf(_("Purging 1 message from sent-mail mailbox %s."), $mbox->display), 'horde.message');
+                    $notification->push(sprintf(_('Purging 1 message from sent-mail mailbox %s.'), $mbox->display), 'horde.message');
                 } else {
-                    $notification->push(sprintf(_("Purging %d messages from sent-mail mailbox."), $msgcount, $mbox->display), 'horde.message');
+                    $notification->push(sprintf(_('Purging %d messages from sent-mail mailbox.'), $msgcount, $mbox->display), 'horde.message');
                 }
             }
         }
@@ -83,18 +84,20 @@ class IMP_LoginTasks_Task_PurgeSentmail extends Horde_LoginTasks_Task
      */
     public function describe()
     {
-        $mbox_list = array();
+        $mbox_list = [];
         foreach ($this->_getMboxes() as $val) {
             $mbox_list[] = $val->display_html;
         }
 
         return sprintf(
             ngettext(
-                "All messages in the mailbox \"%s\" older than %s days will be permanently deleted.",
-                "All messages in the mailboxes \"%s\" older than %s days will be permanently deleted.",
-                count($mbox_list)),
+                'All messages in the mailbox "%s" older than %s days will be permanently deleted.',
+                'All messages in the mailboxes "%s" older than %s days will be permanently deleted.',
+                count($mbox_list)
+            ),
             implode(', ', $mbox_list),
-            $GLOBALS['prefs']->getValue('purge_sentmail_keep'));
+            $GLOBALS['prefs']->getValue('purge_sentmail_keep')
+        );
     }
 
     /**
@@ -106,7 +109,7 @@ class IMP_LoginTasks_Task_PurgeSentmail extends Horde_LoginTasks_Task
     {
         global $injector;
 
-        $sent = array();
+        $sent = [];
 
         foreach ($injector->getInstance('IMP_Identity')->getAllSentmail() as $val) {
             if ($val->exists) {

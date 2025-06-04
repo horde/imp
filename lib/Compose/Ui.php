@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2006-2017 Horde LLC (http://www.horde.org/)
  *
@@ -40,7 +41,7 @@ class IMP_Compose_Ui
             $default = $prefs->getValue('default_encrypt');
         }
 
-        $enc_opts = array();
+        $enc_opts = [];
         $output = '';
 
         if (IMP_Pgp::enabled()) {
@@ -53,7 +54,7 @@ class IMP_Compose_Ui
 
         if (!empty($enc_opts)) {
             $enc_opts = array_merge(
-                array(IMP::ENCRYPT_NONE => _("None")),
+                [IMP::ENCRYPT_NONE => _('None')],
                 $enc_opts
             );
         }
@@ -63,7 +64,7 @@ class IMP_Compose_Ui
         }
 
         foreach ($enc_opts as $key => $val) {
-             $output .= '<option value="' . $key . '"' . (($default == $key) ? ' selected="selected"' : '') . '>' . $val . "</option>\n";
+            $output .= '<option value="' . $key . '"' . (($default == $key) ? ' selected="selected"' : '') . '>' . $val . "</option>\n";
         }
 
         return $output;

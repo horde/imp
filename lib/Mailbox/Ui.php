@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2006-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,7 +28,7 @@ class IMP_Mailbox_Ui
      *
      * @var array
      */
-    private $_draftsSent = array();
+    private $_draftsSent = [];
 
     /**
      * The current mailbox.
@@ -60,10 +61,10 @@ class IMP_Mailbox_Ui
      */
     public function getFrom($ob)
     {
-        $ret = array(
+        $ret = [
             'from_label' => null,
-            'to' => false
-        );
+            'to' => false,
+        ];
 
         if (!isset($this->_draftsSent)) {
             $this->_draftsSent = $this->_mailbox->special_outgoing;
@@ -71,26 +72,26 @@ class IMP_Mailbox_Ui
 
         if ($GLOBALS['injector']->getInstance('IMP_Identity')->hasAddress($ob->from)) {
             if (!$this->_draftsSent) {
-                $ret['from_label'] = _("To:");
+                $ret['from_label'] = _('To:');
             }
             $ret['to'] = true;
             $addrs = $ob->to;
 
             if (!count($addrs)) {
-                $ret['from'] = _("Undisclosed Recipients");
+                $ret['from'] = _('Undisclosed Recipients');
             }
         } else {
             $addrs = $ob->from;
             if ($this->_draftsSent) {
-                $ret['from_label'] = _("From:");
+                $ret['from_label'] = _('From:');
             }
 
             if (!count($addrs)) {
-                $ret['from'] = _("Invalid Address");
+                $ret['from'] = _('Invalid Address');
             }
         }
 
-        $parts = array();
+        $parts = [];
 
         $addrs->unique();
         foreach ($addrs->base_addresses as $val) {
@@ -116,13 +117,13 @@ class IMP_Mailbox_Ui
     public function getSubject($subject, $htmlspaces = false)
     {
         if (!strlen($subject)) {
-            return _("[No Subject]");
+            return _('[No Subject]');
         }
 
         $new_subject = $subject = IMP::filterText(preg_replace("/\s+/", ' ', $subject));
 
         if ($htmlspaces) {
-            $new_subject = $GLOBALS['injector']->getInstance('Horde_Core_Factory_TextFilter')->filter($subject, 'space2html', array('encode' => true));
+            $new_subject = $GLOBALS['injector']->getInstance('Horde_Core_Factory_TextFilter')->filter($subject, 'space2html', ['encode' => true]);
             if (empty($new_subject)) {
                 $new_subject = htmlspecialchars($subject);
             }

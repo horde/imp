@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -25,17 +26,17 @@ class IMP_Maillog_Storage_Null extends IMP_Maillog_Storage_Base
     /**
      */
     public function saveLog(
-        IMP_Maillog_Message $msg, IMP_Maillog_Log_Base $log
-    )
-    {
+        IMP_Maillog_Message $msg,
+        IMP_Maillog_Log_Base $log
+    ) {
         return false;
     }
 
     /**
      */
-    public function getLog(IMP_Maillog_Message $msg, array $types = array())
+    public function getLog(IMP_Maillog_Message $msg, array $types = [])
     {
-        return array();
+        return [];
     }
 
     /**
@@ -48,15 +49,15 @@ class IMP_Maillog_Storage_Null extends IMP_Maillog_Storage_Base
      */
     public function getChanges($ts)
     {
-        return array();
+        return [];
     }
 
     /**
      */
     public function isAvailable(
-        IMP_Maillog_Message $msg, IMP_Maillog_Log_Base $log
-    )
-    {
+        IMP_Maillog_Message $msg,
+        IMP_Maillog_Log_Base $log
+    ) {
         return false;
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -42,16 +43,16 @@ class IMP_Mime_Viewer_Tgz extends Horde_Mime_Viewer_Tgz
         /* Verify that the requested file exists. */
         if ((($key = $vars->tgz_attachment) === null) ||
             !isset($tgzInfo[$key])) {
-            return array();
+            return [];
         }
 
-        return array(
-            $this->_mimepart->getMimeId() => array(
+        return [
+            $this->_mimepart->getMimeId() => [
                 'data' => $tgzInfo[$key]['data'],
                 'name' => basename($tgzInfo[$key]['name']),
-                'type' => 'application/octet-stream'
-            )
-        );
+                'type' => 'application/octet-stream',
+            ],
+        ];
     }
 
     /**
@@ -72,30 +73,30 @@ class IMP_Mime_Viewer_Tgz extends Horde_Mime_Viewer_Tgz
             !isset($vars->tgz_contents)) {
             $status = new IMP_Mime_Status(
                 $this->_mimepart,
-                _("This is a compressed file.")
+                _('This is a compressed file.')
             );
             $status->addMimeAction(
                 'tgzViewContents',
-                _("Click to display the file contents.")
+                _('Click to display the file contents.')
             );
             $status->icon('mime/compressed.png');
 
-            return array(
-                $this->_mimepart->getMimeId() => array(
+            return [
+                $this->_mimepart->getMimeId() => [
                     'data' => '',
                     'status' => $status,
-                    'type' => 'text/html; charset=UTF-8'
-                )
-            );
+                    'type' => 'text/html; charset=UTF-8',
+                ],
+            ];
         }
 
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/mime'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/mime',
+        ]);
         $view->addHelper('Text');
 
         $view->downloadclass = 'tgzdownload';
-        $view->files = array();
+        $view->files = [];
         $view->tableclass = 'tgzcontents';
 
         $tgzInfo = $this->_getTgzInfo();
@@ -105,7 +106,7 @@ class IMP_Mime_Viewer_Tgz extends Horde_Mime_Viewer_Tgz
                 continue;
             }
 
-            $file = new stdClass;
+            $file = new stdClass();
             $file->download = '';
             $file->name = $val['name'];
             $file->size = IMP::sizeFormat($val['size']);
@@ -115,25 +116,25 @@ class IMP_Mime_Viewer_Tgz extends Horde_Mime_Viewer_Tgz
                     $this->_mimepart,
                     'download_render',
                     '',
-                    array(
+                    [
                         'class' => 'iconImg downloadAtc',
-                        'jstext' => _("Download"),
-                        'params' => array(
-                            'tgz_attachment' => $key
-                        )
-                    )
+                        'jstext' => _('Download'),
+                        'params' => [
+                            'tgz_attachment' => $key,
+                        ],
+                    ]
                 );
             }
 
             $view->files[] = $file;
         }
 
-        return array(
-            $this->_mimepart->getMimeId() => array(
+        return [
+            $this->_mimepart->getMimeId() => [
                 'data' => $view->render('compressed'),
-                'type' => 'text/html; charset=UTF-8'
-            )
-        );
+                'type' => 'text/html; charset=UTF-8',
+            ],
+        ];
     }
 
     /**
@@ -164,7 +165,8 @@ class IMP_Mime_Viewer_Tgz extends Horde_Mime_Viewer_Tgz
                     return $tar->decompress(
                         $gzip->decompress($contents)
                     );
-                } catch (Horde_Compress_Exception $e) {}
+                } catch (Horde_Compress_Exception $e) {
+                }
             }
         }
 

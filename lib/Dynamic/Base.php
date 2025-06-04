@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -30,17 +31,17 @@ abstract class IMP_Dynamic_Base
     /**
      * @var array
      */
-    public $js_conf = array();
+    public $js_conf = [];
 
     /**
      * @var array
      */
-    public $js_context = array();
+    public $js_context = [];
 
     /**
      * @var array
      */
-    public $js_text = array();
+    public $js_text = [];
 
     /**
      * @var string
@@ -60,9 +61,9 @@ abstract class IMP_Dynamic_Base
     /**
      * @var array
      */
-    protected $_pages = array(
-        'header'
-    );
+    protected $_pages = [
+        'header',
+    ];
 
     /**
      */
@@ -86,11 +87,11 @@ abstract class IMP_Dynamic_Base
 
         $this->_init();
 
-        $page_output->addInlineJsVars(array(
+        $page_output->addInlineJsVars([
             'ImpCore.conf' => $this->js_conf,
             'ImpCore.context' => $this->js_context,
-            'ImpCore.text' => $this->js_text
-        ), array('top' => true));
+            'ImpCore.text' => $this->js_text,
+        ], ['top' => true]);
     }
 
     /**
@@ -109,9 +110,9 @@ abstract class IMP_Dynamic_Base
      */
     public function getEmptyView()
     {
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/dynamic'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/dynamic',
+        ]);
         $view->addHelper('Text');
         $view->addHelper('IMP_Dynamic_Helper_Base');
 
@@ -126,7 +127,7 @@ abstract class IMP_Dynamic_Base
         global $prefs, $registry;
 
         /* Variables used in core javascript files. */
-        $this->js_conf = array_filter(array(
+        $this->js_conf = array_filter([
             // URL variables
             'URI_COMPOSE' => strval(IMP_Dynamic_Compose::url()->setRaw(true)),
             'URI_MAILLOG' => strval(IMP_Dynamic_Maillog::url()->setRaw(true)),
@@ -137,8 +138,8 @@ abstract class IMP_Dynamic_Base
             'pref_prefix' => hash(
                 (version_compare(PHP_VERSION, '5.4', '>=')) ? 'fnv132' : 'sha1',
                 $registry->getAuth() . '|' . $_SERVER['SERVER_NAME']
-            )
-        ));
+            ),
+        ]);
 
         /* Context menu definitions.
          * Keys:
@@ -147,35 +148,35 @@ abstract class IMP_Dynamic_Base
          *   - Begin with '_sub': All subitems wrapped in a DIV
          *   - Begin with a '*': No icon
          */
-        $context = array(
-            'ctx_contacts' => array(
+        $context = [
+            'ctx_contacts' => [
                 // Empty sub item needs to be a javascript object
-                '_sub1' => new stdClass,
-                'new' => _("New Message"),
-                'add' => _("Add to Address Book"),
-                'copy' => _("Copy to Clipboard")
-            ),
-            'ctx_reply' => array(
-                'reply' => _("To Sender"),
-                'reply_all' => _("To All"),
-                'reply_list' => _("To List")
-            )
-        );
+                '_sub1' => new stdClass(),
+                'new' => _('New Message'),
+                'add' => _('Add to Address Book'),
+                'copy' => _('Copy to Clipboard'),
+            ],
+            'ctx_reply' => [
+                'reply' => _('To Sender'),
+                'reply_all' => _('To All'),
+                'reply_list' => _('To List'),
+            ],
+        ];
 
         if ($registry->hasLink('mail/newEmailFilter')) {
-            $context['ctx_contacts']['addfilter'] = _("Create Filter");
+            $context['ctx_contacts']['addfilter'] = _('Create Filter');
         }
 
         /* Forward context menu. */
-        $context['ctx_forward'] = array(
-            'attach' => _("As Attachment"),
-            'body' => _("In Body Text"),
-            'both' => _("Attachment and Body Text"),
+        $context['ctx_forward'] = [
+            'attach' => _('As Attachment'),
+            'body' => _('In Body Text'),
+            'both' => _('Attachment and Body Text'),
             '_sep1' => null,
-            'editasnew' => _("Edit as New"),
+            'editasnew' => _('Edit as New'),
             '_sep2' => null,
-            'redirect' => _("Redirect")
-        );
+            'redirect' => _('Redirect'),
+        ];
         if ($prefs->isLocked('forward_default')) {
             unset(
                 $context['ctx_forward']['attach'],
@@ -188,15 +189,15 @@ abstract class IMP_Dynamic_Base
         $this->js_context = $context;
 
         /* Gettext strings used in core javascript files. */
-        $this->js_text = array(
-            'emailcopy' => _("Your browser security settings don't permit direct access to the clipboard.") . "\n" . _("You need to either use the keyboard (Ctrl/Cmd + C) or right click on the selected address to access the Copy command."),
-            'resent' => _("Resent on %s by:"),
-            'strip_warn' => _("Are you sure you wish to PERMANENTLY delete this attachment?"),
-            'verify' => _("Verifying...")
-        );
+        $this->js_text = [
+            'emailcopy' => _("Your browser security settings don't permit direct access to the clipboard.") . "\n" . _('You need to either use the keyboard (Ctrl/Cmd + C) or right click on the selected address to access the Copy command.'),
+            'resent' => _('Resent on %s by:'),
+            'strip_warn' => _('Are you sure you wish to PERMANENTLY delete this attachment?'),
+            'verify' => _('Verifying...'),
+        ];
     }
 
-    public static function url(array $opts = array())
+    public static function url(array $opts = [])
     {
         throw new Exception('Missing implementation for url method.');
     }

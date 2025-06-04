@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -26,8 +27,7 @@
  * @property-read array $source_list  The list of sources in the contacts
  *                                    backend.
  */
-class IMP_Contacts
-implements IteratorAggregate, Serializable, JsonSerializable
+class IMP_Contacts implements IteratorAggregate, Serializable, JsonSerializable
 {
     /**
      * Has the internal data changed?
@@ -57,23 +57,24 @@ implements IteratorAggregate, Serializable, JsonSerializable
         global $registry;
 
         switch ($name) {
-        case 'changed':
-            return $this->_changed;
+            case 'changed':
+                return $this->_changed;
 
-        case 'fields':
-        case 'sources':
-            if (!isset($this->_fields)) {
-                $this->_init();
-            }
-            return $this->{'_' . $name};
+            case 'fields':
+            case 'sources':
+                if (!isset($this->_fields)) {
+                    $this->_init();
+                }
+                return $this->{'_' . $name};
 
-        case 'source_list':
-            if ($registry->hasMethod('contacts/sources')) {
-                try {
-                    return $registry->call('contacts/sources');
-                } catch (Horde_Exception $e) {}
-            }
-            return array();
+            case 'source_list':
+                if ($registry->hasMethod('contacts/sources')) {
+                    try {
+                        return $registry->call('contacts/sources');
+                    } catch (Horde_Exception $e) {
+                    }
+                }
+                return [];
         }
     }
 
@@ -102,36 +103,36 @@ implements IteratorAggregate, Serializable, JsonSerializable
         $source = $prefs->getValue('add_source');
 
         if ($addr instanceof Horde_Mail_Rfc822_Group) {
-            $members = array();
+            $members = [];
             foreach ($addr->addresses as $val) {
-                $members[] = array(
+                $members[] = [
                     'email' => $val->bare_address,
-                    'name' => $val->label
-                );
+                    'name' => $val->label,
+                ];
             }
 
             $result = $registry->call(
                 'contacts/addGroup',
-                array(
+                [
                     $addr->groupname,
                     $members,
-                    array(
-                        'source' => $source
-                    )
-                )
+                    [
+                        'source' => $source,
+                    ],
+                ]
             );
             $uid = $result['uid'];
         } else {
             $uid = $registry->call(
                 'contacts/import',
-                array(
-                    array(
+                [
+                    [
                         'email' => $addr->bare_address,
-                        'name' => $addr->label
-                    ),
+                        'name' => $addr->label,
+                    ],
                     'array',
-                    $source
-                )
+                    $source,
+                ]
             );
         }
 
@@ -140,17 +141,18 @@ implements IteratorAggregate, Serializable, JsonSerializable
         try {
             $contact_link = $registry->link(
                 'contacts/show',
-                array(
+                [
                     'uid' => $uid,
-                    'source' => $source
-                )
+                    'source' => $source,
+                ]
             );
 
             if ($contact_link) {
                 return Horde::link(Horde::url($contact_link))
                     . $escapeName . '</a>';
             }
-        } catch (Horde_Exception $e) {}
+        } catch (Horde_Exception $e) {
+        }
 
         return $escapeName;
     }
@@ -166,7 +168,7 @@ implements IteratorAggregate, Serializable, JsonSerializable
      *
      * @return Horde_Mail_Rfc822_List  Results.
      */
-    public function searchEmail($str, array $opts = array())
+    public function searchEmail($str, array $opts = [])
     {
         global $registry;
 
@@ -179,23 +181,23 @@ implements IteratorAggregate, Serializable, JsonSerializable
             : $opts['sources'];
 
         if (empty($opts['email_exact'])) {
-            $customStrict = array();
+            $customStrict = [];
             $fields = $this->fields;
-            $returnFields = array('email', 'name');
+            $returnFields = ['email', 'name'];
         } else {
-            $customStrict = $returnFields = array('email');
-            $fields = array_fill_keys($sources, array('email'));
+            $customStrict = $returnFields = ['email'];
+            $fields = array_fill_keys($sources, ['email']);
         }
 
         try {
-            $search = $registry->call('contacts/search', array($str, array(
+            $search = $registry->call('contacts/search', [$str, [
                 'customStrict' => $customStrict,
                 'fields' => $fields,
                 'returnFields' => $returnFields,
                 'rfc822Return' => true,
                 'sources' => $sources,
                 'emailSearch' => true,
-            )));
+            ]]);
         } catch (Horde_Exception $e) {
             Horde::log($e, 'ERR');
             return new Horde_Mail_Rfc822_List();
@@ -205,7 +207,7 @@ implements IteratorAggregate, Serializable, JsonSerializable
             return $search;
         }
 
-        $sort_list = array();
+        $sort_list = [];
         foreach ($search->base_addresses as $val) {
             $sort_list[strval($val)] = @levenshtein($str, $val);
         }
@@ -224,8 +226,8 @@ implements IteratorAggregate, Serializable, JsonSerializable
         $fields = json_decode($prefs->getValue('search_fields'), true);
         $src = json_decode($prefs->getValue('search_sources'));
 
-        $this->_fields = empty($fields) ? array() : $fields;
-        $this->_sources = empty($src) ? array() : $src;
+        $this->_fields = empty($fields) ? [] : $fields;
+        $this->_sources = empty($src) ? [] : $src;
 
         $this->_changed = true;
     }
@@ -251,7 +253,7 @@ implements IteratorAggregate, Serializable, JsonSerializable
         return json_encode($this->__serialize());
     }
 
-    #[\ReturnTypeWillChange] 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return json_encode($this->__serialize());
@@ -261,7 +263,7 @@ implements IteratorAggregate, Serializable, JsonSerializable
     {
         return [
             $this->_fields,
-            $this->_sources
+            $this->_sources,
         ];
     }
 
@@ -273,7 +275,7 @@ implements IteratorAggregate, Serializable, JsonSerializable
     }
 
     public function __unserialize(array $data): void
-    {        
-        list($this->_fields, $this->_sources) = json_decode(array_unshift($data), true);
+    {
+        [$this->_fields, $this->_sources] = json_decode(array_unshift($data), true);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -73,28 +74,28 @@ class IMP_Maillog_Message
     public function __get($name)
     {
         switch ($name) {
-        case 'indices':
-            return $this->_indices;
+            case 'indices':
+                return $this->_indices;
 
-        case 'msgid':
-            if (!$this->_msgid) {
-                list($mbox, $uid) = $this->indices->getSingle();
+            case 'msgid':
+                if (!$this->_msgid) {
+                    [$mbox, $uid] = $this->indices->getSingle();
 
-                $query = new Horde_Imap_Client_Fetch_Query();
-                $query->envelope();
+                    $query = new Horde_Imap_Client_Fetch_Query();
+                    $query->envelope();
 
-                $imp_imap = $mbox->imp_imap;
+                    $imp_imap = $mbox->imp_imap;
 
-                $ret = $imp_imap->fetch($mbox, $query, array(
-                    'ids' => $imp_imap->getIdsOb($uid)
-                ));
+                    $ret = $imp_imap->fetch($mbox, $query, [
+                        'ids' => $imp_imap->getIdsOb($uid),
+                    ]);
 
-                $this->_msgid = ($ob = $ret[$uid])
-                    ? $ob->getEnvelope()->message_id
-                    : '';
-            }
+                    $this->_msgid = ($ob = $ret[$uid])
+                        ? $ob->getEnvelope()->message_id
+                        : '';
+                }
 
-            return $this->_msgid;
+                return $this->_msgid;
         }
     }
 

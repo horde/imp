@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2005-2017 Horde LLC (http://www.horde.org/)
  *
@@ -57,18 +58,18 @@ class IMP_Ajax_Application_ListMessages
              * itself. */
             if ($qsearch_mbox->search) {
                 $notification->push(
-                    _("Error in displaying search results."),
+                    _('Error in displaying search results.'),
                     'horde.error'
                 );
                 return $result;
             }
 
             if (strlen($args['qsearchfilter'])) {
-                $injector->getInstance('IMP_Search')->applyFilter($args['qsearchfilter'], array($qsearch_mbox), $mbox);
+                $injector->getInstance('IMP_Search')->applyFilter($args['qsearchfilter'], [$qsearch_mbox], $mbox);
                 $is_search = true;
             } else {
                 /* Create the search query. */
-                $c_list = array();
+                $c_list = [];
 
                 if (strlen($args['qsearchflag'])) {
                     $c_list[] = new IMP_Search_Element_Flag(
@@ -81,41 +82,41 @@ class IMP_Ajax_Application_ListMessages
                     $is_search = true;
 
                     switch ($args['qsearchfield']) {
-                    case 'all':
-                    case 'body':
-                        $c_list[] = new IMP_Search_Element_Text(
-                            $args['qsearch'],
-                            ($args['qsearchfield'] == 'body')
-                        );
-                        break;
+                        case 'all':
+                        case 'body':
+                            $c_list[] = new IMP_Search_Element_Text(
+                                $args['qsearch'],
+                                ($args['qsearchfield'] == 'body')
+                            );
+                            break;
 
-                    case 'from':
-                    case 'subject':
-                        $c_list[] = new IMP_Search_Element_Header(
-                            $args['qsearch'],
-                            $args['qsearchfield']
-                        );
-                        break;
+                        case 'from':
+                        case 'subject':
+                            $c_list[] = new IMP_Search_Element_Header(
+                                $args['qsearch'],
+                                $args['qsearchfield']
+                            );
+                            break;
 
-                    case 'recip':
-                        $c_list[] = new IMP_Search_Element_Recipient(
-                            $args['qsearch']
-                        );
-                        break;
+                        case 'recip':
+                            $c_list[] = new IMP_Search_Element_Recipient(
+                                $args['qsearch']
+                            );
+                            break;
 
-                    default:
-                        $is_search = false;
-                        break;
+                        default:
+                            $is_search = false;
+                            break;
                     }
                 }
 
                 /* Store the search in the session. */
                 if ($is_search) {
-                    $injector->getInstance('IMP_Search')->createQuery($c_list, array(
+                    $injector->getInstance('IMP_Search')->createQuery($c_list, [
                         'id' => $mbox,
-                        'mboxes' => array($qsearch_mbox),
-                        'type' => IMP_Search::CREATE_QUERY
-                    ));
+                        'mboxes' => [$qsearch_mbox],
+                        'type' => IMP_Search::CREATE_QUERY,
+                    ]);
                 }
             }
         } else {
@@ -141,9 +142,9 @@ class IMP_Ajax_Application_ListMessages
              * and repopulate on force update, since BUIDs may have
              * changed (TODO: only do this if search mailbox has changed?). */
             if (!empty($args['change'])) {
-                 $args['cache'] = array();
-                 $args['change'] = true;
-                 $result->data_reset = $result->rowlist_reset = true;
+                $args['cache'] = [];
+                $args['change'] = true;
+                $result->data_reset = $result->rowlist_reset = true;
             }
         } elseif (!$args['initial'] && $args['cacheid'] && $args['cache']) {
             /* Check for UIDVALIDITY expiration. If it has changed, we need to
@@ -153,15 +154,16 @@ class IMP_Ajax_Application_ListMessages
 
             if ($parsed['date'] == date('z')) {
                 try {
-                    $imp_imap->sync($mbox, $parsed['token'], array(
-                        'criteria' => Horde_Imap_Client::SYNC_UIDVALIDITY
-                    ));
+                    $imp_imap->sync($mbox, $parsed['token'], [
+                        'criteria' => Horde_Imap_Client::SYNC_UIDVALIDITY,
+                    ]);
                     $uid_expire = false;
-                } catch (Horde_Imap_Client_Exception_Sync $e) {}
+                } catch (Horde_Imap_Client_Exception_Sync $e) {
+                }
             }
 
             if ($uid_expire) {
-                $args['cache'] = array();
+                $args['cache'] = [];
                 $args['initial'] = true;
                 $result->data_reset = $result->metadata_reset = true;
             }
@@ -172,7 +174,7 @@ class IMP_Ajax_Application_ListMessages
         /* Mail-specific viewport information. */
         if ($args['initial'] ||
             (isset($args['delhide']) && !is_null($args['delhide'])) ||
-            !is_null($args['sortby']))  {
+            !is_null($args['sortby'])) {
             $result->setMetadata('delhide', $mbox->hideDeletedMsgs(true));
         }
         if ($args['initial'] ||
@@ -283,7 +285,7 @@ class IMP_Ajax_Application_ListMessages
             if (!$mbox->exists) {
                 $notification->push(
                     sprintf(
-                        _("Mailbox %s does not exist."),
+                        _('Mailbox %s does not exist.'),
                         $mbox->label
                     ),
                     'horde.error'
@@ -310,7 +312,7 @@ class IMP_Ajax_Application_ListMessages
 
         /* Get the cached list. */
         if (empty($args['cache'])) {
-            $cached = array();
+            $cached = [];
         } else {
             $cache_indices = new IMP_Indices($mbox, $args['cache']);
             $cache_uids = $cache_indices->getSingle(true);
@@ -321,7 +323,7 @@ class IMP_Ajax_Application_ListMessages
             /* Do an unseen search.  We know what messages the browser
              * doesn't have based on $cached. Thus, search for the first
              * unseen message not located in $cached. */
-            $unseen_search = $mailbox_list->unseenMessages(Horde_Imap_Client::SEARCH_RESULTS_MATCH, array('uids' => true));
+            $unseen_search = $mailbox_list->unseenMessages(Horde_Imap_Client::SEARCH_RESULTS_MATCH, ['uids' => true]);
             if (!($uid_search = array_diff($unseen_search['match']->ids, array_keys($cached)))) {
                 return $result;
             }
@@ -359,7 +361,7 @@ class IMP_Ajax_Application_ListMessages
         $slice_end = min($msgcount, $slice_end);
 
         /* Generate BUID list. */
-        $buidlist = $changed = $data = $msglist = $rowlist = array();
+        $buidlist = $changed = $data = $msglist = $rowlist = [];
         foreach ($mailbox_list as $val) {
             $buidlist[] = $mailbox_list->getBuid($val['m'], $val['u']);
         }
@@ -368,7 +370,7 @@ class IMP_Ajax_Application_ListMessages
          * browser data information, we need to send a list of messages that
          * have 'disappeared'. */
         if (!empty($cached) && $result->rowlist_reset) {
-            $disappear = array();
+            $disappear = [];
             foreach (array_diff(array_keys($cached), $buidlist) as $uid) {
                 $disappear[] = $uid;
                 unset($cached[$uid]);
@@ -381,10 +383,10 @@ class IMP_Ajax_Application_ListMessages
         /* Check for cached entries marked as changed. If changed, resend the
          * entire entry to update the browser cache (done below). */
         if (!empty($cached) && !$is_search && !is_null($parsed)) {
-            $sync_ob = $imp_imap->sync($mbox, $parsed['token'], array(
+            $sync_ob = $imp_imap->sync($mbox, $parsed['token'], [
                 'criteria' => Horde_Imap_Client::SYNC_FLAGSUIDS,
-                'ids' => $imp_imap->getIdsOb(array_keys($cached))
-            ));
+                'ids' => $imp_imap->getIdsOb(array_keys($cached)),
+            ]);
             $changed = array_flip($sync_ob->flagsuids->ids);
         }
 
@@ -413,7 +415,7 @@ class IMP_Ajax_Application_ListMessages
 
         /* Get thread information. */
         if ($sortpref->sortby == Horde_Imap_Client::SORT_THREAD) {
-            $thread = new stdClass;
+            $thread = new stdClass();
             foreach ($msglist as $key => $val) {
                 $tmp = $mailbox_list->getThreadOb($key);
                 $thread->$val = $sortpref->sortdir
@@ -441,7 +443,7 @@ class IMP_Ajax_Application_ListMessages
     {
         global $injector;
 
-        $msgs = array();
+        $msgs = [];
 
         if (empty($msglist)) {
             return $msgs;
@@ -457,24 +459,24 @@ class IMP_Ajax_Application_ListMessages
         /* Display message information. */
         foreach ($overview['overview'] as $ob) {
             /* Get all the flag information. */
-            $msg = array(
+            $msg = [
                 'flag' => $flags
-                    ? array_map('strval', $imp_flags->parse(array(
+                    ? array_map('strval', $imp_flags->parse([
                           'flags' => $ob['flags'],
                           'headers' => $ob['headers'],
                           'personal' => $ob['envelope']->to,
                           'runhook' => $ob,
-                          'structure' => $ob['structure']
-                      )))
-                    : array()
-            );
+                          'structure' => $ob['structure'],
+                      ]))
+                    : [],
+            ];
 
             /* Format size information. */
             $msg['size'] = IMP::sizeFormat($ob['size']);
 
             /* Format the Date: Header. */
             $msg['date'] = strval(new IMP_Message_Date(
-                isset($ob['envelope']->date) ? $ob['envelope']->date : null
+                $ob['envelope']->date ?? null
             ));
 
             /* Format the From: Header. */
@@ -486,7 +488,7 @@ class IMP_Ajax_Application_ListMessages
                     $msg['fromlabel'] = $getfrom['from_label'];
                 }
             } else {
-                $msg['from'] = array();
+                $msg['from'] = [];
                 $msg['fromlabel'] = $getfrom['from'];
             }
 

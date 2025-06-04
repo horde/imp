@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -46,8 +47,8 @@ class IMP_Dynamic_Compose extends IMP_Dynamic_Base
         $alist = $injector->getInstance('IMP_Dynamic_AddressList');
         $clink = new IMP_Compose_Link($this->vars);
 
-        $addr = array();
-        foreach (array('to', 'cc', 'bcc') as $val) {
+        $addr = [];
+        foreach (['to', 'cc', 'bcc'] as $val) {
             $var_name = $val . '_json';
             if (isset($this->vars->$var_name)) {
                 /* Check for JSON encoded information. */
@@ -58,9 +59,8 @@ class IMP_Dynamic_Compose extends IMP_Dynamic_Base
             }
         }
 
-        $subject = isset($clink->args['subject'])
-            ? $clink->args['subject']
-            : null;
+        $subject = $clink->args['subject']
+            ?? null;
 
         $identity = $injector->getInstance('IMP_Identity');
         if (!$prefs->isLocked('default_identity') &&
@@ -75,153 +75,154 @@ class IMP_Dynamic_Compose extends IMP_Dynamic_Base
         $ajax_queue = $injector->getInstance('IMP_Ajax_Queue');
         $ajax_queue->compose($imp_compose);
 
-        $compose_opts = array(
-            'title' => _("New Message")
-        );
+        $compose_opts = [
+            'title' => _('New Message'),
+        ];
         $onload = null;
 
         switch ($this->vars->type) {
-        case 'reply':
-        case 'reply_all':
-        case 'reply_auto':
-        case 'reply_list':
-            try {
-                $result = $imp_compose->replyMessage(
-                    $compose_ajax->reply_map[$this->vars->type],
-                    $this->_getContents(),
-                    array(
-                        'to' => isset($addr['to']) ? $addr['to'] : null
-                    )
-                );
-            } catch (IMP_Exception $e) {
-                $notification->push($e, 'horde.error');
-                break;
-            }
-
-            $onload = $compose_ajax->getResponse($result);
-
-            switch ($result['type']) {
-            case IMP_Compose::REPLY_SENDER:
-                $compose_opts['title'] = _("Reply");
-                break;
-
-            case IMP_Compose::REPLY_ALL:
-                $compose_opts['title'] = _("Reply to All");
-                break;
-
-            case IMP_Compose::REPLY_LIST:
-                $compose_opts['title'] = _("Reply to List");
-                break;
-            }
-            $compose_opts['title'] .= ': ' . $result['subject'];
-            break;
-
-        case 'forward_attach':
-        case 'forward_auto':
-        case 'forward_body':
-        case 'forward_both':
-            try {
-                if (count($this->indices) > 1) {
-                    if (!in_array($this->vars->type, array('forward_attach', 'forward_auto'))) {
-                        $notification->push(_("Multiple messages can only be forwarded as attachments."), 'horde.warning');
-                    }
-
-                    $result = $imp_compose->forwardMultipleMessages($this->indices);
-                } else {
-                    $result = $imp_compose->forwardMessage(
-                        $compose_ajax->forward_map[$this->vars->type],
-                        $this->_getContents()
+            case 'reply':
+            case 'reply_all':
+            case 'reply_auto':
+            case 'reply_list':
+                try {
+                    $result = $imp_compose->replyMessage(
+                        $compose_ajax->reply_map[$this->vars->type],
+                        $this->_getContents(),
+                        [
+                            'to' => $addr['to'] ?? null,
+                        ]
                     );
-                }
-            } catch (IMP_Exception $e) {
-                $notification->push($e, 'horde.error');
-                break;
-            }
-
-            $onload = $compose_ajax->getResponse($result);
-            $compose_opts['title'] = $result['title'];
-
-            $ajax_queue->attachment($imp_compose, IMP_Compose::FORWARD_ATTACH);
-            break;
-
-        case 'forward_redirect':
-            try {
-                $imp_compose->redirectMessage($this->indices);
-                $compose_opts['title'] = _("Redirect");
-            } catch (IMP_Compose_Exception $e) {
-                $notification->push($e, 'horde.error');
-            }
-            // Not used in JS
-            $onload = new stdClass;
-            break;
-
-        case 'editasnew':
-        case 'resume':
-        case 'template':
-        case 'template_edit':
-            try {
-                switch ($this->vars->type) {
-                case 'editasnew':
-                    $result = $imp_compose->editAsNew($this->indices);
-                    break;
-
-                case 'resume':
-                    $result = $imp_compose->resumeDraft($this->indices);
-                    $compose_opts['resume'] = true;
-                    break;
-
-                case 'template':
-                    $result = $imp_compose->useTemplate($this->indices);
-                    break;
-
-                case 'template_edit':
-                    $result = $imp_compose->editTemplate($this->indices);
-                    $compose_opts['template'] = true;
+                } catch (IMP_Exception $e) {
+                    $notification->push($e, 'horde.error');
                     break;
                 }
 
                 $onload = $compose_ajax->getResponse($result);
 
-                $ajax_queue->attachment($imp_compose, $result['type']);
+                switch ($result['type']) {
+                    case IMP_Compose::REPLY_SENDER:
+                        $compose_opts['title'] = _('Reply');
+                        break;
 
-                $show_editor = ($result['format'] == 'html');
-            } catch (IMP_Compose_Exception $e) {
-                $notification->push($e);
-            }
-            break;
+                    case IMP_Compose::REPLY_ALL:
+                        $compose_opts['title'] = _('Reply to All');
+                        break;
 
-        case 'new_to':
-            $h = $this->_getContents()->getHeader();
-            $f = $h['reply-to'] ?: $h['from'];
-            $addr['to'] = $f->getAddressList(true);
-            // Fall-through
+                    case IMP_Compose::REPLY_LIST:
+                        $compose_opts['title'] = _('Reply to List');
+                        break;
+                }
+                $compose_opts['title'] .= ': ' . $result['subject'];
+                break;
 
-        case 'new':
-        case 'template_new':
-        default:
-            $show_editor = ($prefs->getValue('compose_html') && IMP_Compose::canHtmlCompose());
+            case 'forward_attach':
+            case 'forward_auto':
+            case 'forward_body':
+            case 'forward_both':
+                try {
+                    if (count($this->indices) > 1) {
+                        if (!in_array($this->vars->type, ['forward_attach', 'forward_auto'])) {
+                            $notification->push(_('Multiple messages can only be forwarded as attachments.'), 'horde.warning');
+                        }
 
-            $onload = $compose_ajax->getBaseResponse();
-            $onload->body = isset($clink->args['body'])
-                ? strval($clink->args['body'])
-                : '';
-            if ($show_editor) {
-                $onload->format = 'html';
-            }
+                        $result = $imp_compose->forwardMultipleMessages($this->indices);
+                    } else {
+                        $result = $imp_compose->forwardMessage(
+                            $compose_ajax->forward_map[$this->vars->type],
+                            $this->_getContents()
+                        );
+                    }
+                } catch (IMP_Exception $e) {
+                    $notification->push($e, 'horde.error');
+                    break;
+                }
 
-            if ($this->vars->type == 'template_new') {
-                $compose_opts['template'] = true;
-            }
-            break;
+                $onload = $compose_ajax->getResponse($result);
+                $compose_opts['title'] = $result['title'];
+
+                $ajax_queue->attachment($imp_compose, IMP_Compose::FORWARD_ATTACH);
+                break;
+
+            case 'forward_redirect':
+                try {
+                    $imp_compose->redirectMessage($this->indices);
+                    $compose_opts['title'] = _('Redirect');
+                } catch (IMP_Compose_Exception $e) {
+                    $notification->push($e, 'horde.error');
+                }
+                // Not used in JS
+                $onload = new stdClass();
+                break;
+
+            case 'editasnew':
+            case 'resume':
+            case 'template':
+            case 'template_edit':
+                try {
+                    switch ($this->vars->type) {
+                        case 'editasnew':
+                            $result = $imp_compose->editAsNew($this->indices);
+                            break;
+
+                        case 'resume':
+                            $result = $imp_compose->resumeDraft($this->indices);
+                            $compose_opts['resume'] = true;
+                            break;
+
+                        case 'template':
+                            $result = $imp_compose->useTemplate($this->indices);
+                            break;
+
+                        case 'template_edit':
+                            $result = $imp_compose->editTemplate($this->indices);
+                            $compose_opts['template'] = true;
+                            break;
+                    }
+
+                    $onload = $compose_ajax->getResponse($result);
+
+                    $ajax_queue->attachment($imp_compose, $result['type']);
+
+                    $show_editor = ($result['format'] == 'html');
+                } catch (IMP_Compose_Exception $e) {
+                    $notification->push($e);
+                }
+                break;
+
+            case 'new_to':
+                $h = $this->_getContents()->getHeader();
+                $f = $h['reply-to'] ?: $h['from'];
+                $addr['to'] = $f->getAddressList(true);
+                // Fall-through
+
+                // no break
+            case 'new':
+            case 'template_new':
+            default:
+                $show_editor = ($prefs->getValue('compose_html') && IMP_Compose::canHtmlCompose());
+
+                $onload = $compose_ajax->getBaseResponse();
+                $onload->body = isset($clink->args['body'])
+                    ? strval($clink->args['body'])
+                    : '';
+                if ($show_editor) {
+                    $onload->format = 'html';
+                }
+
+                if ($this->vars->type == 'template_new') {
+                    $compose_opts['template'] = true;
+                }
+                break;
         }
 
         $compose_opts['redirect'] = ($this->vars->type == 'forward_redirect');
 
         if ($onload) {
             if (isset($onload->addr) || !empty($addr)) {
-                foreach (array('to', 'cc', 'bcc') as $val) {
+                foreach (['to', 'cc', 'bcc'] as $val) {
                     if (!isset($onload->addr[$val])) {
-                        $onload->addr[$val] = array();
+                        $onload->addr[$val] = [];
                     }
                     if (isset($addr[$val])) {
                         $tmp = new IMP_Ajax_Addresses($addr[$val]);
@@ -241,16 +242,16 @@ class IMP_Dynamic_Compose extends IMP_Dynamic_Base
         $this->title = $compose_opts['title'];
         $this->view->compose = $injector->getInstance('IMP_Dynamic_Compose_Common')->compose($this, $compose_opts);
 
-        $page_output->addInlineJsVars(array(
+        $page_output->addInlineJsVars([
             'ImpCompose.popup_link' => intval($this->vars->popup_link),
             'ImpCompose.onload_show' => $onload,
-            'ImpCompose.tasks' => $injector->getInstance('Horde_Core_Factory_Ajax')->create('imp', $this->vars)->getTasks()
-        ));
+            'ImpCompose.tasks' => $injector->getInstance('Horde_Core_Factory_Ajax')->create('imp', $this->vars)->getTasks(),
+        ]);
 
         Horde::startBuffer();
-        $notification->notify(array(
-            'listeners' => array('status', 'audio')
-        ));
+        $notification->notify([
+            'listeners' => ['status', 'audio'],
+        ]);
         $this->view->status = Horde::endBuffer();
 
         $this->_pages[] = 'compose-base';
@@ -258,7 +259,7 @@ class IMP_Dynamic_Compose extends IMP_Dynamic_Base
 
     /**
      */
-    public static function url(array $opts = array())
+    public static function url(array $opts = [])
     {
         return Horde::url('dynamic.php')->add('page', 'compose');
     }
@@ -276,13 +277,14 @@ class IMP_Dynamic_Compose extends IMP_Dynamic_Base
         if (!is_null($this->indices)) {
             try {
                 return $GLOBALS['injector']->getInstance('IMP_Factory_Contents')->create($this->indices);
-            } catch (Horde_Exception $e) {}
+            } catch (Horde_Exception $e) {
+            }
         }
 
         $this->vars->buid = null;
         $this->vars->type = 'new';
 
-        throw new IMP_Exception(_("Could not retrieve message data from the mail server."));
+        throw new IMP_Exception(_('Could not retrieve message data from the mail server.'));
     }
 
 }

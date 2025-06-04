@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -22,20 +23,18 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Compose_Exception_Address
-extends IMP_Compose_Exception
-implements Countable, IteratorAggregate
+class IMP_Compose_Exception_Address extends IMP_Compose_Exception implements Countable, IteratorAggregate
 {
     /* Severity level. */
-    const BAD = 1;
-    const WARN = 2;
+    public const BAD = 1;
+    public const WARN = 2;
 
     /**
      * The list of error addresses.
      *
      * @var array
      */
-    protected $_addresses = array();
+    protected $_addresses = [];
 
     /**
      * Add an address to the bad list.
@@ -45,10 +44,11 @@ implements Countable, IteratorAggregate
      * @param integer $level                     Severity level.
      */
     public function addAddress(
-        Horde_Mail_Rfc822_Object $address, $msg, $level = self::BAD
-    )
-    {
-        $ob = new stdClass;
+        Horde_Mail_Rfc822_Object $address,
+        $msg,
+        $level = self::BAD
+    ) {
+        $ob = new stdClass();
         $ob->address = $address;
         $ob->error = ($msg instanceof Exception)
             ? $msg->getMessage()

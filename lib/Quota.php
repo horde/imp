@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,10 +28,10 @@ abstract class IMP_Quota
      *
      * @var array
      */
-    protected $_params = array(
+    protected $_params = [
         'hide_when_unlimited' => false,
-        'unit' => 'MB'
-    );
+        'unit' => 'MB',
+    ];
 
     /**
      * Constructor.
@@ -40,16 +41,16 @@ abstract class IMP_Quota
      *           displayed in. Either 'GB', 'MB', or 'KB'.
      *   - username: (string) The username to query.
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         $this->_params = array_merge(
             $this->_params,
-            array(
-                'format' => array(
-                    'nolimit_short' => _("%.0f %s"),
-                    'short' => _("%.0f%% of %.0f %s")
-                )
-            ),
+            [
+                'format' => [
+                    'nolimit_short' => _('%.0f %s'),
+                    'short' => _('%.0f%% of %.0f %s'),
+                ],
+            ],
             $params
         );
     }
@@ -97,22 +98,22 @@ abstract class IMP_Quota
         $unit = $this->_params['unit'];
 
         switch ($unit) {
-        case 'GB':
-            $calc = 1024 * 1024 * 1024.0;
-            break;
+            case 'GB':
+                $calc = 1024 * 1024 * 1024.0;
+                break;
 
-        case 'KB':
-            $calc = 1024.0;
-            break;
+            case 'KB':
+                $calc = 1024.0;
+                break;
 
-        case 'MB':
-        default:
-            $calc = 1024 * 1024.0;
-            $unit = 'MB';
-            break;
+            case 'MB':
+            default:
+                $calc = 1024 * 1024.0;
+                $unit = 'MB';
+                break;
         }
 
-        return array($calc, $unit);
+        return [$calc, $unit];
     }
 
 }

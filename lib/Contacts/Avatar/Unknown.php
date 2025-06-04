@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,10 +28,10 @@ class IMP_Contacts_Avatar_Unknown implements IMP_Contacts_Avatar_Backend
     public function avatarImg($email)
     {
         $img = Horde_Themes::img('unknown_contact.jpg');
-        return array(
+        return [
             'desc' => '',
-            'url' => $img->uri
-        );
+            'url' => $img->uri,
+        ];
     }
 
 }

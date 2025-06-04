@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,9 +24,9 @@
 class IMP_Ftree_Prefs_Expanded extends IMP_Ftree_Prefs
 {
     /* Constants for nav_expanded. */
-    const NO = 0;
-    const YES = 1;
-    const LAST = 2;
+    public const NO = 0;
+    public const YES = 1;
+    public const LAST = 2;
 
     /**
      * Value of nav_expanded pref.
@@ -63,14 +64,14 @@ class IMP_Ftree_Prefs_Expanded extends IMP_Ftree_Prefs
     public function offsetGet($offset)
     {
         switch ($this->_expanded) {
-        case self::NO:
-            return false;
+            case self::NO:
+                return false;
 
-        case self::YES:
-            return true;
+            case self::YES:
+                return true;
 
-        case self::LAST:
-            return parent::offsetGet($offset);
+            case self::LAST:
+                return parent::offsetGet($offset);
         }
     }
 

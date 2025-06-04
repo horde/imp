@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -34,7 +35,7 @@ class IMP_Images
      *
      * @var array
      */
-    protected $_cache = array();
+    protected $_cache = [];
 
     /**
      * Show inline images in messages?
@@ -72,9 +73,9 @@ class IMP_Images
             return false;
         }
 
-        $res = $injector->getInstance('IMP_Contacts')->searchEmail($from->first()->bare_address, array(
-            'email_exact' => true
-        ));
+        $res = $injector->getInstance('IMP_Contacts')->searchEmail($from->first()->bare_address, [
+            'email_exact' => true,
+        ]);
 
         if (count($res)) {
             /* Don't allow personal addresses by default - this is the only

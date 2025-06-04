@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2004-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,8 +24,8 @@
 class IMP_Spam
 {
     /* Action constants. */
-    const INNOCENT = 1;
-    const SPAM = 2;
+    public const INNOCENT = 1;
+    public const SPAM = 2;
 
     /**
      * Action.
@@ -46,7 +47,7 @@ class IMP_Spam
      * @param integer $action  Either IMP_Spam::SPAM or IMP_Spam::INNOCENT.
      * @param array $drivers   List of reporting drivers.
      */
-    public function __construct($action, array $drivers = array())
+    public function __construct($action, array $drivers = [])
     {
         $this->_action = $action;
         $this->_drivers = $drivers;
@@ -70,7 +71,7 @@ class IMP_Spam
             return 0;
         }
 
-        $contents = array();
+        $contents = [];
         $imp_contents = $injector->getInstance('IMP_Factory_Contents');
         $report_count = 0;
 
@@ -86,7 +87,8 @@ class IMP_Spam
                     $contents[] = $imp_contents->create(
                         $ob->mbox->getIndicesOb($idx)
                     );
-                } catch (IMP_Exception $e) {}
+                } catch (IMP_Exception $e) {
+                }
             }
         }
 
@@ -106,31 +108,31 @@ class IMP_Spam
             } elseif ($from = $hdrs['From']) {
                 $from = Horde_String::truncate($from, 30);
             } else {
-                $subject = '[' . _("No Subject") . ']';
+                $subject = '[' . _('No Subject') . ']';
             }
 
             switch ($this->_action) {
-            case self::INNOCENT:
-                $msg = $subject
-                    ? sprintf(_("The message \"%s\" has been reported as innocent."), $subject)
-                    : sprintf(_("The message from \"%s\" has been reported as innocent."), $from);
-                break;
+                case self::INNOCENT:
+                    $msg = $subject
+                        ? sprintf(_('The message "%s" has been reported as innocent.'), $subject)
+                        : sprintf(_('The message from "%s" has been reported as innocent.'), $from);
+                    break;
 
-            case self::SPAM:
-                $msg = $subject
-                    ? sprintf(_("The message \"%s\" has been reported as spam."), $subject)
-                    : sprintf(_("The message from \"%s\" has been reported as spam."), $from);
-                break;
+                case self::SPAM:
+                    $msg = $subject
+                        ? sprintf(_('The message "%s" has been reported as spam.'), $subject)
+                        : sprintf(_('The message from "%s" has been reported as spam.'), $from);
+                    break;
             }
         } else {
             switch ($this->_action) {
-            case self::INNOCENT:
-                $msg = sprintf(_("%d messages have been reported as innocent."), $report_count);
-                break;
+                case self::INNOCENT:
+                    $msg = sprintf(_('%d messages have been reported as innocent.'), $report_count);
+                    break;
 
-            case self::SPAM:
-                $msg = sprintf(_("%d messages have been reported as spam."), $report_count);
-                break;
+                case self::SPAM:
+                    $msg = sprintf(_('%d messages have been reported as spam.'), $report_count);
+                    break;
             }
         }
         $notification->push($msg, 'horde.message');
@@ -140,67 +142,68 @@ class IMP_Spam
             $injector->getInstance('Horde_Core_Hooks')->callHook(
                 'post_spam',
                 'imp',
-                array(
+                [
                     ($this->_action == self::SPAM) ? 'spam' : 'innocent',
-                    $indices
-                )
+                    $indices,
+                ]
             );
-        } catch (Horde_Exception_HookNotSet $e) {}
+        } catch (Horde_Exception_HookNotSet $e) {
+        }
 
         /* Delete/move message after report. */
         switch ($this->_action) {
-        case self::INNOCENT:
-            /* Always flag messages as NotJunk. */
-            $indices->flag(
-                array(Horde_Imap_Client::FLAG_NOTJUNK),
-                array(Horde_Imap_Client::FLAG_JUNK)
-            );
+            case self::INNOCENT:
+                /* Always flag messages as NotJunk. */
+                $indices->flag(
+                    [Horde_Imap_Client::FLAG_NOTJUNK],
+                    [Horde_Imap_Client::FLAG_JUNK]
+                );
 
-            if (($result = $prefs->getValue('move_innocent_after_report')) &&
-                !$indices->copy('INBOX', 'move')) {
-                $result = 0;
-            }
-            break;
-
-        case self::SPAM:
-            /* Always flag messages as Junk. */
-            $indices->flag(
-                array(Horde_Imap_Client::FLAG_JUNK),
-                array(Horde_Imap_Client::FLAG_NOTJUNK)
-            );
-
-            switch ($result = $prefs->getValue('delete_spam_after_report')) {
-            case 1:
-                $msg_count = $indices->delete();
-                if ($msg_count === false) {
-                    $result = 0;
-                } else {
-                    $notification->push(
-                        ngettext(
-                            _("The message has been deleted."),
-                            sprintf(
-                                _("%d messages have been deleted."),
-                                $msg_count
-                            ),
-                            $msg_count
-                        ),
-                        'horde.message'
-                    );
-                }
-                break;
-
-            case 2:
-                if ($targetMbox = IMP_Mailbox::getPref(IMP_Mailbox::MBOX_SPAM)) {
-                    if (!$indices->copy($targetMbox, 'move', array('create' => true))) {
-                        $result = 0;
-                    }
-                } else {
-                    $notification->push(_("Could not move message to spam mailbox - no spam mailbox defined in preferences."), 'horde.error');
+                if (($result = $prefs->getValue('move_innocent_after_report')) &&
+                    !$indices->copy('INBOX', 'move')) {
                     $result = 0;
                 }
                 break;
-            }
-            break;
+
+            case self::SPAM:
+                /* Always flag messages as Junk. */
+                $indices->flag(
+                    [Horde_Imap_Client::FLAG_JUNK],
+                    [Horde_Imap_Client::FLAG_NOTJUNK]
+                );
+
+                switch ($result = $prefs->getValue('delete_spam_after_report')) {
+                    case 1:
+                        $msg_count = $indices->delete();
+                        if ($msg_count === false) {
+                            $result = 0;
+                        } else {
+                            $notification->push(
+                                ngettext(
+                                    _('The message has been deleted.'),
+                                    sprintf(
+                                        _('%d messages have been deleted.'),
+                                        $msg_count
+                                    ),
+                                    $msg_count
+                                ),
+                                'horde.message'
+                            );
+                        }
+                        break;
+
+                    case 2:
+                        if ($targetMbox = IMP_Mailbox::getPref(IMP_Mailbox::MBOX_SPAM)) {
+                            if (!$indices->copy($targetMbox, 'move', ['create' => true])) {
+                                $result = 0;
+                            }
+                        } else {
+                            $notification->push(_('Could not move message to spam mailbox - no spam mailbox defined in preferences.'), 'horde.error');
+                            $result = 0;
+                        }
+                        break;
+                }
+                break;
         }
 
         return $result;

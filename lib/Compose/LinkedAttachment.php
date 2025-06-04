@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -76,7 +77,7 @@ class IMP_Compose_LinkedAttachment
         global $browser;
 
         if (!$this->_atc->exists()) {
-            throw new IMP_Exception(_("The linked attachment does not exist. It may have been deleted by the original sender or it may have expired."));
+            throw new IMP_Exception(_('The linked attachment does not exist. It may have been deleted by the original sender or it may have expired.'));
         }
 
         $data = $this->_atc->read();
@@ -110,7 +111,8 @@ class IMP_Compose_LinkedAttachment
 
         try {
             $this->_atc->delete();
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+        }
 
         $this->_atc->saveMetadata();
 
@@ -155,7 +157,8 @@ class IMP_Compose_LinkedAttachment
             try {
                 $d_id = $vfs->read($old_path, $notify);
                 $vfs->deleteFile($old_path, $notify);
-            } catch (Exception $e) {}
+            } catch (Exception $e) {
+            }
         }
 
         $md = $atc->getMetadata();
@@ -194,7 +197,7 @@ class IMP_Compose_LinkedAttachment
             /* Load user prefs to correctly translate gettext strings. */
             if (!$registry->getAuth()) {
                 $prefs = $injector->getInstance('Horde_Core_Factory_Prefs')
-                    ->create('imp', array('user' => $this->_user));
+                    ->create('imp', ['user' => $this->_user]);
                 $registry->setLanguageEnvironment($prefs->getValue('language'));
             }
 
@@ -205,7 +208,7 @@ class IMP_Compose_LinkedAttachment
             $h->addHeaderOb(Horde_Mime_Headers_Date::create());
             $h->addHeader('From', $address_full);
             $h->addHeader('To', $address_full);
-            $h->addHeader('Subject', _("Notification: Linked attachment downloaded"));
+            $h->addHeader('Subject', _('Notification: Linked attachment downloaded'));
             $h->addHeader('Auto-Submitted', 'auto-generated');
 
             $msg = new Horde_Mime_Part();
@@ -214,11 +217,11 @@ class IMP_Compose_LinkedAttachment
 
             $md = $this->_atc->getMetadata();
             $msg->setContents(Horde_String::wrap(
-                _("Your linked attachment has been downloaded by at least one user.") . "\n\n" .
-                sprintf(_("Name: %s"), $md->filename) . "\n" .
-                sprintf(_("Type: %s"), $md->type) . "\n" .
-                sprintf(_("Sent Date: %s"), date('r', $md->time)) . "\n\n" .
-                _("Click on the following link to permanently delete the attachment:") . "\n" .
+                _('Your linked attachment has been downloaded by at least one user.') . "\n\n" .
+                sprintf(_('Name: %s'), $md->filename) . "\n" .
+                sprintf(_('Type: %s'), $md->type) . "\n" .
+                sprintf(_('Sent Date: %s'), date('r', $md->time)) . "\n\n" .
+                _('Click on the following link to permanently delete the attachment:') . "\n" .
                 strval($this->_atc->link_url->add('d', $this->_getDeleteToken(true)))
             ));
 
@@ -265,10 +268,11 @@ class IMP_Compose_LinkedAttachment
                 return null;
             }
 
-            $md->dtoken = strval(new Horde_Support_Uuid);
+            $md->dtoken = strval(new Horde_Support_Uuid());
             try {
                 $this->_atc->saveMetadata($md);
-            } catch (Exception $e) {}
+            } catch (Exception $e) {
+            }
         }
 
         return $md->dtoken;

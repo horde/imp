@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -28,7 +29,7 @@ class IMP_Search_Vfolder_Vinbox extends IMP_Search_Vfolder_Builtin
     protected function _init()
     {
         $this->_id = 'vinbox';
-        $this->_label = _("Virtual Inbox");
+        $this->_label = _('Virtual Inbox');
 
         $this->add(new IMP_Search_Element_Flag(
             Horde_Imap_Client::FLAG_SEEN,
@@ -49,10 +50,10 @@ class IMP_Search_Vfolder_Vinbox extends IMP_Search_Vfolder_Builtin
     public function __get($name)
     {
         switch ($name) {
-        case 'mboxes':
-            $poll = $GLOBALS['injector']->getInstance('IMP_Ftree')->poll;
-            $poll->prunePollList();
-            return $poll->getPollList(true);
+            case 'mboxes':
+                $poll = $GLOBALS['injector']->getInstance('IMP_Ftree')->poll;
+                $poll->prunePollList();
+                return $poll->getPollList(true);
         }
 
         return parent::__get($name);

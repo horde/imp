@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -45,39 +46,38 @@ class IMP_Prefs_Special_PgpPublicKey implements Horde_Core_Prefs_Ui_Special
         try {
             $pubkey_list = $imp_pgp->listPublicKeys();
         } catch (Horde_Exception $e) {
-            $pubkey_list = array();
+            $pubkey_list = [];
         }
 
         $pgp_url = IMP_Basic_Pgp::url();
 
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/prefs'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/prefs',
+        ]);
         $view->addHelper('Horde_Core_View_Helper_Help');
         $view->addHelper('Text');
 
         if (!empty($pubkey_list)) {
             uasort(
                 $pubkey_list,
-                function ($a, $b)
-                {
+                function ($a, $b) {
                     return strcoll($a['name'], $b['name']);
                 }
             );
-            $plist = array();
-            $self_url = $ui->selfUrl(array(
+            $plist = [];
+            $self_url = $ui->selfUrl([
                 'special' => true,
-                'token' => true
-            ));
+                'token' => true,
+            ]);
 
             foreach ($pubkey_list as $val) {
-                $plist[] = array(
+                $plist[] = [
                     'name' => $val['name'],
                     'email' => $val['email'],
-                    'view' => Horde::link($pgp_url->copy()->add(array('actionID' => 'view_public_key', 'email' => $val['email'])), sprintf(_("View %s Public Key"), $val['name']), null, 'view_key'),
-                    'info' => Horde::link($pgp_url->copy()->add(array('actionID' => 'info_public_key', 'email' => $val['email'])), sprintf(_("Information on %s Public Key"), $val['name']), null, 'info_key'),
-                    'delete' => Horde::link($self_url->copy()->add(array('delete_pgp_pubkey' => 1, 'email' => $val['email'])), sprintf(_("Delete %s Public Key"), $val['name']), null, null, "window.confirm('" . addslashes(_("Are you sure you want to delete this public key?")) . "')")
-                );
+                    'view' => Horde::link($pgp_url->copy()->add(['actionID' => 'view_public_key', 'email' => $val['email']]), sprintf(_('View %s Public Key'), $val['name']), null, 'view_key'),
+                    'info' => Horde::link($pgp_url->copy()->add(['actionID' => 'info_public_key', 'email' => $val['email']]), sprintf(_('Information on %s Public Key'), $val['name']), null, 'info_key'),
+                    'delete' => Horde::link($self_url->copy()->add(['delete_pgp_pubkey' => 1, 'email' => $val['email']]), sprintf(_('Delete %s Public Key'), $val['name']), null, null, "window.confirm('" . addslashes(_('Are you sure you want to delete this public key?')) . "')"),
+                ];
             }
             $view->pubkey_list = $plist;
         }
@@ -86,9 +86,9 @@ class IMP_Prefs_Special_PgpPublicKey implements Horde_Core_Prefs_Ui_Special
             $view->can_import = true;
             $view->no_source = !$prefs->getValue('add_source');
             if (!$view->no_source) {
-                $page_output->addInlineScript(array(
-                    '$("import_pgp_public").observe("click", function(e) { ' . Horde::popupJs($pgp_url, array('params' => array('actionID' => 'import_public_key', 'reload' => base64_encode($ui->selfUrl()->setRaw(true))), 'height' => 310, 'width' => 750, 'urlencode' => true)) . '; e.stop(); })'
-                ), true);
+                $page_output->addInlineScript([
+                    '$("import_pgp_public").observe("click", function(e) { ' . Horde::popupJs($pgp_url, ['params' => ['actionID' => 'import_public_key', 'reload' => base64_encode($ui->selfUrl()->setRaw(true))], 'height' => 310, 'width' => 750, 'urlencode' => true]) . '; e.stop(); })',
+                ], true);
             }
         }
 
@@ -104,7 +104,7 @@ class IMP_Prefs_Special_PgpPublicKey implements Horde_Core_Prefs_Ui_Special
         if (isset($ui->vars->delete_pgp_pubkey)) {
             try {
                 $injector->getInstance('IMP_Pgp')->deletePublicKey($ui->vars->email);
-                $notification->push(sprintf(_("PGP Public Key for \"%s\" was successfully deleted."), $ui->vars->email), 'horde.success');
+                $notification->push(sprintf(_('PGP Public Key for "%s" was successfully deleted.'), $ui->vars->email), 'horde.success');
             } catch (Horde_Exception $e) {
                 $notification->push($e);
             }

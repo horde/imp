@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
  *
@@ -58,8 +59,8 @@ class IMP_Search_Element_Contacts extends IMP_Search_Element
     public function queryText()
     {
         return $this->_data
-            ? _("messages not from a personal contact")
-            : _("messages from a personal contact");
+            ? _('messages not from a personal contact')
+            : _('messages from a personal contact');
     }
 
 }

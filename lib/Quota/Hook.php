@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
  *
@@ -35,7 +36,7 @@ class IMP_Quota_Hook extends IMP_Quota
             $quota = $GLOBALS['injector']->getInstance('Horde_Core_Hooks')->callHook(
                 'quota',
                 'imp',
-                array($this->_params)
+                [$this->_params]
             );
         } catch (Horde_Exception_HookNotSet $e) {
             throw new IMP_Exception($e->getMessage());
@@ -43,13 +44,13 @@ class IMP_Quota_Hook extends IMP_Quota
 
         if (count($quota) != 2) {
             Horde::log('Incorrect number of return values from quota hook.', 'ERR');
-            throw new IMP_Exception(_("Unable to retrieve quota"));
+            throw new IMP_Exception(_('Unable to retrieve quota'));
         }
 
-        return array(
+        return [
             'limit' => $quota[1],
-            'usage' => $quota[0]
-        );
+            'usage' => $quota[0],
+        ];
     }
 
 }

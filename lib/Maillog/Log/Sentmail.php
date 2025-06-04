@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2015-2017 Horde LLC (http://www.horde.org/)
  *
@@ -22,8 +23,7 @@
  *
  * @property-read string $msg_id  Message-ID of the message sent.
  */
-abstract class IMP_Maillog_Log_Sentmail
-extends IMP_Maillog_Log_Base
+abstract class IMP_Maillog_Log_Sentmail extends IMP_Maillog_Log_Base
 {
     /**
      * Sent-mail folder.
@@ -53,7 +53,7 @@ extends IMP_Maillog_Log_Base
      *   - folder: (IMP_Mailbox|string) Potential sent-mail folder.
      *   - msgid: (string) Message ID of the message sent.
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (isset($params['folder'])) {
             $this->_folder = strval($params['folder']);
@@ -69,10 +69,10 @@ extends IMP_Maillog_Log_Base
     public function __get($name)
     {
         switch ($name) {
-        case 'folder':
-            return $this->_folder;
-        case 'msg_id':
-            return $this->_msgId;
+            case 'folder':
+                return $this->_folder;
+            case 'msg_id':
+                return $this->_msgId;
         }
 
         return parent::__get($name);
@@ -85,10 +85,10 @@ extends IMP_Maillog_Log_Base
      */
     public function addData()
     {
-        return array_merge(parent::addData(), array_filter(array(
+        return array_merge(parent::addData(), array_filter([
             'folder' => $this->folder,
-            'msgid' => $this->msg_id
-        )));
+            'msgid' => $this->msg_id,
+        ]));
     }
 
     /**
@@ -101,7 +101,7 @@ extends IMP_Maillog_Log_Base
         $special = IMP_Mailbox::getSpecialMailboxes();
 
         /* Check for sent-mail mailbox(es) first. */
-        $out = array();
+        $out = [];
         if ($this->folder) {
             $out[] = new IMP_Mailbox($this->folder);
         }

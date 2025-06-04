@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,7 +28,7 @@ class IMP_Search_Filter_Attachment extends IMP_Search_Filter_Builtin
     protected function _init()
     {
         $this->_id = 'filter_attach';
-        $this->_label = _("Messages with Attachments");
+        $this->_label = _('Messages with Attachments');
 
         $this->add(new IMP_Search_Element_Attachment());
     }

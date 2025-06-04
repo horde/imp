@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,12 +28,12 @@ class IMP_Mime_Viewer_Alternative extends Horde_Mime_Viewer_Base
      *
      * @var array
      */
-    protected $_capability = array(
+    protected $_capability = [
         'full' => true,
         'info' => false,
         'inline' => true,
-        'raw' => false
-    );
+        'raw' => false,
+    ];
 
     /**
      * Return the full rendered version of the Horde_Mime_Part object.
@@ -64,7 +65,7 @@ class IMP_Mime_Viewer_Alternative extends Horde_Mime_Viewer_Base
     protected function _IMPrender($inline)
     {
         $base_id = $this->_mimepart->getMimeId();
-        $display_ids = $ret = array();
+        $display_ids = $ret = [];
         $prefer_plain = ($GLOBALS['prefs']->getValue('alternative_display') == 'text');
 
         /* Look for a displayable part. RFC: show the LAST choice that can be
@@ -91,14 +92,14 @@ class IMP_Mime_Viewer_Alternative extends Horde_Mime_Viewer_Base
 
         /* If we found no IDs, return now. */
         if (empty($display_ids)) {
-            $ret[$base_id] = array(
+            $ret[$base_id] = [
                 'data' => '',
                 'status' => new IMP_Mime_Status(
                     $this->_mimepart,
-                    _("There are no alternative parts that can be displayed inline.")
+                    _('There are no alternative parts that can be displayed inline.')
                 ),
-                'type' => 'text/html; charset=' . $this->getConfigParam('charset')
-            );
+                'type' => 'text/html; charset=' . $this->getConfigParam('charset'),
+            ];
             return $ret;
         }
 
@@ -143,7 +144,7 @@ class IMP_Mime_Viewer_Alternative extends Horde_Mime_Viewer_Base
 
                     if (!$inline) {
                         if (!is_null($render[$id])) {
-                            return array($base_id => $render[$id]);
+                            return [$base_id => $render[$id]];
                         }
                     } else {
                         $ret[$id] = $render[$id];
@@ -170,18 +171,18 @@ class IMP_Mime_Viewer_Alternative extends Horde_Mime_Viewer_Base
         if (!$viewable) {
             $id_ob = new Horde_Mime_Id($disp_id);
             if (array_key_exists($id_ob->idArithmetic($id_ob::ID_NEXT), $viewable_ret)) {
-                $ret[$disp_id] = array(
+                $ret[$disp_id] = [
                     'data' => '',
                     'status' => new IMP_Mime_Status(
                         $this->_mimepart,
-                        array(
-                            _("This part contains no message contents."),
+                        [
+                            _('This part contains no message contents.'),
                             /* TODO: list other alternative parts? */
-                            _("There are no alternative parts that can be displayed inline.")
-                        )
+                            _('There are no alternative parts that can be displayed inline.'),
+                        ]
                     ),
-                    'type' => 'text/html; charset=' . $this->getConfigParam('charset')
-                );
+                    'type' => 'text/html; charset=' . $this->getConfigParam('charset'),
+                ];
             }
         }
 

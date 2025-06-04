@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,9 +24,9 @@
 class IMP_Search_Element_Within extends IMP_Search_Element
 {
     /* Interval types. */
-    const INTERVAL_DAYS = 1;
-    const INTERVAL_MONTHS = 2;
-    const INTERVAL_YEARS = 3;
+    public const INTERVAL_DAYS = 1;
+    public const INTERVAL_MONTHS = 2;
+    public const INTERVAL_YEARS = 3;
 
     /**
      * Constructor.
@@ -43,7 +44,7 @@ class IMP_Search_Element_Within extends IMP_Search_Element
          * o = (integer) Do an older search?
          * t = (integer) Interval type.
          * v = (integer) Interval value. */
-        $this->_data = new stdClass;
+        $this->_data = new stdClass();
         $this->_data->o = intval(!empty($older));
         $this->_data->t = $type;
         $this->_data->v = $interval;
@@ -57,13 +58,13 @@ class IMP_Search_Element_Within extends IMP_Search_Element
          * limit for IMAP servers without 'WITHIN' extension. */
         $secs = $this->_data->v * 60 * 60 * 24;
         switch ($this->_data->t) {
-        case self::INTERVAL_YEARS:
-            $secs *= 365;
-            break;
+            case self::INTERVAL_YEARS:
+                $secs *= 365;
+                break;
 
-        case self::INTERVAL_MONTHS:
-            $secs *= 30;
-            break;
+            case self::INTERVAL_MONTHS:
+                $secs *= 30;
+                break;
         }
 
         $queryob->intervalSearch($secs, $this->_data->o ? Horde_Imap_Client_Search_Query::INTERVAL_OLDER : Horde_Imap_Client_Search_Query::INTERVAL_YOUNGER);
@@ -76,24 +77,24 @@ class IMP_Search_Element_Within extends IMP_Search_Element
     public function queryText()
     {
         $label = $this->_data->o
-            ? _("Older Than")
-            : _("Younger Than");
+            ? _('Older Than')
+            : _('Younger Than');
 
         switch ($this->_data->t) {
-        case self::INTERVAL_YEARS:
-            $term = _("years");
-            break;
+            case self::INTERVAL_YEARS:
+                $term = _('years');
+                break;
 
-        case self::INTERVAL_MONTHS:
-            $term = _("months");
-            break;
+            case self::INTERVAL_MONTHS:
+                $term = _('months');
+                break;
 
-        case self::INTERVAL_DAYS:
-            $term = _("days");
-            break;
+            case self::INTERVAL_DAYS:
+                $term = _('days');
+                break;
         }
 
-        return sprintf("%s %u %s", $label, $this->_data->v, $term);
+        return sprintf('%s %u %s', $label, $this->_data->v, $term);
     }
 
 }

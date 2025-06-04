@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,8 +24,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Ajax_Application_Handler_Smartmobile
-extends Horde_Core_Ajax_Application_Handler
+class IMP_Ajax_Application_Handler_Smartmobile extends Horde_Core_Ajax_Application_Handler
 {
     /**
      */
@@ -58,7 +58,7 @@ extends Horde_Core_Ajax_Application_Handler
             'htmlspecialchars',
             $GLOBALS['injector']->getInstance('IMP_Contacts')->searchEmail(
                 $this->vars->search,
-                array('levenshtein' => true)
+                ['levenshtein' => true]
             )->base_addresses
         );
     }
@@ -73,7 +73,7 @@ extends Horde_Core_Ajax_Application_Handler
         $result = $this->_base->callAction('getForwardData');
 
         if ($result && $result->opts->attach) {
-            $GLOBALS['notification']->push(_("Forwarded message will be automatically added to your outgoing message."), 'horde.message');
+            $GLOBALS['notification']->push(_('Forwarded message will be automatically added to your outgoing message.'), 'horde.message');
         }
 
         return $result;
@@ -109,21 +109,21 @@ extends Horde_Core_Ajax_Application_Handler
 
         /* Now add polled mailboxes. */
         $filter = new IMP_Ftree_IteratorFilter($ftree);
-        $filter->add(array(
+        $filter->add([
             $filter::CONTAINERS,
             $filter::REMOTE,
-            $filter::SPECIALMBOXES
-        ));
+            $filter::SPECIALMBOXES,
+        ]);
         if (!$this->vars->all) {
             $filter->add($filter::POLLED);
         }
-        $filter->mboxes = array('INBOX');
+        $filter->mboxes = ['INBOX'];
         $iterator->append($filter);
 
-        return $ftree->createTree($this->vars->all ? 'smobile_folders_all' : 'smobile_folders', array(
+        return $ftree->createTree($this->vars->all ? 'smobile_folders_all' : 'smobile_folders', [
             'iterator' => $iterator,
-            'render_type' => 'IMP_Tree_Jquerymobile'
-        ))->getTree(true);
+            'render_type' => 'IMP_Tree_Jquerymobile',
+        ])->getTree(true);
     }
 
     /**
@@ -138,14 +138,14 @@ extends Horde_Core_Ajax_Application_Handler
         $iterator = new IMP_Ftree_IteratorFilter($GLOBALS['injector']->getInstance('IMP_Ftree'));
         $iterator->add($iterator::REMOTE);
 
-        return strval(new IMP_Ftree_Select(array(
-            'heading' => _("This message to"),
+        return strval(new IMP_Ftree_Select([
+            'heading' => _('This message to'),
             'iterator' => $iterator,
             'optgroup' => true,
             'inc_tasklists' => true,
             'inc_notepads' => true,
-            'new_mbox' => true
-        )));
+            'new_mbox' => true,
+        ]));
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,11 +21,10 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Imap_Password
-implements Horde_Imap_Client_Base_Password, Serializable
+class IMP_Imap_Password implements Horde_Imap_Client_Base_Password, Serializable
 {
     /* Password key. */
-    const PASSWORD_KEY = 'imap_ob_pass';
+    public const PASSWORD_KEY = 'imap_ob_pass';
 
     /**
      * Object storage ID.
@@ -67,7 +67,7 @@ implements Horde_Imap_Client_Base_Password, Serializable
     {
         return array_shift($this->__serialize());
     }
-    public function __serialize(): array 
+    public function __serialize(): array
     {
         global $session;
 
@@ -79,8 +79,8 @@ implements Horde_Imap_Client_Base_Password, Serializable
 
         return
         [
-            $this->_id
-        ];        
+            $this->_id,
+        ];
     }
     /**
      * @throws RuntimeException
@@ -89,7 +89,7 @@ implements Horde_Imap_Client_Base_Password, Serializable
     {
         $this->__unserialize([$data]);
     }
-    public function __unserialize(array $data): void 
+    public function __unserialize(array $data): void
     {
         $this->_id = $data[0];
 

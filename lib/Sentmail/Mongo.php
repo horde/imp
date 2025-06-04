@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,12 +24,12 @@
 class IMP_Sentmail_Mongo extends IMP_Sentmail implements Horde_Mongo_Collection_Index
 {
     /* Field names. */
-    const ACTION = 'action';
-    const MESSAGEID = 'msgid';
-    const RECIPIENT = 'recip';
-    const SUCCESS = 'success';
-    const TS = 'ts';
-    const WHO = 'who';
+    public const ACTION = 'action';
+    public const MESSAGEID = 'msgid';
+    public const RECIPIENT = 'recip';
+    public const SUCCESS = 'success';
+    public const TS = 'ts';
+    public const WHO = 'who';
 
     /**
      * Handle for the current database connection.
@@ -42,32 +43,32 @@ class IMP_Sentmail_Mongo extends IMP_Sentmail implements Horde_Mongo_Collection_
      *
      * @var array
      */
-    protected $_indices = array(
-        'index_ts' => array(
-            self::TS => 1
-        ),
-        'index_who' => array(
-            self::WHO => 1
-        ),
-        'index_success' => array(
-            self::SUCCESS => 1
-        )
-    );
+    protected $_indices = [
+        'index_ts' => [
+            self::TS => 1,
+        ],
+        'index_who' => [
+            self::WHO => 1,
+        ],
+        'index_success' => [
+            self::SUCCESS => 1,
+        ],
+    ];
 
     /**
      * @param array $params  Parameters:
      *   - collection: (string) The name of the sentmail collection.
      *   - mongo_db: (Horde_Mongo_Client) [REQUIRED] The DB instance.
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (!isset($params['mongo_db'])) {
             throw new InvalidArgumentException('Missing mongo_db parameter.');
         }
 
-        parent::__construct(array_merge(array(
-            'collection' => 'imp_sentmail'
-        ), $params));
+        parent::__construct(array_merge([
+            'collection' => 'imp_sentmail',
+        ], $params));
 
         $this->_db = $this->_params['mongo_db']->selectCollection(null, $this->_params['collection']);
     }
@@ -77,64 +78,66 @@ class IMP_Sentmail_Mongo extends IMP_Sentmail implements Horde_Mongo_Collection_
     protected function _log($action, $message_id, $recipient, $success)
     {
         try {
-            $this->_db->insert(array(
+            $this->_db->insert([
                 self::ACTION => $action,
                 self::MESSAGEID => $message_id,
                 self::RECIPIENT => $recipient,
                 self::SUCCESS => intval($success),
                 self::TS => time(),
-                self::WHO => $GLOBALS['registry']->getAuth()
-            ));
-        } catch (MongoException $e) {}
+                self::WHO => $GLOBALS['registry']->getAuth(),
+            ]);
+        } catch (MongoException $e) {
+        }
     }
 
     /**
      */
     public function favouriteRecipients($limit, $filter = null)
     {
-        $query = array(
+        $query = [
             self::SUCCESS => 1,
-            self::WHO => $GLOBALS['registry']->getAuth()
-        );
+            self::WHO => $GLOBALS['registry']->getAuth(),
+        ];
 
         if (!empty($filter)) {
-            $query[self::ACTION] = array('$in' => $filter);
+            $query[self::ACTION] = ['$in' => $filter];
         }
 
-        $out = array();
+        $out = [];
 
         try {
-            $res = $this->_db->aggregate(array(
+            $res = $this->_db->aggregate([
                 /* Match the query. */
-                array('$match' => $query),
+                ['$match' => $query],
 
                 /* Group by recipient. */
-                array(
-                    '$group' => array(
+                [
+                    '$group' => [
                         '_id' => '$' . self::RECIPIENT,
-                        'count' => array(
-                            '$sum' => 1
-                        )
-                    )
-                ),
+                        'count' => [
+                            '$sum' => 1,
+                        ],
+                    ],
+                ],
 
                 /* Sort by recipient. */
-                array(
-                    '$sort' => array('count' => -1)
-                ),
+                [
+                    '$sort' => ['count' => -1],
+                ],
 
                 /* Limit the return. */
-                array(
-                    '$limit' => $limit
-                )
-            ));
+                [
+                    '$limit' => $limit,
+                ],
+            ]);
 
             if (isset($res['result'])) {
                 foreach ($res['result'] as $val) {
                     $out[] = $val['_id'];
                 }
             }
-        } catch (MongoException $e) {}
+        } catch (MongoException $e) {
+        }
 
         return $out;
     }
@@ -143,12 +146,12 @@ class IMP_Sentmail_Mongo extends IMP_Sentmail implements Horde_Mongo_Collection_
      */
     public function numberOfRecipients($hours, $user = false)
     {
-        $query = array(
+        $query = [
             self::SUCCESS => 1,
-            self::TS => array(
-                '$gt' => (time() - ($hours * 3600))
-            )
-        );
+            self::TS => [
+                '$gt' => (time() - ($hours * 3600)),
+            ],
+        ];
 
         if ($user) {
             $query[self::WHO] = $GLOBALS['registry']->getAuth();
@@ -166,12 +169,13 @@ class IMP_Sentmail_Mongo extends IMP_Sentmail implements Horde_Mongo_Collection_
     protected function _deleteOldEntries($before)
     {
         try {
-            $this->_db->remove(array(
-                self::TS => array(
-                    '$lt' => $before
-                )
-            ));
-        } catch (MongoException $e) {}
+            $this->_db->remove([
+                self::TS => [
+                    '$lt' => $before,
+                ],
+            ]);
+        } catch (MongoException $e) {
+        }
     }
 
     /* Horde_Mongo_Collection_Index methods. */

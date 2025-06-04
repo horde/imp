@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
  *
@@ -55,41 +56,41 @@ class IMP_LoginTasks_Task_Autocreate extends Horde_LoginTasks_Task
             }
 
             switch ($key) {
-            case IMP_Mailbox::SPECIAL_COMPOSETEMPLATES:
-                $val->create();
-                break;
+                case IMP_Mailbox::SPECIAL_COMPOSETEMPLATES:
+                    $val->create();
+                    break;
 
-            case IMP_Mailbox::SPECIAL_DRAFTS:
-                $val->create(array(
-                    'special_use' => array(Horde_Imap_Client::SPECIALUSE_DRAFTS)
-                ));
-                break;
+                case IMP_Mailbox::SPECIAL_DRAFTS:
+                    $val->create([
+                        'special_use' => [Horde_Imap_Client::SPECIALUSE_DRAFTS],
+                    ]);
+                    break;
 
-            case IMP_Mailbox::SPECIAL_SENT:
-                foreach ($val as $mbox) {
-                    $mbox->create(array(
-                        'special_use' => array(Horde_Imap_Client::SPECIALUSE_SENT)
-                    ));
-                }
-                break;
+                case IMP_Mailbox::SPECIAL_SENT:
+                    foreach ($val as $mbox) {
+                        $mbox->create([
+                            'special_use' => [Horde_Imap_Client::SPECIALUSE_SENT],
+                        ]);
+                    }
+                    break;
 
-            case IMP_Mailbox::SPECIAL_SPAM:
-                $val->create(array(
-                    'special_use' => array(Horde_Imap_Client::SPECIALUSE_JUNK)
-                ));
-                break;
+                case IMP_Mailbox::SPECIAL_SPAM:
+                    $val->create([
+                        'special_use' => [Horde_Imap_Client::SPECIALUSE_JUNK],
+                    ]);
+                    break;
 
-            case IMP_Mailbox::SPECIAL_TRASH:
-                $val->create(array(
-                    'special_use' => array(Horde_Imap_Client::SPECIALUSE_TRASH)
-                ));
-                break;
+                case IMP_Mailbox::SPECIAL_TRASH:
+                    $val->create([
+                        'special_use' => [Horde_Imap_Client::SPECIALUSE_TRASH],
+                    ]);
+                    break;
 
-            case IMP_Mailbox::SPECIAL_USER:
-                foreach ($val as $mbox) {
-                    $mbox->create();
-                }
-                break;
+                case IMP_Mailbox::SPECIAL_USER:
+                    foreach ($val as $mbox) {
+                        $mbox->create();
+                    }
+                    break;
             }
         }
     }

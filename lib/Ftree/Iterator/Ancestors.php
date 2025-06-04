@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,7 +28,7 @@ class IMP_Ftree_Iterator_Ancestors extends IMP_Ftree_Iterator
      */
     public function __construct($elt)
     {
-        $elts = array();
+        $elts = [];
 
         while ($elt && ($elt = $elt->parent)) {
             $elts = array_merge($elt->child_list, $elts);
@@ -41,7 +42,7 @@ class IMP_Ftree_Iterator_Ancestors extends IMP_Ftree_Iterator
     #[\ReturnTypeWillChange]
     public function getChildren()
     {
-        return new self(array());
+        return new self([]);
     }
 
     /**

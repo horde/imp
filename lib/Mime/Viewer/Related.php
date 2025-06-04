@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
  *
@@ -24,20 +25,20 @@ class IMP_Mime_Viewer_Related extends Horde_Mime_Viewer_Base
 {
     /**
      */
-    protected $_capability = array(
+    protected $_capability = [
         'full' => true,
         'info' => false,
         'inline' => true,
-        'raw' => false
-    );
+        'raw' => false,
+    ];
 
     /**
      */
-    protected $_metadata = array(
+    protected $_metadata = [
         'compressed' => false,
         'embedded' => false,
-        'forceinline' => true
-    );
+        'forceinline' => true,
+    ];
 
     /**
      * The multipart/related info object.
@@ -70,10 +71,10 @@ class IMP_Mime_Viewer_Related extends Horde_Mime_Viewer_Base
     protected function _IMPrender($inline)
     {
         $related_id = $this->_mimepart->getMimeId();
-        $used = array($related_id);
+        $used = [$related_id];
 
         if (!($id = $this->_init($inline))) {
-            return array();
+            return [];
         }
 
         $render = $this->getConfigParam('imp_contents')->renderMIMEPart(
@@ -84,14 +85,14 @@ class IMP_Mime_Viewer_Related extends Horde_Mime_Viewer_Base
         if (!$inline) {
             foreach (array_keys($render) as $key) {
                 if (!is_null($render[$key])) {
-                    return array($related_id => $render[$key]);
+                    return [$related_id => $render[$key]];
                 }
             }
             return null;
         }
 
         $data_id = null;
-        $ret = array();
+        $ret = [];
         foreach ($this->_mimepart->partIterator(false) as $val) {
             $ret[$val->getMimeId()] = null;
         }
@@ -137,24 +138,24 @@ class IMP_Mime_Viewer_Related extends Horde_Mime_Viewer_Base
 
                 $status = new IMP_Mime_Status_RenderIssue(
                     $this->_mimepart,
-                    array(
-                        _("This part contains an attachment that can not be displayed within this part:"),
-                        implode('&nbsp;', array(
+                    [
+                        _('This part contains an attachment that can not be displayed within this part:'),
+                        implode('&nbsp;', [
                             $summary['icon'],
                             $summary['description'],
                             $summary['size'],
-                            $summary['download']
-                        ))
-                    )
+                            $summary['download'],
+                        ]),
+                    ]
                 );
                 $status->action($status::WARNING);
 
                 if (isset($ret[$related_id]['status'])) {
                     if (!is_array($ret[$related_id]['status'])) {
-                        $ret[$related_id]['status'] = array($ret[$related_id]['status']);
+                        $ret[$related_id]['status'] = [$ret[$related_id]['status']];
                     }
                 } else {
-                    $ret[$related_id]['status'] = array();
+                    $ret[$related_id]['status'] = [];
                 }
                 $ret[$related_id]['status'][] = $status;
             }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -56,18 +57,18 @@ class IMP_Ftree_Select
      *   - selected: (string) The mailbox to have selected by default.
      *               DEFAULT: None
      */
-    public function __construct(array $opts = array())
+    public function __construct(array $opts = [])
     {
         global $injector;
 
-        $this->_tree = $injector->getInstance('IMP_Ftree')->createTree(strval(new Horde_Support_Randomid()), array(
+        $this->_tree = $injector->getInstance('IMP_Ftree')->createTree(strval(new Horde_Support_Randomid()), [
             'basename' => !empty($opts['basename']),
             'iterator' => empty($opts['iterator']) ? null : $opts['iterator'],
-            'render_type' => 'IMP_Tree_Flist'
-        ));
+            'render_type' => 'IMP_Tree_Flist',
+        ]);
 
         if (!empty($opts['selected'])) {
-            $this->_tree->addNodeParams(IMP_Mailbox::formTo($opts['selected']), array('selected' => true));
+            $this->_tree->addNodeParams(IMP_Mailbox::formTo($opts['selected']), ['selected' => true]);
         }
 
         $this->_tree->setOption($opts);

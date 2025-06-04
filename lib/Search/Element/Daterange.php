@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -10,6 +11,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
+use function PHP81_BC\strftime;
 
 /**
  * Date-related search queries.
@@ -37,7 +39,7 @@ class IMP_Search_Element_Daterange extends IMP_Search_Element
          * b = (integer) UNIX timestamp - beginning.
          * e = (integer) UNIX timestamp - ending.
          * n = (integer) Do a NOT search? */
-        $this->_data = new stdClass;
+        $this->_data = new stdClass();
         $this->_data->b = ($begin instanceof DateTime)
             ? $begin->format('U')
             : 0;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,11 +24,11 @@
 class IMP_Search_IteratorFilter extends FilterIterator
 {
     /* Bitmask filters for iterator. */
-    const FILTER = 1;
-    const QUERY = 2;
-    const VFOLDER = 4;
-    const ALL = 8;
-    const DISABLED = 16;
+    public const FILTER = 1;
+    public const QUERY = 2;
+    public const VFOLDER = 4;
+    public const ALL = 8;
+    public const DISABLED = 16;
 
     /**
      * Filtering mask.

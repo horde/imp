@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
  *
@@ -28,7 +29,7 @@ class IMP_Quota_Imap extends IMP_Quota
      * @param array $params  Parameters:
      *   - imap_ob: (Horde_Imap_Client_Base) IMAP client object [REQUIRED].
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (!isset($params['imap_ob'])) {
             throw new InvalidArgumentException('Missing imap_ob parameter');
@@ -44,20 +45,20 @@ class IMP_Quota_Imap extends IMP_Quota
         try {
             $quota = $this->_params['imap_ob']->getQuotaRoot(is_null($mailbox) ? 'INBOX' : $mailbox);
         } catch (IMP_Imap_Exception $e) {
-            throw new IMP_Exception(_("Unable to retrieve quota"));
+            throw new IMP_Exception(_('Unable to retrieve quota'));
         }
 
         $quota_val = reset($quota);
 
         return isset($quota_val['storage'])
-            ? array(
+            ? [
                   'limit' => $quota_val['storage']['limit'] * 1024,
-                  'usage' => $quota_val['storage']['usage'] * 1024
-              )
-            : array(
+                  'usage' => $quota_val['storage']['usage'] * 1024,
+              ]
+            : [
                 'limit' => 0,
-                'usage' => 0
-              );
+                'usage' => 0,
+              ];
     }
 
 }

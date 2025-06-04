@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -46,7 +47,7 @@ class IMP_Ajax_Application_Viewport_Error
      */
     public function toObject()
     {
-        $ob = new stdClass;
+        $ob = new stdClass();
         $ob->cacheid = strval(new Horde_Support_Randomid());
         $ob->error = true;
         $ob->label = $this->_mbox->label;

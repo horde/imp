@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -63,8 +64,8 @@ class IMP_Ajax_Addresses
      */
     public function toArray($limit = null)
     {
-        $out = new stdClass;
-        $out->addr = array();
+        $out = new stdClass();
+        $out->addr = [];
         $out->total = count($this->_addr);
         $out->limit = false;
 
@@ -79,8 +80,8 @@ class IMP_Ajax_Addresses
             if ($ob instanceof Horde_Mail_Rfc822_Group) {
                 $ob->addresses->unique();
 
-                $tmp = new stdClass;
-                $tmp->a = array();
+                $tmp = new stdClass();
+                $tmp->a = [];
                 $tmp->g = $ob->groupname;
 
                 foreach ($ob->addresses as $val) {
@@ -110,7 +111,7 @@ class IMP_Ajax_Addresses
      */
     private function _addAddress(Horde_Mail_Rfc822_Address $addr)
     {
-        $tmp = new stdClass;
+        $tmp = new stdClass();
         if (strlen($b = $addr->bare_address ?? '')) {
             $tmp->b = $b;
         }
@@ -152,11 +153,11 @@ class IMP_Ajax_Addresses
     {
         $i = 0;
         $limit = intval($limit);
-        $out = array();
+        $out = [];
 
         foreach ($alist->base_addresses as $val) {
-            $tmp = array('v' => strval($val));
-            $l = $val->writeAddress(array('noquote' => true));
+            $tmp = ['v' => strval($val)];
+            $l = $val->writeAddress(['noquote' => true]);
             $s = $val->label;
 
             if ($l !== $tmp['v']) {
@@ -166,7 +167,7 @@ class IMP_Ajax_Addresses
             if ($val instanceof Horde_Mail_Rfc822_Group) {
                 $tmp['g'] = $this->_toAutocompleteArray($val->addresses, 0);
                 $tmp['s'] = sprintf(
-                    _("%s [%d addresses]"),
+                    _('%s [%d addresses]'),
                     $s,
                     count($val)
                 );

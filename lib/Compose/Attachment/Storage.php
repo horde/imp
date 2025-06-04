@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -63,20 +64,20 @@ abstract class IMP_Compose_Attachment_Storage
     public function __get($name)
     {
         switch ($name) {
-        case 'linked':
-            return ($this instanceof IMP_Compose_Attachment_Linked);
+            case 'linked':
+                return ($this instanceof IMP_Compose_Attachment_Linked);
 
-        case 'link_url':
-            return $this->linked
-                ? Horde::url(
-                    'attachment.php',
-                    true,
-                    array('append_session' => -1)
-                  )->add(array(
-                      'id' => $this->_id,
-                      'u' => $this->_user
-                  ))
-                : null;
+            case 'link_url':
+                return $this->linked
+                    ? Horde::url(
+                        'attachment.php',
+                        true,
+                        ['append_session' => -1]
+                    )->add([
+                          'id' => $this->_id,
+                          'u' => $this->_user,
+                      ])
+                    : null;
         }
     }
 
@@ -89,7 +90,7 @@ abstract class IMP_Compose_Attachment_Storage
     public function read()
     {
         return (isset($this->_tmpfile) && is_readable($this->_tmpfile))
-            ? new Horde_Stream_Existing(array('stream' => fopen($this->_tmpfile, 'r')))
+            ? new Horde_Stream_Existing(['stream' => fopen($this->_tmpfile, 'r')])
             : $this->_read();
     }
 

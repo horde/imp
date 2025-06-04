@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -53,36 +54,36 @@ class IMP_Indices_Mailbox extends IMP_Indices
         $args = func_get_args();
 
         switch (func_num_args()) {
-        case 1:
-            if ($args[0] instanceof Horde_Variables) {
-                if (isset($args[0]->mailbox) && strlen($args[0]->mailbox)) {
-                    $this->mailbox = IMP_Mailbox::formFrom($args[0]->mailbox);
+            case 1:
+                if ($args[0] instanceof Horde_Variables) {
+                    if (isset($args[0]->mailbox) && strlen($args[0]->mailbox)) {
+                        $this->mailbox = IMP_Mailbox::formFrom($args[0]->mailbox);
 
-                    if (isset($args[0]->buid)) {
-                        /* BUIDs are always integers. Do conversion here since
-                         * POP3 won't work otherwise. */
-                        $tmp = new Horde_Imap_Client_Ids($args[0]->buid);
-                        $this->buids = new IMP_Indices($this->mailbox, $tmp->ids);
-                        parent::__construct($this->mailbox->fromBuids($this->buids));
-                    } elseif (isset($args[0]->uid)) {
-                        parent::__construct($this->mailbox, $args[0]->uid);
+                        if (isset($args[0]->buid)) {
+                            /* BUIDs are always integers. Do conversion here since
+                             * POP3 won't work otherwise. */
+                            $tmp = new Horde_Imap_Client_Ids($args[0]->buid);
+                            $this->buids = new IMP_Indices($this->mailbox, $tmp->ids);
+                            parent::__construct($this->mailbox->fromBuids($this->buids));
+                        } elseif (isset($args[0]->uid)) {
+                            parent::__construct($this->mailbox, $args[0]->uid);
+                        }
+                    }
+
+                    if (isset($args[0]->muid)) {
+                        parent::__construct($args[0]->muid);
                     }
                 }
+                break;
 
-                if (isset($args[0]->muid)) {
-                    parent::__construct($args[0]->muid);
+            case 2:
+                if (($args[0] instanceof IMP_Mailbox) &&
+                    ($args[1] instanceof IMP_Indices)) {
+                    $this->mailbox = $args[0];
+                    $this->buids = $args[0]->toBuids($args[1]);
+                    parent::__construct($args[1]);
                 }
-            }
-            break;
-
-        case 2:
-            if (($args[0] instanceof IMP_Mailbox) &&
-                ($args[1] instanceof IMP_Indices)) {
-                $this->mailbox = $args[0];
-                $this->buids = $args[0]->toBuids($args[1]);
-                parent::__construct($args[1]);
-            }
-            break;
+                break;
         }
 
         if (!isset($this->buids)) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -36,21 +37,21 @@ class IMP_Prefs_Special_Mailto implements Horde_Core_Prefs_Ui_Special
 
         $name = $registry->get('name');
 
-        $page_output->addInlineScript(array(
+        $page_output->addInlineScript([
             'if (!Object.isUndefined(navigator.registerProtocolHandler))' .
             '$("mailto_handler").show().down("A").observe("click", function() {' .
                 'navigator.registerProtocolHandler("mailto","' .
-                IMP_Dynamic_Compose::url(array('full' => true))->setRaw(true)->add(array(
+                IMP_Dynamic_Compose::url(['full' => true])->setRaw(true)->add([
                     'actionID' => 'mailto_link',
-                    'to' => ''
-                )) .
+                    'to' => '',
+                ]) .
                 '=%s","' . $name . '");' .
-            '})'
-        ), true);
+            '})',
+        ], true);
 
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/prefs'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/prefs',
+        ]);
         $view->addHelper('Horde_Core_View_Helper_Image');
 
         $view->name = $name;

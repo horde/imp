@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2009-2017 Horde LLC (http://www.horde.org/)
  *
@@ -42,14 +43,14 @@ class IMP_Flags implements ArrayAccess, Serializable
      *
      * @var array
      */
-    protected $_flags = array();
+    protected $_flags = [];
 
     /**
      * The list of user flags.
      *
      * @var array
      */
-    protected $_userflags = array();
+    protected $_userflags = [];
 
     /**
      * Constructor.
@@ -57,7 +58,7 @@ class IMP_Flags implements ArrayAccess, Serializable
     public function __construct()
     {
         /* Build list of default flags. */
-        foreach (array('Imap', 'System') as $type) {
+        foreach (['Imap', 'System'] as $type) {
             $di = new DirectoryIterator(IMP_BASE . '/lib/Flag/' . $type);
             foreach ($di as $val) {
                 if ($val->isFile()) {
@@ -109,10 +110,10 @@ class IMP_Flags implements ArrayAccess, Serializable
      *
      * @return array  An array of IMP_Flag_Base elements.
      */
-    public function getList(array $opts = array())
+    public function getList(array $opts = [])
     {
         if (!$GLOBALS['injector']->getInstance('IMP_Factory_Imap')->create()->access(IMP_Imap::ACCESS_FLAGS)) {
-            return array();
+            return [];
         }
 
         $ret = array_merge($this->_flags, $this->_userflags);
@@ -146,7 +147,7 @@ class IMP_Flags implements ArrayAccess, Serializable
         /* Get list of unknown flags. */
         if ($GLOBALS['prefs']->getValue('show_all_flags')) {
             /* Get list of IMAP flags. */
-            $imapflags = array();
+            $imapflags = [];
             foreach ($ret as $val) {
                 if ($val instanceof IMP_Flag_Imap) {
                     $imapflags[] = $val->imapflag;
@@ -174,13 +175,13 @@ class IMP_Flags implements ArrayAccess, Serializable
     public function addFlag($label)
     {
         if (strlen($label) === 0) {
-            throw new IMP_Exception(_("Flag name must not be empty."));
+            throw new IMP_Exception(_('Flag name must not be empty.'));
         }
 
         $ob = new IMP_Flag_User($label);
 
         if (isset($this->_userflags[$ob->id])) {
-            throw new IMP_Exception(_("Flag name already exists."));
+            throw new IMP_Exception(_('Flag name already exists.'));
         }
 
         $this->_userflags[$ob->id] = $ob;
@@ -235,16 +236,16 @@ class IMP_Flags implements ArrayAccess, Serializable
      *
      * @return array  A list of IMP_Flag_Base objects.
      */
-    public function parse(array $opts = array())
+    public function parse(array $opts = [])
     {
         global $injector;
 
-        $opts = array_merge(array(
-            'flags' => array(),
+        $opts = array_merge([
+            'flags' => [],
             'headers' => null,
             'personal' => null,
-            'structure' => null
-        ), $opts);
+            'structure' => null,
+        ], $opts);
 
         if (!empty($opts['runhook']) && $this->_flaghook) {
             try {
@@ -253,7 +254,7 @@ class IMP_Flags implements ArrayAccess, Serializable
                     $injector->getInstance('Horde_Core_Hooks')->callHook(
                         'msglist_flags',
                         'imp',
-                        array($opts['runhook'])
+                        [$opts['runhook']]
                     )
                 );
             } catch (Horde_Exception_HookNotSet $e) {
@@ -261,18 +262,18 @@ class IMP_Flags implements ArrayAccess, Serializable
             }
         }
 
-        $ret = array();
+        $ret = [];
 
         foreach (array_merge($this->_flags, $this->_userflags) as $val) {
             if ($val instanceof IMP_Flag_Match_Order) {
                 $match = $val->matchOrder();
             } else {
-                $match = array(
+                $match = [
                     'IMP_Flag_Match_Address',
                     'IMP_Flag_Match_Flag',
                     'IMP_Flag_Match_Header',
-                    'IMP_Flag_Match_Structure'
-                );
+                    'IMP_Flag_Match_Structure',
+                ];
             }
 
             foreach ($match as $val2) {
@@ -283,27 +284,27 @@ class IMP_Flags implements ArrayAccess, Serializable
                 $res = null;
 
                 switch ($val2) {
-                case 'IMP_Flag_Match_Address':
-                    if (!is_null($opts['personal'])) {
-                        $res = $val->matchAddress($opts['personal']);
-                    }
-                    break;
+                    case 'IMP_Flag_Match_Address':
+                        if (!is_null($opts['personal'])) {
+                            $res = $val->matchAddress($opts['personal']);
+                        }
+                        break;
 
-                case 'IMP_Flag_Match_Flag':
-                    $res = $val->matchFlag($opts['flags']);
-                    break;
+                    case 'IMP_Flag_Match_Flag':
+                        $res = $val->matchFlag($opts['flags']);
+                        break;
 
-                case 'IMP_Flag_Match_Header':
-                    if (!is_null($opts['headers'])) {
-                        $res = $val->matchHeader($opts['headers']);
-                    }
-                    break;
+                    case 'IMP_Flag_Match_Header':
+                        if (!is_null($opts['headers'])) {
+                            $res = $val->matchHeader($opts['headers']);
+                        }
+                        break;
 
-                case 'IMP_Flag_Match_Structure':
-                    if (!is_null($opts['structure'])) {
-                        $res = $val->matchStructure($opts['structure']);
-                    }
-                    break;
+                    case 'IMP_Flag_Match_Structure':
+                        if (!is_null($opts['structure'])) {
+                            $res = $val->matchStructure($opts['structure']);
+                        }
+                        break;
                 }
 
                 if (is_bool($res)) {
@@ -330,12 +331,12 @@ class IMP_Flags implements ArrayAccess, Serializable
      */
     public function changed($flags, $add)
     {
-        $ret = array(
-            'add' => array(),
-            'remove' => array()
-        );
+        $ret = [
+            'add' => [],
+            'remove' => [],
+        ];
 
-        $obs = array();
+        $obs = [];
         foreach ($flags as $val) {
             if ($tmp = $this[$val]) {
                 $obs[] = $tmp;
@@ -416,14 +417,15 @@ class IMP_Flags implements ArrayAccess, Serializable
     {
         return [
             $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
-                array(
+                [
                     $this->_flags,
-                    $this->_userflags
-                ), array(
+                    $this->_userflags,
+                ],
+                [
                     'compression' => false,
-                    'phpob' => true
-                )
-            )
+                    'phpob' => true,
+                ]
+            ),
         ];
     }
 
@@ -435,10 +437,10 @@ class IMP_Flags implements ArrayAccess, Serializable
     }
     public function __unserialize(array $data): void
     {
-        list(
+        [
             $this->_flags,
             $this->_userflags
-        ) = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack(array_shift($data));        
+        ] = $GLOBALS['injector']->getInstance('Horde_Pack')->unpack(array_shift($data));
     }
 
 }

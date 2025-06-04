@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -100,53 +101,53 @@ class IMP_Ftree_Element
     public function __get($name)
     {
         switch ($name) {
-        case 'account':
-            return $this->_tree->getAccount($this->_id);
+            case 'account':
+                return $this->_tree->getAccount($this->_id);
 
-        case 'base_elt':
-            return ($this->_id == IMP_Ftree::BASE_ELT);
+            case 'base_elt':
+                return ($this->_id == IMP_Ftree::BASE_ELT);
 
-        case 'child_list':
-            return $this->_tree->getChildren($this->_id);
+            case 'child_list':
+                return $this->_tree->getChildren($this->_id);
 
-        case 'inbox':
-            return ($this->_id == 'INBOX');
+            case 'inbox':
+                return ($this->_id == 'INBOX');
 
-        case 'level':
-            if ($this->base_elt) {
-                return 0;
-            }
-
-            $i = substr_count($this->_id, $this->namespace_info->delimiter);
-
-            $elt = $this;
-            while ($elt = $elt->parent) {
-                if ($elt->namespace) {
-                    return $i + 1;
-                } elseif ($elt->remote) {
-                    if ($this->remote_mbox) {
-                        ++$i;
-                    }
-                    return $i + 1;
+            case 'level':
+                if ($this->base_elt) {
+                    return 0;
                 }
-            }
 
-            return $i;
+                $i = substr_count($this->_id, $this->namespace_info->delimiter);
 
-        case 'mbox_ob':
-            return IMP_Mailbox::get($this->_id);
+                $elt = $this;
+                while ($elt = $elt->parent) {
+                    if ($elt->namespace) {
+                        return $i + 1;
+                    } elseif ($elt->remote) {
+                        if ($this->remote_mbox) {
+                            ++$i;
+                        }
+                        return $i + 1;
+                    }
+                }
 
-        case 'namespace':
-            return ($this->namespace_other || $this->namespace_shared);
+                return $i;
 
-        case 'namespace_info':
-            return $this->mbox_ob->imp_imap->getNamespace($this->_id);
+            case 'mbox_ob':
+                return IMP_Mailbox::get($this->_id);
 
-        case 'parent':
-            return $this->_tree->getParent($this->_id);
+            case 'namespace':
+                return ($this->namespace_other || $this->namespace_shared);
 
-        default:
-            return $this->_tree->getAttribute($name, $this->_id);
+            case 'namespace_info':
+                return $this->mbox_ob->imp_imap->getNamespace($this->_id);
+
+            case 'parent':
+                return $this->_tree->getParent($this->_id);
+
+            default:
+                return $this->_tree->getAttribute($name, $this->_id);
         }
     }
 
@@ -155,13 +156,13 @@ class IMP_Ftree_Element
     public function __set($name, $value)
     {
         switch ($name) {
-        case 'container':
-        case 'needsort':
-        case 'open':
-        case 'polled':
-        case 'subscribed':
-            $this->_tree->setAttribute($name, $this->_id, $value);
-            break;
+            case 'container':
+            case 'needsort':
+            case 'open':
+            case 'polled':
+            case 'subscribed':
+                $this->_tree->setAttribute($name, $this->_id, $value);
+                break;
         }
     }
 

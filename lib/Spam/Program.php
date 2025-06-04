@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -65,11 +66,11 @@ class IMP_Spam_Program implements IMP_Spam_Base
          * secure. */
         $proc = proc_open(
             $this->_binary,
-            array(
-                0 => array('pipe', 'r'),
-                1 => array('pipe', 'w'),
-                2 => array('pipe', 'w')
-            ),
+            [
+                0 => ['pipe', 'r'],
+                1 => ['pipe', 'w'],
+                2 => ['pipe', 'w'],
+            ],
             $pipes
         );
         if (!is_resource($proc)) {
@@ -80,9 +81,9 @@ class IMP_Spam_Program implements IMP_Spam_Base
             return false;
         }
 
-        stream_copy_to_stream($contents->fullMessageText(array(
-            'stream' => true
-        )), $pipes[0]);
+        stream_copy_to_stream($contents->fullMessageText([
+            'stream' => true,
+        ]), $pipes[0]);
 
         fclose($pipes[0]);
 

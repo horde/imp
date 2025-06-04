@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,7 +24,7 @@
 abstract class IMP_Search_Element implements Serializable
 {
     /* Serialized version. */
-    const VERSION = 1;
+    public const VERSION = 1;
 
     /**
      * Allow NOT search on this element?
@@ -77,16 +78,16 @@ abstract class IMP_Search_Element implements Serializable
      */
     public function serialize()
     {
-        return array_shift($this->__serialize()); 
+        return array_shift($this->__serialize());
     }
-    public function __serialize(): array 
+    public function __serialize(): array
     {
         return
         [
-            json_encode(array(
+            json_encode([
                 self::VERSION,
-                $this->_data
-            ))
+                $this->_data,
+            ]),
         ];
     }
 
@@ -101,7 +102,7 @@ abstract class IMP_Search_Element implements Serializable
     {
         $this->__unserialize([$data]);
     }
-    public function __unserialize(array $data): void 
+    public function __unserialize(array $data): void
     {
         $data = json_decode($data[0]);
         if (!is_array($data) ||

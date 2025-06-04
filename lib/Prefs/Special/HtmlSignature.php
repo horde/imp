@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -38,15 +39,15 @@ class IMP_Prefs_Special_HtmlSignature implements Horde_Core_Prefs_Ui_Special
         $page_output->addScriptFile('prefs/signaturehtml.js');
         $page_output->addScriptPackage('IMP_Script_Package_Editor');
 
-        $page_output->addInlineJsVars(array(
+        $page_output->addInlineJsVars([
             'ImpHtmlSignaturePrefs.sigs' =>
-                array(-1 => $prefs->getValue('signature_html')) +
-                $injector->getInstance('IMP_Identity')->getAll('signature_html')
-        ));
+                [-1 => $prefs->getValue('signature_html')] +
+                $injector->getInstance('IMP_Identity')->getAll('signature_html'),
+        ]);
 
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/prefs'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/prefs',
+        ]);
         $view->addHelper('Text');
 
         $view->img_limit = $conf['compose']['htmlsig_img_size'];

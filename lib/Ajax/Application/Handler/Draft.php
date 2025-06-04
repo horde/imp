@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,7 +28,7 @@ class IMP_Ajax_Application_Handler_Draft extends Horde_Core_Ajax_Application_Han
      *
      * @var array
      */
-    public $disabled = array();
+    public $disabled = [];
 
     /**
      * AJAX action: Auto save a draft message.
@@ -84,48 +85,49 @@ class IMP_Ajax_Application_Handler_Draft extends Horde_Core_Ajax_Application_Han
         }
 
         try {
-            list($result, $imp_compose, $headers, ) = $this->_base->composeSetup($action);
+            [$result, $imp_compose, $headers, ] = $this->_base->composeSetup($action);
         } catch (Horde_Exception $e) {
             $GLOBALS['notification']->push($e);
 
-            $result = new stdClass;
+            $result = new stdClass();
             $result->action = $action;
             $result->success = 0;
             return $result;
         }
 
-        $opts = array(
+        $opts = [
             'autosave' => ($action == 'autoSaveDraft'),
             'html' => $this->vars->html,
             'priority' => $this->vars->priority,
-            'readreceipt' => $this->vars->request_read_receipt
-        );
+            'readreceipt' => $this->vars->request_read_receipt,
+        ];
 
         try {
             switch ($action) {
-            case 'saveTemplate':
-                $res = $imp_compose->saveTemplate($headers, $this->vars->message, $opts);
-                break;
+                case 'saveTemplate':
+                    $res = $imp_compose->saveTemplate($headers, $this->vars->message, $opts);
+                    break;
 
-            default:
-                $res = $imp_compose->saveDraft($headers, $this->vars->message, $opts);
-                break;
+                default:
+                    $res = $imp_compose->saveDraft($headers, $this->vars->message, $opts);
+                    break;
             }
 
             switch ($action) {
-            case 'autoSaveDraft':
-                // No notifications for autosave draft.
-                break;
+                case 'autoSaveDraft':
+                    // No notifications for autosave draft.
+                    break;
 
-            case 'saveDraft':
-                if ($GLOBALS['prefs']->getValue('close_draft')) {
-                    $imp_compose->destroy('save_draft');
-                }
-                // Fall-through
+                case 'saveDraft':
+                    if ($GLOBALS['prefs']->getValue('close_draft')) {
+                        $imp_compose->destroy('save_draft');
+                    }
+                    // Fall-through
 
-            default:
-                $GLOBALS['notification']->push($res);
-                break;
+                    // no break
+                default:
+                    $GLOBALS['notification']->push($res);
+                    break;
             }
         } catch (IMP_Compose_Exception $e) {
             $result->success = 0;

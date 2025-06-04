@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -22,8 +23,7 @@
  *
  * @property-read string $recipients  List of recipients.
  */
-class IMP_Maillog_Log_Forward
-extends IMP_Maillog_Log_Sentmail
+class IMP_Maillog_Log_Forward extends IMP_Maillog_Log_Sentmail
 {
     /**
      */
@@ -40,7 +40,7 @@ extends IMP_Maillog_Log_Sentmail
      * @param array $params  Parameters:
      *   - recipients: (string) Recipient list.
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         $this->_recipients = strval($params['recipients']);
         parent::__construct($params);
@@ -51,8 +51,8 @@ extends IMP_Maillog_Log_Sentmail
     public function __get($name)
     {
         switch ($name) {
-        case 'recipients':
-            return $this->_recipients;
+            case 'recipients':
+                return $this->_recipients;
         }
 
         return parent::__get($name);
@@ -62,9 +62,9 @@ extends IMP_Maillog_Log_Sentmail
      */
     public function addData()
     {
-        return array_merge(parent::addData(), array(
-            'recipients' => $this->recipients
-        ));
+        return array_merge(parent::addData(), [
+            'recipients' => $this->recipients,
+        ]);
     }
 
     /**
@@ -72,7 +72,7 @@ extends IMP_Maillog_Log_Sentmail
     protected function _getMessage()
     {
         return sprintf(
-            _("You forwarded this message on %s to: %s."),
+            _('You forwarded this message on %s to: %s.'),
             $this->date,
             $this->recipients
         );

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,12 +21,10 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Factory_Ftree
-extends Horde_Core_Factory_Injector
-implements Horde_Shutdown_Task
+class IMP_Factory_Ftree extends Horde_Core_Factory_Injector implements Horde_Shutdown_Task
 {
     /* Storage key in session. */
-    const STORAGE_KEY = 'ftree';
+    public const STORAGE_KEY = 'ftree';
 
     /**
      * @var IMP_Ftree
@@ -48,11 +47,11 @@ implements Horde_Shutdown_Task
         }
 
         switch ($registry->getView()) {
-        case $registry::VIEW_DYNAMIC:
-        case $registry::VIEW_BASIC:
-        case $registry::VIEW_SMARTMOBILE:
-            $this->_instance->eltdiff->track = true;
-            break;
+            case $registry::VIEW_DYNAMIC:
+            case $registry::VIEW_BASIC:
+            case $registry::VIEW_SMARTMOBILE:
+                $this->_instance->eltdiff->track = true;
+                break;
         }
 
         Horde_Shutdown::add($this);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
  *
@@ -28,12 +29,12 @@ class IMP_Mime_Viewer_Audio extends Horde_Mime_Viewer_Audio
      *
      * @var array
      */
-    protected $_capability = array(
+    protected $_capability = [
         'full' => true,
         'info' => true,
         'inline' => false,
-        'raw' => false
-    );
+        'raw' => false,
+    ];
 
     /**
      * Return the rendered information about the Horde_Mime_Part object.
@@ -43,45 +44,45 @@ class IMP_Mime_Viewer_Audio extends Horde_Mime_Viewer_Audio
     protected function _renderInfo()
     {
         $mime_id = $this->_mimepart->getMimeId();
-        $headers = Horde_Mime_Headers::parseHeaders($this->getConfigParam('imp_contents')->getBodyPart($mime_id, array(
+        $headers = Horde_Mime_Headers::parseHeaders($this->getConfigParam('imp_contents')->getBodyPart($mime_id, [
             'length' => 0,
             'mimeheaders' => true,
-            'stream' => true
-        ))->data);
+            'stream' => true,
+        ])->data);
 
         if (!($duration = $headers['Content-Duration'])) {
-            return array();
+            return [];
         }
 
-        $text = array();
+        $text = [];
 
         if ($minutes = floor($duration->value / 60)) {
             $text[] = sprintf(
-                ngettext(_("%d minute"), _("%d minutes"), $minutes),
+                ngettext(_('%d minute'), _('%d minutes'), $minutes),
                 $minutes
             );
         }
 
         if ($seconds = ($duration->value % 60)) {
             $text[] = sprintf(
-                ngettext(_("%d second"), _("%d seconds"), $seconds),
+                ngettext(_('%d second'), _('%d seconds'), $seconds),
                 $seconds
             );
         }
 
         $status = new IMP_Mime_Status(
             $this->_mimepart,
-            sprintf(_("This audio file is reported to be %s in length."), implode(' ', $text))
+            sprintf(_('This audio file is reported to be %s in length.'), implode(' ', $text))
         );
         $status->icon('mime/audio.png');
 
-        return array(
-            $this->_mimepart->getMimeId() => array(
+        return [
+            $this->_mimepart->getMimeId() => [
                 'data' => '',
                 'status' => $status,
-                'type' => 'text/html; charset=UTF-8'
-            )
-        );
+                'type' => 'text/html; charset=UTF-8',
+            ],
+        ];
     }
 
 }

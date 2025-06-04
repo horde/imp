@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -29,7 +30,7 @@ class IMP_Ftree_Prefs implements ArrayAccess, Horde_Shutdown_Task
      *
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
      * Is the preference locked?
@@ -43,8 +44,8 @@ class IMP_Ftree_Prefs implements ArrayAccess, Horde_Shutdown_Task
     public function __get($name)
     {
         switch ($name) {
-        case 'locked':
-            return $this->_locked;
+            case 'locked':
+                return $this->_locked;
         }
     }
 

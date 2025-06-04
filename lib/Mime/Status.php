@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
  *
@@ -24,19 +25,19 @@
 class IMP_Mime_Status
 {
     /* Action constants. */
-    const ERROR = 1;
-    const SUCCESS = 2;
-    const WARNING = 3;
+    public const ERROR = 1;
+    public const SUCCESS = 2;
+    public const WARNING = 3;
 
     /**
      * Views to display this status in.
      *
      * @var array
      */
-    public $views = array(
+    public $views = [
         Horde_Registry::VIEW_BASIC,
-        Horde_Registry::VIEW_DYNAMIC
-    );
+        Horde_Registry::VIEW_DYNAMIC,
+    ];
 
     /**
      * DOM ID to use for the status block.
@@ -64,7 +65,7 @@ class IMP_Mime_Status
      *
      * @var array
      */
-    protected $_text = array();
+    protected $_text = [];
 
     /**
      * Constructor.
@@ -88,17 +89,17 @@ class IMP_Mime_Status
     public function action($type)
     {
         switch ($type) {
-        case self::ERROR:
-            $this->icon('alerts/error.png', _("Error"));
-            break;
+            case self::ERROR:
+                $this->icon('alerts/error.png', _('Error'));
+                break;
 
-        case self::SUCCESS:
-            $this->icon('alerts/success.png', _("Success"));
-            break;
+            case self::SUCCESS:
+                $this->icon('alerts/success.png', _('Success'));
+                break;
 
-        case self::WARNING:
-            $this->icon('alerts/warning.png', _("Warning"));
-            break;
+            case self::WARNING:
+                $this->icon('alerts/warning.png', _('Warning'));
+                break;
         }
     }
 
@@ -110,7 +111,7 @@ class IMP_Mime_Status
     public function addText($text)
     {
         if (!is_array($text)) {
-            $text = array($text);
+            $text = [$text];
         }
 
         $this->_text = array_merge($this->_text, $text);
@@ -123,7 +124,7 @@ class IMP_Mime_Status
      * @param string $text    Action description.
      * @param array $attr     Additional attributes.
      */
-    public function addMimeAction($action, $text, array $attr = array())
+    public function addMimeAction($action, $text, array $attr = [])
     {
         $attr['mimevieweraction'] = $action;
         if (!is_null($this->_part)) {
@@ -142,7 +143,7 @@ class IMP_Mime_Status
      */
     public function icon($img, $alt = null)
     {
-        $this->_icon = Horde_Themes_Image::tag($img, array('alt' => $alt));
+        $this->_icon = Horde_Themes_Image::tag($img, ['alt' => $alt]);
     }
 
     /**
@@ -167,32 +168,32 @@ class IMP_Mime_Status
         $out = '';
 
         switch ($registry->getView()) {
-        case $registry::VIEW_SMARTMOBILE:
-            foreach ($this->_text as $val) {
-                $out .= '<div>' . $val . '</div>';
-            }
-            break;
-
-        default:
-            $out = '<div><table class="mimeStatusMessageTable"' .
-                (isset($this->_domid) ? (' id="' . $this->_domid . '" ') : '')
-                . '>';
-
-            /* If no image, simply print out the message. */
-            if (empty($this->_icon)) {
+            case $registry::VIEW_SMARTMOBILE:
                 foreach ($this->_text as $val) {
-                    $out .= '<tr><td>' . $val . '</td></tr>';
+                    $out .= '<div>' . $val . '</div>';
                 }
-            } else {
-                $out .= '<tr><td class="mimeStatusIcon">' . $this->_icon . '</td><td><table>';
-                foreach ($this->_text as $val) {
-                    $out .= '<tr><td>' . $val . '</td></tr>';
-                }
-                $out .= '</table></td></tr>';
-            }
+                break;
 
-            $out .= '</table></div>';
-            break;
+            default:
+                $out = '<div><table class="mimeStatusMessageTable"' .
+                    (isset($this->_domid) ? (' id="' . $this->_domid . '" ') : '')
+                    . '>';
+
+                /* If no image, simply print out the message. */
+                if (empty($this->_icon)) {
+                    foreach ($this->_text as $val) {
+                        $out .= '<tr><td>' . $val . '</td></tr>';
+                    }
+                } else {
+                    $out .= '<tr><td class="mimeStatusIcon">' . $this->_icon . '</td><td><table>';
+                    foreach ($this->_text as $val) {
+                        $out .= '<tr><td>' . $val . '</td></tr>';
+                    }
+                    $out .= '</table></td></tr>';
+                }
+
+                $out .= '</table></div>';
+                break;
         }
 
         return '<div class="mimeStatusMessage">' . $out . '</div>';

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -31,26 +32,25 @@ class IMP_Factory_Maillog extends Horde_Core_Factory_Injector
     {
         global $conf, $injector, $registry;
 
-        $storage = array(
-            new IMP_Maillog_Storage_Mdnsent()
-        );
+        $storage = [
+            new IMP_Maillog_Storage_Mdnsent(),
+        ];
 
-        $driver = isset($conf['maillog']['driver'])
-            ? $conf['maillog']['driver']
-            : 'none';
+        $driver = $conf['maillog']['driver']
+            ?? 'none';
 
         switch ($driver) {
-        case 'history':
-            $storage[] = new IMP_Maillog_Storage_History(
-                $injector->getInstance('Horde_History'),
-                $registry->getAuth()
-            );
-            break;
+            case 'history':
+                $storage[] = new IMP_Maillog_Storage_History(
+                    $injector->getInstance('Horde_History'),
+                    $registry->getAuth()
+                );
+                break;
 
-        case 'none':
-        default:
-            $storage[] = new IMP_Maillog_Storage_Null();
-            break;
+            case 'none':
+            default:
+                $storage[] = new IMP_Maillog_Storage_Null();
+                break;
         }
 
         return new IMP_Maillog(

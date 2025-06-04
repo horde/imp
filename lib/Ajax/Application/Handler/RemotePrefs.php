@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,8 +21,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Ajax_Application_Handler_RemotePrefs
-extends Horde_Core_Ajax_Application_Handler
+class IMP_Ajax_Application_Handler_RemotePrefs extends Horde_Core_Ajax_Application_Handler
 {
     /**
      * AJAX action: Do autoconfiguration for a remote account.
@@ -40,7 +40,7 @@ extends Horde_Core_Ajax_Application_Handler
     {
         global $injector, $notification;
 
-        $res = new stdClass;
+        $res = new stdClass();
         $res->success = false;
 
         $password = $this->vars->password;
@@ -50,10 +50,10 @@ extends Horde_Core_Ajax_Application_Handler
 
         try {
             $aconfig = $injector->getInstance('IMP_Mail_Autoconfig');
-            $mconfig = $aconfig->getMailConfig($this->vars->email, array(
+            $mconfig = $aconfig->getMailConfig($this->vars->email, [
                 'auth' => $password,
-                'insecure' => empty($this->vars->secure)
-            ));
+                'insecure' => empty($this->vars->secure),
+            ]);
 
             if ($mconfig && !is_null($mconfig->username)) {
                 $imap = ($mconfig instanceof Horde_Mail_Autoconfig_Server_Imap);
@@ -67,15 +67,16 @@ extends Horde_Core_Ajax_Application_Handler
                 $res->success = true;
 
                 $notification->push(
-                    _("Automatic configuration of the account was successful."),
+                    _('Automatic configuration of the account was successful.'),
                     'horde.success'
                 );
             }
-        } catch (Horde_Mail_Autoconfig_Exception $e) {}
+        } catch (Horde_Mail_Autoconfig_Exception $e) {
+        }
 
         if (!$res->success) {
             $notification->push(
-                _("Automatic configuration of the account failed. Please check your settings or otherwise use the Advanced Setup to manually enter the remote server configuration."),
+                _('Automatic configuration of the account failed. Please check your settings or otherwise use the Advanced Setup to manually enter the remote server configuration.'),
                 'horde.error'
             );
         }

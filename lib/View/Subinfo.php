@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -42,12 +43,12 @@ class IMP_View_Subinfo extends Horde_View
      * @param array $config  Configuration key-value pairs. Additional options:
      *   - mailbox: (string) Mailbox to use for quota query.
      */
-    public function __construct(array $config = array())
+    public function __construct(array $config = [])
     {
         $config['templatePath'] = IMP_TEMPLATES . '/subinfo';
         parent::__construct($config);
 
-        $quotadata = $GLOBALS['injector']->getInstance('IMP_Quota_Ui')->quota(isset($config['mailbox']) ? $config['mailbox'] : null, true);
+        $quotadata = $GLOBALS['injector']->getInstance('IMP_Quota_Ui')->quota($config['mailbox'] ?? null, true);
         if (!empty($quotadata)) {
             $this->quotaClass = $quotadata['class'];
             $this->quotaText = $quotadata['message'];
@@ -61,7 +62,7 @@ class IMP_View_Subinfo extends Horde_View
      *
      * @return string  The subinfo bar's HTML code.
      */
-    public function render($name = 'subinfo', $locals = array())
+    public function render($name = 'subinfo', $locals = [])
     {
         return parent::render($name, $locals);
     }

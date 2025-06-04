@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -42,9 +43,9 @@ class IMP_Maillog_Storage_Composite extends IMP_Maillog_Storage_Base
     /**
      */
     public function saveLog(
-        IMP_Maillog_Message $msg, IMP_Maillog_Log_Base $log
-    )
-    {
+        IMP_Maillog_Message $msg,
+        IMP_Maillog_Log_Base $log
+    ) {
         foreach ($this->_drivers as $val) {
             if ($val->saveLog($msg, $log)) {
                 return true;
@@ -56,9 +57,9 @@ class IMP_Maillog_Storage_Composite extends IMP_Maillog_Storage_Base
 
     /**
      */
-    public function getLog(IMP_Maillog_Message $msg, array $types = array())
+    public function getLog(IMP_Maillog_Message $msg, array $types = [])
     {
-        $out = array();
+        $out = [];
 
         foreach ($this->_drivers as $val) {
             $out = array_merge($out, $val->getLog($msg, $types));
@@ -80,7 +81,7 @@ class IMP_Maillog_Storage_Composite extends IMP_Maillog_Storage_Base
      */
     public function getChanges($ts)
     {
-        $out = array();
+        $out = [];
 
         foreach ($this->_drivers as $val) {
             $out = array_merge($out, $val->getChanges($ts));
@@ -92,9 +93,9 @@ class IMP_Maillog_Storage_Composite extends IMP_Maillog_Storage_Base
     /**
      */
     public function isAvailable(
-        IMP_Maillog_Message $msg, IMP_Maillog_Log_Base $log
-    )
-    {
+        IMP_Maillog_Message $msg,
+        IMP_Maillog_Log_Base $log
+    ) {
         foreach ($this->_drivers as $val) {
             if ($val->isAvailable($msg, $log)) {
                 return true;

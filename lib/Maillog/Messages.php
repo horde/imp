@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -64,13 +65,13 @@ class IMP_Maillog_Messages implements IteratorAggregate
             return $this->_msgids;
         }
 
-        $this->_msgids = array();
+        $this->_msgids = [];
         $query = new Horde_Imap_Client_Fetch_Query();
         $query->envelope();
         $ret = $this->_mbox->imp_imap->fetch(
             $this->_mbox,
             $query,
-            array('ids' => $this->_ids)
+            ['ids' => $this->_ids]
         );
         foreach ($ret as $ob) {
             $this->_msgids[] = $ob->getEnvelope()->message_id;

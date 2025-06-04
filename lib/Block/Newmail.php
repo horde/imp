@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2007-2017 Horde LLC (http://www.horde.org/)
  *
@@ -28,24 +29,24 @@ class IMP_Block_Newmail extends Horde_Core_Block
 
     /**
      */
-    public function __construct($app, $params = array())
+    public function __construct($app, $params = [])
     {
         parent::__construct($app, $params);
 
-        $this->_name = _("Newest Unseen Messages");
+        $this->_name = _('Newest Unseen Messages');
     }
 
     /**
      */
     protected function _params()
     {
-        return array(
-            'msgs_shown' => array(
+        return [
+            'msgs_shown' => [
                 'type' => 'int',
-                'name' => _("The number of unseen messages to show"),
-                'default' => 3
-            )
-        );
+                'name' => _('The number of unseen messages to show'),
+                'default' => 3,
+            ],
+        ];
     }
 
     /**
@@ -63,9 +64,9 @@ class IMP_Block_Newmail extends Horde_Core_Block
         $indices = $ids['INBOX'];
 
         $html = '<table cellspacing="0" width="100%">';
-        $text = _("Go to your Inbox...");
+        $text = _('Go to your Inbox...');
         if (empty($indices)) {
-            $html .= '<tr><td><em>' . _("No unread messages") . '</em></td></tr>';
+            $html .= '<tr><td><em>' . _('No unread messages') . '</em></td></tr>';
         } else {
             $imp_ui = new IMP_Mailbox_Ui($inbox);
             $shown = empty($this->_params['msgs_shown'])
@@ -77,9 +78,9 @@ class IMP_Block_Newmail extends Horde_Core_Block
 
             try {
                 $imp_imap = $GLOBALS['injector']->getInstance('IMP_Factory_Imap')->create($inbox);
-                $fetch_ret = $imp_imap->fetch($inbox, $query, array(
-                    'ids' => $imp_imap->getIdsOb(array_slice($indices, 0, $shown))
-                ));
+                $fetch_ret = $imp_imap->fetch($inbox, $query, [
+                    'ids' => $imp_imap->getIdsOb(array_slice($indices, 0, $shown)),
+                ]);
             } catch (IMP_Imap_Exception $e) {
                 $fetch_ret = new Horde_Imap_Client_Fetch_Results();
             }
@@ -87,7 +88,7 @@ class IMP_Block_Newmail extends Horde_Core_Block
             foreach ($fetch_ret as $uid => $ob) {
                 $envelope = $ob->getEnvelope();
 
-                $date = new IMP_Message_Date(isset($envelope->date) ? $envelope->date : null);
+                $date = new IMP_Message_Date($envelope->date ?? null);
                 $from = $imp_ui->getFrom($envelope);
                 $subject = $imp_ui->getSubject($envelope->subject, true);
 
@@ -100,7 +101,7 @@ class IMP_Block_Newmail extends Horde_Core_Block
 
             $more_msgs = count($indices) - $shown;
             if ($more_msgs > 0) {
-                $text = sprintf(ngettext("%d more unseen message...", "%d more unseen messages...", $more_msgs), $more_msgs);
+                $text = sprintf(ngettext('%d more unseen message...', '%d more unseen messages...', $more_msgs), $more_msgs);
             }
         }
 

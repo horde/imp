@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -28,14 +29,14 @@ abstract class IMP_Search_Filter_Builtin extends IMP_Search_Filter
 
     /**
      */
-    protected $_nosave = array('c', 'i', 'l');
+    protected $_nosave = ['c', 'i', 'l'];
 
     /**
      * Constructor.
      *
      * The 'add', 'id', 'label', and 'mboxes' parameters are ignored.
      */
-    public function __construct(array $opts = array())
+    public function __construct(array $opts = [])
     {
         $this->enabled = empty($opts['disable']);
 
@@ -54,7 +55,7 @@ abstract class IMP_Search_Filter_Builtin extends IMP_Search_Filter
         $this->_init();
     }
 
-    public function __unserialize(array $data): void 
+    public function __unserialize(array $data): void
     {
         parent::__unserialize($data);
         $this->_init();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -27,14 +28,14 @@ class IMP_Maillog_Storage_History extends IMP_Maillog_Storage_Base
      *
      * @var array
      */
-    public static $drivers = array(
+    public static $drivers = [
         'forward' => 'IMP_Maillog_Log_Forward',
         'mdn' => 'IMP_Maillog_Log_Mdn',
         'redirect' => 'IMP_Maillog_Log_Redirect',
         'reply' => 'IMP_Maillog_Log_Reply',
         'reply_all' => 'IMP_Maillog_Log_Replyall',
-        'reply_list' => 'IMP_Maillog_Log_Replylist'
-    );
+        'reply_list' => 'IMP_Maillog_Log_Replylist',
+    ];
 
     /**
      * History object.
@@ -65,17 +66,17 @@ class IMP_Maillog_Storage_History extends IMP_Maillog_Storage_Base
     /**
      */
     public function saveLog(
-        IMP_Maillog_Message $msg, IMP_Maillog_Log_Base $log
-    )
-    {
+        IMP_Maillog_Message $msg,
+        IMP_Maillog_Log_Base $log
+    ) {
         if (!$this->isAvailable($msg, $log)) {
             return false;
         }
 
-        $data = array_merge($log->addData(), array(
+        $data = array_merge($log->addData(), [
             'action' => $log->action,
-            'ts' => $log->timestamp
-        ));
+            'ts' => $log->timestamp,
+        ]);
 
         try {
             $this->_history->log($this->_getUniqueHistoryId($msg), $data);
@@ -101,15 +102,15 @@ class IMP_Maillog_Storage_History extends IMP_Maillog_Storage_Base
 
     /**
      */
-    public function getLog(IMP_Maillog_Message $msg, array $types = array())
+    public function getLog(IMP_Maillog_Message $msg, array $types = [])
     {
         global $conf;
 
-        $out = array();
+        $out = [];
 
         /* Unless configured, this driver doesn't support MDN. */
         if (!empty($types) && empty($conf['maillog']['mdn_history'])) {
-            $types = array_diff($types, array('IMP_Maillog_Log_Mdn'));
+            $types = array_diff($types, ['IMP_Maillog_Log_Mdn']);
             if (empty($types)) {
                 return $out;
             }
@@ -146,7 +147,7 @@ class IMP_Maillog_Storage_History extends IMP_Maillog_Storage_Base
      */
     public function deleteLogs($msgs)
     {
-        $ids = array();
+        $ids = [];
         foreach ($msgs as $val) {
             try {
                 $ids[] = $this->_getUniqueHistoryId($val);
@@ -168,12 +169,12 @@ class IMP_Maillog_Storage_History extends IMP_Maillog_Storage_Base
             array_keys($this->_history->getByTimestamp(
                 '>',
                 $ts,
-                array(),
+                [],
                 $this->_getUniqueHistoryId()
             ))
         );
 
-        $out = array();
+        $out = [];
         foreach ($msgids as $val) {
             $out[] = new IMP_Maillog_Message($val);
         }
@@ -184,9 +185,9 @@ class IMP_Maillog_Storage_History extends IMP_Maillog_Storage_Base
     /**
      */
     public function isAvailable(
-        IMP_Maillog_Message $msg, IMP_Maillog_Log_Base $log
-    )
-    {
+        IMP_Maillog_Message $msg,
+        IMP_Maillog_Log_Base $log
+    ) {
         global $conf;
 
         /* Unless configured, this driver doesn't support MDN. */
@@ -212,11 +213,11 @@ class IMP_Maillog_Storage_History extends IMP_Maillog_Storage_Base
             throw new RuntimeException('Message-ID missing.');
         }
 
-        return implode(':', array_filter(array(
+        return implode(':', array_filter([
             'imp',
             str_replace('.', '*', $this->_user),
-            $msgid
-        )));
+            $msgid,
+        ]));
     }
 
 }

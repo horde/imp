@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2009-2017 Horde LLC (http://www.horde.org/)
  *
@@ -33,9 +34,9 @@ class IMP_Mime_Headers
     {
         if (($xpriority = $header['X-Priority']) &&
             (preg_match('/\s*(\d+)\s*/', $xpriority, $matches))) {
-            if (in_array($matches[1], array(1, 2))) {
+            if (in_array($matches[1], [1, 2])) {
                 return 'high';
-            } elseif (in_array($matches[1], array(4, 5))) {
+            } elseif (in_array($matches[1], [4, 5])) {
                 return 'low';
             }
         } elseif (($importance = $header['Importance']) &&

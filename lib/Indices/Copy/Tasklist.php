@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
  *
@@ -20,10 +21,9 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class IMP_Indices_Copy_Tasklist
-    extends IMP_Indices_Copy
+class IMP_Indices_Copy_Tasklist extends IMP_Indices_Copy
 {
-    const TASKLIST_EDIT = "tasklist\0";
+    public const TASKLIST_EDIT = "tasklist\0";
 
     /**
      * @return array
@@ -37,10 +37,10 @@ class IMP_Indices_Copy_Tasklist
             try {
                 $lists = $registry->call(
                     'tasks/listTasklists',
-                    array(false, Horde_Perms::EDIT)
+                    [false, Horde_Perms::EDIT]
                 );
 
-                $out = array();
+                $out = [];
 
                 foreach ($lists as $key => $val) {
                     $mbox = IMP_Mailbox::formTo(self::TASKLIST_EDIT . $key);
@@ -55,7 +55,7 @@ class IMP_Indices_Copy_Tasklist
             }
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -84,7 +84,7 @@ class IMP_Indices_Copy_Tasklist
         try {
             $res = $registry->call(
                 'tasks/import',
-                array($vTodo, 'text/calendar', $list)
+                [$vTodo, 'text/calendar', $list]
             );
         } catch (Horde_Exception $e) {
             $notification->push($e);
@@ -93,7 +93,7 @@ class IMP_Indices_Copy_Tasklist
 
         if (!$res) {
             $notification->push(
-                _("An unknown error occured while creating the new task."),
+                _('An unknown error occured while creating the new task.'),
                 'horde.error'
             );
         } elseif (!empty($lists)) {
@@ -103,19 +103,19 @@ class IMP_Indices_Copy_Tasklist
             if ($registry->hasLink('tasks/show')) {
                 $name = sprintf(
                     '<a href="%s">%s</a>',
-                    Horde::url($registry->link('tasks/show', array('uid' => $res))),
+                    Horde::url($registry->link('tasks/show', ['uid' => $res])),
                     $name
                 );
             }
 
             $notification->push(
                 sprintf(
-                    _("%s was successfully added to \"%s\"."),
+                    _('%s was successfully added to "%s".'),
                     $name,
                     htmlspecialchars($lists[$list]->get('name'))
                 ),
                 'horde.success',
-                array('content.raw')
+                ['content.raw']
             );
         }
         return true;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -23,8 +24,8 @@
 class IMP_Contacts_Image
 {
     /* Image types. */
-    const AVATAR = 1;
-    const FLAG = 2;
+    public const AVATAR = 1;
+    public const FLAG = 2;
 
     /**
      * Cache timeout (in seconds).
@@ -67,30 +68,31 @@ class IMP_Contacts_Image
 
         if (!empty($conf['contactsimage']['backends'])) {
             switch ($type) {
-            case self::AVATAR:
-                $func = 'avatarImg';
-                $type = 'IMP_Contacts_Avatar_Backend';
-                break;
+                case self::AVATAR:
+                    $func = 'avatarImg';
+                    $type = 'IMP_Contacts_Avatar_Backend';
+                    break;
 
-            case self::FLAG:
-                $func = 'flagImg';
-                $type = 'IMP_Contacts_Flag_Backend';
-                break;
+                case self::FLAG:
+                    $func = 'flagImg';
+                    $type = 'IMP_Contacts_Flag_Backend';
+                    break;
             }
 
             $cache = $injector->getInstance('Horde_Cache');
             $pack = $injector->getInstance('Horde_Pack');
 
-            $cache_id = implode('|', array(
+            $cache_id = implode('|', [
                 'imp_avatar_email',
                 $type,
-                $this->_email
-            ));
+                $this->_email,
+            ]);
 
             if ($url = $cache->get($cache_id, 0)) {
                 try {
                     return $pack->unpack($url);
-                } catch (Horde_Pack_Exception $e) {}
+                } catch (Horde_Pack_Exception $e) {
+                }
             }
 
             foreach ($conf['contactsimage']['backends'] as $val) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -34,15 +35,15 @@ class IMP_Ftree_IteratorFilter implements Iterator
      *   - UNSUB: Don't include unsubscribed elements.
      *   - VFOLDER: Don't include Virtual Folders.
      */
-    const CHILDREN = 1;
-    const CONTAINERS = 2;
-    const EXPANDED = 4;
-    const NONIMAP = 8;
-    const POLLED = 16;
-    const REMOTE = 32;
-    const SPECIALMBOXES = 64;
-    const UNSUB = 128;
-    const VFOLDER = 256;
+    public const CHILDREN = 1;
+    public const CONTAINERS = 2;
+    public const EXPANDED = 4;
+    public const NONIMAP = 8;
+    public const POLLED = 16;
+    public const REMOTE = 32;
+    public const SPECIALMBOXES = 64;
+    public const UNSUB = 128;
+    public const VFOLDER = 256;
 
     /**
      * Master iterator object.
@@ -56,7 +57,7 @@ class IMP_Ftree_IteratorFilter implements Iterator
      *
      * @var array
      */
-    public $mboxes = array();
+    public $mboxes = [];
 
     /**
      * Filtered iterator used for actual iteration.
@@ -92,7 +93,7 @@ class IMP_Ftree_IteratorFilter implements Iterator
      */
     public function add($mask)
     {
-        foreach ((is_array($mask) ? $mask : array($mask)) as $val) {
+        foreach ((is_array($mask) ? $mask : [$mask]) as $val) {
             $this->_mask |= $val;
         }
     }
@@ -104,7 +105,7 @@ class IMP_Ftree_IteratorFilter implements Iterator
      */
     public function remove($mask)
     {
-        foreach ((is_array($mask) ? $mask : array($mask)) as $val) {
+        foreach ((is_array($mask) ? $mask : [$mask]) as $val) {
             $this->_mask &= ~$val;
         }
     }
@@ -148,11 +149,11 @@ class IMP_Ftree_IteratorFilter implements Iterator
         }
 
         /* Need to add RecursiveIteratorFilters first. */
-        $filters = array(
+        $filters = [
             self::CHILDREN => 'IMP_Ftree_IteratorFilter_Children',
             self::EXPANDED => 'IMP_Ftree_IteratorFilter_Expanded',
-            self::REMOTE => 'IMP_Ftree_IteratorFilter_Remote'
-        );
+            self::REMOTE => 'IMP_Ftree_IteratorFilter_Remote',
+        ];
 
         foreach ($filters as $key => $val) {
             if ($this->_mask & $key) {
@@ -166,14 +167,14 @@ class IMP_Ftree_IteratorFilter implements Iterator
         );
 
         /* Now we can add regular FilterIterators. */
-        $filters = array(
+        $filters = [
             self::CONTAINERS => 'IMP_Ftree_IteratorFilter_Containers',
             self::NONIMAP => 'IMP_Ftree_IteratorFilter_Nonimap',
             self::POLLED => 'IMP_Ftree_IteratorFilter_Polled',
             self::SPECIALMBOXES => 'IMP_Ftree_IteratorFilter_Special',
             self::UNSUB => 'IMP_Ftree_IteratorFilter_Subscribed',
-            self::VFOLDER => 'IMP_Ftree_IteratorFilter_Vfolder'
-        );
+            self::VFOLDER => 'IMP_Ftree_IteratorFilter_Vfolder',
+        ];
 
         foreach ($filters as $key => $val) {
             if ($this->_mask & $key) {

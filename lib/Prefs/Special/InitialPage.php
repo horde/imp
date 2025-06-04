@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -34,9 +35,9 @@ class IMP_Prefs_Special_InitialPage implements Horde_Core_Prefs_Ui_Special
     {
         global $injector, $prefs;
 
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/prefs'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/prefs',
+        ]);
         $view->addHelper('FormTag');
         $view->addHelper('Horde_Core_View_Helper_Label');
         $view->addHelper('Tag');
@@ -51,11 +52,11 @@ class IMP_Prefs_Special_InitialPage implements Horde_Core_Prefs_Ui_Special
         }
         $view->folder_page = IMP_Mailbox::formTo(IMP::INITIAL_FOLDERS);
         $view->folder_sel = ($initial_page == IMP::INITIAL_FOLDERS);
-        $view->flist = new IMP_Ftree_Select(array(
+        $view->flist = new IMP_Ftree_Select([
             'inc_vfolder' => true,
             'iterator' => $iterator,
-            'selected' => $initial_page
-        ));
+            'selected' => $initial_page,
+        ]);
 
         return $view->render('initialpage');
     }

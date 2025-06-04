@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
  *
@@ -41,11 +42,11 @@ class IMP_Prefs_Special_Searches implements Horde_Core_Prefs_Ui_Special
         $page_output->addStylesheet($p_css->fs, $p_css->uri);
 
         $imp_search = $injector->getInstance('IMP_Search');
-        $fout = $vout = array();
+        $fout = $vout = [];
 
-        $view = new Horde_View(array(
-            'templatePath' => IMP_TEMPLATES . '/prefs'
-        ));
+        $view = new Horde_View([
+            'templatePath' => IMP_TEMPLATES . '/prefs',
+        ]);
         $view->addHelper('FormTag');
         $view->addHelper('Tag');
         $view->addHelper('Text');
@@ -66,15 +67,15 @@ class IMP_Prefs_Special_Searches implements Horde_Core_Prefs_Ui_Special
                 ? $val->mbox_ob->url('mailbox')->link()
                 : null;
 
-            $vout[] = array(
+            $vout[] = [
                 'description' => Horde_String::truncate($val->querytext, 200),
                 'edit' => ($editable ? $imp_search->editUrl($val) : null),
                 'enabled' => $val->enabled,
                 'enabled_locked' => $vfolder_locked,
                 'key' => $val->id,
                 'label' => $val->label,
-                'm_url' => $m_url
-            );
+                'm_url' => $m_url,
+            ];
         }
         $view->vfolders = $vout;
 
@@ -91,24 +92,24 @@ class IMP_Prefs_Special_Searches implements Horde_Core_Prefs_Ui_Special
 
             $editable = !$filter_locked && $imp_search->isFilter($val, true);
 
-            $fout[] = array(
+            $fout[] = [
                 'description' => Horde_String::truncate($val->querytext, 200),
                 'edit' => ($editable ? $imp_search->editUrl($val) : null),
                 'enabled' => $val->enabled,
                 'enabled_locked' => $filter_locked,
                 'key' => $val->id,
-                'label' => $val->label
-            );
+                'label' => $val->label,
+            ];
         }
         $view->filters = $fout;
 
         if (empty($fout) && empty($vout)) {
             $view->nosearches = true;
         } else {
-            $GLOBALS['page_output']->addInlineJsVars(array(
-                'ImpSearchesPrefs.confirm_delete_filter' => _("Are you sure you want to delete this filter?"),
-                'ImpSearchesPrefs.confirm_delete_vfolder' => _("Are you sure you want to delete this virtual folder?")
-            ));
+            $GLOBALS['page_output']->addInlineJsVars([
+                'ImpSearchesPrefs.confirm_delete_filter' => _('Are you sure you want to delete this filter?'),
+                'ImpSearchesPrefs.confirm_delete_vfolder' => _('Are you sure you want to delete this virtual folder?'),
+            ]);
         }
 
         return $view->render('searches');
@@ -123,53 +124,53 @@ class IMP_Prefs_Special_Searches implements Horde_Core_Prefs_Ui_Special
         $imp_search = $injector->getInstance('IMP_Search');
 
         switch ($ui->vars->searches_action) {
-        case 'delete':
-            /* Remove 'enable_' prefix. */
-            $key = substr($ui->vars->searches_data, 7);
-            if ($ob = $imp_search[$key]) {
-                if ($imp_search->isVFolder($ob)) {
-                    $notification->push(sprintf(_("Virtual Folder \"%s\" deleted."), $ob->label), 'horde.success');
-                } elseif ($imp_search->isFilter($ob)) {
-                    $notification->push(sprintf(_("Filter \"%s\" deleted."), $ob->label), 'horde.success');
+            case 'delete':
+                /* Remove 'enable_' prefix. */
+                $key = substr($ui->vars->searches_data, 7);
+                if ($ob = $imp_search[$key]) {
+                    if ($imp_search->isVFolder($ob)) {
+                        $notification->push(sprintf(_('Virtual Folder "%s" deleted.'), $ob->label), 'horde.success');
+                    } elseif ($imp_search->isFilter($ob)) {
+                        $notification->push(sprintf(_('Filter "%s" deleted.'), $ob->label), 'horde.success');
+                    }
+                    unset($imp_search[$key]);
                 }
-                unset($imp_search[$key]);
-            }
-            break;
+                break;
 
-        default:
-            /* Update enabled status for Virtual Folders. */
-            $iterator = IMP_Search_IteratorFilter::create(
-                IMP_Search_IteratorFilter::DISABLED |
-                IMP_Search_IteratorFilter::VFOLDER
-            );
-            $vfolders = array();
+            default:
+                /* Update enabled status for Virtual Folders. */
+                $iterator = IMP_Search_IteratorFilter::create(
+                    IMP_Search_IteratorFilter::DISABLED |
+                    IMP_Search_IteratorFilter::VFOLDER
+                );
+                $vfolders = [];
 
-            foreach ($iterator as $val) {
-                $form_key = 'enable_' . $val->id;
+                foreach ($iterator as $val) {
+                    $form_key = 'enable_' . $val->id;
 
-                /* Only change enabled status for virtual folders displayed
-                 * on the preferences screen. */
-                if ($val->prefDisplay) {
+                    /* Only change enabled status for virtual folders displayed
+                     * on the preferences screen. */
+                    if ($val->prefDisplay) {
+                        $val->enabled = !empty($ui->vars->$form_key);
+                        $vfolders[$val->id] = $val;
+                    }
+                }
+                $imp_search->setVFolders($vfolders);
+
+                /* Update enabled status for Filters. */
+                $iterator = IMP_Search_IteratorFilter::create(
+                    IMP_Search_IteratorFilter::DISABLED |
+                    IMP_Search_IteratorFilter::FILTER
+                );
+                $filters = [];
+
+                foreach ($iterator as $val) {
+                    $form_key = 'enable_' . $val->id;
                     $val->enabled = !empty($ui->vars->$form_key);
-                    $vfolders[$val->id] = $val;
+                    $filters[$val->id] = $val;
                 }
-            }
-            $imp_search->setVFolders($vfolders);
-
-            /* Update enabled status for Filters. */
-            $iterator = IMP_Search_IteratorFilter::create(
-                IMP_Search_IteratorFilter::DISABLED |
-                IMP_Search_IteratorFilter::FILTER
-            );
-            $filters = array();
-
-            foreach ($iterator as $val) {
-                $form_key = 'enable_' . $val->id;
-                $val->enabled = !empty($ui->vars->$form_key);
-                $filters[$val->id] = $val;
-            }
-            $imp_search->setFilters($filters);
-            break;
+                $imp_search->setFilters($filters);
+                break;
         }
 
         return false;

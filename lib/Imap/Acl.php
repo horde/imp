@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2003-2017 Horde LLC (http://www.horde.org/)
  *
@@ -28,7 +29,7 @@ class IMP_Imap_Acl
      *
      * @var array
      */
-    protected $_cache = array();
+    protected $_cache = [];
 
     /**
      * Retrieve the existing ACLs for a mailbox from the server.
@@ -60,8 +61,8 @@ class IMP_Imap_Acl
                 return $ret;
             } catch (IMP_Imap_Exception $e) {
                 switch ($e->getCode()) {
-                case $e::NOPERM:
-                    throw new IMP_Exception(_("You do not have permission to view the ACLs on this mailbox."));
+                    case $e::NOPERM:
+                        throw new IMP_Exception(_('You do not have permission to view the ACLs on this mailbox.'));
                 }
             }
         }
@@ -71,7 +72,7 @@ class IMP_Imap_Acl
 
         return $user
             ? $ret
-            : array($imp_imap->getParam('username') => $ret);
+            : [$imp_imap->getParam('username') => $ret];
     }
 
     /**
@@ -92,12 +93,12 @@ class IMP_Imap_Acl
         }
 
         try {
-            $imp_imap->setACL($mbox, $user, array(
+            $imp_imap->setACL($mbox, $user, [
                 'action' => 'add',
-                'rights' => $rights
-            ));
+                'rights' => $rights,
+            ]);
         } catch (IMP_Imap_Exception $e) {
-            throw new IMP_Exception(sprintf(_("Could not add rights for user \"%s\" for the mailbox \"%s\"."), $user, $mbox));
+            throw new IMP_Exception(sprintf(_('Could not add rights for user "%s" for the mailbox "%s".'), $user, $mbox));
         }
     }
 
@@ -122,13 +123,13 @@ class IMP_Imap_Acl
             if (is_null($rights)) {
                 $imap->deleteACL($mbox, $user);
             } else {
-                $imap->setACL($mbox, $user, array(
+                $imap->setACL($mbox, $user, [
                     'action' => 'remove',
-                    'rights' => $rights
-                ));
+                    'rights' => $rights,
+                ]);
             }
         } catch (IMP_Imap_Exception $e) {
-            throw new IMP_Exception(sprintf(_("Could not remove rights for user \"%s\" for the mailbox \"%s\"."), $user, $mbox));
+            throw new IMP_Exception(sprintf(_('Could not remove rights for user "%s" for the mailbox "%s".'), $user, $mbox));
         }
     }
 
@@ -154,52 +155,52 @@ class IMP_Imap_Acl
      */
     public function getRights()
     {
-        return array(
-            Horde_Imap_Client::ACL_LOOKUP => array(
-                'desc' => _("User can see the mailbox"),
-                'title' => _("List")
-            ),
-            Horde_Imap_Client::ACL_READ => array(
-                'desc' => _("Read messages"),
-                'title' => _("Read")
-            ),
-            Horde_Imap_Client::ACL_SEEN => array(
-                'desc' => _("Mark with Seen/Unseen flags"),
-                'title' => _("Mark (Seen)")
-            ),
-            Horde_Imap_Client::ACL_WRITE => array(
-                'desc' => _("Mark with other flags (e.g. Important/Answered)"),
-                'title' => _("Mark (Other)")
-            ),
-            Horde_Imap_Client::ACL_INSERT => array(
-                'desc' => _("Insert messages"),
-                'title' => _("Insert")
-            ),
-            Horde_Imap_Client::ACL_POST => array(
-                'desc' => _("Post to this mailbox (not enforced by IMAP)"),
-                'title' => _("Post")
-            ),
-            Horde_Imap_Client::ACL_ADMINISTER => array(
-                'desc' => _("Set permissions for other users"),
-                'title' => _("Administer")
-            ),
-            Horde_Imap_Client::ACL_CREATEMBOX => array(
-                'desc' => _("Create subfolders and rename mailbox"),
-                'title' => _("Create Subfolders/Rename Mailbox")
-            ),
-            Horde_Imap_Client::ACL_DELETEMBOX => array(
-                'desc' => _("Delete and rename mailbox"),
-                'title' => _("Delete/Rename Mailbox")
-            ),
-            Horde_Imap_Client::ACL_DELETEMSGS => array(
-                'desc' => _("Delete messages"),
-                'title' => _("Delete")
-            ),
-            Horde_Imap_Client::ACL_EXPUNGE => array(
-                'desc' => _("Purge messages"),
-                'title' => _("Purge")
-            )
-        );
+        return [
+            Horde_Imap_Client::ACL_LOOKUP => [
+                'desc' => _('User can see the mailbox'),
+                'title' => _('List'),
+            ],
+            Horde_Imap_Client::ACL_READ => [
+                'desc' => _('Read messages'),
+                'title' => _('Read'),
+            ],
+            Horde_Imap_Client::ACL_SEEN => [
+                'desc' => _('Mark with Seen/Unseen flags'),
+                'title' => _('Mark (Seen)'),
+            ],
+            Horde_Imap_Client::ACL_WRITE => [
+                'desc' => _('Mark with other flags (e.g. Important/Answered)'),
+                'title' => _('Mark (Other)'),
+            ],
+            Horde_Imap_Client::ACL_INSERT => [
+                'desc' => _('Insert messages'),
+                'title' => _('Insert'),
+            ],
+            Horde_Imap_Client::ACL_POST => [
+                'desc' => _('Post to this mailbox (not enforced by IMAP)'),
+                'title' => _('Post'),
+            ],
+            Horde_Imap_Client::ACL_ADMINISTER => [
+                'desc' => _('Set permissions for other users'),
+                'title' => _('Administer'),
+            ],
+            Horde_Imap_Client::ACL_CREATEMBOX => [
+                'desc' => _('Create subfolders and rename mailbox'),
+                'title' => _('Create Subfolders/Rename Mailbox'),
+            ],
+            Horde_Imap_Client::ACL_DELETEMBOX => [
+                'desc' => _('Delete and rename mailbox'),
+                'title' => _('Delete/Rename Mailbox'),
+            ],
+            Horde_Imap_Client::ACL_DELETEMSGS => [
+                'desc' => _('Delete messages'),
+                'title' => _('Delete'),
+            ],
+            Horde_Imap_Client::ACL_EXPUNGE => [
+                'desc' => _('Purge messages'),
+                'title' => _('Purge'),
+            ],
+        ];
     }
 
     /**
@@ -221,7 +222,8 @@ class IMP_Imap_Acl
             if ($imp_imap->access(IMP_Imap::ACCESS_ACL)) {
                 try {
                     $ob = $imp_imap->listACLRights($mbox, $user);
-                } catch (IMP_Imap_Exception $e) {}
+                } catch (IMP_Imap_Exception $e) {
+                }
             }
 
             $this->_cache[$smbox][$user] = is_null($ob)

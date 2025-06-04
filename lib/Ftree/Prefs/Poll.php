@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
  *
@@ -44,7 +45,7 @@ class IMP_Ftree_Prefs_Poll extends IMP_Ftree_Prefs
             $this->_data = $this->_locked = true;
         } else {
             /* We ALWAYS poll the INBOX. */
-            $this->_data = array('INBOX' => 1);
+            $this->_data = ['INBOX' => 1];
 
             /* Add the list of polled mailboxes from the prefs. */
             if ($nav_poll = @unserialize($prefs->getValue('nav_poll'))) {
@@ -76,7 +77,7 @@ class IMP_Ftree_Prefs_Poll extends IMP_Ftree_Prefs
         $iterator = new IMP_Ftree_IteratorFilter(
             $injector->getInstance('IMP_Ftree')
         );
-        $iterator->add(array($iterator::CONTAINERS, $iterator::NONIMAP));
+        $iterator->add([$iterator::CONTAINERS, $iterator::NONIMAP]);
         if ($this->_data !== true) {
             $iterator->add($iterator::POLLED);
         }
@@ -101,7 +102,7 @@ class IMP_Ftree_Prefs_Poll extends IMP_Ftree_Prefs
             return;
         }
 
-        foreach ((is_array($id) ? $id : array($id)) as $val) {
+        foreach ((is_array($id) ? $id : [$id]) as $val) {
             if (($elt = $this->_ftree[$val]) &&
                 !$elt->polled &&
                 !$elt->nonimap &&
@@ -124,7 +125,7 @@ class IMP_Ftree_Prefs_Poll extends IMP_Ftree_Prefs
     public function removePollList($id)
     {
         if (!$this->locked) {
-            foreach ((is_array($id) ? $id : array($id)) as $val) {
+            foreach ((is_array($id) ? $id : [$id]) as $val) {
                 if ($elt = $this->_ftree[$val]) {
                     if (!$elt->inbox) {
                         unset($this[$val]);
