@@ -2695,6 +2695,11 @@ msgstr "Informação S/MIME inválida."
 msgid "Invalid Subject"
 msgstr "Assunto Inválido"
 
+#: lib/Compose.php:1304
+#, php-format
+msgid "Invalid e-mail address (%s): %s"
+msgstr "Endereço de e-mail inválido (%s): %s"
+
 #: lib/Compose.php:1295
 #, php-format
 msgid "Invalid e-mail address (%s)."
@@ -3449,7 +3454,7 @@ msgstr "Nada"
 
 #: lib/Compose/LinkedAttachment.php:211
 msgid "Notification: Linked attachment downloaded"
-msgstr "Notificação: Anexo na forma de link foi baixado."
+msgstr "Notificação: Anexo na forma de link foi baixado"
 
 #: templates/contacts/contacts.html.php:68
 msgid "OK"
@@ -5024,7 +5029,7 @@ msgid ""
 "Error: "
 msgstr ""
 "Os dados nesta parte não aparentam ser uma mensagem válida criptografada com "
-"PGP. Erro:"
+"PGP. Erro: "
 
 #: lib/Mime/Viewer/Pgp.php:251
 msgid "The data in this part has been compressed via PGP."
