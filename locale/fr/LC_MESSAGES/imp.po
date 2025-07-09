@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: imp\n"
 "Report-Msgid-Bugs-To: dev@lists.horde.org\n"
-"POT-Creation-Date: 2025-06-12 21:40+0200\n"
-"PO-Revision-Date: 2025-07-09 09:30+0200\n"
+"POT-Creation-Date: 2025-07-09 09:51+0200\n"
+"PO-Revision-Date: 2025-10-12 16:33+0200\n"
 "Last-Translator: Jean Charles Delépine <deleoine@u-picardie.fr>\n"
 "Language-Team: French <i18n@lists.horde.org>\n"
 "Language: fr\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
 
 #: lib/Notification/Handler/Decorator/NewmailNotify.php:93
 msgid " and "
@@ -1721,7 +1721,7 @@ msgstr "Tous les messages de la corbeille virtuel ont été supprimés."
 
 #: lib/Dynamic/Mailbox.php:359
 msgid "Empty"
-msgstr "Vide"
+msgstr "Vider"
 
 #: config/prefs.php:339
 msgid "Enable PGP functionality?"
@@ -2331,6 +2331,12 @@ msgstr "Boîte de réception"
 msgid "Include a brief summary of the original message's header in a reply?"
 msgstr ""
 "Inclure un bref rappel des en-têtes du message original dans les réponses ?"
+
+#: config/prefs.php:832
+msgid "Include attachments in messages saved to Sent Mail?"
+msgstr ""
+"Inclure les pièces jointes dans les messages enregistrés dans la Boîte "
+"d’envoi ?"
 
 #: config/prefs.php:702
 msgid "Include original message in a reply?"
@@ -3857,10 +3863,6 @@ msgstr "Enregistrer le modèle"
 #: templates/dynamic/compose.html.php:40
 msgid "Save as Draft"
 msgstr "Enregistrer en tant que brouillon"
-
-#: config/prefs.php:832
-msgid "Save attachments in the sent-mail message?"
-msgstr "Enregistrer les pièces jointes dans les messages de la Boîte d’envoi ?"
 
 #: config/prefs.php:794
 msgid "Save drafts as unseen?"
@@ -5761,3 +5763,7 @@ msgstr "votre liste noire"
 #: lib/Filter.php:94
 msgid "your whitelist"
 msgstr "votre liste blanche"
+
+#~ msgid "Save attachments in the sent-mail message?"
+#~ msgstr ""
+#~ "Enregistrer les pièces jointes dans les messages de la Boîte d’envoi ?"
