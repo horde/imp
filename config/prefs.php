@@ -829,7 +829,7 @@ $_prefs['save_attachments'] = array(
         'always' => _("Yes"),
         'never' => _("No")
     ),
-    'desc' => _("Save attachments in the sent-mail message?"),
+    'desc' => _("Include attachments in messages saved to Sent Mail?"),
     'help' => 'prefs-save_attachments'
 );
 
