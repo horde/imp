@@ -16,13 +16,14 @@
 # Ronan SALMON <rsalmon@mbpgroup.com>, 2011.
 # Yannick Sebastia <yannick.sebastia@ecole-navale.fr>, 2011.
 # Paul De Vlieger <paul.de_vlieger@moniut.univ-bpclermont.fr>, 2013
+# Jean Charles Delépine <delepine@u-picardie.fr>, 2025
 msgid ""
 msgstr ""
 "Project-Id-Version: imp\n"
 "Report-Msgid-Bugs-To: dev@lists.horde.org\n"
 "POT-Creation-Date: 2025-07-09 09:51+0200\n"
 "PO-Revision-Date: 2025-10-12 16:33+0200\n"
-"Last-Translator: Jean Charles Delépine <deleoine@u-picardie.fr>\n"
+"Last-Translator: Jean Charles Delépine <delepine@u-picardie.fr>\n"
 "Language-Team: French <i18n@lists.horde.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
