@@ -240,16 +240,36 @@ class IMP_Imap implements Serializable
             throw $error;
         }
 
-        $imap_config = [
-            'hostspec' => $config->hostspec,
-            'id' => $config->id,
-            'password' => new IMP_Imap_Password($password),
-            'port' => $config->port,
-            'secure' => (($secure = $config->secure) ? $secure : false),
-            'username' => $username,
-            // IMP specific config
-            'imp:backend' => $skey,
-        ];
+        // Check if password is already an XOAUTH2 token object
+        if ($password instanceof Horde_Imap_Client_Password_Xoauth2) {
+            // XOAUTH2 authentication - pass token directly
+            $imap_config = [
+                'hostspec' => $config->hostspec,
+                'id' => $config->id,
+                'xoauth2_token' => $password,
+                // IMP stores password objects in session under 'IMP_Imap_Password/' keys.
+                // A placeholder is required to avoid null reference errors in code paths
+                // that assume a password object is always present, even with XOAUTH2.
+                'password' => new IMP_Imap_Password('xoauth2'),
+                'port' => $config->port,
+                'secure' => (($secure = $config->secure) ? $secure : false),
+                'username' => $username,
+                // IMP specific config
+                'imp:backend' => $skey,
+            ];
+        } else {
+            // Normal password authentication
+            $imap_config = [
+                'hostspec' => $config->hostspec,
+                'id' => $config->id,
+                'password' => new IMP_Imap_Password($password),
+                'port' => $config->port,
+                'secure' => (($secure = $config->secure) ? $secure : false),
+                'username' => $username,
+                // IMP specific config
+                'imp:backend' => $skey,
+            ];
+        }
 
         /* Needed here to set config information in createImapObject(). */
         $this->_config = $config;
