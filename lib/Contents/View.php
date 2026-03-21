@@ -195,6 +195,9 @@ class IMP_Contents_View
     }
 
     /**
+     * @todo Architecture violation: Uses Sabberworm APIs directly instead of Horde_Css_Parser.
+     *       Lines 301-305: Extract rules by selector (getContents, DeclarationBlock, getSelectors, getRules)
+     *       See: ~/php/horde-development/sabberworm-architecture-violations.md
      */
     public function printAttach($id)
     {

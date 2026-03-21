@@ -590,6 +590,12 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
     }
 
     /**
+     * @todo Architecture violation: Uses Sabberworm APIs directly instead of Horde_Css_Parser.
+     *       Lines 596-604: Remove URL rules (getContents, RuleSet, getRules, getValue, removeRule)
+     *       Lines 605-616: Remove URLs from nested lists (getListComponents, setListComponents)
+     *       Lines 618-623: Remove rules by name (getRule, removeRule)
+     *       Lines 634-636: Remove imports (Property\Import, remove)
+     *       See: ~/php/horde-development/sabberworm-architecture-violations.md
      */
     protected function _parseCss($css, $blocked)
     {
