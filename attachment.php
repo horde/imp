@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is the world-accessible endpoint for serving hosted (linked)
  * attachments.  It fetchs the file from the VFS and feeds it to the client
@@ -10,8 +11,8 @@
  *   - id: (string) Attachment ID
  *   - u: (string) Attachment owner
  *
- * Copyright 2004-2007 Andrew Coleman <mercury@appisolutions.net>
- * Copyright 2008-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2004-2026 Andrew Coleman <mercury@appisolutions.net>
+ * Copyright 2008-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -27,11 +28,11 @@
 
 /* We do not need to be authenticated to get the file. */
 require_once __DIR__ . '/lib/Application.php';
-Horde_Registry::appInit('imp', array(
+Horde_Registry::appInit('imp', [
     'authentication' => 'none',
     'session_control' => 'none',
-    'timezone' => true
-));
+    'timezone' => true,
+]);
 
 $vars = $injector->getInstance('Horde_Variables');
 

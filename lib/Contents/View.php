@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -198,16 +198,16 @@ class IMP_Contents_View
     {
         global $injector, $page_output, $prefs, $registry;
 
-        if (is_null($id) ||
-            !($render = $this->_contents->renderMIMEPart($id, IMP_Contents::RENDER_FULL))) {
+        if (is_null($id)
+            || !($render = $this->_contents->renderMIMEPart($id, IMP_Contents::RENDER_FULL))) {
             return [];
         }
 
         $part = reset($render);
 
         /* Directly render part if this is not an HTML part or it is empty. */
-        if ((stripos($part['type'], 'text/html')) !== 0 ||
-            !strlen($part['data'])) {
+        if ((stripos($part['type'], 'text/html')) !== 0
+            || !strlen($part['data'])) {
             return $part;
         }
 

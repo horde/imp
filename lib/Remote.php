@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -145,7 +145,7 @@ class IMP_Remote implements ArrayAccess, IteratorAggregate
      *
      * @return array  The configuration array, or false if ID not found.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         $offset = $this->_strip($offset);
@@ -160,7 +160,7 @@ class IMP_Remote implements ArrayAccess, IteratorAggregate
      * @param string $offset          Account ID.
      * @param IMP_Remote_Account $ob  Account object.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->_accounts[$this->_strip($offset)] = $value;
@@ -172,7 +172,7 @@ class IMP_Remote implements ArrayAccess, IteratorAggregate
      *
      * @param string $offset  Account ID.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         $offset = $this->_strip($offset);

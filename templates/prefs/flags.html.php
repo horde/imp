@@ -29,7 +29,7 @@
    </td>
    <td>
 <?php if (!$this->locked): ?>
-    <?php echo $this->textFieldTag($v['colorid'], $v['color'], array('size' => 5, 'style' => $v['colorstyle'])) ?>
+    <?php echo $this->textFieldTag($v['colorid'], $v['color'], ['size' => 5, 'style' => $v['colorstyle']]) ?>
     <a class="flagcolorpicker" href="#"><?php echo $this->picker_img ?></a>
 <?php if (isset($v['user'])): ?>
     <a class="flagdelete" href="#"><span class="iconImg deleteImg"></span></a>

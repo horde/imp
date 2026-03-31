@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -77,8 +77,8 @@ class IMP_Indices_Mailbox extends IMP_Indices
                 break;
 
             case 2:
-                if (($args[0] instanceof IMP_Mailbox) &&
-                    ($args[1] instanceof IMP_Indices)) {
+                if (($args[0] instanceof IMP_Mailbox)
+                    && ($args[1] instanceof IMP_Indices)) {
                     $this->mailbox = $args[0];
                     $this->buids = $args[0]->toBuids($args[1]);
                     parent::__construct($args[1]);

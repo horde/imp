@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2006-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2006-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -35,15 +35,15 @@ class IMP_Mime_Viewer_Smil extends Horde_Mime_Viewer_Smil
     {
         switch ($name) {
             case 'IMG':
-                if (isset($attrs['SRC']) &&
-                    (($rp = $this->_getRelatedLink($attrs['SRC'])) !== false)) {
+                if (isset($attrs['SRC'])
+                    && (($rp = $this->_getRelatedLink($attrs['SRC'])) !== false)) {
                     $this->_content .= '<img src="' . $this->getConfigParam('imp_contents')->urlView($rp, 'view_attach', ['params' => ['imp_img_view' => 'data']]) . '" /><br />';
                 }
                 break;
 
             case 'TEXT':
-                if (isset($attrs['SRC']) &&
-                    (($rp = $this->_getRelatedLink($attrs['SRC'])) !== false)) {
+                if (isset($attrs['SRC'])
+                    && (($rp = $this->_getRelatedLink($attrs['SRC'])) !== false)) {
                     $this->_content .= htmlspecialchars($rp->getContents()) . '<br />';
                 }
                 break;
@@ -61,8 +61,8 @@ class IMP_Mime_Viewer_Smil extends Horde_Mime_Viewer_Smil
     {
         $imp_contents = $this->getConfigParam('imp_contents');
 
-        return (($related_part = $imp_contents->findMimeType($this->_mimepart->getMimeId(), 'multipart/related')) &&
-                (($key = $related_part->getMetadata('related_ob')->cidSearch($cid)) !== false))
+        return (($related_part = $imp_contents->findMimeType($this->_mimepart->getMimeId(), 'multipart/related'))
+                && (($key = $related_part->getMetadata('related_ob')->cidSearch($cid)) !== false))
             ? $imp_contents->getMimePart($key)
             : false;
     }

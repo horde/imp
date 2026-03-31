@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -86,8 +86,8 @@ class IMP_Basic_Pgp extends IMP_Basic_Base
                     }
                 }
 
-                if (!empty($import_key['public']) &&
-                    !empty($import_key['private'])) {
+                if (!empty($import_key['public'])
+                    && !empty($import_key['private'])) {
                     $this->_pgp->addPersonalPublicKey($import_key['public'][0]);
                     $this->_pgp->addPersonalPrivateKey($import_key['private'][0]);
                     $notification->push(_('Personal PGP key successfully added.'), 'horde.success');
@@ -184,8 +184,8 @@ class IMP_Basic_Pgp extends IMP_Basic_Base
     protected function _reloadWindow()
     {
         echo Horde::wrapInlineScript([
-            'opener.focus();'.
-            'opener.location.href="' . base64_decode($this->vars->reload) . '";',
+            'opener.focus();'
+            . 'opener.location.href="' . base64_decode($this->vars->reload) . '";',
             'window.close();',
         ]);
         exit;

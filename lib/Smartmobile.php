@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -132,10 +132,10 @@ class IMP_Smartmobile
 
             $this->view->user = $registry->getAuth();
 
-            $this->view->draft =
-                ($imp_imap->access(IMP_Imap::ACCESS_DRAFTS) &&
-                 ($draft = IMP_Mailbox::getPref(IMP_Mailbox::MBOX_DRAFTS)) &&
-                 !$draft->readonly);
+            $this->view->draft
+                = ($imp_imap->access(IMP_Imap::ACCESS_DRAFTS)
+                 && ($draft = IMP_Mailbox::getPref(IMP_Mailbox::MBOX_DRAFTS))
+                 && !$draft->readonly);
 
             if (IMP_Compose::canUploadAttachment()) {
                 $this->view->attach = true;

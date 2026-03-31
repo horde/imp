@@ -1,5 +1,5 @@
 <div id="mailbox" data-role="page">
- <?php echo $this->smartmobileHeader(array('backlink' => array('#folders', _("Folders")), 'logout' => true, 'title' => '&nbsp;')) ?>
+ <?php echo $this->smartmobileHeader(['backlink' => ['#folders', _("Folders")], 'logout' => true, 'title' => '&nbsp;']) ?>
 
  <div data-role="content">
   <ul id="imp-mailbox-list" data-role="listview"></ul>

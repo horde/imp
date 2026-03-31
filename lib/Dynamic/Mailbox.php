@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -67,7 +67,7 @@ class IMP_Dynamic_Mailbox extends IMP_Dynamic_Base
             'templatePath' => IMP_TEMPLATES . '/dynamic',
         ]);
         $impSubinfo->addHelper('Text');
-        $impSubinfo->quota = (bool)$imp_imap->config->quota;
+        $impSubinfo->quota = (bool) $imp_imap->config->quota;
 
         $topbar = $injector->getInstance('Horde_View_Topbar');
         $topbar->search = $this->view->show_search;
@@ -111,7 +111,7 @@ class IMP_Dynamic_Mailbox extends IMP_Dynamic_Base
 
         $sidebar = $injector->getInstance('Horde_View_Sidebar');
         $sidebar->newLink = $blank->link(['id' => 'composelink',
-                                               'class' => 'icon']);
+            'class' => 'icon']);
         $sidebar->newText = _('New Message');
         $sidebar->content = $impSidebar->render('sidebar');
 
@@ -413,8 +413,8 @@ class IMP_Dynamic_Mailbox extends IMP_Dynamic_Base
                 $context['ctx_mbox']['search']
             );
         }
-        if (!$imp_imap->access(IMP_Imap::ACCESS_FLAGS) ||
-            $prefs->isLocked('acl')) {
+        if (!$imp_imap->access(IMP_Imap::ACCESS_FLAGS)
+            || $prefs->isLocked('acl')) {
             unset(
                 $context['ctx_mbox']['_sub2']
             );

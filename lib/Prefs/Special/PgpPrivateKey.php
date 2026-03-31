@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -25,9 +25,7 @@ class IMP_Prefs_Special_PgpPrivateKey implements Horde_Core_Prefs_Ui_Special
 {
     /**
      */
-    public function init(Horde_Core_Prefs_Ui $ui)
-    {
-    }
+    public function init(Horde_Core_Prefs_Ui $ui) {}
 
     /**
      */
@@ -120,8 +118,8 @@ class IMP_Prefs_Special_PgpPrivateKey implements Horde_Core_Prefs_Ui_Special
         if (isset($ui->vars->delete_pgp_privkey)) {
             $imp_pgp->deletePersonalKeys();
             $notification->push(_('Personal PGP keys deleted successfully.'), 'horde.success');
-        } elseif (isset($ui->vars->create_pgp_key) &&
-                  !empty($conf['pgp']['keylength'])) {
+        } elseif (isset($ui->vars->create_pgp_key)
+                  && !empty($conf['pgp']['keylength'])) {
             /* Sanity checking for email address. */
             try {
                 $email = IMP::parseAddressList($ui->vars->generate_email);
@@ -134,8 +132,8 @@ class IMP_Prefs_Special_PgpPrivateKey implements Horde_Core_Prefs_Ui_Special
              * the passphrases match. */
             if (empty($ui->vars->generate_realname) || empty($email)) {
                 $notification->push(_('Name and/or email cannot be empty'), 'horde.error');
-            } elseif (empty($ui->vars->generate_passphrase1) ||
-                      empty($ui->vars->generate_passphrase2)) {
+            } elseif (empty($ui->vars->generate_passphrase1)
+                      || empty($ui->vars->generate_passphrase2)) {
                 $notification->push(_('Passphrases cannot be empty'), 'horde.error');
             } elseif ($ui->vars->generate_passphrase1 !== $ui->vars->generate_passphrase2) {
                 $notification->push(_('Passphrases do not match'), 'horde.error');

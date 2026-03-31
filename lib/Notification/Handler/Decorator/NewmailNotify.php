@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2011-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -41,8 +41,8 @@ class IMP_Notification_Handler_Decorator_NewmailNotify extends Horde_Core_Notifi
     ) {
         global $injector, $prefs, $session;
 
-        if (!$prefs->getValue('newmail_notify') ||
-            !($listener instanceof Horde_Notification_Listener_Status)) {
+        if (!$prefs->getValue('newmail_notify')
+            || !($listener instanceof Horde_Notification_Listener_Status)) {
             return;
         }
 

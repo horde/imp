@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -61,7 +61,7 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
     {
         global $injector, $notification, $registry;
 
-        $actions = (array)$vars->imple_submit;
+        $actions = (array) $vars->imple_submit;
         $result = false;
         $vCal = new Horde_Icalendar();
 
@@ -251,10 +251,10 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
                                     ]);
                                     $url = Horde::url($registry->link('tasks/show', ['uid' => $guid]));
                                     $notification->push(
-                                        _('The task has been added to your tasklist.') . '&nbsp;' .
-                                            Horde::link($url, _('View task'), null, '_blank') .
-                                            Horde_Themes_Image::tag('mime/icalendar.png', ['alt' => _('View task')]) .
-                                            '</a>',
+                                        _('The task has been added to your tasklist.') . '&nbsp;'
+                                            . Horde::link($url, _('View task'), null, '_blank')
+                                            . Horde_Themes_Image::tag('mime/icalendar.png', ['alt' => _('View task')])
+                                            . '</a>',
                                         'horde.success',
                                         ['content.raw']
                                     );
@@ -282,9 +282,9 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
                 case 'deny':
                 case 'tentative':
                     // vEvent request.
-                    if (isset($components[$key]) &&
-                        ($components[$key]->getType() == 'vEvent' ||
-                         $components[$key]->getType() == 'vTodo')) {
+                    if (isset($components[$key])
+                        && ($components[$key]->getType() == 'vEvent'
+                         || $components[$key]->getType() == 'vTodo')) {
                         $vEvent = $components[$key];
 
                         try {
@@ -341,8 +341,8 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
                 case 'reply':
                 case 'reply2m':
                     // vfreebusy request.
-                    if (isset($components[$key]) &&
-                        ($components[$key]->getType() == 'vFreebusy')) {
+                    if (isset($components[$key])
+                        && ($components[$key]->getType() == 'vFreebusy')) {
                         $vFb = $components[$key];
 
                         // Get the organizer details.
@@ -493,10 +493,10 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
                 ]);
                 $url = Horde::url($registry->link('calendar/show', ['uid' => $guid]));
                 $notification->push(
-                    _('The event was updated in your calendar.') . '&nbsp;' .
-                        Horde::link($url, _('View event'), null, '_blank') .
-                        Horde_Themes_Image::tag('mime/icalendar.png', ['alt' => _('View event')]) .
-                        '</a>',
+                    _('The event was updated in your calendar.') . '&nbsp;'
+                        . Horde::link($url, _('View event'), null, '_blank')
+                        . Horde_Themes_Image::tag('mime/icalendar.png', ['alt' => _('View event')])
+                        . '</a>',
                     'horde.success',
                     ['content.raw']
                 );
@@ -516,10 +516,10 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
                 ]);
                 $url = Horde::url($registry->link('calendar/show', ['uid' => $guid]));
                 $notification->push(
-                    _('The event was added to your calendar.') . '&nbsp;' .
-                        Horde::link($url, _('View event'), null, '_blank') .
-                        Horde_Themes_Image::tag('mime/icalendar.png', ['alt' => _('View event')]) .
-                        '</a>',
+                    _('The event was added to your calendar.') . '&nbsp;'
+                        . Horde::link($url, _('View event'), null, '_blank')
+                        . Horde_Themes_Image::tag('mime/icalendar.png', ['alt' => _('View event')])
+                        . '</a>',
                     'horde.success',
                     ['content.raw']
                 );

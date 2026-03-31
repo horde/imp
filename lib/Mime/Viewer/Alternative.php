@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -79,13 +79,13 @@ class IMP_Mime_Viewer_Alternative extends Horde_Mime_Viewer_Base
             $id = $val->getMimeId();
             $ret[$id] = null;
 
-            if ((strcmp($base_id, $id) !== 0) &&
-                $imp_contents->canDisplay($id, $inline ? IMP_Contents::RENDER_INLINE : IMP_Contents::RENDER_FULL) &&
+            if ((strcmp($base_id, $id) !== 0)
+                && $imp_contents->canDisplay($id, $inline ? IMP_Contents::RENDER_INLINE : IMP_Contents::RENDER_FULL)
                 /* Show HTML if $prefer_plain is false-y or if
                  * alternative_display is not 'html'. */
-                (!$prefer_plain ||
-                 (($val->getType() != 'text/html') &&
-                  ($val->getPrimaryType() == 'text')))) {
+                && (!$prefer_plain
+                 || (($val->getType() != 'text/html')
+                  && ($val->getPrimaryType() == 'text')))) {
                 $display_ids[strval($id)] = true;
             }
         }

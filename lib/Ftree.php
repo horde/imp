@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2000-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2000-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -205,12 +205,12 @@ class IMP_Ftree implements ArrayAccess, Countable, IteratorAggregate, Serializab
     public function insert($id)
     {
         foreach ((is_array($id) ? $id : [$id]) as $val) {
-            if (($val instanceof IMP_Search_Vfolder) &&
-                !isset($this->_accounts[strval($val)])) {
+            if (($val instanceof IMP_Search_Vfolder)
+                && !isset($this->_accounts[strval($val)])) {
                 /* Virtual Folders. */
                 $account = $this->_accounts[strval($val)] = new IMP_Ftree_Account_Vfolder($val);
-            } elseif (($val instanceof IMP_Remote_Account) &&
-                      !isset($this->_accounts[strval($val)])) {
+            } elseif (($val instanceof IMP_Remote_Account)
+                      && !isset($this->_accounts[strval($val)])) {
                 /* Remote accounts. */
                 $account = $this->_accounts[strval($val)] = new IMP_Ftree_Account_Remote($val);
             } else {
@@ -556,7 +556,7 @@ class IMP_Ftree implements ArrayAccess, Countable, IteratorAggregate, Serializab
                 return null;
         }
 
-        return (bool)($this->_elts[$s_elt] & $attr);
+        return (bool) ($this->_elts[$s_elt] & $attr);
     }
 
     /**
@@ -821,14 +821,14 @@ class IMP_Ftree implements ArrayAccess, Countable, IteratorAggregate, Serializab
         /* Optimization: Only normalize in the rare case it is not found on
          * the first attempt. */
         $offset = strval($offset);
-        return (isset($this->_elts[$offset]) ||
-                isset($this->_elts[$this->_normalize($offset)]));
+        return (isset($this->_elts[$offset])
+                || isset($this->_elts[$this->_normalize($offset)]));
     }
 
     /**
      * @return IMP_Ftree_Element
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if ($offset instanceof IMP_Ftree_Element) {
@@ -1033,8 +1033,8 @@ class IMP_Ftree implements ArrayAccess, Countable, IteratorAggregate, Serializab
                             break;
 
                         default:
-                            $label = '<strong>' . $label . '</strong>&nbsp;(' .
-                                $poll_info->unseen . ')';
+                            $label = '<strong>' . $label . '</strong>&nbsp;('
+                                . $poll_info->unseen . ')';
                     }
                 }
             }
@@ -1068,12 +1068,12 @@ class IMP_Ftree implements ArrayAccess, Countable, IteratorAggregate, Serializab
                 $checkbox .= ' disabled="disabled"';
             }
 
-            if ($val->vfolder &&
-                !empty($opts['editvfolder']) &&
-                $val->container) {
-                $after = '&nbsp[' .
-                    $registry->getServiceLink('prefs', 'imp')->add('group', 'searches')->link(['title' => _('Edit Virtual Folder')]) . _('Edit') . '</a>'.
-                    ']';
+            if ($val->vfolder
+                && !empty($opts['editvfolder'])
+                && $val->container) {
+                $after = '&nbsp['
+                    . $registry->getServiceLink('prefs', 'imp')->add('group', 'searches')->link(['title' => _('Edit Virtual Folder')]) . _('Edit') . '</a>'
+                    . ']';
             }
 
             if (is_null($elt_parent)) {

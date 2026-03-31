@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2014-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -41,8 +41,8 @@ class IMP_Mime_Viewer_Tgz extends Horde_Mime_Viewer_Tgz
         $tgzInfo = $this->_getTgzInfo();
 
         /* Verify that the requested file exists. */
-        if ((($key = $vars->tgz_attachment) === null) ||
-            !isset($tgzInfo[$key])) {
+        if ((($key = $vars->tgz_attachment) === null)
+            || !isset($tgzInfo[$key])) {
             return [];
         }
 
@@ -69,8 +69,8 @@ class IMP_Mime_Viewer_Tgz extends Horde_Mime_Viewer_Tgz
 
         $vars = $injector->getInstance('Horde_Variables');
 
-        if (!$this->getConfigParam('show_contents') &&
-            !isset($vars->tgz_contents)) {
+        if (!$this->getConfigParam('show_contents')
+            && !isset($vars->tgz_contents)) {
             $status = new IMP_Mime_Status(
                 $this->_mimepart,
                 _('This is a compressed file.')

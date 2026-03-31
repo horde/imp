@@ -1,11 +1,12 @@
 <?php
+
 /**
  * IMP basic view.
  *
  * Base URL Parameters:
  *   - page: (string) The current page view.
  *
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -20,22 +21,22 @@
 require_once __DIR__ . '/lib/Application.php';
 
 $vars = Horde_Variables::getDefaultVariables();
-Horde_Registry::appInit('imp', array(
+Horde_Registry::appInit('imp', [
     'session_control' => ($vars->page == 'compose' ? 'netscape' : null),
-    'timezone' => in_array($vars->page, array('compose', 'mailbox', 'message'))
-));
+    'timezone' => in_array($vars->page, ['compose', 'mailbox', 'message']),
+]);
 
 $class = 'IMP_Basic_' . Horde_String::ucfirst($vars->page);
 
 switch ($class) {
-case 'IMP_Basic_Compose':
-    IMP_Dynamic_Compose::url()->add($_GET)->redirect();
-
-default:
-    if (!class_exists($class)) {
-        throw new IMP_Exception('Page not found: ' . $vars->page);
-    }
-    break;
+    case 'IMP_Basic_Compose':
+        IMP_Dynamic_Compose::url()->add($_GET)->redirect();
+        // no break
+    default:
+        if (!class_exists($class)) {
+            throw new IMP_Exception('Page not found: ' . $vars->page);
+        }
+        break;
 }
 
 try {
@@ -51,10 +52,10 @@ try {
 
 $status = $ob->status();
 
-$page_output->header(array_merge(array(
+$page_output->header(array_merge([
     'title' => $ob->title,
-    'view' => $registry::VIEW_BASIC
-), $ob->header_params));
+    'view' => $registry::VIEW_BASIC,
+], $ob->header_params));
 
 echo $status;
 $ob->render();

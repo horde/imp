@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file specifies which mail servers IMP can login to.
  *
@@ -379,7 +380,7 @@
 /* Example configurations: */
 
 // IMAP server
-$servers['imap'] = array(
+$servers['imap'] = [
     // ENABLED by default; will connect to IMAP port on local server
     'disabled' => false,
     'name' => 'IMAP Server',
@@ -391,11 +392,11 @@ $servers['imap'] = array(
     // [6.2.3]), so TLS is the only guaranteed authentication available by
     // default.
     'secure' => 'tls',
-);
+];
 
 
 // POP3 server
-$servers['pop'] = array(
+$servers['pop'] = [
     // Disabled by default
     'disabled' => true,
     'name' => 'POP3 Server',
@@ -405,12 +406,12 @@ $servers['pop'] = array(
     'port' => 110,
     // Default to secure TLS authentication by default (see RFC 2595 [4]).
     'secure' => 'tls',
-);
+];
 
 
 // Advanced example - mainly here to demonstrate the syntax of all available
 // options.
-$servers['advanced'] = array(
+$servers['advanced'] = [
     // Disabled by default
     'disabled' => true,
     'name' => 'Advanced IMAP Server',
@@ -420,24 +421,24 @@ $servers['advanced'] = array(
     'port' => 143,
     'secure' => 'tls',
     'maildomain' => '',
-    'smtp' => array(
-    //    'auth' => true,
-    //    'debug' => false,
-    //    'horde_auth' => false,
-    //    'host' => 'smtp.example.com',
-    //    'lmtp' => false,
-    //    'localhost' => 'localhost',
-    //    'password' => null,
-    //    /* Mail from a MUA SHOULD be sent via the mail submission port (587)
-    //     * rather than the MTA port (25). (See RFC 6409/STD 72).
-    //     * Note that mail submission REQUIRES some method of authentication
-    //     * (whether explicit user/password credentials or configuring the
-    //     * mail submission agent to automatically authenticate this host
-    //     * based on the network location). */
-    //    'port' => 587,
-    //    'username' => null
-    ),
-    'spam' => array(
+    'smtp' => [
+        //    'auth' => true,
+        //    'debug' => false,
+        //    'horde_auth' => false,
+        //    'host' => 'smtp.example.com',
+        //    'lmtp' => false,
+        //    'localhost' => 'localhost',
+        //    'password' => null,
+        //    /* Mail from a MUA SHOULD be sent via the mail submission port (587)
+        //     * rather than the MTA port (25). (See RFC 6409/STD 72).
+        //     * Note that mail submission REQUIRES some method of authentication
+        //     * (whether explicit user/password credentials or configuring the
+        //     * mail submission agent to automatically authenticate this host
+        //     * based on the network location). */
+        //    'port' => 587,
+        //    'username' => null
+    ],
+    'spam' => [
         // 'innocent' => array(
         //     'display' => true,
         //
@@ -470,32 +471,32 @@ $servers['advanced'] = array(
         // 'drivers' => array(
         //     new IMP_Example_Spam_Driver()
         // )
-    ),
-    'admin' => array(
-    //     'user' => 'cyrus',
-    //     'password' => 'cyrus_pass',
-    //     'userhierarchy' => 'user.'
-    ),
+    ],
+    'admin' => [
+        //     'user' => 'cyrus',
+        //     'password' => 'cyrus_pass',
+        //     'userhierarchy' => 'user.'
+    ],
     'acl' => true,
     'cache' => false,
     // 'debug' => '/tmp/imp_imap.log',
     // 'debug_raw' => false,
-    'quota' => array(
+    'quota' => [
         'driver' => 'imap',
-        'params' => array(
+        'params' => [
             'hide_when_unlimited' => true,
-            'unit' => 'MB'
-        )
-    ),
-    'special_mboxes' => array(
-    //     IMP_Mailbox::MBOX_DRAFTS => 'Drafts',
-    //     IMP_Mailbox::MBOX_SENT => 'Sent',
-    //     IMP_Mailbox::MBOX_SPAM => 'Spam',
-    //     IMP_Mailbox::MBOX_TEMPLATES => 'Templates',
-    //     IMP_Mailbox::MBOX_TRASH => 'Trash',
-    //     IMP_Mailbox::MBOX_USERSPECIAL => array(
-    //         'Example' => _("Example Special Mailbox")
-    //     )
-    ),
+            'unit' => 'MB',
+        ],
+    ],
+    'special_mboxes' => [
+        //     IMP_Mailbox::MBOX_DRAFTS => 'Drafts',
+        //     IMP_Mailbox::MBOX_SENT => 'Sent',
+        //     IMP_Mailbox::MBOX_SPAM => 'Spam',
+        //     IMP_Mailbox::MBOX_TEMPLATES => 'Templates',
+        //     IMP_Mailbox::MBOX_TRASH => 'Trash',
+        //     IMP_Mailbox::MBOX_USERSPECIAL => array(
+        //         'Example' => _("Example Special Mailbox")
+        //     )
+    ],
     'autocreate_special' => false,
-);
+];

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2005-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2005-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -29,8 +29,8 @@ class IMP_Basic_Saveimage extends IMP_Basic_Base
     {
         global $injector, $notification, $page_output, $registry;
 
-        if (!$registry->hasMethod('images/selectGalleries') ||
-            !$registry->hasMethod('images/saveImage')) {
+        if (!$registry->hasMethod('images/selectGalleries')
+            || !$registry->hasMethod('images/saveImage')) {
             $e = new IMP_Exception('Image saving is not available.');
             $e->logged = true;
             throw $e;

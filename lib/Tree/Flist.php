@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -93,16 +93,16 @@ class IMP_Tree_Flist extends Horde_Tree_Renderer_Select
         }
 
         /* Heading. */
-        if (($heading = $this->getOption('heading')) &&
-            (strlen($heading) > 0)) {
+        if (($heading = $this->getOption('heading'))
+            && (strlen($heading) > 0)) {
             $view->heading = $heading;
         }
 
         /* New mailbox entry. */
         if ($this->getOption('new_mbox')) {
             $imp_imap = $injector->getInstance('IMP_Factory_Imap')->create();
-            if ($imp_imap->access(IMP_Imap::ACCESS_CREATEMBOX) &&
-                $imp_imap->access(IMP_Imap::ACCESS_CREATEMBOX_MAX)) {
+            if ($imp_imap->access(IMP_Imap::ACCESS_CREATEMBOX)
+                && $imp_imap->access(IMP_Imap::ACCESS_CREATEMBOX_MAX)) {
                 $view->new_mbox = true;
             }
         }
@@ -186,8 +186,8 @@ class IMP_Tree_Flist extends Horde_Tree_Renderer_Select
         }
 
         /* Ignore container elements. */
-        if (!$this->getOption('container_select') &&
-            !empty($node['container'])) {
+        if (!$this->getOption('container_select')
+            && !empty($node['container'])) {
             if (!empty($node['vfolder'])) {
                 return '';
             }

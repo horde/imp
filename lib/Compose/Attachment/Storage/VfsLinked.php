@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -60,7 +60,7 @@ class IMP_Compose_Attachment_Storage_VfsLinked extends IMP_Compose_Attachment_St
         parent::__construct($user, $id);
 
         $this->_vfs = $injector->getInstance('Horde_Core_Factory_Vfs')->create();
-        $this->_vfspath = self::VFS_LINK_ATTACH_PATH . '/'. $this->_user;
+        $this->_vfspath = self::VFS_LINK_ATTACH_PATH . '/' . $this->_user;
     }
 
     /**
@@ -102,8 +102,8 @@ class IMP_Compose_Attachment_Storage_VfsLinked extends IMP_Compose_Attachment_St
 
         // Prevent 'jar:' attacks on Firefox.  See Ticket #5892.
         $type = $part->getType();
-        if ($browser->isBrowser('mozilla') &&
-            in_array(Horde_String::lower($type), ['application/java-archive', 'application/x-jar'])) {
+        if ($browser->isBrowser('mozilla')
+            && in_array(Horde_String::lower($type), ['application/java-archive', 'application/x-jar'])) {
             $type = 'application/octet-stream';
         }
 

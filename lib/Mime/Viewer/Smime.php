@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -232,8 +232,8 @@ class IMP_Mime_Viewer_Smime extends Horde_Mime_Viewer_Base
 
             $data = new Horde_Stream_Temp();
             $data->add(
-                'From:' . $hdrs['From'] . "\n" .
-                $decrypted_data
+                'From:' . $hdrs['From'] . "\n"
+                . $decrypted_data
             );
 
             $new_part->setMetadata('imp-smime-decrypt', $data);
@@ -304,8 +304,8 @@ class IMP_Mime_Viewer_Smime extends Horde_Mime_Viewer_Base
         $this->_initSmime();
         $sig_result = null;
 
-        if ($GLOBALS['prefs']->getValue('smime_verify') ||
-            $GLOBALS['injector']->getInstance('Horde_Variables')->smime_verify_msg) {
+        if ($GLOBALS['prefs']->getValue('smime_verify')
+            || $GLOBALS['injector']->getInstance('Horde_Variables')->smime_verify_msg) {
             try {
                 $sig_result = $this->_impsmime->verifySignature($raw_text);
                 if ($sig_result->verify) {
@@ -322,16 +322,16 @@ class IMP_Mime_Viewer_Smime extends Horde_Mime_Viewer_Base
 
                 if (!empty($sig_result->cert)) {
                     $cert = $this->_impsmime->parseCert($sig_result->cert);
-                    if (isset($cert['certificate']['subject']['CommonName']) &&
-                        (strcasecmp($email, $cert['certificate']['subject']['CommonName']) !== 0)) {
+                    if (isset($cert['certificate']['subject']['CommonName'])
+                        && (strcasecmp($email, $cert['certificate']['subject']['CommonName']) !== 0)) {
                         $email = $cert['certificate']['subject']['CommonName'] . ' (' . trim($email) . ')';
                     }
                 }
 
-                if (!empty($sig_result->cert) &&
-                    isset($sig_result->email) &&
-                    $GLOBALS['registry']->hasMethod('contacts/addField') &&
-                    $GLOBALS['prefs']->getValue('add_source')) {
+                if (!empty($sig_result->cert)
+                    && isset($sig_result->email)
+                    && $GLOBALS['registry']->hasMethod('contacts/addField')
+                    && $GLOBALS['prefs']->getValue('add_source')) {
                     $status->addText(sprintf(_('Sender: %s'), $imp_contents->linkViewJS($this->_mimepart, 'view_attach', htmlspecialchars($email), [
                         'jstext' => _('View certificate details'),
                         'params' => [

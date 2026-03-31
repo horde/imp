@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2005-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2005-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -172,14 +172,14 @@ class IMP_Ajax_Application_ListMessages
         }
 
         /* Mail-specific viewport information. */
-        if ($args['initial'] ||
-            (isset($args['delhide']) && !is_null($args['delhide'])) ||
-            !is_null($args['sortby'])) {
+        if ($args['initial']
+            || (isset($args['delhide']) && !is_null($args['delhide']))
+            || !is_null($args['sortby'])) {
             $result->setMetadata('delhide', $mbox->hideDeletedMsgs(true));
         }
-        if ($args['initial'] ||
-            !is_null($args['sortby']) ||
-            !is_null($args['sortdir'])) {
+        if ($args['initial']
+            || !is_null($args['sortby'])
+            || !is_null($args['sortdir'])) {
             $result->setMetadata('sortby', $sortpref->sortby);
             $result->setMetadata('sortdir', $sortpref->sortdir);
         }
@@ -239,8 +239,8 @@ class IMP_Ajax_Application_ListMessages
         }
 
         /* The search query may have changed. */
-        if ($is_search &&
-            ($args['initial'] || strlen($args['qsearchmbox']))) {
+        if ($is_search
+            && ($args['initial'] || strlen($args['qsearchmbox']))) {
             $imp_search = $injector->getInstance('IMP_Search');
 
             if ($mbox->vfolder) {
@@ -462,12 +462,12 @@ class IMP_Ajax_Application_ListMessages
             $msg = [
                 'flag' => $flags
                     ? array_map('strval', $imp_flags->parse([
-                          'flags' => $ob['flags'],
-                          'headers' => $ob['headers'],
-                          'personal' => $ob['envelope']->to,
-                          'runhook' => $ob,
-                          'structure' => $ob['structure'],
-                      ]))
+                        'flags' => $ob['flags'],
+                        'headers' => $ob['headers'],
+                        'personal' => $ob['envelope']->to,
+                        'runhook' => $ob,
+                        'structure' => $ob['structure'],
+                    ]))
                     : [],
             ];
 

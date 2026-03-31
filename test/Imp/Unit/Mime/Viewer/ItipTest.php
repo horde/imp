@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -23,9 +24,9 @@
  * @license    http://www.horde.org/licenses/gpl GPL
  * @package    IMP
  * @subpackage UnitTests
+ * @coversNothing
  */
-class Imp_Unit_Mime_Viewer_ItipTest
-extends PHPUnit_Framework_TestCase
+class Imp_Unit_Mime_Viewer_ItipTest extends PHPUnit_Framework_TestCase
 {
     private $_contents;
     private $_contentsCharset;
@@ -36,7 +37,7 @@ extends PHPUnit_Framework_TestCase
     private $_imapFactory;
     private $_mail;
     private $_mailbox;
-    private $_notifyStack = array();
+    private $_notifyStack = [];
     private $_oldtz;
 
     public function setUp()
@@ -44,25 +45,25 @@ extends PHPUnit_Framework_TestCase
         $this->_oldtz = date_default_timezone_get();
         date_default_timezone_set('UTC');
 
-        $injector = $this->getMock('Horde_Injector', array(), array(), '', false);
+        $injector = $this->getMock('Horde_Injector', [], [], '', false);
         $injector->expects($this->any())
             ->method('getInstance')
-            ->will($this->returnCallback(array($this, '_injectorGetInstance')));
+            ->will($this->returnCallback([$this, '_injectorGetInstance']));
         $GLOBALS['injector'] = $injector;
 
-        $registry = $this->getMock('Horde_Registry', array(), array(), '', false);
+        $registry = $this->getMock('Horde_Registry', [], [], '', false);
         $registry->expects($this->any())
             ->method('getCharset')
             ->will($this->returnValue('UTF-8'));
         $registry->expects($this->any())
             ->method('remoteHost')
-            ->will($this->returnCallback(array($this, '_registryRemoteHost')));
+            ->will($this->returnCallback([$this, '_registryRemoteHost']));
         $GLOBALS['registry'] = $registry;
 
-        $notification = $this->getMock('Horde_Notification_Handler', array(), array(), '', false);
+        $notification = $this->getMock('Horde_Notification_Handler', [], [], '', false);
         $notification->expects($this->any())
             ->method('push')
-            ->will($this->returnCallback(array($this, '_notificationHandler')));
+            ->will($this->returnCallback([$this, '_notificationHandler']));
         $GLOBALS['notification'] = $notification;
 
         $GLOBALS['conf']['server']['name'] = 'localhost';
@@ -77,85 +78,85 @@ extends PHPUnit_Framework_TestCase
     public function _injectorGetInstance($interface)
     {
         switch ($interface) {
-        case 'Horde_Core_Hooks':
-            return new Horde_Core_Hooks();
+            case 'Horde_Core_Hooks':
+                return new Horde_Core_Hooks();
 
-        case 'IMP_Contents':
-            if (!isset($this->_contents)) {
-                $contents= $this->getMock('IMP_Contents', array(), array(), '', false);
-                $contents->expects($this->any())
-                    ->method('getMimePart')
-                    ->will($this->returnCallback(array($this, '_getMimePart')));
-                $this->_contents = $contents;
-            }
-            return $this->_contents;
+            case 'IMP_Contents':
+                if (!isset($this->_contents)) {
+                    $contents = $this->getMock('IMP_Contents', [], [], '', false);
+                    $contents->expects($this->any())
+                        ->method('getMimePart')
+                        ->will($this->returnCallback([$this, '_getMimePart']));
+                    $this->_contents = $contents;
+                }
+                return $this->_contents;
 
-        case 'IMP_Factory_Contents':
-            if (!isset($this->_contentsFactory)) {
-                $cf = $this->getMock('IMP_Factory_Contents', array(), array(), '', false);
-                $cf->expects($this->any())
-                    ->method('create')
-                    ->will($this->returnValue($this->_injectorGetInstance('IMP_Contents')));
-                $this->_contentsFactory = $cf;
-            }
-            return $this->_contentsFactory;
+            case 'IMP_Factory_Contents':
+                if (!isset($this->_contentsFactory)) {
+                    $cf = $this->getMock('IMP_Factory_Contents', [], [], '', false);
+                    $cf->expects($this->any())
+                        ->method('create')
+                        ->will($this->returnValue($this->_injectorGetInstance('IMP_Contents')));
+                    $this->_contentsFactory = $cf;
+                }
+                return $this->_contentsFactory;
 
-        case 'IMP_Factory_Imap':
-            if (!isset($this->_imapFactory)) {
-                $imap = $this->getMock('IMP_Factory_Imap', array(), array(), '', false);
-                $imap->expects($this->any())
-                    ->method('create')
-                    ->will($this->returnValue(new IMP_Stub_Imap()));
-                $this->_imapFactory = $imap;
-            }
-            return $this->_imapFactory;
+            case 'IMP_Factory_Imap':
+                if (!isset($this->_imapFactory)) {
+                    $imap = $this->getMock('IMP_Factory_Imap', [], [], '', false);
+                    $imap->expects($this->any())
+                        ->method('create')
+                        ->will($this->returnValue(new IMP_Stub_Imap()));
+                    $this->_imapFactory = $imap;
+                }
+                return $this->_imapFactory;
 
-        case 'IMP_Factory_Mailbox':
-            if (!isset($this->_mailbox)) {
-                $mbox = $this->getMock('IMP_Factory_Mailbox', array(), array(), '', false);
-                $mbox->expects($this->any())
-                    ->method('create')
-                    ->will($this->returnValue(new IMP_Mailbox('foo')));
-                $this->_mailbox = $mbox;
-            }
-            return $this->_mailbox;
+            case 'IMP_Factory_Mailbox':
+                if (!isset($this->_mailbox)) {
+                    $mbox = $this->getMock('IMP_Factory_Mailbox', [], [], '', false);
+                    $mbox->expects($this->any())
+                        ->method('create')
+                        ->will($this->returnValue(new IMP_Mailbox('foo')));
+                    $this->_mailbox = $mbox;
+                }
+                return $this->_mailbox;
 
-        case 'IMP_Identity':
-            if (!isset($this->_identity)) {
-                $identity = $this->getMock('Horde_Core_Prefs_Identity', array(), array(), '', false);
-                $identity->expects($this->any())
-                    ->method('setDefault')
-                    ->will($this->returnCallback(array($this, '_identitySetDefault')));
-                $identity->expects($this->any())
-                    ->method('getDefault')
-                    ->will($this->returnCallback(array($this, '_identityGetDefault')));
-                $identity->expects($this->any())
-                    ->method('getFromAddress')
-                    ->will($this->returnCallback(array($this, '_identityGetFromAddress')));
-                $identity->expects($this->any())
-                    ->method('getDefaultFromAddress')
-                    ->will($this->returnValue(new Horde_Mail_Rfc822_Address('"Mr. Test" <test@example.org>')));
-                $identity->expects($this->any())
-                    ->method('getValue')
-                    ->will($this->returnCallback(array($this, '_identityGetValue')));
-                $identity->expects($this->any())
-                    ->method('getMatchingIdentity')
-                    ->will($this->returnCallback(array($this, '_identityGetMatchingIdentity')));
-                $this->_identity = $identity;
-            }
-            return $this->_identity;
+            case 'IMP_Identity':
+                if (!isset($this->_identity)) {
+                    $identity = $this->getMock('Horde_Core_Prefs_Identity', [], [], '', false);
+                    $identity->expects($this->any())
+                        ->method('setDefault')
+                        ->will($this->returnCallback([$this, '_identitySetDefault']));
+                    $identity->expects($this->any())
+                        ->method('getDefault')
+                        ->will($this->returnCallback([$this, '_identityGetDefault']));
+                    $identity->expects($this->any())
+                        ->method('getFromAddress')
+                        ->will($this->returnCallback([$this, '_identityGetFromAddress']));
+                    $identity->expects($this->any())
+                        ->method('getDefaultFromAddress')
+                        ->will($this->returnValue(new Horde_Mail_Rfc822_Address('"Mr. Test" <test@example.org>')));
+                    $identity->expects($this->any())
+                        ->method('getValue')
+                        ->will($this->returnCallback([$this, '_identityGetValue']));
+                    $identity->expects($this->any())
+                        ->method('getMatchingIdentity')
+                        ->will($this->returnCallback([$this, '_identityGetMatchingIdentity']));
+                    $this->_identity = $identity;
+                }
+                return $this->_identity;
 
-        case 'IMP_Mail':
-            if (!isset($this->_mail)) {
-                $this->_mail = new Horde_Mail_Transport_Mock();
-            }
-            return $this->_mail;
+            case 'IMP_Mail':
+                if (!isset($this->_mail)) {
+                    $this->_mail = new Horde_Mail_Transport_Mock();
+                }
+                return $this->_mail;
         }
     }
 
     public function _registryRemoteHost()
     {
-        $remote = new stdClass;
+        $remote = new stdClass();
         $remote->addr = '127.0.0.1';
         $remote->host = 'localhost';
 
@@ -178,9 +179,9 @@ extends PHPUnit_Framework_TestCase
 
     public function _identitySetDefault($id)
     {
-        if (($id != 'test') &&
-            ($id != 'other') &&
-            ($id != 'default')) {
+        if (($id != 'test')
+            && ($id != 'other')
+            && ($id != 'default')) {
             throw new Exception("Unexpected default $id!");
         }
 
@@ -200,36 +201,36 @@ extends PHPUnit_Framework_TestCase
     public function _identityGetValue($value, $identity = null)
     {
         switch ($value) {
-        case 'fullname':
-            return 'Mr. Test';
+            case 'fullname':
+                return 'Mr. Test';
 
-        case 'replyto_addr':
-            $id = is_null($identity)
-                ? $this->_identityId
-                : $identity;
-            switch ($id) {
-            case 'test':
-                return 'test@example.org';
+            case 'replyto_addr':
+                $id = is_null($identity)
+                    ? $this->_identityId
+                    : $identity;
+                switch ($id) {
+                    case 'test':
+                        return 'test@example.org';
 
-            case 'other':
-                return 'reply@example.org';
-            }
+                    case 'other':
+                        return 'reply@example.org';
+                }
         }
     }
 
     public function _notificationHandler($msg, $code)
     {
-        $this->_notifyStack[] = array($msg, $code);
+        $this->_notifyStack[] = [$msg, $code];
     }
 
     public function _prefsGetValue($pref)
     {
         switch ($pref) {
-        case 'date_format':
-            return '%x';
+            case 'date_format':
+                return '%x';
 
-        case 'twentyFour':
-            return true;
+            case 'twentyFour':
+                return true;
         }
     }
 
@@ -308,7 +309,8 @@ extends PHPUnit_Framework_TestCase
         try {
             $this->_doImple('accept', "BEGIN:VEVENT\nORGANIZER:somebody@example.com\nDTSTAMP:20100816T143648Z\nDTSTART:20100816T143648Z\nEND:VEVENT");
             $this->fail('Expecting Exception.');
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+        }
     }
 
     public function testResultMessageContainsCopiedSummary()
@@ -360,7 +362,7 @@ extends PHPUnit_Framework_TestCase
     {
         $this->_doImple('accept', $this->_getInvitation()->exportvCalendar());
         $dtstart = $this->_getVevent()->getAttribute('DTSTART', true);
-        $this->assertEquals(array('TEST' => 'start'), array_pop($dtstart));
+        $this->assertEquals(['TEST' => 'start'], array_pop($dtstart));
     }
 
     public function testResultMessageContainsCopiedEndDate()
@@ -376,7 +378,7 @@ extends PHPUnit_Framework_TestCase
     {
         $this->_doImple('accept', $this->_getInvitation()->exportvCalendar());
         $dtend = $this->_getVevent()->getAttribute('DTEND', true);
-        $this->assertEquals(array('TEST' => 'end'), array_pop($dtend));
+        $this->assertEquals(['TEST' => 'end'], array_pop($dtend));
     }
 
     public function testResultMessageContainsCopiedDurationIfEndDateIsMissing()
@@ -388,7 +390,7 @@ extends PHPUnit_Framework_TestCase
         $inv->setAttribute('UID', '1001');
         $inv->setAttribute('ORGANIZER', 'orga@example.org');
         $inv->setAttribute('DTSTART', $start->timestamp());
-        $inv->setAttribute('DURATION', '3600', array('TEST' => 'duration'));
+        $inv->setAttribute('DURATION', '3600', ['TEST' => 'duration']);
 
         $this->_doImple('accept', $inv->exportvCalendar());
         $this->assertEquals(
@@ -406,12 +408,12 @@ extends PHPUnit_Framework_TestCase
         $inv->setAttribute('UID', '1001');
         $inv->setAttribute('ORGANIZER', 'orga@example.org');
         $inv->setAttribute('DTSTART', $start->timestamp());
-        $inv->setAttribute('DURATION', '3600', array('TEST' => 'duration'));
+        $inv->setAttribute('DURATION', '3600', ['TEST' => 'duration']);
 
         $this->_doImple('accept', $inv->exportvCalendar());
 
         $duration = $this->_getVevent()->getAttribute('DURATION', true);
-        $this->assertEquals(array('TEST' => 'duration'), array_pop($duration));
+        $this->assertEquals(['TEST' => 'duration'], array_pop($duration));
     }
 
     public function testResultMessageContainsCopiedInvitation()
@@ -445,7 +447,7 @@ extends PHPUnit_Framework_TestCase
     {
         $this->_doImple('accept', $this->_getInvitation()->exportvCalendar());
         $organizer = $this->_getVevent()->getAttribute('ORGANIZER', true);
-        $this->assertEquals(array('CN' => 'Mr. Orga'), array_pop($organizer));
+        $this->assertEquals(['CN' => 'Mr. Orga'], array_pop($organizer));
     }
 
     public function testResultMessageContainsAttendeeEmail()
@@ -610,11 +612,11 @@ extends PHPUnit_Framework_TestCase
         $inv->setAttribute('SUMMARY', 'Test Invitation');
         $inv->setAttribute('DESCRIPTION', 'You are invited');
         $inv->setAttribute('LOCATION', 'Somewhere');
-        $inv->setAttribute('ORGANIZER', 'mailto:orga@example.org', array('cn' => 'Mr. Orga'));
-        $inv->setAttribute('DTSTART', $start->timestamp(), array('TEST' => 'start'));
-        $inv->setAttribute('DTEND', $end->timestamp(), array('TEST' => 'end'));
-        $inv->setAttribute('ATTENDEE', 'mailto:orga@example.org', array('CN' => 'Mr. Orga'));
-        $inv->setAttribute('ATTENDEE', 'mailto:test@example.org', array('CN' => 'Mr. Test'));
+        $inv->setAttribute('ORGANIZER', 'mailto:orga@example.org', ['cn' => 'Mr. Orga']);
+        $inv->setAttribute('DTSTART', $start->timestamp(), ['TEST' => 'start']);
+        $inv->setAttribute('DTEND', $end->timestamp(), ['TEST' => 'end']);
+        $inv->setAttribute('ATTENDEE', 'mailto:orga@example.org', ['CN' => 'Mr. Orga']);
+        $inv->setAttribute('ATTENDEE', 'mailto:test@example.org', ['CN' => 'Mr. Test']);
         return $inv;
     }
 
@@ -626,7 +628,7 @@ extends PHPUnit_Framework_TestCase
         $vCal->setAttribute('METHOD', 'REQUEST');
         $inv = Horde_Icalendar::newComponent('VEVENT', $vCal);
         $inv->setAttribute('UID', '1001');
-        $inv->setAttribute('ORGANIZER', 'mailto:orga@example.org', array('cn' => 'Mr. Orga'));
+        $inv->setAttribute('ORGANIZER', 'mailto:orga@example.org', ['cn' => 'Mr. Orga']);
         $inv->setAttribute('DTSTART', $start->timestamp());
         $inv->setAttribute('DTEND', $end->timestamp());
         return $inv;
@@ -651,9 +653,9 @@ extends PHPUnit_Framework_TestCase
     {
         $mail = '';
         if (isset($GLOBALS['injector']->getInstance('IMP_Mail')->sentMessages[0])) {
-            $mail .= $GLOBALS['injector']->getInstance('IMP_Mail')->sentMessages[0]['header_text'] .
-                "\n\n" .
-                $GLOBALS['injector']->getInstance('IMP_Mail')->sentMessages[0]['body'];
+            $mail .= $GLOBALS['injector']->getInstance('IMP_Mail')->sentMessages[0]['header_text']
+                . "\n\n"
+                . $GLOBALS['injector']->getInstance('IMP_Mail')->sentMessages[0]['body'];
         }
         return $mail;
     }
@@ -682,16 +684,16 @@ extends PHPUnit_Framework_TestCase
 
     private function _doImple($action, $data, $identity = 'test')
     {
-        $vars = new Horde_Variables(array(
-            'imple_submit' => array($action),
+        $vars = new Horde_Variables([
+            'imple_submit' => [$action],
             'identity' => $identity,
             'mailbox' => 'foo',
             'mime_id' => 1,
-            'uid' => 1
-        ));
+            'uid' => 1,
+        ]);
         $this->_contentsData = $data;
 
-        $imple = new IMP_Stub_Ajax_Imple_ItipRequest(array());
+        $imple = new IMP_Stub_Ajax_Imple_ItipRequest([]);
         $imple->handle($vars);
     }
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -42,9 +42,9 @@ class IMP_Flag_System_Encrypted extends IMP_Flag_Base implements IMP_Flag_Match_
      */
     public function matchHeader(Horde_Mime_Headers $data)
     {
-        return (($ctype = $data['Content-Type']) &&
-                (($ctype->value == 'application/pkcs7-mime') ||
-                 ($ctype->value == 'multipart/encrypted')));
+        return (($ctype = $data['Content-Type'])
+                && (($ctype->value == 'application/pkcs7-mime')
+                 || ($ctype->value == 'multipart/encrypted')));
     }
 
 }

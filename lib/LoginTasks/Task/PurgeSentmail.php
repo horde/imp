@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2001-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2001-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -31,8 +31,8 @@ class IMP_LoginTasks_Task_PurgeSentmail extends Horde_LoginTasks_Task
     {
         global $prefs;
 
-        if (($this->interval = $prefs->getValue('purge_sentmail_interval')) &&
-            $this->_getMboxes()) {
+        if (($this->interval = $prefs->getValue('purge_sentmail_interval'))
+            && $this->_getMboxes()) {
             if ($prefs->isLocked('purge_sentmail_interval')) {
                 $this->display = Horde_LoginTasks::DISPLAY_NONE;
             }

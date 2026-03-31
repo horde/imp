@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2011-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -175,9 +175,9 @@ class IMP_Mime_Viewer_Video extends Horde_Mime_Viewer_Default
      */
     protected function _thumbnailBinary()
     {
-        return ($this->getConfigParam('thumbnails') &&
-                ($ffmpeg = $this->getConfigParam('ffmpeg')) &&
-                is_executable($ffmpeg))
+        return ($this->getConfigParam('thumbnails')
+                && ($ffmpeg = $this->getConfigParam('ffmpeg'))
+                && is_executable($ffmpeg))
             ? $ffmpeg
             : false;
     }

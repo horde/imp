@@ -26,10 +26,10 @@ class IMP_LoginTasks_Task_DeleteAttachmentsMonthly extends Horde_LoginTasks_Task
     {
         global $conf, $prefs;
 
-        $this->active = !empty($conf['compose']['link_attachments']) &&
-            $prefs->getValue('delete_attachments_monthly_keep');
-        if ($this->active &&
-            $prefs->isLocked('delete_attachments_monthly_keep')) {
+        $this->active = !empty($conf['compose']['link_attachments'])
+            && $prefs->getValue('delete_attachments_monthly_keep');
+        if ($this->active
+            && $prefs->isLocked('delete_attachments_monthly_keep')) {
             $this->display = Horde_LoginTasks::DISPLAY_NONE;
         }
     }

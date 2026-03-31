@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -103,10 +103,10 @@ class IMP_Ftree_Prefs_Poll extends IMP_Ftree_Prefs
         }
 
         foreach ((is_array($id) ? $id : [$id]) as $val) {
-            if (($elt = $this->_ftree[$val]) &&
-                !$elt->polled &&
-                !$elt->nonimap &&
-                !$elt->container) {
+            if (($elt = $this->_ftree[$val])
+                && !$elt->polled
+                && !$elt->nonimap
+                && !$elt->container) {
                 if (!$elt->subscribed) {
                     $elt->subscribed = true;
                 }
@@ -154,7 +154,7 @@ class IMP_Ftree_Prefs_Poll extends IMP_Ftree_Prefs
 
     /**
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return ($this->_data === true)

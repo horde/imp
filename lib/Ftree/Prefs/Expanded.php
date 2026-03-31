@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -42,8 +42,8 @@ class IMP_Ftree_Prefs_Expanded extends IMP_Ftree_Prefs
     {
         global $prefs;
 
-        if (($folders = @unserialize($prefs->getValue('expanded_folders'))) &&
-            is_array($folders)) {
+        if (($folders = @unserialize($prefs->getValue('expanded_folders')))
+            && is_array($folders)) {
             $this->_data = $folders;
         }
 
@@ -60,7 +60,7 @@ class IMP_Ftree_Prefs_Expanded extends IMP_Ftree_Prefs
 
     /**
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         switch ($this->_expanded) {

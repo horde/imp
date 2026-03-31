@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -67,9 +67,9 @@ class IMP_Images
             return true;
         }
 
-        if (!$contents ||
-            !($tmp = $contents->getHeader()->getHeader('from')) ||
-            !($from = $tmp->getAddressList(true))) {
+        if (!$contents
+            || !($tmp = $contents->getHeader()->getHeader('from'))
+            || !($from = $tmp->getAddressList(true))) {
             return false;
         }
 

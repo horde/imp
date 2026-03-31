@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -69,8 +69,8 @@ class IMP_Filter
      */
     public function blacklistMessage($indices, $show_link = true)
     {
-        if (!$this->_processBWlist($indices, _('your blacklist'), 'blacklistFrom', 'showBlacklist', $show_link) ||
-            !($msg_count = $indices->delete())) {
+        if (!$this->_processBWlist($indices, _('your blacklist'), 'blacklistFrom', 'showBlacklist', $show_link)
+            || !($msg_count = $indices->delete())) {
             return false;
         }
 

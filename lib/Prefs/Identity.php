@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2001-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2001-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -123,8 +123,8 @@ class IMP_Prefs_Identity extends Horde_Core_Prefs_Identity
             ? $from_address
             : null;
 
-        if (empty($address) ||
-            $this->_prefs->isLocked($this->_prefnames['from_addr'])) {
+        if (empty($address)
+            || $this->_prefs->isLocked($this->_prefnames['from_addr'])) {
             return $this->getFromAddress($ident);
         }
 
@@ -485,8 +485,8 @@ class IMP_Prefs_Identity extends Horde_Core_Prefs_Identity
 
         if (!$compose_page || $prefs->getValue('signature_show_compose')) {
             foreach (array_keys($this->_identities) as $key) {
-                if (strlen(trim($this->getValue('signature_html', $key))) ||
-                    strlen(trim($this->getValue('signature', $key)))) {
+                if (strlen(trim($this->getValue('signature_html', $key)))
+                    || strlen(trim($this->getValue('signature', $key)))) {
                     return true;
                 }
             }

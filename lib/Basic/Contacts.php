@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -47,8 +47,8 @@ class IMP_Basic_Contacts extends IMP_Basic_Base
         $source_list = $contacts->source_list;
 
         /* Choose the correct source. */
-        if (!isset($this->vars->source) ||
-            !isset($source_list[$this->vars->source])) {
+        if (!isset($this->vars->source)
+            || !isset($source_list[$this->vars->source])) {
             reset($source_list);
             $this->vars->source = key($source_list);
         }
@@ -82,8 +82,8 @@ class IMP_Basic_Contacts extends IMP_Basic_Base
             $initial = array_map(
                 'strval',
                 iterator_to_array($contacts->searchEmail($this->vars->search, [
-                'sources' => [$this->vars->source],
-            ]))
+                    'sources' => [$this->vars->source],
+                ]))
             );
         } else {
             $initial = null;

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -230,9 +230,9 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                     mktime(0, 0, 0, $end['month'], $end['mday'], $end['year'])
                 );
             } elseif (is_int($end)) {
-                $view->end = strftime($prefs->getValue('date_format'), $end) .
-                    ' ' .
-                    date($prefs->getValue('twentyFour') ? ' G:i' : ' g:i a', $end);
+                $view->end = strftime($prefs->getValue('date_format'), $end)
+                    . ' '
+                    . date($prefs->getValue('twentyFour') ? ' G:i' : ' g:i a', $end);
             } else {
                 $view->end = '';
             }
@@ -293,8 +293,8 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
         $options = [];
 
         try {
-            if (($attendees = $vevent->getAttribute('ATTENDEE')) &&
-                !is_array($attendees)) {
+            if (($attendees = $vevent->getAttribute('ATTENDEE'))
+                && !is_array($attendees)) {
                 $attendees = [$attendees];
             }
         } catch (Horde_Icalendar_Exception $e) {
@@ -324,8 +324,8 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                         $identity = $injector->getInstance('IMP_Identity');
                         for ($i = 0, $c = count($attendees); $i < $c; ++$i) {
                             $attendee = parse_url($attendees[$i]);
-                            if (!empty($attendee['path']) &&
-                                $identity->hasAddress($attendee['path'])) {
+                            if (!empty($attendee['path'])
+                                && $identity->hasAddress($attendee['path'])) {
                                 $desc = _('%s requests your presence at "%s".');
                                 break;
                             }
@@ -365,8 +365,8 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                 $sender = $from
                     ? $from->getAddressList(true)->first()->bare_address
                     : null;
-                if ($registry->hasMethod('calendar/updateAttendee') &&
-                    $this->_autoUpdateReply(self::AUTO_UPDATE_EVENT_REPLY, $sender)) {
+                if ($registry->hasMethod('calendar/updateAttendee')
+                    && $this->_autoUpdateReply(self::AUTO_UPDATE_EVENT_REPLY, $sender)) {
                     try {
                         $registry->call('calendar/updateAttendee', [
                             $vevent,
@@ -472,9 +472,9 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                     foreach ($exdates as $exdate) {
                         if (is_array($exdate)) {
                             $recurrence->addException(
-                                (int)$exdate['year'],
-                                (int)$exdate['month'],
-                                (int)$exdate['mday']
+                                (int) $exdate['year'],
+                                (int) $exdate['month'],
+                                (int) $exdate['mday']
                             );
                         }
                     }
@@ -500,11 +500,11 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
             $view->attendees = $this->_parseAttendees($vevent, $attendees);
         }
 
-        if (!is_null($start) &&
-            !is_null($end) &&
-            in_array($method, ['PUBLISH', 'REQUEST', 'ADD']) &&
-            $registry->hasMethod('calendar/getFbCalendars') &&
-            $registry->hasMethod('calendar/listEvents')) {
+        if (!is_null($start)
+            && !is_null($end)
+            && in_array($method, ['PUBLISH', 'REQUEST', 'ADD'])
+            && $registry->hasMethod('calendar/getFbCalendars')
+            && $registry->hasMethod('calendar/listEvents')) {
             try {
                 $calendars = $registry->call('calendar/getFbCalendars');
 
@@ -535,11 +535,11 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
 
                         if ($vevent_allDay || $event->isAllDay()) {
                             $type = 'collision';
-                        } elseif (($event->end->compareDateTime($time_span_start) <= -1) ||
-                                ($event->start->compareDateTime($time_span_end) >= 1)) {
+                        } elseif (($event->end->compareDateTime($time_span_start) <= -1)
+                                || ($event->start->compareDateTime($time_span_end) >= 1)) {
                             continue;
-                        } elseif (($event->end->compareDateTime($vevent_start) <= -1) ||
-                                  ($event->start->compareDateTime($vevent_end) >= 1)) {
+                        } elseif (($event->end->compareDateTime($vevent_start) <= -1)
+                                  || ($event->start->compareDateTime($vevent_end) >= 1)) {
                             $type = 'nearcollision';
                         } else {
                             $type = 'collision';
@@ -580,8 +580,8 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
         $options = [];
 
         try {
-            if (($attendees = $vevent->getAttribute('ATTENDEE')) &&
-                !is_array($attendees)) {
+            if (($attendees = $vevent->getAttribute('ATTENDEE'))
+                && !is_array($attendees)) {
                 $attendees = [$attendees];
             }
         } catch (Horde_Icalendar_Exception $e) {
@@ -634,11 +634,11 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
             $view->attendees = $this->_parseAttendees($vevent, $attendees);
         }
 
-        if (!is_null($start) &&
-            !is_null($end) &&
-            in_array($method, ['PUBLISH', 'REQUEST', 'ADD']) &&
-            $registry->hasMethod('calendar/getFbCalendars') &&
-            $registry->hasMethod('calendar/listEvents')) {
+        if (!is_null($start)
+            && !is_null($end)
+            && in_array($method, ['PUBLISH', 'REQUEST', 'ADD'])
+            && $registry->hasMethod('calendar/getFbCalendars')
+            && $registry->hasMethod('calendar/listEvents')) {
             try {
                 $calendars = $registry->call('calendar/getFbCalendars');
                 $vevent_start = new Horde_Date($start);
@@ -668,11 +668,11 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
 
                         if ($vevent_allDay || $event->isAllDay()) {
                             $type = 'collision';
-                        } elseif (($event->end->compareDateTime($time_span_start) <= -1) ||
-                                ($event->start->compareDateTime($time_span_end) >= 1)) {
+                        } elseif (($event->end->compareDateTime($time_span_start) <= -1)
+                                || ($event->start->compareDateTime($time_span_end) >= 1)) {
                             continue;
-                        } elseif (($event->end->compareDateTime($vevent_start) <= -1) ||
-                                  ($event->start->compareDateTime($vevent_end) >= 1)) {
+                        } elseif (($event->end->compareDateTime($vevent_start) <= -1)
+                                  || ($event->start->compareDateTime($vevent_end) >= 1)) {
                             $type = 'nearcollision';
                         } else {
                             $type = 'collision';
@@ -726,8 +726,8 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
         }
 
         try {
-            if (($attendees = $vtodo->getAttribute('ATTENDEE')) &&
-                !is_array($attendees)) {
+            if (($attendees = $vtodo->getAttribute('ATTENDEE'))
+                && !is_array($attendees)) {
                 $attendees = [$attendees];
             }
         } catch (Horde_Icalendar_Exception $e) {
@@ -757,8 +757,8 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                     ? $from->getAddressList(true)->first()->bare_address
                     : null;
 
-                if ($registry->hasMethod('tasks/updateAttendee') &&
-                    $this->_autoUpdateReply(self::AUTO_UPDATE_TASK_REPLY, $sender)) {
+                if ($registry->hasMethod('tasks/updateAttendee')
+                    && $this->_autoUpdateReply(self::AUTO_UPDATE_TASK_REPLY, $sender)) {
                     try {
                         $registry->call('tasks/updateAttendee', [
                             $vtodo,

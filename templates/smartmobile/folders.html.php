@@ -1,5 +1,5 @@
 <div id="folders" data-role="page">
- <?php echo $this->smartmobileHeader(array('logout' => true, 'portal' => true, 'title' => _("Folders"))) ?>
+ <?php echo $this->smartmobileHeader(['logout' => true, 'portal' => true, 'title' => _("Folders")]) ?>
 
  <div data-role="content">
   <ul data-role="listview" data-filter="true" data-filter-placeholder="<?php echo _("Filter mailboxes...") ?>" id="imp-folders-list"></ul>

@@ -13,45 +13,45 @@
     <div class="horde-buttonbar">
     <ul class="rightFloat">
      <li class="horde-nobutton">
-      <?php echo $this->actionButton(array('id' => 'button_other', 'title' => _("Other"), 'right' => true)) ?>
+      <?php echo $this->actionButton(['id' => 'button_other', 'title' => _("Other"), 'right' => true]) ?>
      </li>
 <?php if ($this->show_search): ?>
      <li class="horde-nobutton" id="filter">
-      <?php echo $this->actionButton(array('id' => 'button_filter', 'title' => _("Filter"), 'right' => true)) ?>
+      <?php echo $this->actionButton(['id' => 'button_filter', 'title' => _("Filter"), 'right' => true]) ?>
      </li>
 <?php endif; ?>
     </ul>
     <ul>
      <li class="horde-icon">
-      <?php echo $this->actionButton(array('icon' => 'Refresh', 'id' => 'checkmaillink', 'title' => _("Refresh"))) ?>
+      <?php echo $this->actionButton(['icon' => 'Refresh', 'id' => 'checkmaillink', 'title' => _("Refresh")]) ?>
      </li>
      <li class="horde-icon">
-      <?php echo $this->actionButton(array('class' => 'noselectDisable', 'icon' => 'Reply', 'id' => 'button_reply', 'title' => _("Reply"))) ?>
+      <?php echo $this->actionButton(['class' => 'noselectDisable', 'icon' => 'Reply', 'id' => 'button_reply', 'title' => _("Reply")]) ?>
      </li>
      <li class="horde-icon">
-      <?php echo $this->actionButton(array('class' => 'noselectDisable', 'icon' => 'Forward', 'id' => 'button_forward', 'title' => _("Forward"))) ?>
+      <?php echo $this->actionButton(['class' => 'noselectDisable', 'icon' => 'Forward', 'id' => 'button_forward', 'title' => _("Forward")]) ?>
      </li>
 <?php if ($this->show_spam): ?>
      <li class="horde-icon" style="display:none">
-      <?php echo $this->actionButton(array('class' => 'noselectDisable', 'icon' => 'Spam', 'id' => 'button_spam', 'title' => _("Spam"))) ?>
+      <?php echo $this->actionButton(['class' => 'noselectDisable', 'icon' => 'Spam', 'id' => 'button_spam', 'title' => _("Spam")]) ?>
      </li>
 <?php endif; ?>
 <?php if ($this->show_innocent): ?>
      <li class="horde-icon" style="display:none">
-      <?php echo $this->actionButton(array('class' => 'noselectDisable', 'icon' => 'Innocent', 'id' => 'button_innocent', 'title' => _("Innocent"))) ?>
+      <?php echo $this->actionButton(['class' => 'noselectDisable', 'icon' => 'Innocent', 'id' => 'button_innocent', 'title' => _("Innocent")]) ?>
      </li>
 <?php endif; ?>
      <li class="horde-icon" style="display:none">
-      <?php echo $this->actionButton(array('class' => 'noselectDisable', 'icon' => 'Resume', 'id' => 'button_resume', 'title' => _("Resume"))) ?>
+      <?php echo $this->actionButton(['class' => 'noselectDisable', 'icon' => 'Resume', 'id' => 'button_resume', 'title' => _("Resume")]) ?>
      </li>
      <li class="horde-icon" style="display:none">
-      <?php echo $this->actionButton(array('icon' => 'Resume', 'id' => 'button_template', 'title' => _("Use Template"))) ?>
+      <?php echo $this->actionButton(['icon' => 'Resume', 'id' => 'button_template', 'title' => _("Use Template")]) ?>
      </li>
      <li class="horde-icon">
-      <?php echo $this->actionButton(array('class' => 'noselectDisable', 'icon' => 'Delete', 'id' => 'button_delete', 'title' => _("Delete"))) ?>
+      <?php echo $this->actionButton(['class' => 'noselectDisable', 'icon' => 'Delete', 'id' => 'button_delete', 'title' => _("Delete")]) ?>
      </li>
      <li class="horde-icon" id="button_compose">
-      <?php echo $this->actionButton(array('icon' => 'Compose', 'title' => _("New Message"))) ?>
+      <?php echo $this->actionButton(['icon' => 'Compose', 'title' => _("New Message")]) ?>
      </li>
     </ul>
     </div>

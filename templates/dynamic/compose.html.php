@@ -21,29 +21,29 @@
 <?php if (!$this->is_template): ?>
   <ul>
    <li class="horde-icon">
-    <?php echo $this->actionButton(array('htmltitle' => _("Accesskey Ctrl-Enter"), 'icon' => 'Send', 'id' => 'send_button', 'title' => _("Send"))) ?>
+    <?php echo $this->actionButton(['htmltitle' => _("Accesskey Ctrl-Enter"), 'icon' => 'Send', 'id' => 'send_button', 'title' => _("Send")]) ?>
    </li>
 <?php endif; ?>
 <?php endif; ?>
 <?php if ($this->is_template): ?>
    <li class="horde-icon">
-    <?php echo $this->actionButton(array('icon' => 'Templates', 'id' => 'template_button', 'title' => _("Save Template"))) ?>
+    <?php echo $this->actionButton(['icon' => 'Templates', 'id' => 'template_button', 'title' => _("Save Template")]) ?>
    </li>
 <?php else: ?>
 <?php if ($this->spellcheck): ?>
    <li class="horde-icon">
-    <?php echo $this->actionButton(array('icon' => 'Spellcheck', 'id' => 'spellcheck', 'title' => _("Check Spelling"))) ?>
+    <?php echo $this->actionButton(['icon' => 'Spellcheck', 'id' => 'spellcheck', 'title' => _("Check Spelling")]) ?>
    </li>
 <?php endif; ?>
 <?php if ($this->drafts): ?>
    <li class="horde-icon">
-    <?php echo $this->actionButton(array('icon' => 'Drafts', 'id' => 'draft_button', 'title' => _("Save as Draft"))) ?>
+    <?php echo $this->actionButton(['icon' => 'Drafts', 'id' => 'draft_button', 'title' => _("Save as Draft")]) ?>
    </li>
 <?php endif; ?>
 <?php endif; ?>
 <?php if ($this->resume): ?>
    <li class="horde-icon">
-    <?php echo $this->actionButton(array('icon' => 'Delete', 'id' => 'discard_button', 'title' => _("Discard Draft"))) ?>
+    <?php echo $this->actionButton(['icon' => 'Delete', 'id' => 'discard_button', 'title' => _("Discard Draft")]) ?>
    </li>
 <?php endif; ?>
   </ul>
@@ -55,7 +55,7 @@
 <?php if ($this->rte): ?>
     <div>
      <label>
-     <?php echo $this->checkBoxTag('htmlcheckbox', 1, $this->compose_html, array('class' => 'checkbox')) . _("HTML composition") ?>
+     <?php echo $this->checkBoxTag('htmlcheckbox', 1, $this->compose_html, ['class' => 'checkbox']) . _("HTML composition") ?>
      </label>
     </div>
 <?php endif; ?>
@@ -63,7 +63,7 @@
 <?php if ($this->save_sent_mail_select): ?>
     <div style="display:none">
      <label>
-      <?php echo $this->checkBoxTag('save_sent_mail', 1, false, array('class' => 'checkbox')) . _("Save in") ?>
+      <?php echo $this->checkBoxTag('save_sent_mail', 1, false, ['class' => 'checkbox']) . _("Save in") ?>
       <span id="sent_mail_label"></span>
      </label>
      <span class="iconImg horde-popdown" id="save_sent_mail_load"></span>
@@ -71,7 +71,7 @@
     </div>
 <?php else: ?>
     <div>
-     <?php echo $this->checkBoxTag('save_sent_mail', 1, false, array('class' => 'checkbox')) . _("Save sent mail") ?>
+     <?php echo $this->checkBoxTag('save_sent_mail', 1, false, ['class' => 'checkbox']) . _("Save sent mail") ?>
     </div>
 <?php endif; ?>
 <?php endif; ?>
@@ -114,7 +114,7 @@
       <span><?php echo _("To") ?>:</span>
      </td>
      <td>
-      <?php echo $this->textAreaTag('to', null, array('size' => '75x1')) ?>
+      <?php echo $this->textAreaTag('to', null, ['size' => '75x1']) ?>
      </td>
     </tr>
     <tr id="sendcc" style="display:none">
@@ -122,7 +122,7 @@
       <span><?php echo _("Cc") ?>:</span>
      </td>
      <td>
-      <?php echo $this->textAreaTag('cc', null, array('size' => '75x1')) ?>
+      <?php echo $this->textAreaTag('cc', null, ['size' => '75x1']) ?>
      </td>
     </tr>
     <tr id="sendbcc" style="display:none">
@@ -130,7 +130,7 @@
       <span><?php echo _("Bcc") ?>:</span>
      </td>
      <td>
-      <?php echo $this->textAreaTag('bcc', null, array('size' => '75x1')) ?>
+      <?php echo $this->textAreaTag('bcc', null, ['size' => '75x1']) ?>
      </td>
     </tr>
     <tr>
@@ -156,7 +156,7 @@
     </div>
     <div id="upload_add">
      <label id="compose_upload_add" for="upload"><?php echo _("Add Attachment") ?></label>
-      <?php echo $this->fileFieldTag('file_upload[]', array('id' => 'upload', 'multiple' => 'multiple')) ?>
+      <?php echo $this->fileFieldTag('file_upload[]', ['id' => 'upload', 'multiple' => 'multiple']) ?>
     </div>
     <ul id="attach_list" style="display:none"></ul>
    </div>
@@ -197,10 +197,14 @@
 <?php if ($this->signature): ?>
   <div id="signatureParent">
    <div class="label">
-    <span id="signatureToggle" class="iconImg<?php if ($this->sigExpanded) echo ' signatureExpanded' ?>"></span>
+    <span id="signatureToggle" class="iconImg<?php if ($this->sigExpanded) {
+        echo ' signatureExpanded';
+    } ?>"></span>
     <?php echo _("Signature")?>
    </div>
-   <div id="signatureBorder"<?php if (!$this->sigExpanded) echo ' style="display:none"' ?>>
+   <div id="signatureBorder"<?php if (!$this->sigExpanded) {
+       echo ' style="display:none"';
+   } ?>>
     <textarea id="signature" name="signature" class="fixed"></textarea>
    </div>
   </div>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -283,8 +283,8 @@ class IMP_Pgp
 
         /* If there is a cache driver configured, try to get the public key
          * from the cache. */
-        if (empty($options['nocache']) &&
-            ($cache = $injector->getInstance('Horde_Cache'))) {
+        if (empty($options['nocache'])
+            && ($cache = $injector->getInstance('Horde_Cache'))) {
             $result = $cache->get('PGPpublicKey_' . $address . $keyid, 3600);
             if ($result) {
                 Horde::log('PGPpublicKey: ' . serialize($result), 'DEBUG');
@@ -757,11 +757,11 @@ class IMP_Pgp
                 case Horde_Crypt_Pgp::ARMOR_PRIVATE_KEY:
                     $key = implode("\n", $val['data']);
                     if ($key_info = $this->_pgp->pgpPacketInformation($key)) {
-                        if (($val['type'] == Horde_Crypt_Pgp::ARMOR_PUBLIC_KEY) &&
-                            !empty($key_info['public_key'])) {
+                        if (($val['type'] == Horde_Crypt_Pgp::ARMOR_PUBLIC_KEY)
+                            && !empty($key_info['public_key'])) {
                             $out['public'][] = $key;
-                        } elseif (($val['type'] == Horde_Crypt_Pgp::ARMOR_PRIVATE_KEY) &&
-                            !empty($key_info['secret_key'])) {
+                        } elseif (($val['type'] == Horde_Crypt_Pgp::ARMOR_PRIVATE_KEY)
+                            && !empty($key_info['secret_key'])) {
                             $out['private'][] = $key;
                         }
                     }
@@ -769,9 +769,9 @@ class IMP_Pgp
             }
         }
 
-        if (!empty($out['private']) &&
-            empty($out['public']) &&
-            $res = $this->_pgp->getPublicKeyFromPrivateKey(reset($out['private']))) {
+        if (!empty($out['private'])
+            && empty($out['public'])
+            && $res = $this->_pgp->getPublicKeyFromPrivateKey(reset($out['private']))) {
             $out['public'][] = $res;
         }
 

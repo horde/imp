@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -144,8 +144,8 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
      */
     public function moveMessages()
     {
-        if ((!isset($this->vars->mboxto) && !isset($this->vars->newmbox)) ||
-            !count($this->_base->indices)) {
+        if ((!isset($this->vars->mboxto) && !isset($this->vars->newmbox))
+            || !count($this->_base->indices)) {
             $this->_base->queue->flagReplace($this->_base->indices);
             return false;
         }
@@ -194,8 +194,8 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
      */
     public function copyMessages()
     {
-        if ((!isset($this->vars->mboxto) && !isset($this->vars->newmbox)) ||
-            !count($this->_base->indices)) {
+        if ((!isset($this->vars->mboxto) && !isset($this->vars->newmbox))
+            || !count($this->_base->indices)) {
             return false;
         }
 
@@ -548,7 +548,7 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
                     'priority' => $this->vars->priority,
                     'readreceipt' => $this->vars->request_read_receipt,
                     'save_sent' => ($sm_displayed
-                        ? (bool)$this->vars->save_sent_mail
+                        ? (bool) $this->vars->save_sent_mail
                         : $identity->getValue('save_sent_mail')),
                     'sent_mail' => ($sm_displayed
                         ? (isset($this->vars->save_sent_mail_mbox)
@@ -556,11 +556,11 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
                             : $identity->getValue(IMP_Mailbox::MBOX_SENT))
                         : $identity->getValue(IMP_Mailbox::MBOX_SENT)),
                     'signature' => $this->vars->signature,
-                    'strip_attachments' =>
-                        (isset($this->vars->save_attachments_select) &&
-                         !$this->vars->save_attachments_select) ||
-                        (!isset($this->vars->save_attachments_select) &&
-                         strcasecmp($prefs->getValue('save_attachments'), 'always') !== 0),
+                    'strip_attachments'
+                        => (isset($this->vars->save_attachments_select)
+                         && !$this->vars->save_attachments_select)
+                        || (!isset($this->vars->save_attachments_select)
+                         && strcasecmp($prefs->getValue('save_attachments'), 'always') !== 0),
                     'vcard_attach' => ($this->vars->vcard_attach
                         ? $identity->getValue('fullname')
                         : null),
@@ -702,9 +702,9 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
             $this->_base->queue->message(
                 $this->_base->indices,
                 [
-                    'is_list' => (bool)$this->vars->is_list,
-                    'peek' => (bool)$this->vars->peek,
-                    'preview' => (bool)$this->vars->preview,
+                    'is_list' => (bool) $this->vars->is_list,
+                    'peek' => (bool) $this->vars->peek,
+                    'preview' => (bool) $this->vars->preview,
                 ]
             );
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -27,9 +27,7 @@ class IMP_Prefs_Special_SmimePrivateKey implements Horde_Core_Prefs_Ui_Special
 {
     /**
      */
-    public function init(Horde_Core_Prefs_Ui $ui)
-    {
-    }
+    public function init(Horde_Core_Prefs_Ui $ui) {}
 
     /**
      */
@@ -54,10 +52,10 @@ class IMP_Prefs_Special_SmimePrivateKey implements Horde_Core_Prefs_Ui_Special
 
         $smime_url = IMP_Basic_Smime::url();
 
-        $view->has_key = $prefs->getValue('smime_public_key') &&
-            $prefs->getValue('smime_private_key');
-        $view->has_sign_key = $prefs->getValue('smime_public_sign_key') &&
-            $prefs->getValue('smime_private_sign_key');
+        $view->has_key = $prefs->getValue('smime_public_key')
+            && $prefs->getValue('smime_private_key');
+        $view->has_sign_key = $prefs->getValue('smime_public_sign_key')
+            && $prefs->getValue('smime_private_sign_key');
 
         if ($browser->allowFileUploads()) {
             $view->import = true;
@@ -160,8 +158,8 @@ class IMP_Prefs_Special_SmimePrivateKey implements Horde_Core_Prefs_Ui_Special
     {
         global $injector, $notification;
 
-        if (isset($ui->vars->delete_smime_personal) ||
-            isset($ui->vars->delete_smime_personal_sign)) {
+        if (isset($ui->vars->delete_smime_personal)
+            || isset($ui->vars->delete_smime_personal_sign)) {
             $injector->getInstance('IMP_Smime')->deletePersonalKeys(
                 $ui->vars->delete_smime_personal_sign
             );
@@ -171,8 +169,8 @@ class IMP_Prefs_Special_SmimePrivateKey implements Horde_Core_Prefs_Ui_Special
                     : _('Personal S/MIME keys deleted successfully.'),
                 'horde.success'
             );
-        } elseif (isset($ui->vars->unset_smime_passphrase) ||
-                  isset($ui->vars->unset_smime_sign_passphrase)) {
+        } elseif (isset($ui->vars->unset_smime_passphrase)
+                  || isset($ui->vars->unset_smime_sign_passphrase)) {
             $injector->getInstance('IMP_Smime')->unsetPassphrase(
                 $ui->vars->unset_smime_sign_passphrase
             );

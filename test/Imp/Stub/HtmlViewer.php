@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -28,18 +29,18 @@ class Imp_Stub_Mime_Viewer_Html extends IMP_Mime_Viewer_Html
 {
     public function runTest($html)
     {
-        $this->_imptmp = array(
+        $this->_imptmp = [
             'blockimg' => 'imgblock.png',
             'img' => true,
             'imgblock' => false,
             'inline' => true,
-            'target' => '_blank'
-        );
-        $this->_tmp = array(
+            'target' => '_blank',
+        ];
+        $this->_tmp = [
             'base' => null,
             'inline' => true,
-            'phish' => true
-        );
+            'phish' => true,
+        ];
 
         $dom = new Horde_Domhtml($html);
 

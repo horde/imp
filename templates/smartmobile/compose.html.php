@@ -1,5 +1,5 @@
 <div id="compose" data-role="page">
- <?php echo $this->smartmobileHeader(array('logout' => true, 'title' => _("New Message"))) ?>
+ <?php echo $this->smartmobileHeader(['logout' => true, 'title' => _("New Message")]) ?>
 
  <div data-role="content">
   <form id="imp-redirect-form" style="display:none">
@@ -21,7 +21,9 @@
     <label for="imp-compose-identity"><?php echo _("From:") ?></label>
     <select id="imp-compose-identity" name="identity">
 <?php foreach ($this->identities as $identity): ?>
-     <option value="<?php echo $this->h($identity['val']) ?>"<?php if ($identity['sel']) echo ' selected="selected"' ?>><?php echo $this->h($identity['label']) ?></option>
+     <option value="<?php echo $this->h($identity['val']) ?>"<?php if ($identity['sel']) {
+         echo ' selected="selected"';
+     } ?>><?php echo $this->h($identity['label']) ?></option>
 <?php endforeach ?>
     </select>
 <?php endif; ?>

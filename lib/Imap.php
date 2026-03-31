@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2008-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2008-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -202,8 +202,8 @@ class IMP_Imap implements Serializable
      */
     public function isImap()
     {
-        return ($this->init &&
-                ($this->_ob instanceof Horde_Imap_Client_Socket));
+        return ($this->init
+                && ($this->_ob instanceof Horde_Imap_Client_Socket));
     }
 
     /**
@@ -213,8 +213,8 @@ class IMP_Imap implements Serializable
      */
     public function isPop3()
     {
-        return ($this->init &&
-                ($this->_ob instanceof Horde_Imap_Client_Socket_Pop3));
+        return ($this->init
+                && ($this->_ob instanceof Horde_Imap_Client_Socket_Pop3));
     }
 
     /**
@@ -377,12 +377,12 @@ class IMP_Imap implements Serializable
                 return ($this->config->acl && $this->queryCapability('ACL'));
 
             case self::ACCESS_CREATEMBOX:
-                return ($this->isImap() &&
-                        $injector->getInstance('Horde_Core_Perms')->hasAppPermission($this->_getPerm('create_mboxes')));
+                return ($this->isImap()
+                        && $injector->getInstance('Horde_Core_Perms')->hasAppPermission($this->_getPerm('create_mboxes')));
 
             case self::ACCESS_CREATEMBOX_MAX:
-                return ($this->isImap() &&
-                        $injector->getInstance('Horde_Core_Perms')->hasAppPermission($this->_getPerm('max_create_mboxes')));
+                return ($this->isImap()
+                        && $injector->getInstance('Horde_Core_Perms')->hasAppPermission($this->_getPerm('max_create_mboxes')));
 
             case self::ACCESS_DRAFTS:
             case self::ACCESS_FLAGS:
@@ -393,15 +393,15 @@ class IMP_Imap implements Serializable
 
             case self::ACCESS_FOLDERS:
             case self::ACCESS_TRASH:
-                return ($this->isImap() &&
-                        $injector->getInstance('Horde_Core_Perms')->hasAppPermission($this->_getPerm('allow_folders')));
+                return ($this->isImap()
+                        && $injector->getInstance('Horde_Core_Perms')->hasAppPermission($this->_getPerm('allow_folders')));
 
             case self::ACCESS_REMOTE:
                 return $injector->getInstance('Horde_Core_Perms')->hasAppPermission($this->_getPerm('allow_remote'));
 
             case self::ACCESS_SORT:
-                return ($this->isImap() &&
-                        ($this->config->sort_force || $this->_ob->queryCapability('SORT')));
+                return ($this->isImap()
+                        && ($this->config->sort_force || $this->_ob->queryCapability('SORT')));
         }
 
         return false;
@@ -489,8 +489,8 @@ class IMP_Imap implements Serializable
      */
     public function getCacheId($mailbox, array $addl = [])
     {
-        return $this->getSyncToken($mailbox) .
-            (empty($addl) ? '' : ('|' . implode('|', $addl)));
+        return $this->getSyncToken($mailbox)
+            . (empty($addl) ? '' : ('|' . implode('|', $addl)));
     }
 
     /**
@@ -507,8 +507,8 @@ class IMP_Imap implements Serializable
     {
         $out = ['date' => null];
 
-        if ((($pos = strrpos($id, '|')) !== false) &&
-            (substr($id, $pos + 1, 1) == 'D')) {
+        if ((($pos = strrpos($id, '|')) !== false)
+            && (substr($id, $pos + 1, 1) == 'D')) {
             $out['date'] = substr($id, $pos + 2);
         }
 

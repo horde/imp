@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -49,9 +49,9 @@ class IMP_Search_Element_Daterange extends IMP_Search_Element
         $this->_data->n = intval($not);
 
         /* Flip $begin and $end if $end is earlier than $begin. */
-        if ($this->_data->b &&
-            $this->_data->e &&
-            ($this->_data->b > $this->_data->e)) {
+        if ($this->_data->b
+            && $this->_data->e
+            && ($this->_data->b > $this->_data->e)) {
             $tmp = $this->_data->e;
             $this->_data->e = $this->_data->b;
             $this->_data->b = $tmp;

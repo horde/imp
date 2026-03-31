@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2014-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -64,8 +64,8 @@ class IMP_Compose_HtmlSignature
             if (Horde_Url_Data::isData($src)) {
                 if (strcasecmp($node->tagName, 'IMG') === 0) {
                     $data_url = new Horde_Url_Data($src);
-                    if ($img_limit &&
-                        ($img_limit -= strlen($data_url->data)) < 0) {
+                    if ($img_limit
+                        && ($img_limit -= strlen($data_url->data)) < 0) {
                         throw new IMP_Exception(_('The total size of your HTML signature image data has exceeded the maximum allowed.'));
                     }
 
@@ -88,8 +88,8 @@ class IMP_Compose_HtmlSignature
      */
     public static function isSigImage(DOMNode $node, $strip = false)
     {
-        if ((strcasecmp($node->tagName, 'IMG') === 0) &&
-            $node->hasAttribute(self::HTMLSIG_ATTR)) {
+        if ((strcasecmp($node->tagName, 'IMG') === 0)
+            && $node->hasAttribute(self::HTMLSIG_ATTR)) {
             if ($strip) {
                 $node->removeAttribute(self::HTMLSIG_ATTR);
             }

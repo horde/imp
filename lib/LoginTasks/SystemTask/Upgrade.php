@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2009-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2009-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -113,8 +113,8 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
     {
         global $prefs;
 
-        if ($prefs->isDefault('request_mdn') &&
-            ($val = $prefs->getValue('disposition_request_read'))) {
+        if ($prefs->isDefault('request_mdn')
+            && ($val = $prefs->getValue('disposition_request_read'))) {
             $prefs->setValue('request_mdn', $val);
         }
     }
@@ -127,8 +127,8 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
     {
         global $prefs;
 
-        if (!$prefs->getValue('delete_attachments_monthly') &&
-            ($prefs->getDefault('delete_attachments_monthly') !== null)) {
+        if (!$prefs->getValue('delete_attachments_monthly')
+            && ($prefs->getDefault('delete_attachments_monthly') !== null)) {
             $prefs->setValue('delete_attachments_monthly_keep', 0);
         }
 
@@ -145,8 +145,8 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
     {
         global $prefs;
 
-        if (!$prefs->getValue('delete_sentmail_monthly') &&
-            ($prefs->getDefault('delete_sentmail_monthly') !== null)) {
+        if (!$prefs->getValue('delete_sentmail_monthly')
+            && ($prefs->getDefault('delete_sentmail_monthly') !== null)) {
             $prefs->setValue('delete_sentmail_monthly_keep', 0);
         }
 
@@ -226,8 +226,8 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
             }
         }
 
-        if ($prefs->isDefault('send_mdn') &&
-            $prefs->getValue('disposition_send_mdn')) {
+        if ($prefs->isDefault('send_mdn')
+            && $prefs->getValue('disposition_send_mdn')) {
             $prefs->setValue('send_mdn', 1);
         }
     }
@@ -239,14 +239,14 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
     {
         global $prefs;
 
-        if ($prefs->isDefault('newmail_notify') &&
-            $prefs->getValue('nav_popup')) {
+        if ($prefs->isDefault('newmail_notify')
+            && $prefs->getValue('nav_popup')) {
             $prefs->setValue('newmail_notify', 1);
         }
 
-        if ($prefs->getValue('newmail_notify') &&
-            $prefs->isDefault('newmail_audio') &&
-            ($nav_audio = $prefs->getValue('nav_audio'))) {
+        if ($prefs->getValue('newmail_notify')
+            && $prefs->isDefault('newmail_audio')
+            && ($nav_audio = $prefs->getValue('nav_audio'))) {
             $prefs->setValue('newmail_audio', $nav_audio);
         }
     }
@@ -259,8 +259,8 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
     {
         global $prefs;
 
-        if (!$prefs->getValue('purge_sentmail') &&
-            ($prefs->getDefault('purge_sentmail') !== null)) {
+        if (!$prefs->getValue('purge_sentmail')
+            && ($prefs->getDefault('purge_sentmail') !== null)) {
             $prefs->remove('purge_sentmail_interval');
         }
 
@@ -276,8 +276,8 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
     {
         global $prefs;
 
-        if (!$prefs->getValue('purge_spam') &&
-            ($prefs->getDefault('purge_spam') !== null)) {
+        if (!$prefs->getValue('purge_spam')
+            && ($prefs->getDefault('purge_spam') !== null)) {
             $prefs->remove('purge_spam_interval');
         }
 
@@ -293,8 +293,8 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
     {
         global $prefs;
 
-        if (!$prefs->getValue('purge_trash') &&
-            ($prefs->getDefault('purge_trash') !== null)) {
+        if (!$prefs->getValue('purge_trash')
+            && ($prefs->getDefault('purge_trash') !== null)) {
             $prefs->remove('purge_trash_interval');
         }
 
@@ -354,12 +354,12 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
 
         if ($prefs->isDefault('vfolder') || is_object(reset($vfolders))) {
             foreach ($vfolders as $val) {
-                if (!is_null($use_vinbox) &&
-                    ($val instanceof IMP_Search_Vfolder_Vinbox)) {
-                    $val->enabled = (bool)$use_vinbox;
-                } elseif (!is_null($use_vtrash) &&
-                          ($val instanceof IMP_Search_Vfolder_Vtrash)) {
-                    $val->enabled = (bool)$use_vtrash;
+                if (!is_null($use_vinbox)
+                    && ($val instanceof IMP_Search_Vfolder_Vinbox)) {
+                    $val->enabled = (bool) $use_vinbox;
+                } elseif (!is_null($use_vtrash)
+                          && ($val instanceof IMP_Search_Vfolder_Vtrash)) {
+                    $val->enabled = (bool) $use_vtrash;
                     if ($use_vtrash) {
                         $prefs->setValue('trash_folder', strval($val));
                     }
@@ -600,8 +600,8 @@ class IMP_LoginTasks_SystemTask_Upgrade extends Horde_Core_LoginTasks_SystemTask
     {
         $imp_search = $GLOBALS['injector']->getInstance('IMP_Search');
         $iterator = IMP_Search_IteratorFilter::create(
-            IMP_Search_IteratorFilter::VFOLDER |
-            IMP_Search_IteratorFilter::DISABLED
+            IMP_Search_IteratorFilter::VFOLDER
+            | IMP_Search_IteratorFilter::DISABLED
         );
 
         foreach ($iterator as $val) {

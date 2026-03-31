@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -25,9 +25,7 @@ class IMP_Prefs_Special_Searches implements Horde_Core_Prefs_Ui_Special
 {
     /**
      */
-    public function init(Horde_Core_Prefs_Ui $ui)
-    {
-    }
+    public function init(Horde_Core_Prefs_Ui $ui) {}
 
     /**
      */
@@ -53,8 +51,8 @@ class IMP_Prefs_Special_Searches implements Horde_Core_Prefs_Ui_Special
 
         $vfolder_locked = $prefs->isLocked('vfolder');
         $iterator = IMP_Search_IteratorFilter::create(
-            IMP_Search_IteratorFilter::DISABLED |
-            IMP_Search_IteratorFilter::VFOLDER
+            IMP_Search_IteratorFilter::DISABLED
+            | IMP_Search_IteratorFilter::VFOLDER
         );
 
         foreach ($iterator as $val) {
@@ -81,8 +79,8 @@ class IMP_Prefs_Special_Searches implements Horde_Core_Prefs_Ui_Special
 
         $filter_locked = $prefs->isLocked('filter');
         $iterator = IMP_Search_IteratorFilter::create(
-            IMP_Search_IteratorFilter::DISABLED |
-            IMP_Search_IteratorFilter::FILTER
+            IMP_Search_IteratorFilter::DISABLED
+            | IMP_Search_IteratorFilter::FILTER
         );
 
         foreach ($iterator as $val) {
@@ -140,8 +138,8 @@ class IMP_Prefs_Special_Searches implements Horde_Core_Prefs_Ui_Special
             default:
                 /* Update enabled status for Virtual Folders. */
                 $iterator = IMP_Search_IteratorFilter::create(
-                    IMP_Search_IteratorFilter::DISABLED |
-                    IMP_Search_IteratorFilter::VFOLDER
+                    IMP_Search_IteratorFilter::DISABLED
+                    | IMP_Search_IteratorFilter::VFOLDER
                 );
                 $vfolders = [];
 
@@ -159,8 +157,8 @@ class IMP_Prefs_Special_Searches implements Horde_Core_Prefs_Ui_Special
 
                 /* Update enabled status for Filters. */
                 $iterator = IMP_Search_IteratorFilter::create(
-                    IMP_Search_IteratorFilter::DISABLED |
-                    IMP_Search_IteratorFilter::FILTER
+                    IMP_Search_IteratorFilter::DISABLED
+                    | IMP_Search_IteratorFilter::FILTER
                 );
                 $filters = [];
 

@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Change IMP's maillog entries to use ':' delimiters.
  *
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -28,7 +29,7 @@ class ImpMaillogUpdate extends Horde_Db_Migration_Base
             $this->announce('Updating entries. This may take some time.');
             foreach ($rows as $row) {
                 $row['object_uid'] = implode(':', explode('.', $row['object_uid'], 3));
-                $this->_connection->update($sql, array($row['object_uid'], $row['history_id']));
+                $this->_connection->update($sql, [$row['object_uid'], $row['history_id']]);
             }
         }
     }
@@ -47,7 +48,7 @@ class ImpMaillogUpdate extends Horde_Db_Migration_Base
             $this->announce('Updating entries. This may take some time.');
             foreach ($rows as $row) {
                 $row['object_uid'] = implode('.', explode(':', $row['object_uid'], 3));
-                $this->_connection->update($sql, array($row['object_uid'], $row['history_id']));
+                $this->_connection->update($sql, [$row['object_uid'], $row['history_id']]);
             }
         }
     }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -133,9 +133,9 @@ class IMP_Perms
             ];
 
             foreach ($this->_perms as $key2 => $val2) {
-                if (empty($val2['global']) &&
-                    (empty($val2['imaponly']) ||
-                    ($val->protocol == 'imap'))) {
+                if (empty($val2['global'])
+                    && (empty($val2['imaponly'])
+                    || ($val->protocol == 'imap'))) {
                     $perms[$bkey . ':' . $key2] = [
                         'title' => $val2['title'],
                         'type' => $val2['type'],
@@ -157,8 +157,8 @@ class IMP_Perms
         }
 
         return isset($this->_perms[$permission]['handle'])
-            ? (bool)call_user_func($this->_perms[$permission]['handle'], $allowed, $opts)
-            : (bool)$allowed;
+            ? (bool) call_user_func($this->_perms[$permission]['handle'], $allowed, $opts)
+            : (bool) $allowed;
     }
 
 }

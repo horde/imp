@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Output script for various data elements generated in IMP.
  *
@@ -18,7 +19,7 @@
  *   - mode: (integer) The view mode to use.
  *           DEFAULT: IMP_Contents::RENDER_FULL
  *
- * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 1999-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -32,35 +33,35 @@
  */
 
 require_once __DIR__ . '/lib/Application.php';
-Horde_Registry::appInit('imp', array(
-    'session_control' => 'readonly'
-));
+Horde_Registry::appInit('imp', [
+    'session_control' => 'readonly',
+]);
 
 $vars = $injector->getInstance('Horde_Variables');
 
 /* Run through action handlers */
 switch ($vars->actionID) {
-case 'compose_attach_preview':
-    $view_ob = new IMP_Compose_View($vars->composeCache);
-    $res = $view_ob->composeAttachPreview($vars->id, true, $vars->ctype);
-    break;
+    case 'compose_attach_preview':
+        $view_ob = new IMP_Compose_View($vars->composeCache);
+        $res = $view_ob->composeAttachPreview($vars->id, true, $vars->ctype);
+        break;
 
-case 'print_attach':
-    $view_ob = new IMP_Contents_View(new IMP_Indices_Mailbox($vars));
-    $view_ob->checkToken($vars);
-    $res = $view_ob->printAttach($vars->id);
-    break;
+    case 'print_attach':
+        $view_ob = new IMP_Contents_View(new IMP_Indices_Mailbox($vars));
+        $view_ob->checkToken($vars);
+        $res = $view_ob->printAttach($vars->id);
+        break;
 
-case 'view_attach':
-    $view_ob = new IMP_Contents_View(new IMP_Indices_Mailbox($vars));
-    $view_ob->checkToken($vars);
-    $res = $view_ob->viewAttach($vars->id, $vars->mode, $vars->autodetect, $vars->ctype);
-    break;
+    case 'view_attach':
+        $view_ob = new IMP_Contents_View(new IMP_Indices_Mailbox($vars));
+        $view_ob->checkToken($vars);
+        $res = $view_ob->viewAttach($vars->id, $vars->mode, $vars->autodetect, $vars->ctype);
+        break;
 
-case 'view_source':
-    $view_ob = new IMP_Contents_View(new IMP_Indices_Mailbox($vars));
-    $res = $view_ob->viewSource();
-    break;
+    case 'view_source':
+        $view_ob = new IMP_Contents_View(new IMP_Indices_Mailbox($vars));
+        $res = $view_ob->viewSource();
+        break;
 }
 
 if (empty($res)) {
@@ -75,8 +76,8 @@ if (is_resource($res['data'])) {
 }
 
 $browser->downloadHeaders(
-    isset($res['name']) ? $res['name'] : '',
-    isset($res['type']) ? $res['type'] : '',
+    $res['name'] ?? '',
+    $res['type'] ?? '',
     true,
     $size
 );

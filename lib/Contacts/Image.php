@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -98,8 +98,8 @@ class IMP_Contacts_Image
             foreach ($conf['contactsimage']['backends'] as $val) {
                 if (class_exists($val)) {
                     $backend = new $val();
-                    if (($backend instanceof $type) &&
-                        ($url = $backend->$func($this->_email))) {
+                    if (($backend instanceof $type)
+                        && ($url = $backend->$func($this->_email))) {
                         $cache->set(
                             $cache_id,
                             $pack->pack($url),

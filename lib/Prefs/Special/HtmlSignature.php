@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -25,9 +25,7 @@ class IMP_Prefs_Special_HtmlSignature implements Horde_Core_Prefs_Ui_Special
 {
     /**
      */
-    public function init(Horde_Core_Prefs_Ui $ui)
-    {
-    }
+    public function init(Horde_Core_Prefs_Ui $ui) {}
 
     /**
      */
@@ -40,9 +38,9 @@ class IMP_Prefs_Special_HtmlSignature implements Horde_Core_Prefs_Ui_Special
         $page_output->addScriptPackage('IMP_Script_Package_Editor');
 
         $page_output->addInlineJsVars([
-            'ImpHtmlSignaturePrefs.sigs' =>
-                [-1 => $prefs->getValue('signature_html')] +
-                $injector->getInstance('IMP_Identity')->getAll('signature_html'),
+            'ImpHtmlSignaturePrefs.sigs'
+                => [-1 => $prefs->getValue('signature_html')]
+                + $injector->getInstance('IMP_Identity')->getAll('signature_html'),
         ]);
 
         $view = new Horde_View([

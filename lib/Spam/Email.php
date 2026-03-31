@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -172,8 +172,8 @@ class IMP_Spam_Email implements IMP_Spam_Base
                         $process = true;
                     }
 
-                    if (!is_null($slimit) &&
-                        (($slimit -= $val->getMIMEMessage()->getBytes()) < 0)) {
+                    if (!is_null($slimit)
+                        && (($slimit -= $val->getMIMEMessage()->getBytes()) < 0)) {
                         $process = true;
                         /* If we have exceeded size limits with this single
                          * message, it exceeds the maximum limit and we can't

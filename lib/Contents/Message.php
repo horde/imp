@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2005-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2005-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -182,8 +182,8 @@ class IMP_Contents_Message
             $result['onepart'] = true;
         }
 
-        if (count($inlineout['atc_parts']) ||
-            (($show_parts == 'all') && count($inlineout['display_ids']) > 2)) {
+        if (count($inlineout['atc_parts'])
+            || (($show_parts == 'all') && count($inlineout['display_ids']) > 2)) {
             $result['atc']['label'] = ($show_parts == 'all')
                 ? _('Parts')
                 : sprintf(ngettext('%d Attachment', '%d Attachments', count($inlineout['atc_parts'])), count($inlineout['atc_parts']));
@@ -199,11 +199,11 @@ class IMP_Contents_Message
         if (!empty($inlineout['atc_parts'])) {
             $partlist = [];
 
-            $contents_mask = IMP_Contents::SUMMARY_DESCRIP |
-                IMP_Contents::SUMMARY_DESCRIP_LINK |
-                IMP_Contents::SUMMARY_DOWNLOAD |
-                IMP_Contents::SUMMARY_ICON |
-                IMP_Contents::SUMMARY_SIZE;
+            $contents_mask = IMP_Contents::SUMMARY_DESCRIP
+                | IMP_Contents::SUMMARY_DESCRIP_LINK
+                | IMP_Contents::SUMMARY_DOWNLOAD
+                | IMP_Contents::SUMMARY_ICON
+                | IMP_Contents::SUMMARY_SIZE;
 
             $part_info = [
                 'icon', 'description', 'size', 'download', 'description_raw',
@@ -324,12 +324,12 @@ class IMP_Contents_Message
                 break;
 
             default:
-                $contents_mask = IMP_Contents::SUMMARY_BYTES |
-                    IMP_Contents::SUMMARY_SIZE |
-                    IMP_Contents::SUMMARY_ICON |
-                    IMP_Contents::SUMMARY_DESCRIP_LINK |
-                    IMP_Contents::SUMMARY_DOWNLOAD |
-                    IMP_Contents::SUMMARY_PRINT_STUB;
+                $contents_mask = IMP_Contents::SUMMARY_BYTES
+                    | IMP_Contents::SUMMARY_SIZE
+                    | IMP_Contents::SUMMARY_ICON
+                    | IMP_Contents::SUMMARY_DESCRIP_LINK
+                    | IMP_Contents::SUMMARY_DOWNLOAD
+                    | IMP_Contents::SUMMARY_PRINT_STUB;
                 break;
         }
 
@@ -565,14 +565,14 @@ class IMP_Contents_Message
             $mime_id = $part->getMimeId();
             $i[] = $mime_id;
 
-            if (isset($display_ids[$mime_id]) ||
-                isset($atc_parts[$mime_id])) {
+            if (isset($display_ids[$mime_id])
+                || isset($atc_parts[$mime_id])) {
                 continue;
             }
 
-            if ($mimeid_filter &&
-                ((strval($mimeid_filter) != $mime_id) &&
-                 !$mimeid_filter->isChild($mime_id))) {
+            if ($mimeid_filter
+                && ((strval($mimeid_filter) != $mime_id)
+                 && !$mimeid_filter->isChild($mime_id))) {
                 continue;
             }
 
@@ -592,16 +592,16 @@ class IMP_Contents_Message
             }
 
             $render_part = $this->contents->renderMIMEPart($mime_id, $render_mode);
-            if (($show_parts == 'atc') &&
-                $part->isAttachment() &&
-                (empty($render_part) ||
-                 !($render_mode & IMP_Contents::RENDER_INLINE))) {
+            if (($show_parts == 'atc')
+                && $part->isAttachment()
+                && (empty($render_part)
+                 || !($render_mode & IMP_Contents::RENDER_INLINE))) {
                 $atc_parts[$mime_id] = 1;
             }
 
             if (empty($render_part)) {
-                if ($contents_mask &&
-                    $part->isAttachment()) {
+                if ($contents_mask
+                    && $part->isAttachment()) {
                     $msgtext[$mime_id] = [
                         'text' => $this->_formatSummary($this->contents->getSummary($mime_id, $contents_mask), true),
                     ];
@@ -678,14 +678,14 @@ class IMP_Contents_Message
             }
 
             if (!empty($part['wrap'])) {
-                $text_out .= '<div class="' . $part['wrap'] .
-                    '" impcontentsmimeid="' . $id . '">';
+                $text_out .= '<div class="' . $part['wrap']
+                    . '" impcontentsmimeid="' . $id . '">';
                 $wrap_ids[] = $id;
             }
 
-            $text_out .= '<div class="mimePartBase"' .
-                (empty($part['wrap']) ? ' impcontentsmimeid="' . $id .  '"' : '') .
-                '>' . $part['text'] . '</div>';
+            $text_out .= '<div class="mimePartBase"'
+                . (empty($part['wrap']) ? ' impcontentsmimeid="' . $id . '"' : '')
+                . '>' . $part['text'] . '</div>';
         }
 
         $text_out .= str_repeat('</div>', count($wrap_ids));
@@ -738,11 +738,11 @@ class IMP_Contents_Message
             }
         }
 
-        return '<div class="mimePartInfo' .
-            ($atc ? ' mimePartInfoAtc' : '') .
-            '"><div>' .
-            implode(' ', $tmp_summary) .
-            '</div></div>';
+        return '<div class="mimePartInfo'
+            . ($atc ? ' mimePartInfoAtc' : '')
+            . '"><div>'
+            . implode(' ', $tmp_summary)
+            . '</div></div>';
     }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2014-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -83,8 +83,8 @@ class IMP_Mailbox_SessionCache implements Serializable
      */
     public function getAcl($mbox)
     {
-        if (!isset($this->_cache[$mbox]) ||
-            !array_key_exists(self::CACHE_ACL, $this->_cache[$mbox])) {
+        if (!isset($this->_cache[$mbox])
+            || !array_key_exists(self::CACHE_ACL, $this->_cache[$mbox])) {
             return false;
         }
 
@@ -307,8 +307,8 @@ class IMP_Mailbox_SessionCache implements Serializable
                         null,
                         ['attributes' => true]
                     );
-                    $exists = (isset($mbox_list[strval($mbox)]) &&
-                               !in_array('\\noselect', $mbox_list[strval($mbox)]['attributes']));
+                    $exists = (isset($mbox_list[strval($mbox)])
+                               && !in_array('\\noselect', $mbox_list[strval($mbox)]['attributes']));
                 } catch (IMP_Imap_Exception $e) {
                     $exists = false;
                 }
@@ -376,8 +376,8 @@ class IMP_Mailbox_SessionCache implements Serializable
 
                 case self::CACHE_ICONHOOK:
                 case self::CACHE_SPECIALMBOXES:
-                    if (($c = isset($this->_cache[$val])) ||
-                        isset($this->_temp[$val])) {
+                    if (($c = isset($this->_cache[$val]))
+                        || isset($this->_temp[$val])) {
                         if ($c) {
                             $this->_changed = self::CHANGED_YES;
                         }

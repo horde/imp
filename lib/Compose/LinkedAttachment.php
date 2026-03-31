@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -101,9 +101,9 @@ class IMP_Compose_LinkedAttachment
      */
     public function delete($token)
     {
-        if (empty($GLOBALS['conf']['compose']['link_attachments_notify']) ||
-            !($dtoken = $this->_getDeleteToken()) ||
-            ($dtoken != $token)) {
+        if (empty($GLOBALS['conf']['compose']['link_attachments_notify'])
+            || !($dtoken = $this->_getDeleteToken())
+            || ($dtoken != $token)) {
             return false;
         }
 
@@ -217,12 +217,12 @@ class IMP_Compose_LinkedAttachment
 
             $md = $this->_atc->getMetadata();
             $msg->setContents(Horde_String::wrap(
-                _('Your linked attachment has been downloaded by at least one user.') . "\n\n" .
-                sprintf(_('Name: %s'), $md->filename) . "\n" .
-                sprintf(_('Type: %s'), $md->type) . "\n" .
-                sprintf(_('Sent Date: %s'), date('r', $md->time)) . "\n\n" .
-                _('Click on the following link to permanently delete the attachment:') . "\n" .
-                strval($this->_atc->link_url->add('d', $this->_getDeleteToken(true)))
+                _('Your linked attachment has been downloaded by at least one user.') . "\n\n"
+                . sprintf(_('Name: %s'), $md->filename) . "\n"
+                . sprintf(_('Type: %s'), $md->type) . "\n"
+                . sprintf(_('Sent Date: %s'), date('r', $md->time)) . "\n\n"
+                . _('Click on the following link to permanently delete the attachment:') . "\n"
+                . strval($this->_atc->link_url->add('d', $this->_getDeleteToken(true)))
             ));
 
             $msg->send($address, $h, $injector->getInstance('Horde_Mail'));

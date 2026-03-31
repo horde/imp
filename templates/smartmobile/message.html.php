@@ -1,5 +1,5 @@
 <div id="message" data-role="page">
- <?php echo $this->smartmobileHeader(array('backlink' => array('#', _("Mailbox")), 'logout' => true, 'title' => '&nbsp;')) ?>
+ <?php echo $this->smartmobileHeader(['backlink' => ['#', _("Mailbox")], 'logout' => true, 'title' => '&nbsp;']) ?>
 
  <div data-role="content">
   <div id="imp-message-headers" data-role="collapsible" data-iconpos="right" data-theme="b" data-content-theme="d">

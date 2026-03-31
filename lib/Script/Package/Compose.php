@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -36,8 +36,8 @@ class IMP_Script_Package_Compose extends Horde_Script_Package
         $this->_files[] = new Horde_Script_File_JsDir('editor.js', 'imp');
         $this->_files[] = new Horde_Script_File_JsDir('imp.js', 'imp');
 
-        if (!$prefs->isLocked('default_encrypt') &&
-            (IMP_Pgp::enabled() || IMP_Smime::enabled())) {
+        if (!$prefs->isLocked('default_encrypt')
+            && (IMP_Pgp::enabled() || IMP_Smime::enabled())) {
             $page_output->addScriptPackage('Horde_Core_Script_Package_Dialog');
             $this->_files[] = new Horde_Script_File_JsDir('passphrase.js', 'imp');
         }
@@ -59,10 +59,10 @@ class IMP_Script_Package_Compose extends Horde_Script_Package
                 $upload_url = $registry->getServiceLink('ajax', 'imp')->url . 'addAttachmentCkeditor';
 
                 $page_output->addInlineScript([
-                    'if (window.CKEDITOR) { CKEDITOR.on("loaded", function(e) {' .
-                      'CKEDITOR.plugins.addExternal("pasteattachment", "' . $js->url->url . '", "");' .
-                      'CKEDITOR.config.filebrowserImageUploadUrl = "' . $upload_url . '";' .
-                    '}); };',
+                    'if (window.CKEDITOR) { CKEDITOR.on("loaded", function(e) {'
+                      . 'CKEDITOR.plugins.addExternal("pasteattachment", "' . $js->url->url . '", "");'
+                      . 'CKEDITOR.config.filebrowserImageUploadUrl = "' . $upload_url . '";'
+                    . '}); };',
                 ], true);
                 break;
         }

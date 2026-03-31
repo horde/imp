@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2011-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -271,32 +271,32 @@ class IMP_Mailbox
                     : substr($label, $pos + 1);
 
             case 'access_creatembox':
-                return (!($acl = $this->acl) ||
-                        ($acl[Horde_Imap_Client::ACL_CREATEMBOX]));
+                return (!($acl = $this->acl)
+                        || ($acl[Horde_Imap_Client::ACL_CREATEMBOX]));
 
             case 'access_deletembox':
                 return ($this->access_deletembox_acl);
 
             case 'access_deletembox_acl':
-                return (!($acl = $this->acl) ||
-                        ($acl[Horde_Imap_Client::ACL_DELETEMBOX]));
+                return (!($acl = $this->acl)
+                        || ($acl[Horde_Imap_Client::ACL_DELETEMBOX]));
 
             case 'access_deletemsgs':
-                return (!($acl = $this->acl) ||
-                        ($acl[Horde_Imap_Client::ACL_DELETEMSGS]));
+                return (!($acl = $this->acl)
+                        || ($acl[Horde_Imap_Client::ACL_DELETEMSGS]));
 
             case 'access_empty':
                 if ($this->access_deletemsgs && $this->access_expunge) {
                     $special = $this->getSpecialMailboxes();
-                    return empty($special[self::SPECIAL_TRASH]) ||
-                        !$special[self::SPECIAL_TRASH]->vtrash ||
-                        ($special[self::SPECIAL_TRASH] == $this);
+                    return empty($special[self::SPECIAL_TRASH])
+                        || !$special[self::SPECIAL_TRASH]->vtrash
+                        || ($special[self::SPECIAL_TRASH] == $this);
                 }
                 return false;
 
             case 'access_expunge':
-                return (!($acl = $this->acl) ||
-                        ($acl[Horde_Imap_Client::ACL_EXPUNGE]));
+                return (!($acl = $this->acl)
+                        || ($acl[Horde_Imap_Client::ACL_EXPUNGE]));
 
             case 'access_filters':
                 return !$this->search && $this->is_imap;
@@ -413,8 +413,8 @@ class IMP_Mailbox
 
             case 'innocent_show':
                 $p = $this->imp_imap->config->innocent_params;
-                return (!empty($p) &&
-                        ((isset($p['display']) && empty($p['display'])) || $this->spam));
+                return (!empty($p)
+                        && ((isset($p['display']) && empty($p['display'])) || $this->spam));
 
             case 'is_imap':
                 return $this->imp_imap->isImap();
@@ -472,8 +472,8 @@ class IMP_Mailbox
                  * then we can auto-detect namespace from input.
                  * If a non-default namespace is empty, then we must always use
                  * default namespace. */
-                if (!is_null($empty_ns) &&
-                    ($def_ns->name == $empty_ns->name)) {
+                if (!is_null($empty_ns)
+                    && ($def_ns->name == $empty_ns->name)) {
                     return $this;
                 }
 
@@ -495,8 +495,8 @@ class IMP_Mailbox
                 return $this->imp_imap->getNamespace(strlen($this) ? $this->_mbox : IMP_Imap::NS_DEFAULT);
 
             case 'nonimap':
-                return ($this->search ||
-                        (($elt = $this->tree_elt) && $elt->nonimap));
+                return ($this->search
+                        || (($elt = $this->tree_elt) && $elt->nonimap));
 
             case 'parent':
                 return ($elt = $this->tree_elt) ? $elt->parent->mbox_ob : null;
@@ -541,8 +541,8 @@ class IMP_Mailbox
                 return $info;
 
             case 'polled':
-                return (!$this->search &&
-                        (($elt = $this->tree_elt) && $elt->polled));
+                return (!$this->search
+                        && (($elt = $this->tree_elt) && $elt->polled));
 
             case 'pref_from':
                 return $this->prefFrom($this->_mbox);
@@ -554,13 +554,13 @@ class IMP_Mailbox
                 return $injector->getInstance('IMP_Search')->isQuery($this->_mbox);
 
             case 'readonly':
-                return (($acl = $this->acl) &&
-                        !$acl[Horde_Imap_Client::ACL_DELETEMBOX] &&
-                        !$acl[Horde_Imap_Client::ACL_DELETEMSGS] &&
-                        !$acl[Horde_Imap_Client::ACL_EXPUNGE] &&
-                        !$acl[Horde_Imap_Client::ACL_INSERT] &&
-                        !$acl[Horde_Imap_Client::ACL_SEEN] &&
-                        !$acl[Horde_Imap_Client::ACL_WRITE]);
+                return (($acl = $this->acl)
+                        && !$acl[Horde_Imap_Client::ACL_DELETEMBOX]
+                        && !$acl[Horde_Imap_Client::ACL_DELETEMSGS]
+                        && !$acl[Horde_Imap_Client::ACL_EXPUNGE]
+                        && !$acl[Horde_Imap_Client::ACL_INSERT]
+                        && !$acl[Horde_Imap_Client::ACL_SEEN]
+                        && !$acl[Horde_Imap_Client::ACL_WRITE]);
 
             case 'remote':
                 return $injector->getInstance('IMP_Remote')->isRemoteMbox($this->_mbox);
@@ -666,8 +666,8 @@ class IMP_Mailbox
 
                 $status = $this->imp_imap->status($this->_mbox, Horde_Imap_Client::STATUS_UIDVALIDITY);
 
-                if (($first = ($uidvalid === false)) ||
-                    ($status['uidvalidity'] != $uidvalid)) {
+                if (($first = ($uidvalid === false))
+                    || ($status['uidvalidity'] != $uidvalid)) {
                     $uidvalid = $status['uidvalidity'];
                     $cache->setUidvalidity($this->_mbox, $uidvalid);
 
@@ -773,8 +773,8 @@ class IMP_Mailbox
         $notification->push(sprintf(_('The mailbox "%s" was successfully created.'), $this->display), 'horde.success');
 
         /* Subscribe, if requested. */
-        if ((!isset($opts['subscribe']) && $prefs->getValue('subscribe')) ||
-            !empty($opts['subscribe'])) {
+        if ((!isset($opts['subscribe']) && $prefs->getValue('subscribe'))
+            || !empty($opts['subscribe'])) {
             try {
                 $imp_imap->subscribeMailbox($this->_mbox, true);
             } catch (IMP_Imap_Exception $e) {
@@ -903,9 +903,9 @@ class IMP_Mailbox
         global $injector, $notification, $prefs;
 
         /* Skip non-IMAP/container mailboxes. */
-        if (!$prefs->getValue('subscribe') ||
-            $this->nonimap ||
-            $this->container) {
+        if (!$prefs->getValue('subscribe')
+            || $this->nonimap
+            || $this->container) {
             return false;
         }
 
@@ -986,8 +986,8 @@ class IMP_Mailbox
      */
     public function filterOnDisplay()
     {
-        if ($this->inbox &&
-            $GLOBALS['prefs']->getValue('filter_on_display')) {
+        if ($this->inbox
+            && $GLOBALS['prefs']->getValue('filter_on_display')) {
             $this->filter();
             return true;
         }
@@ -1529,8 +1529,8 @@ class IMP_Mailbox
         if ($imp_imap->isImap()) {
             $empty_ns = $imp_imap->getNamespace('');
 
-            if (!is_null($empty_ns) &&
-                (strpos($mbox, $empty_ns->delimiter) === 0)) {
+            if (!is_null($empty_ns)
+                && (strpos($mbox, $empty_ns->delimiter) === 0)) {
                 /* Prefixed with delimiter => from empty namespace. */
                 return substr($mbox, strlen($empty_ns->delimiter));
             } elseif ($imp_imap->getNamespace($mbox, true) === null) {
@@ -1644,8 +1644,8 @@ class IMP_Mailbox
         global $injector;
 
         $cache = $injector->getInstance('IMP_Mailbox_SessionCache');
-        if (!$notranslate &&
-            (($display = $cache->getDisplay($this->_mbox)) !== false)) {
+        if (!$notranslate
+            && (($display = $cache->getDisplay($this->_mbox)) !== false)) {
             return $display;
         }
 
@@ -1736,9 +1736,9 @@ class IMP_Mailbox
 
         if ($this->inbox) {
             $out = _('Inbox');
-        } elseif (($this->_mbox == $out) &&
-            !is_null($ns_info) &&
-            (strpos($out, 'INBOX' . $ns_info->delimiter) === 0)) {
+        } elseif (($this->_mbox == $out)
+            && !is_null($ns_info)
+            && (strpos($out, 'INBOX' . $ns_info->delimiter) === 0)) {
             $out = substr_replace($out, _('Inbox'), 0, 5);
         }
 

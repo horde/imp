@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2009-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2009-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -73,8 +73,8 @@ class IMP_Compose_Exception extends IMP_Exception
 
         Horde::log($this, $level);
 
-        if (($previous = $this->getPrevious()) &&
-            isset($previous->details)) {
+        if (($previous = $this->getPrevious())
+            && isset($previous->details)) {
             Horde::log($previous->details, $level);
         }
 

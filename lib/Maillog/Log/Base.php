@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2014-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -48,9 +48,7 @@ abstract class IMP_Maillog_Log_Base
      *
      * @param array $params  Parameters.
      */
-    public function __construct(array $params = [])
-    {
-    }
+    public function __construct(array $params = []) {}
 
     /**
      */

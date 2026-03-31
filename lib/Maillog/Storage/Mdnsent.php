@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2014-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -46,8 +46,8 @@ class IMP_Maillog_Storage_Mdnsent extends IMP_Maillog_Storage_Base
     {
         $log_ob = new IMP_Maillog_Log_Mdn();
 
-        if ((!empty($types) && !in_array('IMP_Maillog_Log_Mdn', $types)) ||
-            !$this->isAvailable($msg, $log_ob)) {
+        if ((!empty($types) && !in_array('IMP_Maillog_Log_Mdn', $types))
+            || !$this->isAvailable($msg, $log_ob)) {
             return [];
         }
 
@@ -91,15 +91,15 @@ class IMP_Maillog_Storage_Mdnsent extends IMP_Maillog_Storage_Base
         IMP_Maillog_Message $msg,
         IMP_Maillog_Log_Base $log
     ) {
-        if (!($log instanceof IMP_Maillog_Log_Mdn) ||
-            !$msg->indices) {
+        if (!($log instanceof IMP_Maillog_Log_Mdn)
+            || !$msg->indices) {
             return false;
         }
 
         [$mbox, ] = $msg->indices->getSingle();
 
-        return (!$mbox->readonly &&
-                ($mbox->permflags->allowed(Horde_Imap_Client::FLAG_MDNSENT)));
+        return (!$mbox->readonly
+                && ($mbox->permflags->allowed(Horde_Imap_Client::FLAG_MDNSENT)));
     }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2004-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2004-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -116,8 +116,8 @@ class IMP_Basic_Thread extends IMP_Basic_Base
 
                 if ($this->indices->mailbox->special_outgoing) {
                     $curr_msg['addr_to'] = true;
-                    $curr_msg['addr'] = _('To:') . ' ' .
-                        $this->_buildAddressLinks($envelope->to, Horde::selfUrlParams());
+                    $curr_msg['addr'] = _('To:') . ' '
+                        . $this->_buildAddressLinks($envelope->to, Horde::selfUrlParams());
                     $addr = _('To:') . ' ' . htmlspecialchars($envelope->to->first()->label, ENT_COMPAT, 'UTF-8');
                 } else {
                     $from = $envelope->from;
@@ -256,16 +256,16 @@ class IMP_Basic_Thread extends IMP_Basic_Base
                             'address' => $ad->bare_address,
                             'name' => $ad->personal,
                         ]);
-                        $ret .= Horde::link($curr_link, sprintf(_('Add %s to my Address Book'), $ad->bare_address)) .
-                            '<span class="iconImg addrbookaddImg"></span></a>';
+                        $ret .= Horde::link($curr_link, sprintf(_('Add %s to my Address Book'), $ad->bare_address))
+                            . '<span class="iconImg addrbookaddImg"></span></a>';
                     }
 
                     $group_array[] = $ret;
                 }
 
-                $addr_array[] = htmlspecialchars($ob->groupname) . ':' .
-                    (count($group_array) ? ' ' .
-                    implode(', ', $group_array) : '');
+                $addr_array[] = htmlspecialchars($ob->groupname) . ':'
+                    . (count($group_array) ? ' '
+                    . implode(', ', $group_array) : '');
             } else {
                 $ret = htmlspecialchars(strval($ob));
 
@@ -281,8 +281,8 @@ class IMP_Basic_Thread extends IMP_Basic_Base
                         'address' => $ob->bare_address,
                         'name' => $ob->personal,
                     ]);
-                    $ret .= Horde::link($curr_link, sprintf(_('Add %s to my Address Book'), $ob->bare_address)) .
-                        '<span class="iconImg addrbookaddImg"></span></a>';
+                    $ret .= Horde::link($curr_link, sprintf(_('Add %s to my Address Book'), $ob->bare_address))
+                        . '<span class="iconImg addrbookaddImg"></span></a>';
                 }
 
                 $addr_array[] = $ret;
@@ -298,11 +298,11 @@ class IMP_Basic_Thread extends IMP_Basic_Base
             $addr_count = count($addr_array);
             $ret = '<span class="nowrap">' . implode(',</span> <span class="nowrap">', $addr_array) . '</span>';
             if ($link && $addr_count > 15) {
-                $ret = '<span>' .
-                    '<span onclick="[ this, this.next(), this.next(1) ].invoke(\'toggle\')" class="widget largeaddrlist">' . sprintf(_('Show Addresses (%d)'), $addr_count) . '</span>' .
-                    '<span onclick="[ this, this.previous(), this.next() ].invoke(\'toggle\')" class="widget largeaddrlist" style="display:none">' . _('Hide Addresses') . '</span>' .
-                    '<span style="display:none">' .
-                    $ret . '</span></span>';
+                $ret = '<span>'
+                    . '<span onclick="[ this, this.next(), this.next(1) ].invoke(\'toggle\')" class="widget largeaddrlist">' . sprintf(_('Show Addresses (%d)'), $addr_count) . '</span>'
+                    . '<span onclick="[ this, this.previous(), this.next() ].invoke(\'toggle\')" class="widget largeaddrlist" style="display:none">' . _('Hide Addresses') . '</span>'
+                    . '<span style="display:none">'
+                    . $ret . '</span></span>';
             }
         }
 

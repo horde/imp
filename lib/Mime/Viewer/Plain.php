@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 1999-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -90,7 +90,7 @@ class IMP_Mime_Viewer_Plain extends Horde_Mime_Viewer_Plain
         $type = 'text/html; charset=' . $charset;
 
         // Check for 'flowed' text data.
-        if (strcasecmp((string)$this->_mimepart->getContentTypeParameter('format'), 'flowed') == 0) {
+        if (strcasecmp((string) $this->_mimepart->getContentTypeParameter('format'), 'flowed') == 0) {
             $text = $this->_formatFlowed($text, $this->_mimepart->getContentTypeParameter('delsp'));
         } else {
             /* A "From" located at the beginning of a line in the body text
@@ -119,10 +119,10 @@ class IMP_Mime_Viewer_Plain extends Horde_Mime_Viewer_Plain
                 $js_blocks = $inline;
                 if ($inline) {
                     $show = $prefs->getValue('show_quoteblocks');
-                    $hideBlocks = (($show == 'hidden') ||
-                                   (($show == 'thread') && ($injector->getInstance('Horde_Variables')->page == 'thread')));
-                    if (!$hideBlocks &&
-                        in_array($show, ['list', 'listthread'])) {
+                    $hideBlocks = (($show == 'hidden')
+                                   || (($show == 'thread') && ($injector->getInstance('Horde_Variables')->page == 'thread')));
+                    if (!$hideBlocks
+                        && in_array($show, ['list', 'listthread'])) {
                         $list_info = $contents->getListInformation();
                         $hideBlocks = $list_info['exists'];
                     }
@@ -194,8 +194,8 @@ class IMP_Mime_Viewer_Plain extends Horde_Mime_Viewer_Plain
      */
     public function embeddedMimeParts()
     {
-        return ($this->getConfigParam('pgp_inline') ||
-                $this->getConfigParam('uudecode'));
+        return ($this->getConfigParam('pgp_inline')
+                || $this->getConfigParam('uudecode'));
     }
 
     /**
@@ -293,9 +293,9 @@ class IMP_Mime_Viewer_Plain extends Horde_Mime_Viewer_Plain
             'tabs2spaces' => [],
         ];
 
-        return '<div class="fixed">' .
-            $this->_textFilter(Horde_String::convertCharset(fread($stream, 1024), $this->_mimepart->getCharset(), 'UTF-8'), array_keys($filters), array_values($filters)) .
-            ' [...]</div>';
+        return '<div class="fixed">'
+            . $this->_textFilter(Horde_String::convertCharset(fread($stream, 1024), $this->_mimepart->getCharset(), 'UTF-8'), array_keys($filters), array_values($filters))
+            . ' [...]</div>';
     }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2006-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2006-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -31,8 +31,8 @@ class IMP_LoginTasks_Task_PurgeSpam extends Horde_LoginTasks_Task
     {
         global $prefs;
 
-        if (($this->interval = $prefs->getValue('purge_spam_interval')) &&
-            $this->_spamMbox()) {
+        if (($this->interval = $prefs->getValue('purge_spam_interval'))
+            && $this->_spamMbox()) {
             if ($prefs->isLocked('purge_spam_interval')) {
                 $this->display = Horde_LoginTasks::DISPLAY_NONE;
             }

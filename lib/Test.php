@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -20,6 +20,7 @@
  * @copyright 2010-2017 Horde LLC
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
+ * @coversNothing
  */
 class IMP_Test extends Horde_Test
 {
@@ -142,14 +143,14 @@ class IMP_Test extends Horde_Test
             return $this->_errorMsg($e);
         }
 
-        $ret .= '<span style="color:green">SUCCESS</span><p />'.
-            '<strong>Secure connection:</strong> <tt>' .
-            (($tmp = $imap_client->getParam('secure')) ? $tmp : 'none') .
-           '</tt><p />';
+        $ret .= '<span style="color:green">SUCCESS</span><p />'
+            . '<strong>Secure connection:</strong> <tt>'
+            . (($tmp = $imap_client->getParam('secure')) ? $tmp : 'none')
+           . '</tt><p />';
 
         if ($driver == 'Horde_Imap_Client_Socket') {
-            $ret .= '<strong>The following IMAP server information was discovered from the server:</strong>' .
-                '<blockquote><em>Namespace Information</em><blockquote><pre>';
+            $ret .= '<strong>The following IMAP server information was discovered from the server:</strong>'
+                . '<blockquote><em>Namespace Information</em><blockquote><pre>';
 
             try {
                 $namespaces = $imap_client->getNamespaces(
@@ -171,16 +172,16 @@ class IMP_Test extends Horde_Test
                             break;
                     }
 
-                    $ret .= 'NAMESPACE: "' . htmlspecialchars($val->name) . "\"\n" .
-                        'DELIMITER: ' . htmlspecialchars($val->delimiter) . "\n" .
-                        'TYPE: ' . htmlspecialchars($type) . "\n\n";
+                    $ret .= 'NAMESPACE: "' . htmlspecialchars($val->name) . "\"\n"
+                        . 'DELIMITER: ' . htmlspecialchars($val->delimiter) . "\n"
+                        . 'TYPE: ' . htmlspecialchars($type) . "\n\n";
                 }
             } catch (Horde_Imap_Client_Exception $e) {
                 $this->_errorMsg($e);
             }
 
-            $ret .= '</pre></blockquote></blockquote>' .
-                '<blockquote><em>IMAP server capabilities:</em><blockquote><pre>';
+            $ret .= '</pre></blockquote></blockquote>'
+                . '<blockquote><em>IMAP server capabilities:</em><blockquote><pre>';
 
             try {
                 foreach ($imap_client->capability() as $key => $val) {
@@ -196,8 +197,8 @@ class IMP_Test extends Horde_Test
                 $this->_errorMsg($e);
             }
 
-            $ret .= '</pre></blockquote></blockquote>' .
-                '<blockquote><em>Does IMAP server support UTF-8 in search queries?</em> ';
+            $ret .= '</pre></blockquote></blockquote>'
+                . '<blockquote><em>Does IMAP server support UTF-8 in search queries?</em> ';
 
             if ($imap_client->validSearchCharset('UTF-8')) {
                 $ret .= '<span style="color:green">YES</span>';
@@ -239,8 +240,8 @@ class IMP_Test extends Horde_Test
      */
     protected function _errorMsg($e)
     {
-        return '<span style="color:red">ERROR</span> - The server returned the following error message:' .
-            '<pre>' . $e->getMessage() . '</pre><p />';
+        return '<span style="color:red">ERROR</span> - The server returned the following error message:'
+            . '<pre>' . $e->getMessage() . '</pre><p />';
     }
 
 }

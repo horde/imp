@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2014-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -32,8 +32,8 @@ class IMP_Indices_Copy_Tasklist extends IMP_Indices_Copy
     {
         global $conf, $notification, $registry;
 
-        if ($conf['tasklist']['use_tasklist'] &&
-            $registry->hasMethod('tasks/listTasklists')) {
+        if ($conf['tasklist']['use_tasklist']
+            && $registry->hasMethod('tasks/listTasklists')) {
             try {
                 $lists = $registry->call(
                     'tasks/listTasklists',
@@ -127,8 +127,8 @@ class IMP_Indices_Copy_Tasklist extends IMP_Indices_Copy
     {
         global $conf;
 
-        return ($conf['tasklist']['use_tasklist'] &&
-                (strpos($mbox, self::TASKLIST_EDIT) === 0));
+        return ($conf['tasklist']['use_tasklist']
+                && (strpos($mbox, self::TASKLIST_EDIT) === 0));
     }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -225,8 +225,8 @@ class IMP_Contents
         }
 
         if (!$this->_indices || $this->isEmbedded($id)) {
-            if (empty($options['mimeheaders']) ||
-                in_array($id, $this->_embedded)) {
+            if (empty($options['mimeheaders'])
+                || in_array($id, $this->_embedded)) {
                 $ob = $this->getMimePart($id, ['nocontents' => true]);
 
                 if (empty($options['stream'])) {
@@ -257,14 +257,14 @@ class IMP_Contents
             );
 
             if ($part) {
-                $txt = $part->addMimeHeaders()->toString() .
-                    "\n" .
-                    $part->getContents();
+                $txt = $part->addMimeHeaders()->toString()
+                    . "\n"
+                    . $part->getContents();
 
                 try {
-                    $body = Horde_Mime_Part::getRawPartText($txt, 'header', '1') .
-                        "\n\n" .
-                        Horde_Mime_Part::getRawPartText($txt, 'body', '1');
+                    $body = Horde_Mime_Part::getRawPartText($txt, 'header', '1')
+                        . "\n\n"
+                        . Horde_Mime_Part::getRawPartText($txt, 'body', '1');
                 } catch (Horde_Mime_Exception $e) {
                 }
             }
@@ -532,17 +532,17 @@ class IMP_Contents
          * characters (e.g. euro sign, back quote) not in 8859-1. There
          * shouldn't be any issue doing this since the additional code points
          * in 1252 don't map to anything in 8859-1. */
-        if (strcasecmp((string)$part->getCharset(), 'ISO-8859-1') === 0) {
+        if (strcasecmp((string) $part->getCharset(), 'ISO-8859-1') === 0) {
             $part->setCharset('windows-1252');
         }
 
         /* Don't download contents of entire body if ID == 0 (indicating the
          * body of the main multipart message).  I'm pretty sure we never
          * want to download the body of that part here. */
-        if (!empty($id) &&
-            empty($options['nocontents']) &&
-            $this->_indices &&
-            !$part->getContents(['stream' => true])) {
+        if (!empty($id)
+            && empty($options['nocontents'])
+            && $this->_indices
+            && !$part->getContents(['stream' => true])) {
             $body = $this->getBodyPart($id, [
                 'decode' => true,
                 'length' => empty($options['length']) ? null : $options['length'],
@@ -589,10 +589,10 @@ class IMP_Contents
             return [$mime_id => null];
         }
 
-        if (!empty($options['autodetect']) &&
-            ($tempfile = Horde::getTempFile()) &&
-            ($fp = fopen($tempfile, 'w')) &&
-            !is_null($contents = $mime_part->getContents(['stream' => true]))) {
+        if (!empty($options['autodetect'])
+            && ($tempfile = Horde::getTempFile())
+            && ($fp = fopen($tempfile, 'w'))
+            && !is_null($contents = $mime_part->getContents(['stream' => true]))) {
             rewind($contents);
             while (!feof($contents)) {
                 fwrite($fp, fread($contents, 65536));
@@ -675,10 +675,10 @@ class IMP_Contents
         }
 
         /* Don't show empty parts. */
-        if (($textmode == 'inline') &&
-            !empty($ret[$mime_id]) && !is_null($ret[$mime_id]['data']) &&
-            !strlen($ret[$mime_id]['data']) &&
-            !isset($ret[$mime_id]['status'])) {
+        if (($textmode == 'inline')
+            && !empty($ret[$mime_id]) && !is_null($ret[$mime_id]['data'])
+            && !strlen($ret[$mime_id]['data'])
+            && !isset($ret[$mime_id]['status'])) {
             $ret[$mime_id] = null;
         }
 
@@ -782,8 +782,8 @@ class IMP_Contents
         $is_atc = $mime_part->isAttachment();
 
         /* Get bytes/size information. */
-        if (($mask & self::SUMMARY_BYTES) ||
-            ($mask & self::SUMMARY_SIZE)) {
+        if (($mask & self::SUMMARY_BYTES)
+            || ($mask & self::SUMMARY_SIZE)) {
             $part['bytes'] = $size = $mime_part->getBytes();
             $part['size'] = ($size > 1048576)
                 ? sprintf(_('%s MB'), IMP::numberFormat($size / 1048576, 1))
@@ -791,8 +791,8 @@ class IMP_Contents
         }
 
         /* Get part's icon. */
-        if (($mask & self::SUMMARY_ICON) ||
-            ($mask & self::SUMMARY_ICON_RAW)) {
+        if (($mask & self::SUMMARY_ICON)
+            || ($mask & self::SUMMARY_ICON_RAW)) {
             $part['icon'] = $GLOBALS['injector']->getInstance('IMP_Factory_MimeViewer')->getIcon($mime_type);
             if ($mask & self::SUMMARY_ICON) {
                 $part['icon'] = Horde_Themes_Image::tag($part['icon'], [
@@ -809,8 +809,8 @@ class IMP_Contents
         $description = $this->getPartName($mime_part, true);
 
         if ($mask & self::SUMMARY_DESCRIP_LINK) {
-            if (($can_d = $this->canDisplay($mime_part, self::RENDER_FULL)) ||
-                $autodetect_link) {
+            if (($can_d = $this->canDisplay($mime_part, self::RENDER_FULL))
+                || $autodetect_link) {
                 $part['description'] = $this->linkViewJS($mime_part, 'view_attach', htmlspecialchars($description), ['jstext' => sprintf(_('View %s'), $description), 'params' => array_filter(array_merge($param_array, [
                     'autodetect' => !$can_d,
                 ]))]);
@@ -844,16 +844,16 @@ class IMP_Contents
 
         /* Display the image save link if the required registry calls are
          * present. */
-        if (($mask & self::SUMMARY_IMAGE_SAVE) &&
-            $GLOBALS['registry']->hasMethod('images/selectGalleries') &&
-            ($mime_part->getPrimaryType() == 'image')) {
+        if (($mask & self::SUMMARY_IMAGE_SAVE)
+            && $GLOBALS['registry']->hasMethod('images/selectGalleries')
+            && ($mime_part->getPrimaryType() == 'image')) {
             $part['img_save'] = Horde::link('#', _('Save Image in Gallery'), 'iconImg saveImgAtc', null, Horde::popupJs(IMP_Basic_Saveimage::url(), ['params' => ['muid' => strval($this->getIndicesOb()), 'id' => $id], 'height' => 200, 'width' => 450, 'urlencode' => true]) . 'return false;') . '</a>';
         }
 
         /* Add print link? */
-        if ((($mask & self::SUMMARY_PRINT) ||
-             ($mask & self::SUMMARY_PRINT_STUB)) &&
-            $this->canDisplay($id, self::RENDER_FULL)) {
+        if ((($mask & self::SUMMARY_PRINT)
+             || ($mask & self::SUMMARY_PRINT_STUB))
+            && $this->canDisplay($id, self::RENDER_FULL)) {
             $part['print'] = ($mask & self::SUMMARY_PRINT)
                 ? $this->linkViewJS($mime_part, 'print_attach', '', ['css' => 'iconImg printAtc', 'jstext' => _('Print'), 'onload' => 'IMP_JS.printWindow', 'params' => $param_array])
                 : Horde::link('#', _('Print'), 'iconImg printAtc', null, null, null, null, ['mimeid' => $id]) . '</a>';
@@ -861,10 +861,10 @@ class IMP_Contents
 
         /* Strip Attachment? Allow stripping of base parts other than the
          * base multipart and the base text (body) part. */
-        if (($mask & self::SUMMARY_STRIP) &&
-            ($id != 0) &&
-            (intval($id) != 1) &&
-            (strpos($id, '.') === false)) {
+        if (($mask & self::SUMMARY_STRIP)
+            && ($id != 0)
+            && (intval($id) != 1)
+            && (strpos($id, '.') === false)) {
             $part['strip'] = Horde::link(
                 Horde::selfUrlParams()->add([
                     'actionID' => 'strip_attachment',
@@ -1046,8 +1046,8 @@ class IMP_Contents
         $mv_factory = $injector->getInstance('IMP_Factory_MimeViewer');
 
         foreach ($parts as $id) {
-            if (!is_null($last_id) &&
-                (strpos($id, $last_id) === 0)) {
+            if (!is_null($last_id)
+                && (strpos($id, $last_id) === 0)) {
                 continue;
             }
 
@@ -1063,8 +1063,8 @@ class IMP_Contents
                 ['contents' => $this]
             );
 
-            if ($viewer->embeddedMimeParts() &&
-                ($mime_part = $this->getMimePart($id))) {
+            if ($viewer->embeddedMimeParts()
+                && ($mime_part = $this->getMimePart($id))) {
                 $viewer->setMIMEPart($mime_part);
                 $new_part = $viewer->getEmbeddedMimeParts();
                 if (!is_null($new_part)) {
@@ -1096,8 +1096,8 @@ class IMP_Contents
      */
     public function canDisplay($part, $mask, $type = null)
     {
-        if (!is_object($part) &&
-            !($part = $this->getMimePart($part, ['nocontents' => true]))) {
+        if (!is_object($part)
+            && !($part = $this->getMimePart($part, ['nocontents' => true]))) {
             return 0;
         }
         $viewer = $GLOBALS['injector']->getInstance('IMP_Factory_MimeViewer')->create($part, ['contents' => $this, 'type' => $type]);
@@ -1118,8 +1118,8 @@ class IMP_Contents
             if ($viewer->canRender('inline')) {
                 return self::RENDER_INLINE;
             }
-        } elseif (($mask & self::RENDER_INLINE_DISP_NO) &&
-                  $viewer->canRender('inline')) {
+        } elseif (($mask & self::RENDER_INLINE_DISP_NO)
+                  && $viewer->canRender('inline')) {
             return self::RENDER_INLINE_DISP_NO;
         }
 
@@ -1162,10 +1162,10 @@ class IMP_Contents
     {
         $mimeid = $part->getMimeId();
 
-        $summary_mask = self::SUMMARY_ICON_RAW |
-            self::SUMMARY_DESCRIP_LINK |
-            self::SUMMARY_SIZE |
-            self::SUMMARY_DOWNLOAD;
+        $summary_mask = self::SUMMARY_ICON_RAW
+            | self::SUMMARY_DESCRIP_LINK
+            | self::SUMMARY_SIZE
+            | self::SUMMARY_DOWNLOAD;
         if ($GLOBALS['prefs']->getValue('strip_attachments')) {
             $summary_mask += self::SUMMARY_STRIP;
         }
@@ -1219,9 +1219,9 @@ class IMP_Contents
     public function isEmbedded($mime_id)
     {
         foreach ($this->_embedded as $val) {
-            if (($mime_id == $val) ||
-                (($id_ob = new Horde_Mime_Id($val)) &&
-                 $id_ob->isChild($mime_id))) {
+            if (($mime_id == $val)
+                || (($id_ob = new Horde_Mime_Id($val))
+                 && $id_ob->isChild($mime_id))) {
                 return true;
             }
         }
@@ -1242,8 +1242,8 @@ class IMP_Contents
         $id_ob = new Horde_Mime_Id($id);
 
         while (($id_ob->id = $id_ob->idArithmetic($id_ob::ID_UP)) !== null) {
-            if (($part = $this->getMimePart($id_ob->id, ['nocontents' => true])) &&
-                ($part->getType() == $type)) {
+            if (($part = $this->getMimePart($id_ob->id, ['nocontents' => true]))
+                && ($part->getType() == $type)) {
                 return $part;
             }
         }
@@ -1271,9 +1271,9 @@ class IMP_Contents
 
         switch ($ptype = $part->getPrimaryType()) {
             case 'multipart':
-                if (($part->getSubType() == 'related') &&
-                    ($view_id = $part->getMetaData('viewable_part')) &&
-                    ($viewable = $this->getMimePart($view_id, ['nocontents' => true]))) {
+                if (($part->getSubType() == 'related')
+                    && ($view_id = $part->getMetaData('viewable_part'))
+                    && ($viewable = $this->getMimePart($view_id, ['nocontents' => true]))) {
                     return $this->getPartName($viewable, $use_descrip);
                 }
                 /* Fall-through. */

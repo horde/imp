@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Change sentmail_id column to autoincrement.
  *
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -31,7 +32,7 @@ class ImpAutoIncrementSentmail extends Horde_Db_Migration_Base
      */
     public function down()
     {
-        $this->changeColumn('imp_sentmail', 'sentmail_id', 'bigint', array('autoincrement' => false));
+        $this->changeColumn('imp_sentmail', 'sentmail_id', 'bigint', ['autoincrement' => false]);
     }
 
 }

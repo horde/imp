@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2001-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2001-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -77,9 +77,9 @@ class IMP_Mime_Viewer_Enriched extends Horde_Mime_Viewer_Enriched
             $parts = preg_split('|(\n--\s*\n)|', $text, 2, PREG_SPLIT_DELIM_CAPTURE);
             $text = array_shift($parts);
             if (count($parts)) {
-                $text .= '<span class="signature">' . $parts[0] .
-                    preg_replace('|class="[^"]+"|', 'class="signature-fixed"', $parts[1]) .
-                    '</span>';
+                $text .= '<span class="signature">' . $parts[0]
+                    . preg_replace('|class="[^"]+"|', 'class="signature-fixed"', $parts[1])
+                    . '</span>';
             }
         }
 

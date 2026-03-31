@@ -21,7 +21,7 @@
 <?php endif; ?>
    </td>
    <td class="enabled">
-    <?php echo $this->checkBoxTag('enable_' . $v['key'], 1, $v['enabled'], array('disabled' => $v['enabled_locked'])) ?>
+    <?php echo $this->checkBoxTag('enable_' . $v['key'], 1, $v['enabled'], ['disabled' => $v['enabled_locked']]) ?>
    </td>
    <td>
 <?php if ($v['edit']): ?>
@@ -56,7 +56,7 @@
     <?php echo $this->h($v['label']) ?>
    </td>
    <td class="enabled">
-    <?php echo $this->checkBoxTag('enable_' . $v['key'], 1, $v['enabled'], array('disabled' => $v['enabled_locked'])) ?>
+    <?php echo $this->checkBoxTag('enable_' . $v['key'], 1, $v['enabled'], ['disabled' => $v['enabled_locked']]) ?>
    </td>
    <td>
 <?php if ($v['edit']): ?>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2007-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2007-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -92,11 +92,11 @@ class IMP_Block_Newmail extends Horde_Core_Block
                 $from = $imp_ui->getFrom($envelope);
                 $subject = $imp_ui->getSubject($envelope->subject, true);
 
-                $html .= '<tr style="cursor:pointer" class="text"><td>' .
-                    $inbox->url('message', $uid)->link() .
-                    '<strong>' . htmlspecialchars($from['from'], ENT_QUOTES, 'UTF-8') . '</strong><br />' .
-                    $subject . '</a></td>' .
-                    '<td>' . htmlspecialchars($date, ENT_QUOTES, 'UTF-8') . '</td></tr>';
+                $html .= '<tr style="cursor:pointer" class="text"><td>'
+                    . $inbox->url('message', $uid)->link()
+                    . '<strong>' . htmlspecialchars($from['from'], ENT_QUOTES, 'UTF-8') . '</strong><br />'
+                    . $subject . '</a></td>'
+                    . '<td>' . htmlspecialchars($date, ENT_QUOTES, 'UTF-8') . '</td></tr>';
             }
 
             $more_msgs = count($indices) - $shown;
@@ -105,9 +105,9 @@ class IMP_Block_Newmail extends Horde_Core_Block
             }
         }
 
-        return $html .
-               '<tr><td colspan="2" style="cursor:pointer" align="right">' . $inbox->url('mailbox')->link() . $text . '</a></td></tr>' .
-               '</table>';
+        return $html
+               . '<tr><td colspan="2" style="cursor:pointer" align="right">' . $inbox->url('mailbox')->link() . $text . '</a></td></tr>'
+               . '</table>';
     }
 
 }

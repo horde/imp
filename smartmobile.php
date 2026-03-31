@@ -1,8 +1,9 @@
 <?php
+
 /**
  * IMP smartmobile view.
  *
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -19,10 +20,10 @@ Horde_Registry::appInit('imp');
 
 $ob = new IMP_Smartmobile($injector->getInstance('Horde_Variables'));
 
-$page_output->header(array(
+$page_output->header([
     'title' => _("Mail"),
-    'view' => $registry::VIEW_SMARTMOBILE
-));
+    'view' => $registry::VIEW_SMARTMOBILE,
+]);
 
 $ob->render();
 

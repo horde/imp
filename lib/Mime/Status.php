@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2011-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -175,8 +175,8 @@ class IMP_Mime_Status
                 break;
 
             default:
-                $out = '<div><table class="mimeStatusMessageTable"' .
-                    (isset($this->_domid) ? (' id="' . $this->_domid . '" ') : '')
+                $out = '<div><table class="mimeStatusMessageTable"'
+                    . (isset($this->_domid) ? (' id="' . $this->_domid . '" ') : '')
                     . '>';
 
                 /* If no image, simply print out the message. */

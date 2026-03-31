@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2005-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2005-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -75,9 +75,9 @@ class IMP_Block_Summary extends Horde_Core_Block
         foreach ($poll as $mbox) {
             $mbox_str = strval($mbox);
 
-            if (isset($status[$mbox_str]) &&
-                (empty($this->_params['show_unread']) ||
-                 !empty($status[$mbox_str]['unseen']))) {
+            if (isset($status[$mbox_str])
+                && (empty($this->_params['show_unread'])
+                 || !empty($status[$mbox_str]['unseen']))) {
                 $mbox_status = $status[$mbox_str];
 
                 $label = $mbox->url('mailbox')->link() . $mbox->display_html . '</a>';
@@ -105,9 +105,9 @@ class IMP_Block_Summary extends Horde_Core_Block
             return '<em>' . _('No mailboxes with unseen messages') . '</em>';
         }
 
-        return '<table class="impBlockSummary"><thead><tr><th>' . _('Mailbox') . '</th><th>' . _('Unseen') . '</th><th>' . _('Total') . '</th></tr></thead><tbody>' .
-            $out .
-            '</tbody></table>';
+        return '<table class="impBlockSummary"><thead><tr><th>' . _('Mailbox') . '</th><th>' . _('Unseen') . '</th><th>' . _('Total') . '</th></tr></thead><tbody>'
+            . $out
+            . '</tbody></table>';
     }
 
 }

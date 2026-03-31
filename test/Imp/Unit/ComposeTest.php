@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2011-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -22,6 +23,7 @@
  * @license    http://www.horde.org/licenses/gpl GPL
  * @package    IMP
  * @subpackage UnitTests
+ * @coversNothing
  */
 class Imp_Unit_ComposeTest extends PHPUnit_Framework_TestCase
 {
@@ -39,14 +41,14 @@ Wir ständen dann weiterhin für 3rd-Level-Support zur Verfügung, d.h. für all
         $flowed->setDelSp(true);
         $textBody->setContents($flowed->toFlowed());
 
-        $flowed_txt = $textBody->toString(array('headers' => false));
+        $flowed_txt = $textBody->toString(['headers' => false]);
 
         $textBody2 = new Horde_Mime_Part();
         $textBody2->setType('text/plain');
         $textBody2->setCharset('ISO-8859-1');
-        $textBody2->setContents($flowed_txt, array(
-            'encoding' => 'quoted-printable'
-        ));
+        $textBody2->setContents($flowed_txt, [
+            'encoding' => 'quoted-printable',
+        ]);
 
         $flowed2 = new Horde_Text_Flowed($textBody2->getContents(), 'ISO-8859-1');
         $flowed2->setMaxLength(0);

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -25,9 +25,7 @@ class IMP_Prefs_Special_Mailto implements Horde_Core_Prefs_Ui_Special
 {
     /**
      */
-    public function init(Horde_Core_Prefs_Ui $ui)
-    {
-    }
+    public function init(Horde_Core_Prefs_Ui $ui) {}
 
     /**
      */
@@ -38,15 +36,15 @@ class IMP_Prefs_Special_Mailto implements Horde_Core_Prefs_Ui_Special
         $name = $registry->get('name');
 
         $page_output->addInlineScript([
-            'if (!Object.isUndefined(navigator.registerProtocolHandler))' .
-            '$("mailto_handler").show().down("A").observe("click", function() {' .
-                'navigator.registerProtocolHandler("mailto","' .
-                IMP_Dynamic_Compose::url(['full' => true])->setRaw(true)->add([
+            'if (!Object.isUndefined(navigator.registerProtocolHandler))'
+            . '$("mailto_handler").show().down("A").observe("click", function() {'
+                . 'navigator.registerProtocolHandler("mailto","'
+                . IMP_Dynamic_Compose::url(['full' => true])->setRaw(true)->add([
                     'actionID' => 'mailto_link',
                     'to' => '',
-                ]) .
-                '=%s","' . $name . '");' .
-            '})',
+                ])
+                . '=%s","' . $name . '");'
+            . '})',
         ], true);
 
         $view = new Horde_View([

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2014-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -58,7 +58,7 @@ class IMP_Ajax_Application_Handler_RemotePrefs extends Horde_Core_Ajax_Applicati
             if ($mconfig && !is_null($mconfig->username)) {
                 $imap = ($mconfig instanceof Horde_Mail_Autoconfig_Server_Imap);
 
-                $res->mconfig = (object)$mconfig;
+                $res->mconfig = (object) $mconfig;
                 $res->mconfig->imap = $imap;
                 if (!strlen($res->mconfig->label)) {
                     $email = new Horde_Mail_Rfc822_Address($this->vars->email);

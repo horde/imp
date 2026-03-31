@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2005-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2005-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -98,15 +98,15 @@ class IMP_Dynamic_Compose_Common
 
         /* Create list for sent-mail selection. */
         $imp_imap = $injector->getInstance('IMP_Factory_Imap')->create();
-        if ($imp_imap->access(IMP_Imap::ACCESS_FOLDERS) &&
-            !$prefs->isLocked('save_sent_mail')) {
+        if ($imp_imap->access(IMP_Imap::ACCESS_FOLDERS)
+            && !$prefs->isLocked('save_sent_mail')) {
             $view->save_sent_mail = true;
             $view->save_sent_mail_select = !$prefs->isLocked(IMP_Mailbox::MBOX_SENT);
         }
 
-        $view->drafts = ($imp_imap->access(IMP_Imap::ACCESS_DRAFTS) &&
-            ($draft = IMP_Mailbox::getPref(IMP_Mailbox::MBOX_DRAFTS)) &&
-            !$draft->readonly);
+        $view->drafts = ($imp_imap->access(IMP_Imap::ACCESS_DRAFTS)
+            && ($draft = IMP_Mailbox::getPref(IMP_Mailbox::MBOX_DRAFTS))
+            && !$draft->readonly);
 
         $view->compose_link = $registry->getServiceLink('ajax', 'imp')->url . 'addAttachment';
         $view->resume = !empty($args['resume']);
@@ -122,8 +122,8 @@ class IMP_Dynamic_Compose_Common
             $view->attach = false;
         }
 
-        if ($prefs->getValue('use_pgp') &&
-            $prefs->getValue('pgp_public_key')) {
+        if ($prefs->getValue('use_pgp')
+            && $prefs->getValue('pgp_public_key')) {
             $view->pgp_pubkey = $prefs->getValue('pgp_attach_pubkey');
         }
 
@@ -132,8 +132,8 @@ class IMP_Dynamic_Compose_Common
         }
 
         $view->priority = $prefs->getValue('set_priority');
-        if (!$prefs->isLocked('default_encrypt') &&
-            (IMP_Pgp::enabled() || IMP_Smime::enabled())) {
+        if (!$prefs->isLocked('default_encrypt')
+            && (IMP_Pgp::enabled() || IMP_Smime::enabled())) {
             $view->encrypt = $prefs->getValue('default_encrypt');
         }
 
@@ -167,9 +167,9 @@ class IMP_Dynamic_Compose_Common
         $base->js_context['ctx_atc'] = new stdClass();
 
         if (IMP_Compose::canUploadAttachment()) {
-            if (!$prefs->isLocked('save_attachments') &&
-                (!$prefs->isLocked('save_sent_mail') ||
-                 $prefs->getValue('save_sent_mail'))) {
+            if (!$prefs->isLocked('save_attachments')
+                && (!$prefs->isLocked('save_sent_mail')
+                 || $prefs->getValue('save_sent_mail'))) {
                 $base->js_context['ctx_atc']->save = _('Save Attachments in Sent Mailbox');
             }
 
@@ -178,8 +178,8 @@ class IMP_Dynamic_Compose_Common
             $base->js_context['ctx_atcfile'] = $atcfile;
         }
 
-        if ($prefs->getValue('use_pgp') &&
-            $prefs->getValue('pgp_public_key')) {
+        if ($prefs->getValue('use_pgp')
+            && $prefs->getValue('pgp_public_key')) {
             $base->js_context['ctx_atc']->pgppubkey = _('Attach Personal PGP Public Key');
         }
 
@@ -198,9 +198,9 @@ class IMP_Dynamic_Compose_Common
             'templates_mbox' => $templates_mbox ? $templates_mbox->form_to : null,
         ]);
 
-        if ($injector->getInstance('IMP_Factory_Imap')->create()->access(IMP_Imap::ACCESS_DRAFTS) &&
-            ($drafts_mbox = IMP_Mailbox::getPref(IMP_Mailbox::MBOX_DRAFTS)) &&
-            !$drafts_mbox->readonly) {
+        if ($injector->getInstance('IMP_Factory_Imap')->create()->access(IMP_Imap::ACCESS_DRAFTS)
+            && ($drafts_mbox = IMP_Mailbox::getPref(IMP_Mailbox::MBOX_DRAFTS))
+            && !$drafts_mbox->readonly) {
             $base->js_conf += array_filter([
                 'auto_save_interval_val' => intval($prefs->getValue('auto_save_drafts')),
                 'close_draft' => intval($prefs->getValue('close_draft')),
@@ -317,7 +317,7 @@ class IMP_Dynamic_Compose_Common
                 // Sent mail mailbox name
                 'sm_name' => $sm ? $sm->form_to : '',
                 // Save in sent mail mailbox by default?
-                'sm_save' => (bool)$identity->saveSentmail($ident),
+                'sm_save' => (bool) $identity->saveSentmail($ident),
                 // Sent mail title
                 'sm_title' => $sm ? $sm->display_notranslate : '',
                 // Sent mail display name

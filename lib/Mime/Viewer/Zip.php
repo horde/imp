@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -42,8 +42,8 @@ class IMP_Mime_Viewer_Zip extends Horde_Mime_Viewer_Zip
         $zipInfo = $this->_getZipInfo();
 
         /* Verify that the requested file exists. */
-        if ((($key = $vars->zip_attachment) === null) ||
-            !isset($zipInfo[$key])) {
+        if ((($key = $vars->zip_attachment) === null)
+            || !isset($zipInfo[$key])) {
             return [];
         }
 
@@ -79,8 +79,8 @@ class IMP_Mime_Viewer_Zip extends Horde_Mime_Viewer_Zip
 
         $vars = $injector->getInstance('Horde_Variables');
 
-        if (!$this->getConfigParam('show_contents') &&
-            !$vars->zip_contents) {
+        if (!$this->getConfigParam('show_contents')
+            && !$vars->zip_contents) {
             $status = new IMP_Mime_Status(
                 $this->_mimepart,
                 _('This is a compressed file.')
@@ -118,10 +118,10 @@ class IMP_Mime_Viewer_Zip extends Horde_Mime_Viewer_Zip
 
             /* TODO: Add ability to render in-browser for filetypes we can
              *       handle. */
-            if (!empty($val['size']) &&
-                (strstr($val['attr'], 'D') === false) &&
-                (($zlib && ($val['method'] == 0x8)) ||
-                 ($val['method'] == 0x0))) {
+            if (!empty($val['size'])
+                && (strstr($val['attr'], 'D') === false)
+                && (($zlib && ($val['method'] == 0x8))
+                 || ($val['method'] == 0x0))) {
                 $file->download = $this->getConfigParam('imp_contents')->linkView(
                     $this->_mimepart,
                     'download_render',

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2014-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -32,8 +32,8 @@ class IMP_Indices_Copy_Notepad extends IMP_Indices_Copy
     {
         global $conf, $notification, $registry;
 
-        if ($conf['notepad']['use_notepad'] &&
-            $registry->hasMethod('notes/listNotepads')) {
+        if ($conf['notepad']['use_notepad']
+            && $registry->hasMethod('notes/listNotepads')) {
             try {
                 $lists = $registry->call(
                     'notes/listNotepads',
@@ -73,7 +73,7 @@ class IMP_Indices_Copy_Notepad extends IMP_Indices_Copy
 
         /* Create a new vNote object using this message's contents. */
         $vNote = Horde_Icalendar::newComponent('vnote', $vCal);
-        $vNote->setAttribute('BODY', $subject . "\n". $body);
+        $vNote->setAttribute('BODY', $subject . "\n" . $body);
 
         /* Get the list of editable notepads. */
         $lists = $this->getNotepads(true);
@@ -126,8 +126,8 @@ class IMP_Indices_Copy_Notepad extends IMP_Indices_Copy
     {
         global $conf;
 
-        return ($conf['notepad']['use_notepad'] &&
-                (strpos($mbox, self::NOTEPAD_EDIT) === 0));
+        return ($conf['notepad']['use_notepad']
+                && (strpos($mbox, self::NOTEPAD_EDIT) === 0));
     }
 
 }

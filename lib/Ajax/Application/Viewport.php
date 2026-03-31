@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -91,7 +91,7 @@ class IMP_Ajax_Application_Viewport
                     ?? false;
 
             case 'metadata':
-                return (object)$this->_metadata;
+                return (object) $this->_metadata;
 
             case 'view':
                 return $this->_mbox->form_to;
@@ -106,7 +106,7 @@ class IMP_Ajax_Application_Viewport
             case 'data_reset':
             case 'metadata_reset':
             case 'rowlist_reset':
-                $this->_data->$name = (bool)$value;
+                $this->_data->$name = (bool) $value;
                 break;
 
             case 'data':

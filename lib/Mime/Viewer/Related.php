@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -130,10 +130,10 @@ class IMP_Mime_Viewer_Related extends Horde_Mime_Viewer_Base
             if ((strcmp($val, $id) !== 0) && !$id_ob->isChild($val)) {
                 $summary = $this->getConfigParam('imp_contents')->getSummary(
                     $val,
-                    IMP_Contents::SUMMARY_SIZE |
-                    IMP_Contents::SUMMARY_ICON |
-                    IMP_Contents::SUMMARY_DESCRIP_LINK |
-                    IMP_Contents::SUMMARY_DOWNLOAD
+                    IMP_Contents::SUMMARY_SIZE
+                    | IMP_Contents::SUMMARY_ICON
+                    | IMP_Contents::SUMMARY_DESCRIP_LINK
+                    | IMP_Contents::SUMMARY_DOWNLOAD
                 );
 
                 $status = new IMP_Mime_Status_RenderIssue(

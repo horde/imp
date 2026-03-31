@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2015-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2015-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -34,9 +34,9 @@ class IMP_Dynamic_Maillog extends IMP_Dynamic_Base
     {
         global $page_output;
 
-        if (isset($this->vars->msgid) &&
-            isset($this->vars->type) &&
-            isset(IMP_Maillog_Storage_History::$drivers[$this->vars->type])) {
+        if (isset($this->vars->msgid)
+            && isset($this->vars->type)
+            && isset(IMP_Maillog_Storage_History::$drivers[$this->vars->type])) {
             $log = new IMP_Maillog_Storage_History::$drivers[$this->vars->type]([
                 'folder' => $this->vars->folder,
                 'msgid' => $this->vars->msgid,

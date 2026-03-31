@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -25,9 +25,7 @@ class IMP_Prefs_Special_Sentmail extends IMP_Prefs_Special_SpecialMboxes impleme
 {
     /**
      */
-    public function init(Horde_Core_Prefs_Ui $ui)
-    {
-    }
+    public function init(Horde_Core_Prefs_Ui $ui) {}
 
     /**
      */
@@ -82,8 +80,8 @@ class IMP_Prefs_Special_Sentmail extends IMP_Prefs_Special_SpecialMboxes impleme
 
         $imp_imap = $injector->getInstance('IMP_Factory_Imap')->create();
 
-        if (!$imp_imap->access(IMP_Imap::ACCESS_FOLDERS) ||
-            $prefs->isLocked(IMP_Mailbox::MBOX_SENT)) {
+        if (!$imp_imap->access(IMP_Imap::ACCESS_FOLDERS)
+            || $prefs->isLocked(IMP_Mailbox::MBOX_SENT)) {
             return false;
         }
 
@@ -93,8 +91,8 @@ class IMP_Prefs_Special_Sentmail extends IMP_Prefs_Special_SpecialMboxes impleme
             $sent_mail = IMP_Mailbox::formFrom($ui->vars->sent_mail);
             if (strpos($sent_mail, self::PREF_SPECIALUSE) === 0) {
                 $sent_mail = IMP_Mailbox::get(substr($sent_mail, strlen(self::PREF_SPECIALUSE)));
-            } elseif (($sent_mail == self::PREF_DEFAULT) &&
-                      ($sm_default = $prefs->getDefault(IMP_Mailbox::MBOX_SENT))) {
+            } elseif (($sent_mail == self::PREF_DEFAULT)
+                      && ($sm_default = $prefs->getDefault(IMP_Mailbox::MBOX_SENT))) {
                 $sent_mail = IMP_Mailbox::get($sm_default)->namespace_append;
             }
         }

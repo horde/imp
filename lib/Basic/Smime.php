@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -121,15 +121,15 @@ class IMP_Basic_Smime extends IMP_Basic_Base
                     }
                     $reload = true;
                 } catch (Horde_Browser_Exception $e) {
-                    if ($e->getCode() != UPLOAD_ERR_NO_FILE ||
-                        !($pkcs12_2nd = $this->_getSecondaryKey())) {
+                    if ($e->getCode() != UPLOAD_ERR_NO_FILE
+                        || !($pkcs12_2nd = $this->_getSecondaryKey())) {
                         $notification->push(_('Personal S/MIME certificates NOT imported.'), 'horde.error');
                     }
                 } catch (Horde_Exception $e) {
                     $notification->push(_('Personal S/MIME certificates NOT imported: ') . $e->getMessage(), 'horde.error');
                 }
-                if (!$reload &&
-                    ($pkcs12_2nd || ($pkcs12_2nd = $this->_getSecondaryKey()))) {
+                if (!$reload
+                    && ($pkcs12_2nd || ($pkcs12_2nd = $this->_getSecondaryKey()))) {
                     if (!$this->_smime->getPersonalPublicKey()) {
                         $notification->push(_('Cannot import secondary personal S/MIME certificates without primary certificates.'), 'horde.error');
                     } else {
@@ -237,8 +237,8 @@ class IMP_Basic_Smime extends IMP_Basic_Base
     protected function _reloadWindow()
     {
         echo Horde::wrapInlineScript([
-            'opener.focus();'.
-            'opener.location.href="' . base64_decode($this->vars->reload) . '";',
+            'opener.focus();'
+            . 'opener.location.href="' . base64_decode($this->vars->reload) . '";',
             'window.close();',
         ]);
         exit;

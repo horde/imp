@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -239,7 +239,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
     {
         global $injector, $registry;
 
-        $has_session = (bool)$registry->getAuth();
+        $has_session = (bool) $registry->getAuth();
 
         /* Set up the base message now. */
         $base = $this->_createMimeMessage(
@@ -485,8 +485,8 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         $imp_draft = false;
 
         if ($draft_url = $headers[self::DRAFT_REPLY]) {
-            if (is_null($type) &&
-                !($type = $headers[self::DRAFT_REPLY_TYPE])) {
+            if (is_null($type)
+                && !($type = $headers[self::DRAFT_REPLY_TYPE])) {
                 $type = self::REPLY;
             }
             $imp_draft = self::REPLY;
@@ -557,8 +557,8 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
 
         /* Add attachments. */
         $parts = [];
-        if (($mime_message->getPrimaryType() == 'multipart') &&
-            ($mime_message->getType() != 'multipart/alternative')) {
+        if (($mime_message->getPrimaryType() == 'multipart')
+            && ($mime_message->getType() != 'multipart/alternative')) {
             for ($i = 1; ; ++$i) {
                 if (intval($text_id) == $i) {
                     continue;
@@ -612,13 +612,13 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
                     $imap_url = new Horde_Imap_Client_Url(rtrim(ltrim($val, '<'), '>'));
 
                     try {
-                        if (($imap_url->protocol == ($imp_imap->isImap() ? 'imap' : 'pop')) &&
-                            ($imap_url->username == $imp_imap->getParam('username')) &&
+                        if (($imap_url->protocol == ($imp_imap->isImap() ? 'imap' : 'pop'))
+                            && ($imap_url->username == $imp_imap->getParam('username'))
                             // Ignore hostspec and port, since these can change
                             // even though the server is the same. UIDVALIDITY
                             // should catch any true server/backend changes.
-                            (IMP_Mailbox::get($imap_url->mailbox)->uidvalid == $imap_url->uidvalidity) &&
-                            $contents_factory->create(new IMP_Indices($imap_url->mailbox, $imap_url->uid))) {
+                            && (IMP_Mailbox::get($imap_url->mailbox)->uidvalid == $imap_url->uidvalidity)
+                            && $contents_factory->create(new IMP_Indices($imap_url->mailbox, $imap_url->uid))) {
                             $indices->add($imap_url->mailbox, $imap_url->uid);
                         }
                     } catch (Exception $e) {
@@ -633,7 +633,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         }
 
         $mdn = new Horde_Mime_Mdn($headers);
-        $readreceipt = (bool)$mdn->getMdnReturnAddr();
+        $readreceipt = (bool) $mdn->getMdnReturnAddr();
 
         $this->changed = 'changed';
 
@@ -709,7 +709,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
      */
     public function hasDrafts()
     {
-        return (bool)$this->getMetadata('draft_uid');
+        return (bool) $this->getMetadata('draft_uid');
     }
 
     /**
@@ -783,14 +783,14 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         $this->_prepSendMessageAssert($recip['list']);
 
         /* Check for correct identity usage. */
-        if (!$this->getMetadata('identity_check') &&
-            (count($recip['list']) === 1)) {
+        if (!$this->getMetadata('identity_check')
+            && (count($recip['list']) === 1)) {
             $identity_search = $identity->getMatchingIdentity(
                 $recip['list'],
                 false
             );
-            if (!is_null($identity_search) &&
-                ($identity->getDefault() != $identity_search)) {
+            if (!is_null($identity_search)
+                && ($identity->getDefault() != $identity_search)) {
                 $this->_setMetadata('identity_check', true);
 
                 $e = new IMP_Compose_Exception(
@@ -861,9 +861,9 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
 
         /* Add Reply-To header. Done after pre_sent hook since from address
          * could be change by hook and/or Reply-To was set by hook. */
-        if (!empty($header['replyto']) &&
-            ($header['replyto'] != $from->bare_address) &&
-            !isset($headers['reply-to'])) {
+        if (!empty($header['replyto'])
+            && ($header['replyto'] != $from->bare_address)
+            && !isset($headers['reply-to'])) {
             $headers->addHeader('Reply-To', $header['replyto']);
         }
 
@@ -1208,18 +1208,18 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
     ) {
         global $injector, $language, $notification, $prefs;
 
-        if (empty($opts['sent_mail']) ||
-            ($prefs->isLocked('save_sent_mail') &&
-             !$prefs->getValue('save_sent_mail')) ||
-            (!$prefs->isLocked('save_sent_mail') &&
-             empty($opts['save_sent']))) {
+        if (empty($opts['sent_mail'])
+            || ($prefs->isLocked('save_sent_mail')
+             && !$prefs->getValue('save_sent_mail'))
+            || (!$prefs->isLocked('save_sent_mail')
+             && empty($opts['save_sent']))) {
             return;
         }
 
         $imp_imap = $injector->getInstance('IMP_Factory_Imap')->create();
 
         $sent_mail = IMP_Mailbox::get($opts['sent_mail']);
-        
+
         /* If message contains EAI addresses, we need to verify that the IMAP
          * server can handle this data in order to save. */
         foreach ($recips as $val) {
@@ -1243,9 +1243,9 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
             /* Don't strip any part if this is a text message with both
              * plaintext and HTML representation, or a signed or encrypted
              * message. */
-            if ($save_msg->getType() != 'multipart/alternative' &&
-                $save_msg->getType() != 'multipart/encrypted' &&
-                $save_msg->getType() != 'multipart/signed') {
+            if ($save_msg->getType() != 'multipart/alternative'
+                && $save_msg->getType() != 'multipart/encrypted'
+                && $save_msg->getType() != 'multipart/signed') {
                 for ($i = 2; ; ++$i) {
                     if (!($oldPart = $save_msg[$i])) {
                         break;
@@ -1312,8 +1312,8 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         ];
 
         foreach ($hdrs as $key => $val) {
-            if (isset($headers[$val]) &&
-                (is_object($headers[$val]) || strlen($headers[$val]))) {
+            if (isset($headers[$val])
+                && (is_object($headers[$val]) || strlen($headers[$val]))) {
                 $ob->addHeader($key, $headers[$val]);
             }
         }
@@ -1533,8 +1533,8 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
                 switch ($error['level'] ?? $exception::BAD) {
                     case $exception::WARN:
                     case 'warn':
-                        if (($warn = $this->getMetadata('warn_addr')) &&
-                            in_array(strval($val), $warn)) {
+                        if (($warn = $this->getMetadata('warn_addr'))
+                            && in_array(strval($val), $warn)) {
                             $out[] = $tmp;
                             continue 2;
                         }
@@ -1571,9 +1571,9 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
     {
         global $notification, $prefs, $registry;
 
-        if (!$prefs->getValue('save_recipients') ||
-            !$registry->hasMethod('contacts/import') ||
-            !($abook = $prefs->getValue('add_source'))) {
+        if (!$prefs->getValue('save_recipients')
+            || !$registry->hasMethod('contacts/import')
+            || !($abook = $prefs->getValue('add_source'))) {
             return;
         }
 
@@ -1709,8 +1709,8 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
                 $check = [];
             }
 
-            if (!empty($check) &&
-                preg_match('/\b(' . implode('|', array_map('preg_quote', $check, array_fill(0, count($check), '/'))) . ')\b/i', $body, $matches)) {
+            if (!empty($check)
+                && preg_match('/\b(' . implode('|', array_map('preg_quote', $check, array_fill(0, count($check), '/'))) . ')\b/i', $body, $matches)) {
                 throw IMP_Compose_Exception::createAndLog(
                     'DEBUG',
                     sprintf(
@@ -2002,8 +2002,8 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
 
             if ($tmp = $h['References']) {
                 $ref_ob = $tmp->getIdentificationOb();
-                if (!count($ref_ob->ids) &&
-                    ($tmp = $h['In-Reply-To'])) {
+                if (!count($ref_ob->ids)
+                    && ($tmp = $h['In-Reply-To'])) {
                     $ref_ob = $tmp->getIdentificationOb();
                     if (count($ref_ob->ids) > 1) {
                         $ref_ob->ids = [];
@@ -2071,8 +2071,8 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
             foreach (['reply-to', 'from', 'to', 'cc'] as $val) {
                 /* If either a reply-to or $to is present, we use this address
                  * INSTEAD of the from address. */
-                if (($force && ($val == 'from')) ||
-                    !($tmp = $h[$val])) {
+                if (($force && ($val == 'from'))
+                    || !($tmp = $h[$val])) {
                     continue;
                 }
 
@@ -2104,21 +2104,21 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
                     if ($hdr_ob instanceof Horde_Mail_Rfc822_Group) {
                         $addr['cc']->add($hdr_ob);
                         $all_addrs->add($hdr_ob->addresses);
-                    } elseif (($val != 'to') ||
-                              is_null($list_info) ||
-                              !$force ||
-                              empty($list_info['exists'])) {
+                    } elseif (($val != 'to')
+                              || is_null($list_info)
+                              || !$force
+                              || empty($list_info['exists'])) {
                         /* Don't add as To address if this is a list that
                          * doesn't have a post address but does have a
                          * reply-to address. */
                         if (in_array($val, $to_fields)) {
                             /* If from/reply-to doesn't have personal
                              * information, check from address. */
-                            if (is_null($hdr_ob->personal) &&
-                                ($tmp = $h['from']) &&
-                                ($to_ob = $tmp->getAddressList(true)->first()) &&
-                                !is_null($to_ob->personal) &&
-                                ($hdr_ob->match($to_ob))) {
+                            if (is_null($hdr_ob->personal)
+                                && ($tmp = $h['from'])
+                                && ($to_ob = $tmp->getAddressList(true)->first())
+                                && !is_null($to_ob->personal)
+                                && ($hdr_ob->match($to_ob))) {
                                 $addr['to']->add($to_ob);
                             } else {
                                 $addr['to']->add($hdr_ob);
@@ -2163,8 +2163,8 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         $ret = $this->replyMessageText($contents, [
             'format' => $opts['format'] ?? null,
         ]);
-        if ($prefs->getValue('reply_charset') &&
-            ($ret['charset'] != $this->charset)) {
+        if ($prefs->getValue('reply_charset')
+            && ($ret['charset'] != $this->charset)) {
             $this->charset = $ret['charset'];
             $this->changed = 'changed';
         }
@@ -2182,16 +2182,16 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
                     break;
 
                 case self::REPLY_LIST:
-                    if (($list_parse = $injector->getInstance('Horde_ListHeaders')->parse('list-id', strval($h['List-Id']))) &&
-                        !is_null($list_parse->label)) {
+                    if (($list_parse = $injector->getInstance('Horde_ListHeaders')->parse('list-id', strval($h['List-Id'])))
+                        && !is_null($list_parse->label)) {
                         $ret['reply_list_id'] = $list_parse->label;
                     }
                     break;
             }
         }
 
-        if (($lang = $h['Accept-Language']) ||
-            ($lang = $h['X-Accept-Language'])) {
+        if (($lang = $h['Accept-Language'])
+            || ($lang = $h['X-Accept-Language'])) {
             $langs = [];
             foreach (explode(',', $lang->value_single) as $val) {
                 if (($name = Horde_Nls::getLanguageISO($val)) !== null) {
@@ -2202,9 +2202,9 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
 
             /* Don't show display if original recipient is asking for reply in
              * the user's native language. */
-            if ((count($ret['lang']) == 1) &&
-                reset($ret['lang']) &&
-                (substr(key($ret['lang']), 0, 2) == substr($language, 0, 2))) {
+            if ((count($ret['lang']) == 1)
+                && reset($ret['lang'])
+                && (substr(key($ret['lang']), 0, 2) == substr($language, 0, 2))) {
                 unset($ret['lang']);
             }
         }
@@ -2251,15 +2251,15 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         if ($prefs->getValue('reply_headers') && !empty($h)) {
             $from_text = strval(new IMP_Prefs_AttribText($from, $h, '%f'));
 
-            $msg_pre = '----- ' .
-                ($from_text ? sprintf(_('Message from %s'), $from_text) : _('Message')) .
+            $msg_pre = '----- '
+                . ($from_text ? sprintf(_('Message from %s'), $from_text) : _('Message'))
                 /* Extra '-'s line up with "End Message" below. */
-                " ---------\n" .
-                $this->_getMsgHeaders($h);
+                . " ---------\n"
+                . $this->_getMsgHeaders($h);
 
-            $msg_post = "\n\n----- " .
-                ($from_text ? sprintf(_('End message from %s'), $from_text) : _('End message')) .
-                " -----\n";
+            $msg_post = "\n\n----- "
+                . ($from_text ? sprintf(_('End message from %s'), $from_text) : _('End message'))
+                . " -----\n";
         } else {
             $msg_pre = strval(new IMP_Prefs_AttribText($from, $h));
             $msg_post = '';
@@ -2273,13 +2273,13 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
             'toflowed' => true,
         ]);
 
-        if (!empty($msg_text) &&
-            (($msg_text['mode'] == 'html') || $force_html)) {
-            $msg = '<p>' . $this->text2html(trim($msg_pre)) . '</p>' .
-                   self::HTML_BLOCKQUOTE .
-                   (($msg_text['mode'] == 'text') ? $this->text2html($msg_text['flowed'] ? $msg_text['flowed'] : $msg_text['text']) : $msg_text['text']) .
-                   '</blockquote><br />' .
-                   ($msg_post ? $this->text2html($msg_post) : '') . '<br />';
+        if (!empty($msg_text)
+            && (($msg_text['mode'] == 'html') || $force_html)) {
+            $msg = '<p>' . $this->text2html(trim($msg_pre)) . '</p>'
+                   . self::HTML_BLOCKQUOTE
+                   . (($msg_text['mode'] == 'text') ? $this->text2html($msg_text['flowed'] ? $msg_text['flowed'] : $msg_text['text']) : $msg_text['text'])
+                   . '</blockquote><br />'
+                   . ($msg_post ? $this->text2html($msg_post) : '') . '<br />';
             $msg_text['mode'] = 'html';
         } else {
             $msg = empty($msg_text['text'])
@@ -2290,9 +2290,9 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
 
         // Bug #10148: Message text might be us-ascii, but reply headers may
         // contain 8-bit characters.
-        if (($msg_text['charset'] == 'us-ascii') &&
-            (Horde_Mime::is8bit($msg_pre) ||
-             Horde_Mime::is8bit($msg_post))) {
+        if (($msg_text['charset'] == 'us-ascii')
+            && (Horde_Mime::is8bit($msg_pre)
+             || Horde_Mime::is8bit($msg_post))) {
             $msg_text['charset'] = 'UTF-8';
         }
 
@@ -2399,8 +2399,8 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         }
 
         $fwd_attach = false;
-        if ($attach &&
-            in_array($type, [self::FORWARD_ATTACH, self::FORWARD_BOTH])) {
+        if ($attach
+            && in_array($type, [self::FORWARD_ATTACH, self::FORWARD_BOTH])) {
             try {
                 $this->attachImapMessage(new IMP_Indices($contents));
                 $fwd_attach = true;
@@ -2448,9 +2448,9 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
 
         $from = strval($h['from']);
 
-        $msg_pre = "\n----- " .
-            ($from ? sprintf(_('Forwarded message from %s'), $from) : _('Forwarded message')) .
-            " -----\n" . $this->_getMsgHeaders($h) . "\n";
+        $msg_pre = "\n----- "
+            . ($from ? sprintf(_('Forwarded message from %s'), $from) : _('Forwarded message'))
+            . " -----\n" . $this->_getMsgHeaders($h) . "\n";
         $msg_post = "\n\n----- " . _('End forwarded message') . " -----\n";
 
         [$compose_html, $force_html] = $this->_msgTextFormat($opts, 'forward_format');
@@ -2459,11 +2459,11 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
             'html' => $compose_html,
         ]);
 
-        if (!empty($msg_text) &&
-            (($msg_text['mode'] == 'html') || $force_html)) {
-            $msg = $this->text2html($msg_pre) .
-                (($msg_text['mode'] == 'text') ? $this->text2html($msg_text['text']) : $msg_text['text']) .
-                $this->text2html($msg_post);
+        if (!empty($msg_text)
+            && (($msg_text['mode'] == 'html') || $force_html)) {
+            $msg = $this->text2html($msg_pre)
+                . (($msg_text['mode'] == 'text') ? $this->text2html($msg_text['text']) : $msg_text['text'])
+                . $this->text2html($msg_post);
             $format = 'html';
         } else {
             $msg = $msg_pre . $msg_text['text'] . $msg_post;
@@ -2472,9 +2472,9 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
 
         // Bug #10148: Message text might be us-ascii, but forward headers may
         // contain 8-bit characters.
-        if (($msg_text['charset'] == 'us-ascii') &&
-            (Horde_Mime::is8bit($msg_pre) ||
-             Horde_Mime::is8bit($msg_post))) {
+        if (($msg_text['charset'] == 'us-ascii')
+            && (Horde_Mime::is8bit($msg_pre)
+             || Horde_Mime::is8bit($msg_post))) {
             $msg_text['charset'] = 'UTF-8';
         }
 
@@ -2594,8 +2594,8 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
                 } catch (Horde_Mail_Exception $e) {
                     $e2 = new IMP_Compose_Exception($e);
 
-                    if (($prev = $e->getPrevious()) &&
-                        ($prev instanceof Horde_Smtp_Exception)) {
+                    if (($prev = $e->getPrevious())
+                        && ($prev instanceof Horde_Smtp_Exception)) {
                         if ($prev instanceof Horde_Smtp_Exception_Recipients) {
                             $e2 = new IMP_Compose_Exception_Addresses($e);
                             foreach ($prev->recipients as $val) {
@@ -2850,8 +2850,8 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         return hash_hmac(
             /* This is cryptographic/secure value, so use stronger hash. */
             'sha1',
-            (is_null($cacheid) ? $this->getCacheId() : $cacheid) . '|' .
-                (is_null($user) ? $registry->getAuth() : $user),
+            (is_null($cacheid) ? $this->getCacheId() : $cacheid) . '|'
+                . (is_null($user) ? $registry->getAuth() : $user),
             $conf['secret_key']
         );
     }
@@ -2984,8 +2984,8 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         $add = [];
 
         foreach ($html as $node) {
-            if (($node instanceof DOMElement) &&
-                $node->hasAttribute(self::RELATED_ATTR)) {
+            if (($node instanceof DOMElement)
+                && $node->hasAttribute(self::RELATED_ATTR)) {
                 [$attr_name, $atc_id] = explode(';', $node->getAttribute(self::RELATED_ATTR));
 
                 /* If attachment can't be found, ignore. */
@@ -3086,9 +3086,9 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
             $size = IMP::sizeFormat($apart->getBytes());
             $url = strval($val->link_url->setRaw(true));
 
-            $body .= "\n" . (++$i) . '. ' .
-                $name . ' (' . $size . ') [' . $apart->getType() . "]\n" .
-                sprintf(_('Download link: %s'), $url) . "\n";
+            $body .= "\n" . (++$i) . '. '
+                . $name . ' (' . $size . ') [' . $apart->getType() . "]\n"
+                . sprintf(_('Download link: %s'), $url) . "\n";
 
             if ($html) {
                 $ol->appendChild($li = $dom->createElement('LI'));
@@ -3140,17 +3140,17 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
             'imp_msg' => self::COMPOSE,
         ], $options);
 
-        if (!empty($options['html']) &&
-            self::canHtmlCompose() &&
-            (($body_id = $contents->findBody('html')) !== null)) {
+        if (!empty($options['html'])
+            && self::canHtmlCompose()
+            && (($body_id = $contents->findBody('html')) !== null)) {
             $mime_message = $contents->getMIMEMessage();
 
             switch ($mime_message->getPrimaryType()) {
                 case 'multipart':
-                    if (($body_id != '1') &&
-                        ($mime_message->getSubType() == 'mixed') &&
-                        ($id_ob = new Horde_Mime_Id('1')) &&
-                        !$id_ob->isChild($body_id)) {
+                    if (($body_id != '1')
+                        && ($mime_message->getSubType() == 'mixed')
+                        && ($id_ob = new Horde_Mime_Id('1'))
+                        && !$id_ob->isChild($body_id)) {
                         $body_id = null;
                     } else {
                         $mode = 'html';
@@ -3183,8 +3183,8 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         $msg = Horde_String::convertCharset($part->getContents(), $part_charset, 'UTF-8');
 
         /* Enforce reply limits. */
-        if (!empty($options['replylimit']) &&
-            !empty($conf['compose']['reply_limit'])) {
+        if (!empty($options['replylimit'])
+            && !empty($conf['compose']['reply_limit'])) {
             $limit = $conf['compose']['reply_limit'];
             if (Horde_String::length($msg) > $limit) {
                 $msg = Horde_String::substr($msg, 0, $limit) . "\n" . _('[Truncated Text]');
@@ -3244,8 +3244,8 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         $msg = trim($msg);
 
         if ($type == 'text/plain') {
-            if ($prefs->getValue('reply_strip_sig') &&
-                (($pos = strrpos($msg, "\n-- ")) !== false)) {
+            if ($prefs->getValue('reply_strip_sig')
+                && (($pos = strrpos($msg, "\n-- ")) !== false)) {
                 $msg = rtrim(substr($msg, 0, $pos));
             }
 
@@ -3438,8 +3438,8 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         $atc->setType($type);
         $atc->setHeaderCharset('UTF-8');
 
-        if (($atc->getType() == 'application/octet-stream') ||
-            ($atc->getPrimaryType() == 'text')) {
+        if (($atc->getType() == 'application/octet-stream')
+            || ($atc->getPrimaryType() == 'text')) {
             $analyze = Horde_Mime_Magic::analyzeFile($atc_file, empty($conf['mime']['magic_db']) ? null : $conf['mime']['magic_db'], [
                 'nostrip' => true,
             ]);
@@ -3508,10 +3508,10 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
     {
         global $injector;
 
-        if (!isset($vars->composeCache) ||
-            !isset($vars->composeHmac) ||
-            !isset($vars->user) ||
-            ($this->getHmac($vars->composeCache, $vars->user) != $vars->composeHmac)) {
+        if (!isset($vars->composeCache)
+            || !isset($vars->composeHmac)
+            || !isset($vars->user)
+            || ($this->getHmac($vars->composeCache, $vars->user) != $vars->composeHmac)) {
             return;
         }
 
@@ -3682,7 +3682,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         return isset($this->_atc[$offset]);
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->_atc[$offset]

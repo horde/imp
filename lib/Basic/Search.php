@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 1999-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -339,9 +339,9 @@ class IMP_Basic_Search extends IMP_Basic_Base
             /* Redirect to the mailbox page. */
             if ($redirect_target) {
                 if ($dynamic_view && $redirect_dynamic) {
-                    echo '<html><head>' .
-                        Horde::wrapInlineScript(['window.parent.ImpBase.go("mbox", "' . $q_ob->mbox_ob->form_to . '")']) .
-                        '</head></html>';
+                    echo '<html><head>'
+                        . Horde::wrapInlineScript(['window.parent.ImpBase.go("mbox", "' . $q_ob->mbox_ob->form_to . '")'])
+                        . '</head></html>';
                     exit;
                 }
 
@@ -473,8 +473,8 @@ class IMP_Basic_Search extends IMP_Basic_Base
 
         /* Prepare the topbar. */
         if (!$dynamic_view) {
-            $injector->getInstance('Horde_View_Topbar')->subinfo =
-                $injector->getInstance('IMP_View_Subinfo')->render();
+            $injector->getInstance('Horde_View_Topbar')->subinfo
+                = $injector->getInstance('IMP_View_Subinfo')->render();
         }
 
         Horde_Core_Ui_JsCalendar::init();

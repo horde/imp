@@ -9,24 +9,24 @@
   <div class="iconImg headercloseimg closeImg" id="windowclose" title="X"></div>
   <ul>
   <li class="horde-icon">
-   <?php echo $this->actionButton(array('icon' => 'Reply', 'id' => 'reply_link', 'title' => _("Reply"))) ?>
+   <?php echo $this->actionButton(['icon' => 'Reply', 'id' => 'reply_link', 'title' => _("Reply")]) ?>
   </li>
   <li class="horde-icon">
-   <?php echo $this->actionButton(array('icon' => 'Forward', 'id' => 'forward_link', 'title' => _("Forward"))) ?>
+   <?php echo $this->actionButton(['icon' => 'Forward', 'id' => 'forward_link', 'title' => _("Forward")]) ?>
   </li>
 <?php if ($this->show_spam): ?>
   <li class="horde-icon">
-   <?php echo $this->actionButton(array('icon' => 'Spam', 'id' => 'button_spam', 'title' => _("Spam"))) ?>
+   <?php echo $this->actionButton(['icon' => 'Spam', 'id' => 'button_spam', 'title' => _("Spam")]) ?>
   </li>
 <?php endif; ?>
 <?php if ($this->show_innocent): ?>
   <li class="horde-icon">
-   <?php echo $this->actionButton(array('icon' => 'Innocent', 'id' => 'button_innocent', 'title' => _("Innocent"))) ?>
+   <?php echo $this->actionButton(['icon' => 'Innocent', 'id' => 'button_innocent', 'title' => _("Innocent")]) ?>
   </li>
 <?php endif; ?>
 <?php if ($this->show_delete): ?>
   <li class="horde-icon">
-   <?php echo $this->actionButton(array('icon' => 'Delete', 'id' => 'button_delete', 'title' => _("Delete"))) ?>
+   <?php echo $this->actionButton(['icon' => 'Delete', 'id' => 'button_delete', 'title' => _("Delete")]) ?>
   </li>
 <?php endif; ?>
   </ul>

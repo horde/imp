@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -100,8 +100,8 @@ class IMP_Ftree_Eltdiff implements Serializable
                         case 'change':
                             if (is_null($value)) {
                                 $value = self::CHANGE | self::EXIST;
-                            } elseif (($value & self::EXIST) ||
-                                      !($value & self::ADD)) {
+                            } elseif (($value & self::EXIST)
+                                      || !($value & self::ADD)) {
                                 $value &= ~self::ADD & ~self::DELETE;
                                 $value |= self::CHANGE;
                             }
@@ -167,7 +167,7 @@ class IMP_Ftree_Eltdiff implements Serializable
     {
         switch ($name) {
             case 'track':
-                $value = (bool)$value;
+                $value = (bool) $value;
                 if ($value != $this->_track) {
                     $this->_track = $value;
                     $this->changed = true;

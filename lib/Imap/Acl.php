@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2003-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2003-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -54,8 +54,8 @@ class IMP_Imap_Acl
 
                 $ret = $imp_imap->getACL($mbox);
                 $user = $imp_imap->getParam('username');
-                if (!isset($ret[$user]) &&
-                    ($acl = $this->getACL($mbox, true))) {
+                if (!isset($ret[$user])
+                    && ($acl = $this->getACL($mbox, true))) {
                     $ret[$user] = $acl;
                 }
                 return $ret;

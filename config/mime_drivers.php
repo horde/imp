@@ -1,4 +1,5 @@
 <?php
+
 /**
  * MIME Viewer configuration for IMP.
  *
@@ -19,15 +20,15 @@
  *     0) will disable this check.
  */
 
-$mime_drivers = array(
+$mime_drivers = [
     /* Plain text viewer. */
-    'plain' => array(
+    'plain' => [
         'inline' => true,
-        'handles' => array(
+        'handles' => [
             'application/pgp',
             'text/plain',
-            'text/rfc822-headers'
-        ),
+            'text/rfc822-headers',
+        ],
 
         /* See above for description. */
         'limit_inline_size' => 1048576,
@@ -42,41 +43,41 @@ $mime_drivers = array(
          * and can take a long time for large messages. It is not recommended
          * (as UUencoded data is rare these days) and is disabled by
          * default. */
-        'uudecode' => false
-    ),
+        'uudecode' => false,
+    ],
 
     /* HTML driver settings */
-    'html' => array(
+    'html' => [
         /* NOTE: Inline HTML display is turned OFF by default. */
         'inline' => false,
-        'handles' => array(
-            'text/html'
-        ),
-        'icons' => array(
-            'default' => 'html.png'
-        ),
+        'handles' => [
+            'text/html',
+        ],
+        'icons' => [
+            'default' => 'html.png',
+        ],
 
         /* See above for description. */
         'limit_inline_size' => 1048576,
 
         /* Check for phishing exploits? */
-        'phishing_check' => true
-    ),
+        'phishing_check' => true,
+    ],
 
     /* Default smil driver. */
-    'smil' => array(
+    'smil' => [
         'inline' => true,
-        'handles' => array(
-            'application/smil'
-        )
-    ),
+        'handles' => [
+            'application/smil',
+        ],
+    ],
 
     /* Image display. */
-    'images' => array(
+    'images' => [
         'inline' => true,
-        'handles' => array(
-            'image/*'
-        ),
+        'handles' => [
+            'image/*',
+        ],
 
         /* Display images inline that are less than this size (in bytes). */
         'inlinesize' => 262144,
@@ -88,151 +89,151 @@ $mime_drivers = array(
          * base message data? This saves server accesses (1 for each thumbnail
          * generated in a message) at the expense that ALL thumbnails for a
          * message need to be generated before the message can be viewed. */
-        'thumbnails_dataurl' => false
-    ),
+        'thumbnails_dataurl' => false,
+    ],
 
     /* Enriched text display. */
-    'enriched' => array(
+    'enriched' => [
         'inline' => true,
-        'handles' => array(
-            'text/enriched'
-        ),
-        'icons' => array(
-            'default' => 'text.png'
-        )
-    ),
+        'handles' => [
+            'text/enriched',
+        ],
+        'icons' => [
+            'default' => 'text.png',
+        ],
+    ],
 
     /* PDF display. */
-    'pdf' => array(
-        'handles' => array(
+    'pdf' => [
+        'handles' => [
             'application/pdf',
             'application/x-pdf',
-            'image/pdf'
-        ),
-        'icons' => array(
-            'default' => 'pdf.png'
-        ),
+            'image/pdf',
+        ],
+        'icons' => [
+            'default' => 'pdf.png',
+        ],
 
         /* Display PDF thumbnails? */
-        'thumbnails' => true
-    ),
+        'thumbnails' => true,
+    ],
 
     /* PGP (Pretty Good Privacy) display. */
-    'pgp' => array(
+    'pgp' => [
         'inline' => true,
-        'handles' => array(
+        'handles' => [
             'application/pgp-encrypted',
             'application/pgp-keys',
-            'application/pgp-signature'
-        ),
-        'icons' => array(
-            'default' => 'encryption.png'
-        )
-    ),
+            'application/pgp-signature',
+        ],
+        'icons' => [
+            'default' => 'encryption.png',
+        ],
+    ],
 
     /* S/MIME display. */
-    'smime' => array(
+    'smime' => [
         'inline' => true,
-        'handles' => array(
+        'handles' => [
             'application/x-pkcs7-signature',
             'application/x-pkcs7-mime',
             'application/pkcs7-signature',
-            'application/pkcs7-mime'
-        ),
-        'icons' => array(
-            'default' => 'encryption.png'
-        )
-    ),
+            'application/pkcs7-mime',
+        ],
+        'icons' => [
+            'default' => 'encryption.png',
+        ],
+    ],
 
     /* vCard display. */
-    'vcard' => array(
+    'vcard' => [
         'inline' => true,
-        'handles' => array(
+        'handles' => [
             'text/directory',
             'text/vcard',
-            'text/x-vcard'
-        ),
-        'icons' => array(
-            'default' => 'vcard.png'
-        )
-    ),
+            'text/x-vcard',
+        ],
+        'icons' => [
+            'default' => 'vcard.png',
+        ],
+    ],
 
     /* Zip file display.
      * To access gzipped files, the zlib library must have been built into PHP
      * (with the --with-zlib option). */
-    'zip' => array(
-        'handles' => array(
+    'zip' => [
+        'handles' => [
             'application/x-compressed',
             'application/x-zip-compressed',
-            'application/zip'
-        ),
-        'icons' => array(
-            'default' => 'compressed.png'
-        ),
+            'application/zip',
+        ],
+        'icons' => [
+            'default' => 'compressed.png',
+        ],
 
         /* By default, ZIP contents are only shown if the user requests. Set
          * this value to true to automatically show the contents on the
          * initial load. */
-        'show_contents' => false
-    ),
+        'show_contents' => false,
+    ],
 
     /* Tar file display.
      * To access gzipped files, the zlib library must have been built into PHP
      * (with the --with-zlib option). */
-    'tgz' => array(
+    'tgz' => [
         'inline' => true,
-        'handles' => array(
+        'handles' => [
             'application/gzip',
             'application/x-compressed-tar',
             'application/x-gtar',
             'application/x-gzip',
             'application/x-gzip-compressed',
             'application/x-tar',
-            'application/x-tgz'
-        ),
-        'icons' => array(
-            'default' => 'compressed.png'
-        )
-    ),
+            'application/x-tgz',
+        ],
+        'icons' => [
+            'default' => 'compressed.png',
+        ],
+    ],
 
     /* Delivery status messages display. */
-    'status' => array(
+    'status' => [
         'inline' => true,
-        'handles' => array(
-            'message/delivery-status'
-        )
-    ),
+        'handles' => [
+            'message/delivery-status',
+        ],
+    ],
 
     /* Message Disposition Notification (MDN) display. */
-    'mdn' => array(
+    'mdn' => [
         'inline' => true,
-        'handles' => array(
-            'message/disposition-notification'
-        )
-    ),
+        'handles' => [
+            'message/disposition-notification',
+        ],
+    ],
 
     /* Appledouble message display. */
-    'appledouble' => array(
+    'appledouble' => [
         'inline' => true,
-        'handles' => array(
-            'multipart/appledouble'
-        ),
-        'icons' => array(
-            'default' => 'apple.png'
-        )
-    ),
+        'handles' => [
+            'multipart/appledouble',
+        ],
+        'icons' => [
+            'default' => 'apple.png',
+        ],
+    ],
 
     /* ITIP (iCalendar Transport-Independent Interoperability Protocol)
      * display. */
-    'itip' => array(
+    'itip' => [
         'inline' => true,
-        'handles' => array(
+        'handles' => [
             'text/calendar',
-            'text/x-vcalendar'
-        ),
-        'icons' => array(
-            'default' => 'itip.png'
-        ),
+            'text/x-vcalendar',
+        ],
+        'icons' => [
+            'default' => 'itip.png',
+        ],
 
         /* How event replies are handled when a user opens the message.
          *   - false: Reply status is never automatically updated; requires
@@ -273,86 +274,86 @@ $mime_drivers = array(
          *            reply data to be explicitly updated by user
          *            action. */
         'auto_update_taskreply' => false,
-    ),
+    ],
 
     /* Audio data. */
-    'audio' => array(
-        'handles' => array(
-            'audio/*'
-        ),
-        'icons' => array(
-            'default' => 'audio.png'
-        )
-    ),
+    'audio' => [
+        'handles' => [
+            'audio/*',
+        ],
+        'icons' => [
+            'default' => 'audio.png',
+        ],
+    ],
 
     /* Video data. */
-    'video' => array(
-        'handles' => array(
-            'video/*'
-        ),
-        'icons' => array(
-            'default' => 'video.png'
-        ),
+    'video' => [
+        'handles' => [
+            'video/*',
+        ],
+        'icons' => [
+            'default' => 'video.png',
+        ],
 
         /* Display video thumbnails? */
         'thumbnails' => true,
 
         /* REQUIRED for thumbnails: location of ffmpeg binary.
          * http://ffmpeg.org/ */
-        'ffmpeg' => '/usr/bin/ffmpeg'
-    ),
+        'ffmpeg' => '/usr/bin/ffmpeg',
+    ],
 
     /* Alternative part display.
      * YOU SHOULD NOT NORMALLY ALTER THIS SETTING. */
-    'alternative' => array(
+    'alternative' => [
         'inline' => true,
-        'handles' => array(
-            'multipart/alternative'
-        )
-    ),
+        'handles' => [
+            'multipart/alternative',
+        ],
+    ],
 
     /* Related part display.
      * YOU SHOULD NOT NORMALLY ALTER THIS SETTING. */
-    'related' => array(
+    'related' => [
         'inline' => true,
-        'handles' => array(
-            'multipart/related'
-        ),
-        'icons' => array(
-            'default' => 'html.png'
-        )
-    ),
+        'handles' => [
+            'multipart/related',
+        ],
+        'icons' => [
+            'default' => 'html.png',
+        ],
+    ],
 
     /* Partial parts display.
      * YOU SHOULD NOT NORMALLY ALTER THIS SETTING. */
-    'partial' => array(
-        'handles' => array(
-            'message/partial'
-        )
-    ),
+    'partial' => [
+        'handles' => [
+            'message/partial',
+        ],
+    ],
 
     /* Digest message (RFC 2046 [5.2.1]) display.
      * YOU SHOULD NOT NORMALLY ALTER THIS SETTING. */
-    'rfc822' => array(
-        'handles' => array(
+    'rfc822' => [
+        'handles' => [
             'message/rfc822',
-            'x-extension/eml'
-        )
-    ),
+            'x-extension/eml',
+        ],
+    ],
 
     /* External-body (RFC 2046 [5.2.3]) display.
      * YOU SHOULD NOT NORMALLY ALTER THIS SETTING. */
-    'externalbody' => array(
-        'handles' => array(
-            'message/external-body'
-        )
-    ),
+    'externalbody' => [
+        'handles' => [
+            'message/external-body',
+        ],
+    ],
 
     /* SyntaxHighlighter driver.
      * http://alexgorbatchev.com/SyntaxHighlighter/ */
-    'syntaxhighlighter' => array(
+    'syntaxhighlighter' => [
         'inline' => true,
-        'handles' => array(
+        'handles' => [
             'application/javascript',
             'application/x-extension-bat',
             'application/x-extension-c',
@@ -401,8 +402,8 @@ $mime_drivers = array(
             'text/x-sql',
             'text/x-tex',
             'text/xml',
-        ),
-        'icons' => array(
+        ],
+        'icons' => [
             'default'                        => 'text.png',
             'application/javascript'         => 'script-js.png',
             'application/x-extension-c'      => 'source-c.png',
@@ -436,6 +437,6 @@ $mime_drivers = array(
             'text/x-csrc'                    => 'source-c.png',
             'text/x-java'                    => 'source-java.png',
             'text/xml'                       => 'xml.png',
-        ),
-    ),
-);
+        ],
+    ],
+];

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2011-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -51,9 +51,9 @@ class IMP_Mime_Viewer_Externalbody extends Horde_Mime_Viewer_Base
                 $cid = $this->_mimepart->getContentId();
 
                 foreach ($base_part->partIterator(false) as $part) {
-                    if (($part->getContentId() == $cid) &&
-                        ($part->getType() != 'message/external-body') &&
-                        ($full_part = $imp_contents->getMimePart($part->getMimeId()))) {
+                    if (($part->getContentId() == $cid)
+                        && ($part->getType() != 'message/external-body')
+                        && ($full_part = $imp_contents->getMimePart($part->getMimeId()))) {
                         $full_part = clone $full_part;
                         $full_part->setMimeId($this->_mimepart->getMimeId());
                         // TODO: Add headers from referring body part.

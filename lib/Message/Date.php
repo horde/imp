@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2006-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2006-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -50,8 +50,8 @@ class IMP_Message_Date
      */
     public function __construct($date = null)
     {
-        if (!is_null($date) &&
-            !($date instanceof Horde_Imap_Client_DateTime)) {
+        if (!is_null($date)
+            && !($date instanceof Horde_Imap_Client_DateTime)) {
             $date = new Horde_Imap_Client_DateTime(strval($date));
         }
 
@@ -110,8 +110,8 @@ class IMP_Message_Date
                 $this->_buildCache();
                 $tz = strftime('%Z'); // TODO replace strftime
 
-                if (($udate < self::$_cache['today_start']) ||
-                    ($udate > self::$_cache['today_end'])) {
+                if (($udate < self::$_cache['today_start'])
+                    || ($udate > self::$_cache['today_end'])) {
                     if ($udate > self::$_cache['yesterday_start']) {
                         /* Yesterday. */
                         return sprintf(
@@ -143,15 +143,15 @@ class IMP_Message_Date
         }
 
         if ($format === self::DATE_FORCE) {
-            return $this->_format('date_format', $udate) . ' [' .
-                $this->_format('time_format', $udate) . ' ' . strftime('%Z') . // TODO replace strftime
-                ']';
+            return $this->_format('date_format', $udate) . ' ['
+                . $this->_format('time_format', $udate) . ' ' . strftime('%Z') // TODO replace strftime
+                . ']';
         }
 
         $this->_buildCache();
 
-        if (($udate < self::$_cache['today_start']) ||
-            ($udate > self::$_cache['today_end'])) {
+        if (($udate < self::$_cache['today_start'])
+            || ($udate > self::$_cache['today_end'])) {
             if ($udate > self::$_cache['yesterday_start']) {
                 /* Yesterday. */
                 return sprintf(
@@ -197,7 +197,7 @@ class IMP_Message_Date
      */
     private function _format($type, $udate)
     {
-        return ltrim(strftime($GLOBALS['prefs']->getValue($type), (int)$udate));
+        return ltrim(strftime($GLOBALS['prefs']->getValue($type), (int) $udate));
     }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -55,9 +55,9 @@ class IMP_Smime
     {
         global $conf, $prefs;
 
-        return (!empty($conf['openssl']['path']) &&
-                $prefs->getValue('use_smime') &&
-                Horde_Util::extensionExists('openssl'));
+        return (!empty($conf['openssl']['path'])
+                && $prefs->getValue('use_smime')
+                && Horde_Util::extensionExists('openssl'));
     }
 
     /**
@@ -82,8 +82,8 @@ class IMP_Smime
 
         $ret = [];
 
-        if ($registry->hasMethod('contacts/getField') ||
-            $injector->getInstance('Horde_Core_Hooks')->hookExists('smime_key', 'imp')) {
+        if ($registry->hasMethod('contacts/getField')
+            || $injector->getInstance('Horde_Core_Hooks')->hookExists('smime_key', 'imp')) {
             $ret += [
                 self::ENCRYPT => _('S/MIME Encrypt Message'),
             ];
@@ -358,8 +358,8 @@ class IMP_Smime
         } catch (Horde_Exception $e) {
             /* See if the address points to the user's public key. */
             $personal_pubkey = $this->getPersonalPublicKey();
-            if (!empty($personal_pubkey) &&
-                $injector->getInstance('IMP_Identity')->hasAddress($address)) {
+            if (!empty($personal_pubkey)
+                && $injector->getInstance('IMP_Identity')->hasAddress($address)) {
                 return $personal_pubkey;
             }
 

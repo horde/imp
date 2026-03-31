@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2009-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2009-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -126,9 +126,9 @@ class IMP_Flags implements ArrayAccess, Serializable
             }
         }
 
-        if (!isset($opts['mailbox']) ||
-            !strlen($opts['mailbox']) ||
-            IMP_Mailbox::get($opts['mailbox'])->search) {
+        if (!isset($opts['mailbox'])
+            || !strlen($opts['mailbox'])
+            || IMP_Mailbox::get($opts['mailbox'])->search) {
             return array_values($ret);
         }
 
@@ -138,8 +138,8 @@ class IMP_Flags implements ArrayAccess, Serializable
 
         /* Limited flags allowed in mailbox. */
         foreach ($ret as $key => $val) {
-            if (($val instanceof IMP_Flag_Imap) &&
-                !$permflags->allowed($val->imapflag)) {
+            if (($val instanceof IMP_Flag_Imap)
+                && !$permflags->allowed($val->imapflag)) {
                 unset($ret[$key]);
             }
         }
@@ -368,13 +368,13 @@ class IMP_Flags implements ArrayAccess, Serializable
      */
     public function offsetExists($offset): bool
     {
-        return isset($this->_flags[$offset]) ||
-               isset($this->_userflags[$offset]);
+        return isset($this->_flags[$offset])
+               || isset($this->_userflags[$offset]);
     }
 
     /**
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if (isset($this->_flags[$offset])) {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -176,14 +176,14 @@ class IMP_Imap_Config implements Serializable
                 break;
         }
 
-        if (in_array($name, $this->_aoptions) ||
-            in_array($name, $this->_moptions)) {
+        if (in_array($name, $this->_aoptions)
+            || in_array($name, $this->_moptions)) {
             /* Array and/or mixed options. */
             $this->_config[$name] = $value;
-        } elseif ((in_array($name, $this->_boptions_false)) ||
-                  (in_array($name, $this->_boptions_true))) {
+        } elseif ((in_array($name, $this->_boptions_false))
+                  || (in_array($name, $this->_boptions_true))) {
             /* Boolean options. */
-            $this->_config[$name] = (bool)$value;
+            $this->_config[$name] = (bool) $value;
         } elseif (in_array($name, $this->_soptions)) {
             /* String options. */
             $this->_config[$name] = strval($value);
@@ -209,10 +209,10 @@ class IMP_Imap_Config implements Serializable
             $out = !empty($this->_config[$name]);
         } elseif (in_array($name, $this->_boptions_true)) {
             /* Boolean options. */
-            $out = (!isset($this->_config[$name]) ||
-                    !empty($this->_config[$name]));
-        } elseif (in_array($name, $this->_soptions) ||
-                  in_array($name, $this->_moptions)) {
+            $out = (!isset($this->_config[$name])
+                    || !empty($this->_config[$name]));
+        } elseif (in_array($name, $this->_soptions)
+                  || in_array($name, $this->_moptions)) {
             /* Mixed and/or string options. */
             $out = $this->_config[$name]
                 ?? null;

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2014-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -65,9 +65,7 @@ class IMP_Compose_Attachment_Storage_AutoDetermine extends IMP_Compose_Attachmen
 
     /**
      */
-    protected function _read()
-    {
-    }
+    protected function _read() {}
 
     /**
      */
@@ -85,9 +83,7 @@ class IMP_Compose_Attachment_Storage_AutoDetermine extends IMP_Compose_Attachmen
 
     /**
      */
-    protected function _write($filename, Horde_Mime_Part $part)
-    {
-    }
+    protected function _write($filename, Horde_Mime_Part $part) {}
 
     /**
      */

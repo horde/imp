@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -229,8 +229,8 @@ class IMP_Mailbox_List implements ArrayAccess, Countable, Iterator, Serializable
         $sortpref = $this->_mailbox->getSort(true);
         $thread_sort = ($sortpref->sortby == Horde_Imap_Client::SORT_THREAD);
 
-        if ($this->_mailbox->access_search &&
-            $this->_mailbox->hideDeletedMsgs()) {
+        if ($this->_mailbox->access_search
+            && $this->_mailbox->hideDeletedMsgs()) {
             $delete_query = new Horde_Imap_Client_Search_Query();
             $delete_query->flag(Horde_Imap_Client::FLAG_DELETED, false);
 
@@ -514,8 +514,8 @@ class IMP_Mailbox_List implements ArrayAccess, Countable, Iterator, Serializable
             $t_ob = $this->_getThread($mbox);
 
             foreach ($t_ob->getThread($uid) as $key => $val) {
-                if (is_null($val->base) ||
-                    ($val->last && ($val->base == $key))) {
+                if (is_null($val->base)
+                    || ($val->last && ($val->base == $key))) {
                     $this->_threadui[$mbox][$key] = '';
                     continue;
                 }
@@ -634,7 +634,7 @@ class IMP_Mailbox_List implements ArrayAccess, Countable, Iterator, Serializable
      *   - m: (IMP_Mailbox) Mailbox of message.
      *   - u: (string) UID of message.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if (!isset($this->_sorted[$offset - 1])) {
@@ -652,7 +652,7 @@ class IMP_Mailbox_List implements ArrayAccess, Countable, Iterator, Serializable
     /**
      * @throws BadMethodCallException
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         throw new BadMethodCallException('Not supported');
@@ -686,7 +686,7 @@ class IMP_Mailbox_List implements ArrayAccess, Countable, Iterator, Serializable
      *   - m: (IMP_Mailbox) Mailbox of message.
      *   - u: (string) UID of message.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function current()
     {
         return $this[key($this->_sorted) + 1];
@@ -695,7 +695,7 @@ class IMP_Mailbox_List implements ArrayAccess, Countable, Iterator, Serializable
     /**
      * @return integer  Sequence number of message.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function key()
     {
         return (key($this->_sorted) + 1);
@@ -703,7 +703,7 @@ class IMP_Mailbox_List implements ArrayAccess, Countable, Iterator, Serializable
 
     /**
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function next()
     {
         next($this->_sorted);
@@ -711,7 +711,7 @@ class IMP_Mailbox_List implements ArrayAccess, Countable, Iterator, Serializable
 
     /**
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         reset($this->_sorted);
@@ -719,7 +719,7 @@ class IMP_Mailbox_List implements ArrayAccess, Countable, Iterator, Serializable
 
     /**
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function valid(): bool
     {
         return (key($this->_sorted) !== null);

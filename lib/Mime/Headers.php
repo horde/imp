@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2009-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2009-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -32,15 +32,15 @@ class IMP_Mime_Headers
      */
     public function getPriority($header)
     {
-        if (($xpriority = $header['X-Priority']) &&
-            (preg_match('/\s*(\d+)\s*/', $xpriority, $matches))) {
+        if (($xpriority = $header['X-Priority'])
+            && (preg_match('/\s*(\d+)\s*/', $xpriority, $matches))) {
             if (in_array($matches[1], [1, 2])) {
                 return 'high';
             } elseif (in_array($matches[1], [4, 5])) {
                 return 'low';
             }
-        } elseif (($importance = $header['Importance']) &&
-                  preg_match('/:\s*(\w+)\s*/', $importance, $matches)) {
+        } elseif (($importance = $header['Importance'])
+                  && preg_match('/:\s*(\w+)\s*/', $importance, $matches)) {
             if (strcasecmp($matches[1], 'high') === 0) {
                 return 'high';
             } elseif (strcasecmp($matches[1], 'low') === 0) {

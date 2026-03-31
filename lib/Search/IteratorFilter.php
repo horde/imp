@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -84,19 +84,19 @@ class IMP_Search_IteratorFilter extends FilterIterator
         $ob = $this->current();
 
         if ($ob->enabled || ($this->_mask & self::DISABLED)) {
-            if (($this->_mask & self::FILTER) &&
-                ($ob instanceof IMP_Search_Filter)) {
+            if (($this->_mask & self::FILTER)
+                && ($ob instanceof IMP_Search_Filter)) {
                 return true;
             }
 
-            if (($this->_mask & self::VFOLDER) &&
-                ($ob instanceof IMP_Search_Vfolder)) {
+            if (($this->_mask & self::VFOLDER)
+                && ($ob instanceof IMP_Search_Vfolder)) {
                 return true;
             }
 
-            if (($this->_mask & self::QUERY) &&
-                !($ob instanceof IMP_Search_Filter) &&
-                !($ob instanceof IMP_Search_Vfolder)) {
+            if (($this->_mask & self::QUERY)
+                && !($ob instanceof IMP_Search_Filter)
+                && !($ob instanceof IMP_Search_Vfolder)) {
                 return true;
             }
         }

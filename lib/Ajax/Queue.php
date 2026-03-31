@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2011-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -287,8 +287,8 @@ class IMP_Ajax_Queue
         }
 
         /* Add quota information. */
-        if ($this->_quota &&
-            ($quotadata = $injector->getInstance('IMP_Quota_Ui')->quota($this->_quota[0], $this->_quota[1]))) {
+        if ($this->_quota
+            && ($quotadata = $injector->getInstance('IMP_Quota_Ui')->quota($this->_quota[0], $this->_quota[1]))) {
             $ajax->addTask('quota', [
                 'm' => $quotadata['message'],
                 'p' => round(floatval($quotadata['percent'])),
@@ -459,7 +459,7 @@ class IMP_Ajax_Queue
                 $indices,
                 !empty($opts['peek'])
             );
-            $msg = (object)$show_msg->showMessage();
+            $msg = (object) $show_msg->showMessage();
 
             foreach (['from', 'to', 'cc', 'bcc'] as $val) {
                 if ($tmp = $show_msg->getAddressHeader($val)) {
@@ -624,14 +624,14 @@ class IMP_Ajax_Queue
             return;
         }
 
-        if (($add = $eltdiff->add) &&
-            ($elts = array_values(array_filter(array_map([$this, '_ftreeElt'], $add))))) {
+        if (($add = $eltdiff->add)
+            && ($elts = array_values(array_filter(array_map([$this, '_ftreeElt'], $add))))) {
             $out['a'] = $elts;
             $poll = $add;
         }
 
-        if (($change = $eltdiff->change) &&
-            ($elts = array_values(array_filter(array_map([$this, '_ftreeElt'], $change))))) {
+        if (($change = $eltdiff->change)
+            && ($elts = array_values(array_filter(array_map([$this, '_ftreeElt'], $change))))) {
             $out['c'] = $elts;
             $poll = array_merge($poll, $change);
         }
@@ -718,8 +718,8 @@ class IMP_Ajax_Queue
         $parent = $elt->parent;
         if (!$parent->base_elt) {
             $ob->pa = $parent->mbox_ob->form_to;
-            if ($parent->remote &&
-                (strcasecmp($mbox_ob->imap_mbox, 'INBOX') === 0)) {
+            if ($parent->remote
+                && (strcasecmp($mbox_ob->imap_mbox, 'INBOX') === 0)) {
                 $ob->fs = 1;
             }
         }

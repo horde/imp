@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Setup autoloading for the tests.
  *

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2001-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2001-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -29,8 +29,8 @@ class IMP_LoginTasks_Task_RenameSentmailMonthly extends Horde_LoginTasks_Task
     public function __construct()
     {
         $this->active = $GLOBALS['prefs']->getValue('rename_sentmail_monthly');
-        if ($this->active &&
-            $GLOBALS['prefs']->isLocked('rename_sentmail_monthly')) {
+        if ($this->active
+            && $GLOBALS['prefs']->isLocked('rename_sentmail_monthly')) {
             $this->display = Horde_LoginTasks::DISPLAY_NONE;
         }
     }

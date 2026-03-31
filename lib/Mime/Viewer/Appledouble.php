@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2003-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2003-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -118,11 +118,11 @@ class IMP_Mime_Viewer_Appledouble extends Horde_Mime_Viewer_Base
             if (!isset($ret[$id]) && (strcmp($id, $data_id) !== 0)) {
                 $ret[$id] = (strcmp($id, $mime_id) === 0)
                     ? [
-                          'data' => '',
-                          'status' => $status,
-                          'type' => 'text/html; charset=' . $this->getConfigParam('charset'),
-                          'wrap' => 'mimePartWrap',
-                      ]
+                        'data' => '',
+                        'status' => $status,
+                        'type' => 'text/html; charset=' . $this->getConfigParam('charset'),
+                        'wrap' => 'mimePartWrap',
+                    ]
                     : null;
             }
         }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -63,8 +63,8 @@ class IMP_Dynamic_Compose extends IMP_Dynamic_Base
             ?? null;
 
         $identity = $injector->getInstance('IMP_Identity');
-        if (!$prefs->isLocked('default_identity') &&
-            isset($this->vars->identity)) {
+        if (!$prefs->isLocked('default_identity')
+            && isset($this->vars->identity)) {
             $identity->setDefault($this->vars->identity);
         }
 

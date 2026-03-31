@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -74,9 +74,9 @@ abstract class IMP_Compose_Attachment_Storage
                         true,
                         ['append_session' => -1]
                     )->add([
-                          'id' => $this->_id,
-                          'u' => $this->_user,
-                      ])
+                        'id' => $this->_id,
+                        'u' => $this->_user,
+                    ])
                     : null;
         }
     }
@@ -174,15 +174,11 @@ abstract class IMP_Compose_Attachment_Storage
      * @param IMP_Compose_Linked_Metadata $md  Metadata object. Null will
      *                                         clear all metadata.
      */
-    public function saveMetadata($md = null)
-    {
-    }
+    public function saveMetadata($md = null) {}
 
     /**
      * Garbage collection.
      */
-    public function gc()
-    {
-    }
+    public function gc() {}
 
 }

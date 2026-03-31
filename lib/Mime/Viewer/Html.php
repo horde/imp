@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 1999-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -94,8 +94,8 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
      */
     protected function _renderInfo()
     {
-        if ($this->canRender('inline') ||
-            ($this->_mimepart->getDisposition() == 'attachment')) {
+        if ($this->canRender('inline')
+            || ($this->_mimepart->getDisposition() == 'attachment')) {
             return [];
         }
 
@@ -223,9 +223,9 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
 
                 default:
                     $attr = ['muid' => strval($contents->getIndicesOb())];
-                    if (!$injector->getInstance('IMP_Prefs_Special_ImageReplacement')->canAddToSafeAddrList() ||
-                        (($from = $contents->getHeader()->getHeader('from')) &&
-                         $injector->getInstance('IMP_Identity')->hasAddress($from->getAddressList(true)))) {
+                    if (!$injector->getInstance('IMP_Prefs_Special_ImageReplacement')->canAddToSafeAddrList()
+                        || (($from = $contents->getHeader()->getHeader('from'))
+                         && $injector->getInstance('IMP_Identity')->hasAddress($from->getAddressList(true)))) {
                         $attr['noUnblockImageAdd'] = 1;
                     }
 
@@ -330,10 +330,10 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
                         $clink = new IMP_Compose_Link($node->getAttribute('href'));
                         $node->setAttribute('href', $clink->link());
                         $node->removeAttribute('target');
-                    } elseif (!empty($this->_imptmp['inline']) &&
-                              isset($url['fragment']) &&
-                              empty($url['path']) &&
-                              $GLOBALS['browser']->isBrowser('mozilla')) {
+                    } elseif (!empty($this->_imptmp['inline'])
+                              && isset($url['fragment'])
+                              && empty($url['path'])
+                              && $GLOBALS['browser']->isBrowser('mozilla')) {
                         /* See Bug #8695: internal anchors are broken in
                          * Mozilla. */
                         $node->removeAttribute('href');
@@ -357,8 +357,8 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
                 break;
 
             case 'source':
-                if ($this->_imgBlock() &&
-                    $node->hasAttribute('srcset')) {
+                if ($this->_imgBlock()
+                    && $node->hasAttribute('srcset')) {
                     $node->setAttribute(self::SRCSETBLOCK, $node->getAttribute('srcset'));
                     $node->setAttribute('srcset', '');
                     $this->_imptmp['imgblock'] = true;
@@ -416,9 +416,9 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
                 }
 
                 /* IMG only */
-                if (($tag == 'img') &&
-                    $this->_imgBlock() &&
-                    $node->hasAttribute('srcset')) {
+                if (($tag == 'img')
+                    && $this->_imgBlock()
+                    && $node->hasAttribute('srcset')) {
                     $node->setAttribute(self::SRCSETBLOCK, $node->getAttribute('srcset'));
                     $node->setAttribute('srcset', '');
                     $this->_imptmp['imgblock'] = true;
@@ -437,8 +437,8 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
                         if ($node->hasAttribute('href')) {
                             $tmp = $node->getAttribute('href');
 
-                            if (($id = $this->_cidSearch($tmp, false)) &&
-                                ($mime_part = $this->getConfigParam('imp_contents')->getMimePart($id))) {
+                            if (($id = $this->_cidSearch($tmp, false))
+                                && ($mime_part = $this->getConfigParam('imp_contents')->getMimePart($id))) {
                                 $this->_imptmp['style'][] = $mime_part->getContents();
                             } elseif ($this->_imgBlock()) {
                                 $node->setAttribute(self::CSSBLOCK, $node->getAttribute('href'));
@@ -450,9 +450,9 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
                         break;
                 }
 
-                if ($delete_link &&
-                    $node->hasAttribute('href') &&
-                    $node->parentNode) {
+                if ($delete_link
+                    && $node->hasAttribute('href')
+                    && $node->parentNode) {
                     $node->parentNode->removeChild($node);
                 }
                 break;
@@ -476,9 +476,9 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
             case 'table':
                 /* If displaying inline (in IFRAME), tables with 100% height seems
                  * to confuse many browsers re: the IFRAME internal height. */
-                if (!empty($this->_imptmp['inline']) &&
-                    $node->hasAttribute('height') &&
-                    ($node->getAttribute('height') == '100%')) {
+                if (!empty($this->_imptmp['inline'])
+                    && $node->hasAttribute('height')
+                    && ($node->getAttribute('height') == '100%')) {
                     $node->removeAttribute('height');
                 }
 
@@ -651,9 +651,9 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
      */
     protected function _cidSearch($cid, $save = true)
     {
-        if (empty($this->_imptmp['cid']) ||
-            (strpos($cid, 'cid:') !== 0) ||
-            !($id = $this->_imptmp['cid']->cidSearch(substr($cid, 4)))) {
+        if (empty($this->_imptmp['cid'])
+            || (strpos($cid, 'cid:') !== 0)
+            || !($id = $this->_imptmp['cid']->cidSearch(substr($cid, 4)))) {
             return null;
         }
 
@@ -676,9 +676,9 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
         /* Done on demand, since we potentially save a contacts API call if
          * not needed/used in a message. */
         if (!isset($this->_imptmp['img'])) {
-            $this->_imptmp['img'] =
-                ($this->_imptmp['inline'] &&
-                !$injector->getInstance('IMP_Images')->showInlineImage($this->getConfigParam('imp_contents')));
+            $this->_imptmp['img']
+                = ($this->_imptmp['inline']
+                && !$injector->getInstance('IMP_Images')->showInlineImage($this->getConfigParam('imp_contents')));
         }
 
         return $this->_imptmp['img'];

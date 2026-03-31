@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 1999-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -42,8 +42,8 @@ class IMP_Auth
 
         // Do 'horde' authentication.
         $imp_app = $registry->getApiInstance('imp', 'application');
-        if (!empty($imp_app->initParams['authentication']) &&
-            ($imp_app->initParams['authentication'] == 'horde')) {
+        if (!empty($imp_app->initParams['authentication'])
+            && ($imp_app->initParams['authentication'] == 'horde')) {
             if ($registry->getAuth()) {
                 return;
             }
@@ -58,8 +58,8 @@ class IMP_Auth
 
         // Check for valid IMAP Client object.
         if (!$imp_imap->init) {
-            if (!isset($credentials['userId']) ||
-                !isset($credentials['password'])) {
+            if (!isset($credentials['userId'])
+                || !isset($credentials['password'])) {
                 throw new Horde_Auth_Exception('', Horde_Auth::REASON_BADLOGIN);
             }
 
@@ -112,8 +112,8 @@ class IMP_Auth
             $credentials['userId'] = $auth_ob->getCredential('userId');
         }
 
-        if (!isset($credentials['password']) ||
-            !strlen($credentials['password'])) {
+        if (!isset($credentials['password'])
+            || !strlen($credentials['password'])) {
             return false;
         }
 
@@ -139,8 +139,8 @@ class IMP_Auth
             : 'FAILED LOGIN';
         $user = $imap_ob->getParam('username');
 
-        if (($auth_id = $GLOBALS['registry']->getAuth()) &&
-            ($user != $auth_id)) {
+        if (($auth_id = $GLOBALS['registry']->getAuth())
+            && ($user != $auth_id)) {
             $user .= ' (Horde user ' . $auth_id . ')';
         }
 
@@ -177,9 +177,9 @@ class IMP_Auth
              * server for this web server. This decision is based on the
              * global 'SERVER_NAME' and 'HTTP_HOST' server variables and the
              * contents of the 'preferred' field in the backend's config. */
-            if (($preferred = $val->preferred) &&
-                (in_array($_SERVER['SERVER_NAME'], $preferred) ||
-                 in_array($_SERVER['HTTP_HOST'], $preferred))) {
+            if (($preferred = $val->preferred)
+                && (in_array($_SERVER['SERVER_NAME'], $preferred)
+                 || in_array($_SERVER['HTTP_HOST'], $preferred))) {
                 return $key;
             }
         }
@@ -213,9 +213,9 @@ class IMP_Auth
             }
         }
 
-        if ((!empty($auto_server) || $force) &&
-            $registry->getAuth() &&
-            !empty($servers[$server_key]->hordeauth)) {
+        if ((!empty($auto_server) || $force)
+            && $registry->getAuth()
+            && !empty($servers[$server_key]->hordeauth)) {
             return [
                 'userId' => $registry->getAuth((strcasecmp($servers[$server_key]->hordeauth, 'full') === 0) ? null : 'bare'),
                 'password' => $registry->getAuthCredential('password'),

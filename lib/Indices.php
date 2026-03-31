@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -388,9 +388,9 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
         /* Check for Trash mailbox. */
         $no_expunge = $use_trash_mbox = $use_vtrash = false;
-        if ($use_trash &&
-            empty($opts['nuke']) &&
-            $injector->getInstance('IMP_Factory_Imap')->create()->access(IMP_Imap::ACCESS_TRASH)) {
+        if ($use_trash
+            && empty($opts['nuke'])
+            && $injector->getInstance('IMP_Factory_Imap')->create()->access(IMP_Imap::ACCESS_TRASH)) {
             $use_vtrash = $trash->vtrash;
             $use_trash_mbox = !$use_vtrash;
         }
@@ -399,8 +399,8 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
          * If using virtual trash, we must mark the message as seen or else it
          * will appear as an 'unseen' message for purposes of new message
          * counts. */
-        $mark_seen = empty($opts['nuke']) &&
-                     ($use_vtrash || $prefs->getValue('delete_mark_seen'));
+        $mark_seen = empty($opts['nuke'])
+                     && ($use_vtrash || $prefs->getValue('delete_mark_seen'));
 
         if ($use_trash_mbox && !$trash->create()) {
             /* If trash mailbox could not be created, just mark message as
@@ -436,10 +436,10 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
             $ids_ob = $imp_imap->getIdsOb($ob->uids);
 
             /* Trash is only valid for IMAP mailboxes. */
-            if ($use_trash_mbox &&
-                ($ob->mbox != $trash) &&
+            if ($use_trash_mbox
+                && ($ob->mbox != $trash)
                 /* TODO(?): Don't use Trash mailbox for remote accounts. */
-                !$ob->mbox->remote_mbox) {
+                && !$ob->mbox->remote_mbox) {
                 if ($ob->mbox->access_expunge) {
                     try {
                         if ($mark_seen) {
@@ -484,11 +484,11 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
                 $expunge_now = false;
                 $del_flags = [Horde_Imap_Client::FLAG_DELETED];
 
-                if (!$use_vtrash &&
-                    (!$imp_imap->access(IMP_Imap::ACCESS_TRASH) ||
-                     !empty($opts['nuke']) ||
-                     ($use_trash &&
-                      ($ob->mbox == $trash) || $ob->mbox->remote_mbox))) {
+                if (!$use_vtrash
+                    && (!$imp_imap->access(IMP_Imap::ACCESS_TRASH)
+                     || !empty($opts['nuke'])
+                     || ($use_trash
+                      && ($ob->mbox == $trash) || $ob->mbox->remote_mbox))) {
                     /* Purge messages immediately. */
                     $expunge_now = !$no_expunge;
                 } elseif ($mark_seen) {
@@ -802,15 +802,15 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         $log_ob = new IMP_Maillog_Log_Mdn();
         $maillog = $injector->getInstance('IMP_Maillog');
 
-        if (!$maillog->storage->isAvailable($log_msg, $log_ob) ||
-            count($maillog->getLog($log_msg, ['IMP_Maillog_Log_Mdn']))) {
+        if (!$maillog->storage->isAvailable($log_msg, $log_ob)
+            || count($maillog->getLog($log_msg, ['IMP_Maillog_Log_Mdn']))) {
             return false;
         }
 
         /* See if we need to query the user. */
-        if (!$confirmed &&
-            ((intval($pref_val) == 1) ||
-             $mdn->userConfirmationNeeded())) {
+        if (!$confirmed
+            && ((intval($pref_val) == 1)
+             || $mdn->userConfirmationNeeded())) {
             try {
                 if ($injector->getInstance('Horde_Core_Hooks')->callHook('mdn_check', 'imp', [$headers])) {
                     return true;
@@ -823,8 +823,8 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         /* Send out the MDN now. */
         $success = false;
         $identity = $injector->getInstance('IMP_Identity');
-        if (isset($headers['To']) &&
-            (($match = $identity->getMatchingIdentity($headers['To'], true)) !== null)) {
+        if (isset($headers['To'])
+            && (($match = $identity->getMatchingIdentity($headers['To'], true)) !== null)) {
             $from = $identity->getFromAddress($match);
         } else {
             $from = $identity->getDefaultFromAddress();
@@ -868,7 +868,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
     /**
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->_indices[$offset]
@@ -877,7 +877,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
     /**
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         unset($this->_indices[$offset]);
@@ -923,7 +923,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
     /* Iterator methods. */
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function current()
     {
         if (!$this->valid()) {
@@ -937,13 +937,13 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         return $ret;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function key()
     {
         return key($this->_indices);
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function next()
     {
         if ($this->valid()) {
@@ -951,13 +951,13 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         }
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         reset($this->_indices);
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function valid()
     {
         return !is_null(key($this->_indices));

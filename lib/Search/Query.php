@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -195,8 +195,8 @@ class IMP_Search_Query implements Serializable
                 if (!isset($this->_cache['mboxes'])) {
                     $out = $this->mbox_list;
 
-                    if (!$this->all &&
-                        ($s_list = $this->subfolder_list)) {
+                    if (!$this->all
+                        && ($s_list = $this->subfolder_list)) {
                         foreach ($s_list as $val) {
                             $out = array_merge($out, $val->subfolders);
                         }
@@ -401,9 +401,9 @@ class IMP_Search_Query implements Serializable
     public function unserialize($data)
     {
         $data = unserialize($data);
-        if (!is_array($data) ||
-            !isset($data['v']) ||
-            ($data['v'] != self::VERSION)) {
+        if (!is_array($data)
+            || !isset($data['v'])
+            || ($data['v'] != self::VERSION)) {
             throw new Exception('Cache version change');
         }
 
@@ -423,8 +423,8 @@ class IMP_Search_Query implements Serializable
     }
     public function __unserialize(array $data): void
     {
-        if (!isset($data['v']) ||
-            ($data['v'] != self::VERSION)) {
+        if (!isset($data['v'])
+            || ($data['v'] != self::VERSION)) {
             throw new Exception('Cache version change');
         }
 

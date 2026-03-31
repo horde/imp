@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2011-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2011-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -54,8 +54,8 @@ class IMP_Tree_Jquerymobile extends Horde_Tree_Renderer_Base
         $node = $this->_nodes[$node_id];
         $output = '';
 
-        if (empty($node['container']) &&
-            ($node['special'] == $this->_isSpecial)) {
+        if (empty($node['container'])
+            && ($node['special'] == $this->_isSpecial)) {
             $output = $this->_buildTreeNode($node, $node_id);
         }
 
@@ -72,9 +72,9 @@ class IMP_Tree_Jquerymobile extends Horde_Tree_Renderer_Base
      */
     protected function _buildTreeNode($node, $id)
     {
-        $output = '<li' .
-            (isset($node['class']) ? (' class="' . $node['class'] . '"') : '') .
-            '>';
+        $output = '<li'
+            . (isset($node['class']) ? (' class="' . $node['class'] . '"') : '')
+            . '>';
 
         if (isset($this->_extra[$id][Horde_Tree_Renderer::EXTRA_LEFT])) {
             $output .= implode(
@@ -103,9 +103,9 @@ class IMP_Tree_Jquerymobile extends Horde_Tree_Renderer_Base
         }
 
         if (isset($this->_extra[$id][Horde_Tree_Renderer::EXTRA_RIGHT])) {
-            $output .= '<span class="ui-li-count">' .
-                implode(' ', $this->_extra[$id][Horde_Tree_Renderer::EXTRA_RIGHT]) .
-                '</span>';
+            $output .= '<span class="ui-li-count">'
+                . implode(' ', $this->_extra[$id][Horde_Tree_Renderer::EXTRA_RIGHT])
+                . '</span>';
         }
 
         return $output . '</li>';

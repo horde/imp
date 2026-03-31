@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -58,16 +58,12 @@ class IMP_Imap_Remote extends IMP_Imap
 
     /**
      */
-    public function doPostLoginTasks()
-    {
-    }
+    public function doPostLoginTasks() {}
 
     /**
      * Update the list of mailboxes to ignore when caching FETCH data in the
      * IMAP client object.
      */
-    public function updateFetchIgnore()
-    {
-    }
+    public function updateFetchIgnore() {}
 
 }

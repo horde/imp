@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2014-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -191,8 +191,8 @@ class IMP_Maillog_Storage_History extends IMP_Maillog_Storage_Base
         global $conf;
 
         /* Unless configured, this driver doesn't support MDN. */
-        return (!($log instanceof IMP_Maillog_Log_Mdn) ||
-                !empty($conf['maillog']['mdn_history']));
+        return (!($log instanceof IMP_Maillog_Log_Mdn)
+                || !empty($conf['maillog']['mdn_history']));
     }
 
     /**

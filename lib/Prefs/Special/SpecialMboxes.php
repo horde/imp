@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -56,8 +56,8 @@ class IMP_Prefs_Special_SpecialMboxes
 
         $imp_imap = $injector->getInstance('IMP_Factory_Imap')->create();
 
-        if (!$imp_imap->access(IMP_Imap::ACCESS_FOLDERS) ||
-            $prefs->isLocked($pref)) {
+        if (!$imp_imap->access(IMP_Imap::ACCESS_FOLDERS)
+            || $prefs->isLocked($pref)) {
             return false;
         }
 

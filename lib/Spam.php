@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2004-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2004-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -159,8 +159,8 @@ class IMP_Spam
                     [Horde_Imap_Client::FLAG_JUNK]
                 );
 
-                if (($result = $prefs->getValue('move_innocent_after_report')) &&
-                    !$indices->copy('INBOX', 'move')) {
+                if (($result = $prefs->getValue('move_innocent_after_report'))
+                    && !$indices->copy('INBOX', 'move')) {
                     $result = 0;
                 }
                 break;

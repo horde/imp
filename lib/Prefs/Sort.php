@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -116,13 +116,13 @@ class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
 
     /* ArrayAccess methods. */
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->_sortpref[$offset]);
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset): IMP_Prefs_Sort_Sortpref
     {
         $ob = $this->_offsetGet($offset);
@@ -156,7 +156,7 @@ class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
      * @param string $offset  The mailbox name.
      * @param array $value    An array with two possible keys: 'by' and 'dir'.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         if (empty($value)) {
@@ -176,7 +176,7 @@ class IMP_Prefs_Sort implements ArrayAccess, IteratorAggregate
         $this->_save();
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         if (isset($this->_sortpref[$offset])) {

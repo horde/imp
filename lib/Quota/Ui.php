@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -60,8 +60,8 @@ class IMP_Quota_Ui
                     $session::TYPE_ARRAY
                 );
 
-                if (isset($qlist[strval($mailbox)]) &&
-                    (time() < $qlist[strval($mailbox)])) {
+                if (isset($qlist[strval($mailbox)])
+                    && (time() < $qlist[strval($mailbox)])) {
                     return false;
                 }
             }

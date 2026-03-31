@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -60,7 +60,7 @@ class IMP_Ftree_Prefs implements ArrayAccess, Horde_Shutdown_Task
 
     /**
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return isset($this->_data[strval($offset)]);
@@ -68,7 +68,7 @@ class IMP_Ftree_Prefs implements ArrayAccess, Horde_Shutdown_Task
 
     /**
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         if (!$this->locked && ($this[$offset] != $value)) {
@@ -93,8 +93,6 @@ class IMP_Ftree_Prefs implements ArrayAccess, Horde_Shutdown_Task
 
     /**
      */
-    public function shutdown()
-    {
-    }
+    public function shutdown() {}
 
 }

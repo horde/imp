@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -52,13 +52,13 @@ class IMP_Quota_Imap extends IMP_Quota
 
         return isset($quota_val['storage'])
             ? [
-                  'limit' => $quota_val['storage']['limit'] * 1024,
-                  'usage' => $quota_val['storage']['usage'] * 1024,
-              ]
+                'limit' => $quota_val['storage']['limit'] * 1024,
+                'usage' => $quota_val['storage']['usage'] * 1024,
+            ]
             : [
                 'limit' => 0,
                 'usage' => 0,
-              ];
+            ];
     }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2014-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2014-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -52,7 +52,7 @@ class IMP_Ajax_Application_Viewport_Error
         $ob->error = true;
         $ob->label = $this->_mbox->label;
         $ob->view = $this->_mbox->form_to;
-        $ob->metadata->search = strpos((string)$this->_mbox, IMP_Search::MBOX_PREFIX) === 0;
+        $ob->metadata->search = strpos((string) $this->_mbox, IMP_Search::MBOX_PREFIX) === 0;
         return $ob;
     }
 

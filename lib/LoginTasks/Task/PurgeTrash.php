@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2001-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2001-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -30,11 +30,11 @@ class IMP_LoginTasks_Task_PurgeTrash extends Horde_LoginTasks_Task
     {
         global $prefs;
 
-        if (!$prefs->getValue('use_trash') ||
-            !($trash = IMP_Mailbox::getPref(IMP_Mailbox::MBOX_TRASH)) ||
-            $trash->vtrash ||
-            !$trash->exists ||
-            !($this->interval = $prefs->getValue('purge_trash_interval'))) {
+        if (!$prefs->getValue('use_trash')
+            || !($trash = IMP_Mailbox::getPref(IMP_Mailbox::MBOX_TRASH))
+            || $trash->vtrash
+            || !$trash->exists
+            || !($this->interval = $prefs->getValue('purge_trash_interval'))) {
             $this->active = false;
         } else {
             if ($prefs->isLocked('purge_trash_interval')) {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -59,8 +59,8 @@ class IMP_Factory_ComposeAtc extends Horde_Core_Factory_Base
     {
         global $conf;
 
-        if (($type == 'linked') ||
-            (is_null($type) && !empty($conf['compose']['link_attachments']))) {
+        if (($type == 'linked')
+            || (is_null($type) && !empty($conf['compose']['link_attachments']))) {
             $classname = empty($conf['compose']['link_attach_threshold'])
                 ? $this->classLinked
                 : 'IMP_Compose_Attachment_Storage_AutoDetermine';

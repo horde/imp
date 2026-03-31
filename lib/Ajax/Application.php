@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -173,8 +173,8 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
         $ob->compose = $injector->getInstance('IMP_Factory_Compose')->create($this->_vars->imp_compose);
         $ob->ajax = new IMP_Ajax_Application_Compose($ob->compose, $this->_vars->type);
 
-        if (!($ob->contents = $ob->compose->getContentsOb()) &&
-            count($this->indices)) {
+        if (!($ob->contents = $ob->compose->getContentsOb())
+            && count($this->indices)) {
             $ob->contents = $injector->getInstance('IMP_Factory_Contents')->create($this->indices);
         }
 
@@ -341,8 +341,8 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
 
         /* Set up identity. */
         $identity = $injector->getInstance('IMP_Identity');
-        if (isset($this->_vars->identity) &&
-            !$prefs->isLocked('default_identity')) {
+        if (isset($this->_vars->identity)
+            && !$prefs->isLocked('default_identity')) {
             $identity->setDefault($this->_vars->identity);
         }
 
@@ -421,8 +421,8 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
 
         if ($changed) {
             $this->addTask('viewport', $this->viewPortData(true));
-        } elseif (($indices instanceof IMP_Indices_Mailbox) &&
-                  ($force || $this->indices->mailbox->hideDeletedMsgs(true))) {
+        } elseif (($indices instanceof IMP_Indices_Mailbox)
+                  && ($force || $this->indices->mailbox->hideDeletedMsgs(true))) {
             $vp = new IMP_Ajax_Application_Viewport($this->indices->mailbox);
             $vp->disappear = $indices->buids[strval($this->indices->mailbox)];
             $this->addTask('viewport', $vp);

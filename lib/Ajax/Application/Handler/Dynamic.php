@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -584,9 +584,9 @@ class IMP_Ajax_Application_Handler_Dynamic extends Horde_Core_Ajax_Application_H
         ];
 
         $unchangedsince = null;
-        if (!$this->_base->indices->mailbox->search &&
-            $this->vars->viewport->cacheid &&
-            array_diff($flags, $system_flags)) {
+        if (!$this->_base->indices->mailbox->search
+            && $this->vars->viewport->cacheid
+            && array_diff($flags, $system_flags)) {
             $imp_imap = $this->_base->indices->mailbox->imp_imap;
             $parsed = $imp_imap->parseCacheId($this->vars->viewport->cacheid);
 
@@ -752,7 +752,7 @@ class IMP_Ajax_Application_Handler_Dynamic extends Horde_Core_Ajax_Application_H
         $hdr = $this->vars->header;
 
         $result = new stdClass();
-        $result->hdr_data->$hdr = (object)$show_msg->getAddressHeader($hdr, null);
+        $result->hdr_data->$hdr = (object) $show_msg->getAddressHeader($hdr, null);
 
         return $result;
     }
@@ -1098,11 +1098,11 @@ class IMP_Ajax_Application_Handler_Dynamic extends Horde_Core_Ajax_Application_H
         }
 
         return new Horde_Core_Ajax_Response_Raw(
-            '<html>' .
-                Horde::wrapInlineScript([
+            '<html>'
+                . Horde::wrapInlineScript([
                     'window.parent.CKEDITOR.tools.callFunction(' . $this->vars->CKEditorFuncNum . ',' . json_encode($url) . ',' . json_encode($data) . ')',
-                ]) .
-            '</html>',
+                ])
+            . '</html>',
             'text/html'
         );
     }

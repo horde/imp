@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -27,40 +27,32 @@ class IMP_Prefs_Sort_None extends IMP_Prefs_Sort
     /**
      * Constructor.
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Garbage collection.
      */
-    public function gc()
-    {
-    }
+    public function gc() {}
 
     /**
      * Upgrade the preference from IMP 4 value.
      */
-    public function upgradePrefs()
-    {
-    }
+    public function upgradePrefs() {}
 
     /**
      * Save the preference to the backend.
      */
-    protected function _save()
-    {
-    }
+    protected function _save() {}
 
     /* ArrayAccess methods. */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetExists($offset): bool
     {
         return true;
     }
 
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset): IMP_Prefs_Sort_Sortpref_Locked
     {
         return new IMP_Prefs_Sort_Sortpref_Locked(
@@ -70,14 +62,10 @@ class IMP_Prefs_Sort_None extends IMP_Prefs_Sort
         );
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
-    {
-    }
+    #[ReturnTypeWillChange]
+    public function offsetSet($offset, $value) {}
 
-    #[\ReturnTypeWillChange]
-    public function offsetUnset($offset)
-    {
-    }
+    #[ReturnTypeWillChange]
+    public function offsetUnset($offset) {}
 
 }

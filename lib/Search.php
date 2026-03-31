@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -198,8 +198,8 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
         foreach ($di as $val) {
             if ($val->isFile()) {
                 $cname = 'IMP_Search_Filter_' . $val->getBasename('.php');
-                if (($cname != 'IMP_Search_Filter_Builtin') &&
-                    class_exists($cname)) {
+                if (($cname != 'IMP_Search_Filter_Builtin')
+                    && class_exists($cname)) {
                     $filter = new $cname();
                     $filters[$filter->id] = $filter;
                 }
@@ -230,8 +230,8 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
      */
     public function isFilter($id, $editable = false)
     {
-        return (isset($this->_search['filters'][$this->_strip($id)]) &&
-                (!$editable || $this[$id]->canEdit));
+        return (isset($this->_search['filters'][$this->_strip($id)])
+                && (!$editable || $this[$id]->canEdit));
     }
 
     /**
@@ -286,8 +286,8 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
         foreach ($di as $val) {
             if ($val->isFile()) {
                 $cname = 'IMP_Search_Vfolder_' . $val->getBasename('.php');
-                if (($cname != 'IMP_Search_Vfolder_Builtin') &&
-                    class_exists($cname)) {
+                if (($cname != 'IMP_Search_Vfolder_Builtin')
+                    && class_exists($cname)) {
                     $vfolder = new $cname([
                         'disable' => in_array($cname, $disable),
                     ]);
@@ -322,8 +322,8 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
      */
     public function isVFolder($id, $editable = false)
     {
-        return (isset($this->_search['vfolders'][$this->_strip($id)]) &&
-                (!$editable || $this[$id]->canEdit));
+        return (isset($this->_search['vfolders'][$this->_strip($id)])
+                && (!$editable || $this[$id]->canEdit));
     }
 
     /**
@@ -335,8 +335,8 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
      */
     public function isVTrash($id)
     {
-        return (($this->isVFolder($id)) &&
-            ($this[$id] instanceof IMP_Search_Vfolder_Vtrash));
+        return (($this->isVFolder($id))
+            && ($this[$id] instanceof IMP_Search_Vfolder_Vtrash));
     }
 
     /**
@@ -348,8 +348,8 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
      */
     public function isVinbox($id)
     {
-        return (($this->isVFolder($id)) &&
-            ($this[$id] instanceof IMP_Search_Vfolder_Vinbox));
+        return (($this->isVFolder($id))
+            && ($this[$id] instanceof IMP_Search_Vfolder_Vinbox));
     }
 
     /**
@@ -363,8 +363,8 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
      */
     public function isQuery($id, $editable = false)
     {
-        return (isset($this->_search['query'][$this->_strip($id)]) &&
-                (!$editable || !$this->isSystemQuery($id)));
+        return (isset($this->_search['query'][$this->_strip($id)])
+                && (!$editable || !$this->isSystemQuery($id)));
     }
 
     /**
@@ -376,8 +376,8 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
      */
     public function isSystemQuery($id)
     {
-        return (isset($this->_search['query'][$this->_strip($id)]) &&
-                in_array($this[$id]->id, [self::FILTERSEARCH, self::QUICKSEARCH]));
+        return (isset($this->_search['query'][$this->_strip($id)])
+                && in_array($this[$id]->id, [self::FILTERSEARCH, self::QUICKSEARCH]));
     }
 
     /**
@@ -453,7 +453,7 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
         return false;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         $id = $this->_strip($offset);
@@ -475,7 +475,7 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
      *
      * @throws InvalidArgumentException
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         if (!($value instanceof IMP_Search_Query)) {
@@ -508,7 +508,7 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
      *
      * @param string $offset  The search query id.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         $id = $this->_strip($offset);
@@ -555,13 +555,13 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
     public function __serialize(): array
     {
         return [
-                $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
-                    $this->_search,
-                    [
+            $GLOBALS['injector']->getInstance('Horde_Pack')->pack(
+                $this->_search,
+                [
                     'compression' => false,
                     'phpob' => true,
                 ]
-                ),
+            ),
         ];
     }
 

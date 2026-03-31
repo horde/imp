@@ -47,7 +47,7 @@
   </td>
 <?php foreach ($v['rule'] as $v2): ?>
   <td class="item" align="center">
-   <?php echo $this->checkBoxTag('acl[' . $v['index'] . '][]', $v2['val'], $v2['on'], array('disabled' => $v2['disable'])) ?>
+   <?php echo $this->checkBoxTag('acl[' . $v['index'] . '][]', $v2['val'], $v2['on'], ['disabled' => $v2['disable']]) ?>
   </td>
 <?php endforeach; ?>
  </tr>

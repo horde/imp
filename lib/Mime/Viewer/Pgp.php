@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
@@ -324,8 +324,8 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
 
         /* Force armor data as text/plain data. */
         if ($this->_mimepart->getMetadata(Horde_Crypt_Pgp_Parse::PGP_ARMOR)) {
-            $decrypted_data->message = "Content-Type: text/plain\n\n" .
-                                       $decrypted_data->message;
+            $decrypted_data->message = "Content-Type: text/plain\n\n"
+                                       . $decrypted_data->message;
         }
 
         $new_part = Horde_Mime_Part::parseMessage($decrypted_data->message, [
@@ -372,8 +372,8 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
         $imp_contents = $this->getConfigParam('imp_contents');
         $mime_id = $this->_mimepart->getMimeId();
 
-        if ($GLOBALS['prefs']->getValue('add_source') &&
-            $GLOBALS['registry']->hasMethod('contacts/addField')) {
+        if ($GLOBALS['prefs']->getValue('add_source')
+            && $GLOBALS['registry']->hasMethod('contacts/addField')) {
             // TODO: Check for key existence.
             $imple = $GLOBALS['injector']->getInstance('Horde_Core_Factory_Imple')->create('IMP_Ajax_Imple_ImportEncryptKey', [
                 'mime_id' => $mime_id,
@@ -432,8 +432,8 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
             $sig_id => null,
         ];
 
-        if ($prefs->getValue('pgp_verify') ||
-            $injector->getInstance('Horde_Variables')->pgp_verify_msg) {
+        if ($prefs->getValue('pgp_verify')
+            || $injector->getInstance('Horde_Variables')->pgp_verify_msg) {
             $imp_contents = $this->getConfigParam('imp_contents');
             $sig_part = $imp_contents->getMimePart($sig_id);
 
@@ -535,8 +535,8 @@ class IMP_Mime_Viewer_Pgp extends Horde_Mime_Viewer_Base
                 break;
 
             case 'raw':
-                if (($this->_mimepart->getType() == 'application/pgp-signature') &&
-                    $this->_mimepart->getMetadata(Horde_Crypt_Pgp_Parse::SIG_RAW)) {
+                if (($this->_mimepart->getType() == 'application/pgp-signature')
+                    && $this->_mimepart->getMetadata(Horde_Crypt_Pgp_Parse::SIG_RAW)) {
                     return true;
                 }
                 break;

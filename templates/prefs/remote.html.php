@@ -10,14 +10,14 @@
   <td>
    <input id="remote_email" name="remote_email" size="30" />
   </td>
-  <td class="required"><?php echo Horde_Themes_Image::tag('required.png', array('alt' => '*')) ?></td>
+  <td class="required"><?php echo Horde_Themes_Image::tag('required.png', ['alt' => '*']) ?></td>
  </tr>
  <tr class="imp-remote-autoconfig">
   <td class="horde-form-label"><?php echo _("Password") ?>:</td>
   <td>
    <input id="remote_password" name="remote_password" type="password" size="30" />
   </td>
-  <td class="required"><?php echo Horde_Themes_Image::tag('required.png', array('alt' => '*')) ?></td>
+  <td class="required"><?php echo Horde_Themes_Image::tag('required.png', ['alt' => '*']) ?></td>
  </tr>
  <tr>
   <td class="horde-form-label"><?php echo _("Label") ?>:</td>
@@ -49,21 +49,21 @@
     <option value="pop3"><?php echo _("POP3") ?></option>
    </select>
   </td>
-  <td class="required"><?php echo Horde_Themes_Image::tag('required.png', array('alt' => '*')) ?></td>
+  <td class="required"><?php echo Horde_Themes_Image::tag('required.png', ['alt' => '*']) ?></td>
  </tr>
  <tr class="imp-remote-advanced" style="display:none">
   <td class="horde-form-label"><?php echo _("Server") ?>:</td>
   <td>
    <input id="remote_server" name="remote_server" size="30" />
   </td>
-  <td class="required"><?php echo Horde_Themes_Image::tag('required.png', array('alt' => '*')) ?></td>
+  <td class="required"><?php echo Horde_Themes_Image::tag('required.png', ['alt' => '*']) ?></td>
  </tr>
  <tr class="imp-remote-advanced" style="display:none">
   <td class="horde-form-label"><?php echo _("Username") ?>:</td>
   <td>
    <input id="remote_user" name="remote_user" size="30" />
   </td>
-  <td class="required"><?php echo Horde_Themes_Image::tag('required.png', array('alt' => '*')) ?></td>
+  <td class="required"><?php echo Horde_Themes_Image::tag('required.png', ['alt' => '*']) ?></td>
  </tr>
  <tr class="imp-remote-advanced" style="display:none">
   <td class="horde-form-label"><?php echo _("Port") ?>:</td>
