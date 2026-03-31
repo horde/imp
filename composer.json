@@ -21,7 +21,11 @@
             "role": "lead"
         }
     ],
-    "time": "2025-06-04",
+    "keywords": [
+        "webmail",
+        "imap"
+    ],
+    "time": "2026-03-31",
     "repositories": [],
     "require": {
         "horde/horde-installer-plugin": "dev-FRAMEWORK_6_0 || ^3 || ^2",

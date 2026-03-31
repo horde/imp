@@ -31,10 +31,10 @@ authors:
     active: false
     role: lead
 version:
-  release: 7.0.0-alpha17
+  release: 7.0.0-beta1
   api: 7.0.0alpha1
 state:
-  release: alpha
+  release: beta
   api: alpha
 license:
   identifier: GPL-2.0-only
@@ -106,3 +106,7 @@ autoload:
     - lib/
   psr-4:
     Horde\Imp\: /src
+keywords:
+  - webmail
+  - imap
+vendor: horde

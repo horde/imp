@@ -1,4 +1,17 @@
 ---
+7.0.0-beta1:
+  api: 7.0.0-beta1
+  state:
+    release: beta
+    api: beta
+  date: 2026-03-31
+  license:
+    identifier: GPL-2.0-only
+    uri: https://spdx.org/licenses/GPL-2.0-only.html
+  notes: |-
+    style: php-cs-fixer
+    fix: #28 Architecture Violation: No direct calls to Sabberworm from apps
+    docs: Document architecture violations: Sabberworm usage not wrapped into horde/css-parser
 7.0.0-alpha17:
   api: 7.0.0-alpha1
   state:
