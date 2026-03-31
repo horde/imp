@@ -194,11 +194,6 @@ class IMP_Contents_View
         ];
     }
 
-    /**
-     * @todo Architecture violation: Uses Sabberworm APIs directly instead of Horde_Css_Parser.
-     *       Lines 301-305: Extract rules by selector (getContents, DeclarationBlock, getSelectors, getRules)
-     *       See: ~/php/horde-development/sabberworm-architecture-violations.md
-     */
     public function printAttach($id)
     {
         global $injector, $page_output, $prefs, $registry;
@@ -293,20 +288,13 @@ class IMP_Contents_View
 
             if (($style = $cache_ob->get($cache_id, 0)) === false) {
                 try {
-                    $css_parser = new Horde_Css_Parser(
+                    $parser = new Horde\Css\Parser\Parser(
                         $page_output->css->loadCssFiles(
                             $page_output->css->getStylesheets()
                         )
                     );
 
-                    $style = '';
-
-                    foreach ($css_parser->doc->getContents() as $val) {
-                        if (($val instanceof Sabberworm\CSS\RuleSet\DeclarationBlock) &&
-                            array_intersect($selectors, array_map('strval', $val->getSelectors()))) {
-                            $style .= implode('', array_map('strval', $val->getRules()));
-                        }
-                    }
+                    $style = $parser->getRulesBySelectors($selectors);
 
                     $cache_ob->set($cache_id, $style, 86400);
                 } catch (Exception $e) {

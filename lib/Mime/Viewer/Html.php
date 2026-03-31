@@ -590,63 +590,32 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
     }
 
     /**
-     * @todo Architecture violation: Uses Sabberworm APIs directly instead of Horde_Css_Parser.
-     *       Lines 596-604: Remove URL rules (getContents, RuleSet, getRules, getValue, removeRule)
-     *       Lines 605-616: Remove URLs from nested lists (getListComponents, setListComponents)
-     *       Lines 618-623: Remove rules by name (getRule, removeRule)
-     *       Lines 634-636: Remove imports (Property\Import, remove)
-     *       See: ~/php/horde-development/sabberworm-architecture-violations.md
+     * Parse CSS to remove/filter dangerous rules.
+     *
+     * @param Horde_Css_Parser $css     CSS parser object
+     * @param bool $blocked              If true, inverted logic - return ONLY
+     *                                   dangerous CSS for optional loading
+     *
+     * @return string  Compressed CSS output
      */
     protected function _parseCss($css, $blocked)
     {
-        foreach ($css->doc->getContents() as $val) {
-            if ($val instanceof Sabberworm\CSS\RuleSet\RuleSet) {
-                foreach ($val->getRules() as $val2) {
-                    $item = $val2->getValue();
+        // Convert legacy Horde_Css_Parser to modern Parser
+        $cssText = $css->doc->render();
+        $parser = new Horde\Css\Parser\Parser($cssText);
 
-                    if ($item instanceof Sabberworm\CSS\Value\URL) {
-                        if (!$blocked) {
-                            $val->removeRule($val2);
-                        }
-                    } elseif ($item instanceof Sabberworm\CSS\Value\RuleValueList) {
-                        $components = $item->getListComponents();
-                        foreach ($components as $key3 => $val3) {
-                            if ($val3 instanceof Sabberworm\CSS\Value\URL) {
-                                if (!$blocked) {
-                                    unset($components[$key3]);
-                                }
-                            } elseif ($blocked) {
-                                unset($components[$key3]);
-                            }
-                        }
-                        $item->setListComponents($components);
-                    } else {
-                        switch ($val2->getRule()) {
-                            case 'cursor':
-                                /* Don't allow overriding default pointer rules,
-                                 * since this can make visual recognition of
-                                 * clickable elements difficult. */
-                                $val->removeRule($val2);
-                                break;
-
-                            default:
-                                if ($blocked) {
-                                    $val->removeRule($val2);
-                                }
-                                break;
-                        }
-                    }
-                }
-            } elseif ($val instanceof Sabberworm\CSS\Property\Import) {
-                if (!$blocked) {
-                    $css->doc->remove($val);
-                }
-            } elseif ($blocked) {
-                $css->doc->remove($val);
-            }
+        if (!$blocked) {
+            // Normal mode: Remove dangerous CSS, keep safe CSS
+            $parser = $parser->removeImports();
+            $parser = $parser->removeUrlRules();
+            $parser = $parser->removeRulesByName('cursor');
+            return $parser->compress();
         }
 
-        return $css->compress();
+        // Blocked mode: Keep ONLY dangerous CSS (imports, URLs, cursor rules)
+        // Use the new keepOnlyDangerousCss() method which combines all three
+        $parser = $parser->keepOnlyDangerousCss('cursor');
+        return $parser->compress();
     }
 
     /**
