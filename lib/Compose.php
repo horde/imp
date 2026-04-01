@@ -2875,9 +2875,9 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Clean outgoing HTML (remove unexpected data URLs).
      *
-     * @param Horde_Domhtml $html  The HTML data.
+     * @param Horde_Domhtml|Horde\Util\Domhtml $html  The HTML data.
      */
-    protected function _cleanHtmlOutput(Horde_Domhtml $html)
+    protected function _cleanHtmlOutput(Horde_Domhtml|Horde\Util\Domhtml $html)
     {
         global $registry;
 
@@ -2948,13 +2948,13 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Converts an HTML part to a multipart/related part, if necessary.
      *
-     * @param Horde_Domhtml $html    HTML data.
+     * @param Horde_Domhtml|Horde\Util\Domhtml $html    HTML data.
      * @param Horde_Mime_Part $part  The HTML part.
      *
      * @return Horde_Mime_Part  The part to add to the compose output.
      */
     protected function _convertToRelated(
-        Horde_Domhtml $html,
+        Horde_Domhtml|Horde\Util\Domhtml $html,
         Horde_Mime_Part $part
     ) {
         $r_part = false;
@@ -3016,7 +3016,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
      * Adds linked attachments to message.
      *
      * @param string &$body  Plaintext data.
-     * @param mixed $html    HTML data (Horde_Domhtml) or null.
+     * @param mixed $html    HTML data (Horde_Domhtml|\Horde\Util\Domhtml) or null.
      *
      * @throws IMP_Compose_Exception
      */

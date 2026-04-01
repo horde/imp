@@ -29,7 +29,7 @@ class IMP_Compose_HtmlSignature
     /**
      * DOM object containing HTML signature data.
      *
-     * @var Horde_Domhtml
+     * @var Horde_Domhtml|Horde\Util\Domhtml
      */
     public $dom;
 
