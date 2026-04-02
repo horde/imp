@@ -1,5 +1,7 @@
 <?php
 
+use Horde\Util\Domhtml;
+
 /**
  * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
@@ -42,7 +44,7 @@ class Imp_Stub_Mime_Viewer_Html extends IMP_Mime_Viewer_Html
             'phish' => true,
         ];
 
-        $dom = new Horde_Domhtml($html);
+        $dom = new Domhtml($html);
 
         foreach ($dom as $node) {
             $this->_node($dom->dom, $node);
