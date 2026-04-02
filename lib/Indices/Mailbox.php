@@ -12,6 +12,8 @@
  * @package   IMP
  */
 
+use Horde\Util\Variables;
+
 /**
  * Extends base Indices object by incorporating base mailbox information.
  *
@@ -55,7 +57,7 @@ class IMP_Indices_Mailbox extends IMP_Indices
 
         switch (func_num_args()) {
             case 1:
-                if ($args[0] instanceof Horde_Variables) {
+                if ($args[0] instanceof Horde_Variables || $args[0] instanceof Variables) {
                     if (isset($args[0]->mailbox) && strlen($args[0]->mailbox)) {
                         $this->mailbox = IMP_Mailbox::formFrom($args[0]->mailbox);
 

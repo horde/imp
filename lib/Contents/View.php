@@ -12,6 +12,8 @@
  * @package   IMP
  */
 
+use Horde\Util\Variables;
+
 /**
  * Provides logic to format message content for delivery to the browser.
  *
@@ -340,7 +342,7 @@ class IMP_Contents_View
      *
      * @throws Horde_Exception  Exception on incorrect token.
      */
-    public function checkToken(Horde_Variables $vars)
+    public function checkToken(Variables|Horde_Variables $vars)
     {
         $GLOBALS['session']->checkToken($vars->get(self::VIEW_TOKEN_PARAM));
     }

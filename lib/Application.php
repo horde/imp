@@ -31,6 +31,8 @@ if (!defined('HORDE_BASE')) {
  * Horde_Registry_Application::). */
 require_once HORDE_BASE . '/lib/core.php';
 
+use Horde\Util\Variables;
+
 /**
  * IMP application API.
  *
@@ -411,7 +413,7 @@ class IMP_Application extends Horde_Registry_Application
      *
      * @throws IMP_Exception
      */
-    public function download(Horde_Variables $vars)
+    public function download(Variables|Horde_Variables $vars)
     {
         global $injector, $registry;
 

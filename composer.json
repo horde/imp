@@ -117,5 +117,6 @@
         "branch-alias": {
             "dev-FRAMEWORK_6_0": "7.x-dev"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }

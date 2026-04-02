@@ -12,6 +12,8 @@
  * @package   IMP
  */
 
+use Horde\Util\Variables;
+
 /**
  * Base class for dynamic view pages.
  *
@@ -67,7 +69,7 @@ abstract class IMP_Dynamic_Base
 
     /**
      */
-    public function __construct(Horde_Variables $vars)
+    public function __construct(Variables|Horde_Variables $vars)
     {
         global $page_output;
 

@@ -10,6 +10,8 @@
  * @copyright 2012-2017 Horde LLC
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
+
+use Horde\Util\Variables;
  */
 
 /**
@@ -20,6 +22,8 @@
  * @copyright 2012-2017 Horde LLC
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
+
+use Horde\Util\Variables;
  */
 class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
 {
@@ -57,7 +61,7 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
      *
      * @return boolean  True on success.
      */
-    protected function _handle(Horde_Variables $vars)
+    protected function _handle(Variables|Horde_Variables $vars)
     {
         global $injector, $notification, $registry;
 

@@ -12,6 +12,8 @@
  * @package   IMP
  */
 
+use Horde\Util\Variables;
+
 /**
  * Base class for smartmobile view pages.
  *
@@ -35,7 +37,7 @@ class IMP_Smartmobile
 
     /**
      */
-    public function __construct(Horde_Variables $vars)
+    public function __construct(Variables|Horde_Variables $vars)
     {
         global $notification, $page_output;
 
