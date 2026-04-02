@@ -12,6 +12,7 @@
  * @package   IMP
  */
 use function PHP81_BC\strftime;
+use Horde\Util\Variables;
 
 /**
  * An object representing an outgoing mail message.
@@ -3504,7 +3505,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
      *
      * @param Horde_Variables $vars  Object with the form data.
      */
-    public function sessionExpireDraft(Horde_Variables $vars)
+    public function sessionExpireDraft(Variables|Horde_Variables $vars)
     {
         global $injector;
 

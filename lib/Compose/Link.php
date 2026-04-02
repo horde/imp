@@ -12,6 +12,8 @@
  * @package   IMP
  */
 
+use Horde\Util\Variables;
+
 /**
  * Process incoming compose arguments and generate compose links.
  *
@@ -44,7 +46,7 @@ class IMP_Compose_Link
             } else {
                 $this->args['to'] = $in;
             }
-        } elseif ($in instanceof Horde_Variables) {
+        } elseif ($in instanceof Horde_Variables || $in instanceof Variables) {
             foreach ($fields as $val) {
                 if (isset($in->$val)) {
                     $this->args[$val] = $in->$val;
