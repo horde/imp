@@ -1,4 +1,16 @@
 ---
+7.0.0-beta3:
+  api: 7.0.0-beta3
+  state:
+    release: beta
+    api: beta
+  date: 2026-04-02
+  license:
+    identifier: GPL-2.0-only
+    uri: https://spdx.org/licenses/GPL-2.0-only.html
+  notes: |-
+    chore: Use modern domhtml internally in test
+    fix: Make IMP compatible with both modern and old style Horde\Util\Variables in many places
 7.0.0-beta2:
   api: 7.0.0-beta2
   state:

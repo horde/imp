@@ -25,7 +25,7 @@
         "webmail",
         "imap"
     ],
-    "time": "2026-04-01",
+    "time": "2026-04-02",
     "repositories": [],
     "require": {
         "horde/horde-installer-plugin": "dev-FRAMEWORK_6_0 || ^3 || ^2",
@@ -117,6 +117,5 @@
         "branch-alias": {
             "dev-FRAMEWORK_6_0": "7.x-dev"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }
