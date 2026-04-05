@@ -21,9 +21,8 @@ class ImpAutoIncrementSentmail extends Horde_Db_Migration_Base
     public function up()
     {
         $this->changeColumn('imp_sentmail', 'sentmail_id', 'autoincrementKey');
-        try {
+        if (in_array('imp_sentmail_seq', $this->tables())) {
             $this->dropTable('imp_sentmail_seq');
-        } catch (Horde_Db_Exception $e) {
         }
     }
 
