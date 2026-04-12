@@ -15,127 +15,108 @@
  * @copyright  2008-2015 Horde LLC
  * @license    GPL-2 (http://www.horde.org/licenses/gpl)
  */
-var IMP_Autocompleter = Class.create({
+var IMP_Autocompleter = function(elt, params) {
+    var active;
 
-    // ac,
-    // acTimeout,
-    // box,
-    // cache,
-    // data,
-    // dimg,
-    // elt,
-    // elt_ac,
-    // input,
-    // itemid,
-    // knl,
-    // knl_status,
-    // lastinput,
-    // p,
+    this.cache = {};
+    this.itemid = 0;
+    this.lastinput = '';
+    this.p = Object.assign({
+        autocompleterParams: {},
+        // Outer div/fake input box and CSS class
+        // box (created below)
+        boxClass: 'hordeACBox',
+        boxClassFocus: '',
+        entryDelay: 0.4,
+        // CSS class for real input field
+        growingInputClass: 'hordeACTrigger',
+        // input, (created below)
+        // <ul> CSS class
+        listClass: 'hordeACList',
+        listClassItem: 'hordeACListItem',
+        loadingText: 'Loading...',
+        loadingTextClass: '',
+        maxItemSize: 50,
+        minChars: 3,
+        noResultsText: 'No Results Found',
+        noResultsTextClass: '',
+        onAdd: function() {},
+        onBeforeServerRequest: function() {},
+        onEntryClick: function() {},
+        onServerSuggestion: function() {},
+        processValueCallback: function() {},
+        removeClass: 'hordeACItemRemove',
+        requireSelection: false,
+        shortDisplayCallback: function(x) { return x; }
+    }, params || {});
 
-    initialize: function(elt, params)
+    // The original input element is transformed into a hidden input
+    // field that holds the raw return value.
+    this.elt = document.getElementById(elt);
+    this.elt.setAttribute('autocomplete', 'off');
+
+    // Create an autocomplete input element that holds the JSON encoded
+    // return value.
+    this.elt_ac = document.createElement('INPUT');
+    this.elt_ac.name = this.elt.id + '_ac';
+    this.elt_ac.type = 'hidden';
+    this.elt.after(this.elt_ac);
+
+    this.box = document.createElement('DIV');
+    this.box.className = this.p.boxClass;
+
+    // The input element and the <li> wrapper
+    this.input = document.createElement('INPUT');
+    this.input.autocomplete = 'off';
+    this.input.className = this.p.growingInputClass;
+
+    // Build the outer box
+    var ul = document.createElement('UL');
+    ul.className = this.p.listClass;
+    var li = document.createElement('LI');
+    li.appendChild(this.input);
+    ul.appendChild(li);
+    this.box.appendChild(ul);
+
+    // Replace the single input element with the new structure and
+    // move the old element into the structure while making sure it's
+    // hidden.
+    active = this.checkActiveElt(this.elt);
+    this.elt.replaceWith(this.box);
+    this.elt.hidden = true;
+    this.box.appendChild(this.elt);
+    if (active) {
+        this.focus();
+    }
+
+    // Look for clicks on the box to simulate clicking in an input box
+    this.box.addEventListener('click', this.clickHandler.bind(this));
+
+    // Double-clicks cause an edit on existing entries.
+    this.box.addEventListener('dblclick', this.dblclickHandler.bind(this));
+
+    this.input.addEventListener('blur', this.blur.bind(this));
+    this.input.addEventListener('keydown', this.keydownHandler.bind(this));
+
+    this._watchInterval = setInterval(this.inputWatcher.bind(this), 250);
+
+    document.addEventListener('AutoComplete:focus', this.triggerEvent.bind(this, this.focus.bind(this)));
+    document.addEventListener('AutoComplete:reset', this.triggerEvent.bind(this, this.reset.bind(this)));
+    document.addEventListener('AutoComplete:update', this.triggerEvent.bind(this, this.processInput.bind(this)));
+
+    this.reset();
+};
+
+IMP_Autocompleter.prototype = {
+
+    triggerEvent: function(func, e)
     {
-        var active;
-
-        this.cache = $H();
-        this.itemid = 0;
-        this.lastinput = '';
-        this.p = Object.extend({
-            autocompleterParams: {},
-            // Outer div/fake input box and CSS class
-            // box (created below)
-            boxClass: 'hordeACBox',
-            boxClassFocus: '',
-            entryDelay: 0.4,
-            // CSS class for real input field
-            growingInputClass: 'hordeACTrigger',
-            // input, (created below)
-            // <ul> CSS class
-            listClass: 'hordeACList',
-            listClassItem: 'hordeACListItem',
-            loadingText: 'Loading...',
-            loadingTextClass: '',
-            maxItemSize: 50,
-            minChars: 3,
-            noResultsText: 'No Results Found',
-            noResultsTextClass: '',
-            onAdd: Prototype.emptyFunction,
-            onBeforeServerRequest: Prototype.emptyFunction,
-            onEntryClick: Prototype.emptyFunction,
-            onServerSuggestion: Prototype.emptyFunction,
-            processValueCallback: Prototype.emptyFunction,
-            removeClass: 'hordeACItemRemove',
-            requireSelection: false,
-            shortDisplayCallback: Prototype.K
-        }, params || {});
-
-        // The original input element is transformed into a hidden input
-        // field that holds the raw return value.
-        this.elt = $(elt);
-        this.elt.writeAttribute('autocomplete', 'off');
-
-        // Create an autocomplete input element that holds the JSON encoded
-        // return value.
-        this.elt_ac = new Element('INPUT', {
-            name: this.elt.identify() + '_ac',
-            type: 'hidden'
-        });
-        this.elt.insert({ after: this.elt_ac });
-
-        this.box = new Element('DIV', { className: this.p.boxClass });
-
-        // The input element and the <li> wrapper
-        this.input = new Element('INPUT', {
-            autocomplete: 'off',
-            className: this.p.growingInputClass
-        });
-
-        // Build the outer box
-        this.box.insert(
-            // The list - where the chosen items are placed as <li> nodes
-            new Element('UL', { className: this.p.listClass }).insert(
-                new Element('LI').insert(this.input)
-            )
-        );
-
-        // Replace the single input element with the new structure and
-        // move the old element into the structure while making sure it's
-        // hidden.
-        active = this.checkActiveElt(this.elt);
-        this.box.insert(this.elt.replace(this.box).hide());
-        if (active) {
-            this.focus();
-        }
-
-        // Look for clicks on the box to simulate clicking in an input box
-        this.box.observe('click', this.clickHandler.bindAsEventListener(this));
-
-        // Double-clicks cause an edit on existing entries.
-        this.box.observe('dblclick', this.dblclickHandler.bindAsEventListener(this));
-
-        this.input.observe('blur', this.blur.bind(this));
-        this.input.observe('keydown', this.keydownHandler.bindAsEventListener(this));
-
-        new PeriodicalExecuter(this.inputWatcher.bind(this), 0.25);
-
-        document.observe('AutoComplete:focus', this.triggerEvent.bindAsEventListener(this, this.focus.bind(this)));
-        document.observe('AutoComplete:reset', this.triggerEvent.bindAsEventListener(this, this.reset.bind(this)));
-        document.observe('AutoComplete:update', this.triggerEvent.bindAsEventListener(this, this.processInput.bind(this)));
-
-        this.reset();
-    },
-
-    triggerEvent: function(e, func)
-    {
-        var elt = e.element();
-
-        // IE 8 fix
-        if (elt == window && elt.document) {
-            elt = elt.document;
-        }
+        var elt = e.target;
 
         switch (elt) {
         case this.elt:
-            e.stop();
+            e.preventDefault();
+            e.stopPropagation();
             /* falls through */
 
         case document:
@@ -150,7 +131,6 @@ var IMP_Autocompleter = Class.create({
             return (document.activeElement &&
                     (document.activeElement == elt));
         } catch (e) {
-            // IE 9 bug (activeElement can't be accessed via IFRAME)
             return false;
         }
     },
@@ -159,32 +139,31 @@ var IMP_Autocompleter = Class.create({
     {
         try {
             this.input.focus();
-            this.box.addClassName(this.p.boxClassFocus);
+            this.box.classList.add(this.p.boxClassFocus);
         } catch (e) {
-            // IE8 bug (focus doesn't work on hidden fields)
-            this.focus.bind(this).defer();
+            setTimeout(this.focus.bind(this), 0);
         }
     },
 
     blur: function()
     {
-        this.box.removeClassName(this.p.boxClassFocus);
+        this.box.classList.remove(this.p.boxClassFocus);
     },
 
     reset: function()
     {
         this.data = [];
-        this.currentEntries().invoke('remove');
-        this.processValue($F(this.elt));
+        this.currentEntries().forEach(function(el) { el.remove(); });
+        this.processValue(this.elt.value);
         this.processInput();
         this.updateHiddenInput();
     },
 
     processInput: function()
     {
-        var tmp = $F(this.input);
+        var tmp = this.input.value;
 
-        if (!tmp.empty()) {
+        if (tmp !== '') {
             this.addNewItems([ new IMP_Autocompleter_Elt(tmp) ]);
             this.updateInput('');
         }
@@ -203,42 +182,49 @@ var IMP_Autocompleter = Class.create({
 
     getElts: function()
     {
-        return this.data.pluck('elt');
+        return this.data.map(function(v) { return v.elt; });
     },
 
     getEntryByElt: function(elt)
     {
-        return this.getEntryById(elt.retrieve('itemid'));
+        return this.getEntryById(elt._itemid);
     },
 
     getEntryById: function(id)
     {
-        return this.data.detect(function(v) {
-            return (v.id == id);
-        });
+        for (var i = 0; i < this.data.length; i++) {
+            if (this.data[i].id == id) {
+                return this.data[i];
+            }
+        }
+        return null;
     },
 
     addNewItems: function(value)
     {
         value = this.filterChoices(value);
 
-        if (!value.size()) {
+        if (!value.length) {
             return false;
         }
 
-        value.each(function(v) {
-            v.elt = new Element('LI', {
-                className: this.p.listClassItem,
-                title: v.label
-            });
+        value.forEach(function(v) {
+            v.elt = document.createElement('LI');
+            v.elt.className = this.p.listClassItem;
+            v.elt.title = v.label;
             v.id = ++this.itemid;
 
-            this.input.up('LI').insert({ before:
-                v.elt
-                    .insert((v.short_d || this.p.shortDisplayCallback(v.label)).truncate(this.p.maxItemSize).escapeHTML())
-                    .insert(this.deleteImg().clone(true).show())
-                    .store('itemid', v.id)
-            });
+            var displayText = (v.short_d || this.p.shortDisplayCallback(v.label));
+            if (displayText.length > this.p.maxItemSize) {
+                displayText = displayText.substring(0, this.p.maxItemSize) + '...';
+            }
+            v.elt.appendChild(document.createTextNode(displayText));
+            var delImg = this.deleteImg().cloneNode(true);
+            delImg.hidden = false;
+            v.elt.appendChild(delImg);
+            v.elt._itemid = v.id;
+
+            this.input.closest('LI').before(v.elt);
 
             this.data.push(v);
             this.p.onAdd(v);
@@ -248,7 +234,7 @@ var IMP_Autocompleter = Class.create({
         this.updateHiddenInput();
 
         if (this.knl) {
-            this.knl.hide();
+            this.knl.hide(); // eslint-disable-line horde/no-prototype-methods -- KeyNavList.hide()
         }
 
         return true;
@@ -256,29 +242,29 @@ var IMP_Autocompleter = Class.create({
 
     filterChoices: function(c)
     {
-        var cv = this.data.pluck('value');
+        var cv = this.data.map(function(v) { return v.value; });
 
-        return c.findAll(function(v) {
-            return !cv.include(v.value);
+        return c.filter(function(v) {
+            return cv.indexOf(v.value) === -1;
         });
     },
 
     currentEntries: function()
     {
-        return this.input.up('UL').select('LI.' + this.p.listClassItem);
+        return Array.from(this.input.closest('UL').querySelectorAll('LI.' + this.p.listClassItem));
     },
 
     updateInput: function(input)
     {
         var entry;
 
-        if (Object.isElement(input)) {
+        if (input instanceof HTMLElement) {
             entry = this.getEntryByElt(input);
-            this.input.setValue(entry.value);
+            this.input.value = entry.value;
             this.removeEntry(entry);
         } else {
-            if ($F(this.input) != input) {
-                this.input.setValue(input);
+            if (this.input.value != input) {
+                this.input.value = input;
                 this.resize();
             }
             this.focus();
@@ -292,7 +278,7 @@ var IMP_Autocompleter = Class.create({
         }
 
         entry.elt.remove();
-        this.data = this.data.findAll(function(v) {
+        this.data = this.data.filter(function(v) {
             return (v.id != entry.id);
         });
         this.updateHiddenInput();
@@ -303,28 +289,26 @@ var IMP_Autocompleter = Class.create({
     // AC Format: [ [ value, ID ], [ ... ], ... ]
     updateHiddenInput: function()
     {
-        var val = this.data.pluck('value').without('');
+        var val = this.data.map(function(v) { return v.value; }).filter(function(v) { return v !== ''; });
 
-        this.elt.setValue(val.join());
-        this.elt_ac.setValue(Object.toJSON(val.zip(this.data.pluck('id'))));
+        this.elt.value = val.join();
+        this.elt_ac.value = JSON.stringify(val.map(function(v, i) { return [v, this.data[i].id]; }, this));
     },
 
     resize: function()
     {
-        this.input.setStyle({
-            width: Math.max(80, $F(this.input).length * 9) + 'px'
-        });
-        this.input.fire('AutoComplete:resize');
+        this.input.style.width = Math.max(80, this.input.value.length * 9) + 'px';
+        this.input.dispatchEvent(new CustomEvent('AutoComplete:resize', { bubbles: true }));
     },
 
     deleteImg: function()
     {
         if (!this.dimg) {
-            this.dimg = new Element('IMG', {
-                className: this.p.removeClass,
-                src: this.p.deleteIcon
-            }).hide();
-            this.box.insert(this.dimg);
+            this.dimg = document.createElement('IMG');
+            this.dimg.className = this.p.removeClass;
+            this.dimg.src = this.p.deleteIcon;
+            this.dimg.hidden = true;
+            this.box.appendChild(this.dimg);
         }
 
         return this.dimg;
@@ -334,11 +318,11 @@ var IMP_Autocompleter = Class.create({
 
     clickHandler: function(e)
     {
-        var elt = e.element(),
-            li = elt.up('LI');
+        var elt = e.target,
+            li = elt.closest('LI');
 
         if (!this.p.onEntryClick({ ac: this, elt: elt, entry: li })) {
-            if (elt.hasClassName(this.p.removeClass)) {
+            if (elt.classList.contains(this.p.removeClass)) {
                 this.removeEntry(this.getEntryByElt(li));
             }
         }
@@ -348,11 +332,11 @@ var IMP_Autocompleter = Class.create({
 
     dblclickHandler: function(e)
     {
-        var elt = e.findElement('LI');
+        var elt = e.target.closest('LI');
 
         this.processInput();
 
-        if (elt && elt.hasClassName(this.p.listClassItem)) {
+        if (elt && elt.classList.contains(this.p.listClassItem)) {
             this.updateInput(elt);
         } else {
             this.focus();
@@ -363,13 +347,16 @@ var IMP_Autocompleter = Class.create({
     {
         var tmp;
 
-        switch (e.which || e.keyCode || e.charCode) {
-        case Event.KEY_DELETE:
-        case Event.KEY_BACKSPACE:
-            if (!$F(this.input).length &&
-                (tmp = this.currentEntries().last())) {
-                this.updateInput(tmp);
-                e.stop();
+        switch (e.key) {
+        case 'Delete':
+        case 'Backspace':
+            if (!this.input.value.length) {
+                var entries = this.currentEntries();
+                tmp = entries.length ? entries[entries.length - 1] : null;
+                if (tmp) {
+                    this.updateInput(tmp);
+                    e.preventDefault();
+                }
             }
             break;
         }
@@ -377,15 +364,15 @@ var IMP_Autocompleter = Class.create({
 
     inputWatcher: function()
     {
-        var input = $F(this.input);
+        var input = this.input.value;
 
         if (input != this.lastinput) {
             this.processValue(input);
-            this.lastinput = $F(this.input);
+            this.lastinput = this.input.value;
             if (this.acTimeout) {
                 window.clearTimeout(this.acTimeout);
             }
-            this.acTimeout = this.doAutocomplete.bind(this, this.lastinput).delay(this.p.entryDelay);
+            this.acTimeout = setTimeout(this.doAutocomplete.bind(this, this.lastinput), this.p.entryDelay * 1000);
             this.resize();
         }
     },
@@ -396,29 +383,29 @@ var IMP_Autocompleter = Class.create({
             return;
         }
 
-        var c = this.cache.get(t), tmp;
+        var c = this.cache[t], tmp;
 
         if (c) {
             this.updateAutocomplete(t, c);
         } else if (t.length >= this.p.minChars) {
             tmp = this.p.onBeforeServerRequest(t, this.cache);
             if (tmp) {
-                this.cache.set(t, tmp);
+                this.cache[t] = tmp;
                 this.updateAutocomplete(t, tmp);
                 return;
             }
 
             this.initKnl();
             this.knl_status = 'loading';
-            this.knl.show([]);
+            this.knl.show([]); // eslint-disable-line horde/no-prototype-methods -- KeyNavList.show()
 
             ImpCore.doAction(
                 'autocompleteSearch',
-                Object.extend(this.p.autocompleterParams, { search: t }),
+                Object.assign(this.p.autocompleterParams, { search: t }),
                 {
                     callback: function(r, ajax) {
-                        this.cache.set(t, r.results);
-                        if (ajax.request.parameters.search == $F(this.input)) {
+                        this.cache[t] = r.results;
+                        if (ajax.request.parameters.search == this.input.value) {
                             this.updateAutocomplete(t, r.results);
                         }
                     }.bind(this)
@@ -440,28 +427,34 @@ var IMP_Autocompleter = Class.create({
             return;
         }
 
-        r.each(function(e) {
+        r.forEach(function(e) {
             var elt = new IMP_Autocompleter_Elt(e.v, e.l, e.s);
             this.p.onServerSuggestion(e, elt);
             obs.push(elt);
         }, this);
 
         obs = this.filterChoices(obs);
-        if (obs.size()) {
+        if (obs.length) {
             re = new RegExp(search, "i");
 
-            obs.each(function(o) {
+            obs.forEach(function(o) {
                 var l = o.label,
                     l2 = '';
 
-                (l.match(re) || []).each(function(m2) {
-                    var idx = l.indexOf(m2);
-                    l2 += l.substr(0, idx).escapeHTML() + "<strong>" + m2.escapeHTML() + "</strong>";
+                (l.match(re) || []).forEach(function(m2) {
+                    var idx = l.indexOf(m2),
+                        tmp = document.createElement('span');
+                    tmp.textContent = l.substr(0, idx);
+                    l2 += tmp.innerHTML + "<strong>";
+                    tmp.textContent = m2;
+                    l2 += tmp.innerHTML + "</strong>";
                     l = l.substr(idx + m2.length);
                 });
 
                 if (l.length) {
-                    l2 += l.escapeHTML();
+                    var tmp = document.createElement('span');
+                    tmp.textContent = l;
+                    l2 += tmp.innerHTML;
                 }
 
                 c.push({ l: l2, v: o });
@@ -473,7 +466,7 @@ var IMP_Autocompleter = Class.create({
         }
 
         this.initKnl();
-        this.knl.show(c);
+        this.knl.show(c); // eslint-disable-line horde/no-prototype-methods -- KeyNavList.show()
     },
 
     initKnl: function()
@@ -488,19 +481,17 @@ var IMP_Autocompleter = Class.create({
                 onShow: function(elt) {
                     switch (this.knl_status) {
                     case 'loading':
-                        elt.down().insert(
-                            new Element('LI').insert(
-                                this.p.loadingText.escapeHTML()
-                            ).addClassName(this.p.loadingTextClass)
-                        );
+                        var loadLi = document.createElement('LI');
+                        loadLi.textContent = this.p.loadingText;
+                        loadLi.className = this.p.loadingTextClass;
+                        elt.querySelector(':first-child').appendChild(loadLi);
                         break;
 
                     case 'noresults':
-                        elt.down().insert(
-                            new Element('LI').insert(
-                                this.p.noResultsText.escapeHTML()
-                            ).addClassName(this.p.noResultsTextClass)
-                        );
+                        var noLi = document.createElement('LI');
+                        noLi.textContent = this.p.noResultsText;
+                        noLi.className = this.p.noResultsTextClass;
+                        elt.querySelector(':first-child').appendChild(noLi);
                         break;
                     }
                 }.bind(this)
@@ -508,23 +499,12 @@ var IMP_Autocompleter = Class.create({
         }
     }
 
-}),
+};
 
-IMP_Autocompleter_Elt = Class.create({
-
-    // elt,
-    // id,
-    // label,
-    // short_d,
-    // value,
-
-    initialize: function(value, label, short_d)
-    {
-        this.value = value;
-        this.label = label || value;
-        if (short_d) {
-            this.short_d = short_d;
-        }
+var IMP_Autocompleter_Elt = function(value, label, short_d) {
+    this.value = value;
+    this.label = label || value;
+    if (short_d) {
+        this.short_d = short_d;
     }
-
-});
+};
