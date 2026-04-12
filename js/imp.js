@@ -19,42 +19,40 @@ var IMP_JS = {
     unblockImages: function(e)
     {
         var a, callback, doc,
-            elt = e.element(),
-            box = elt.up('.mimeStatusMessageTable').up(),
-            iframe = elt.up('.mimePartBase').down('.mimePartData IFRAME.htmlMsgData');
+            elt = e.target,
+            box = elt.closest('.mimeStatusMessageTable').parentElement,
+            iframe = elt.closest('.mimePartBase').querySelector('.mimePartData IFRAME.htmlMsgData');
 
-        e.stop();
+        e.preventDefault();
 
-        if (elt.readAttribute('noUnblockImageAdd')) {
-            box.slideUp({
-                afterFinish: function() { box.remove(); },
-                duration: 0.6
-            });
+        if (elt.getAttribute('noUnblockImageAdd')) {
+            box.hidden = true;
+            box.remove();
         } else {
-            a = new Element('A')
-                .insert(IMP_JS.unblock_image_text)
-                .observe('click', function() {
-                    HordeCore.doAction('imageUnblockAdd', {
-                        muid: elt.readAttribute('muid')
-                    });
-
-                    box.slideUp({
-                        afterFinish: function() { box.remove(); },
-                        duration: 0.6
-                    });
+            a = document.createElement('A');
+            a.textContent = IMP_JS.unblock_image_text;
+            a.addEventListener('click', function() {
+                HordeCore.doAction('imageUnblockAdd', {
+                    muid: elt.getAttribute('muid')
                 });
 
-            elt.up('TBODY').update(
-                new Element('TR').insert(
-                    new Element('TD').insert(a)
-                )
-            );
+                box.hidden = true;
+                box.remove();
+            });
+
+            var tbody = elt.closest('TBODY');
+            var tr = document.createElement('TR');
+            var td = document.createElement('TD');
+            td.appendChild(a);
+            tr.appendChild(td);
+            tbody.innerHTML = '';
+            tbody.appendChild(tr);
         }
 
         callback = this.iframeResize.bind(this, iframe);
         doc = this.iframeDoc(iframe);
 
-        Prototype.Selector.select('[htmlimgblocked]', doc).each(function(img) {
+        doc.querySelectorAll('[htmlimgblocked]').forEach(function(img) {
             var src = img.getAttribute('htmlimgblocked');
             img.removeAttribute('htmlimgblocked');
 
@@ -69,24 +67,23 @@ var IMP_JS = {
                     if (img.style.setProperty) {
                         img.style.setProperty('background-image', 'url(' + src + ')', '');
                     } else {
-                        // IE workaround
                         img.style.backgroundImage = 'url(' + src + ')';
                     }
                 }
             }
-        }, this);
+        });
 
-        Prototype.Selector.select('[htmlimgblocked_srcset]', doc).each(function(img) {
+        doc.querySelectorAll('[htmlimgblocked_srcset]').forEach(function(img) {
             img.setAttribute('srcset', img.getAttribute('htmlimgblocked_srcset'));
             img.removeAttribute('htmlimgblocked_srcset');
         });
 
-        Prototype.Selector.select('[htmlcssblocked]', doc).each(function(link) {
+        doc.querySelectorAll('[htmlcssblocked]').forEach(function(link) {
             link.setAttribute('href', link.getAttribute('htmlcssblocked'));
             link.removeAttribute('htmlcssblocked');
         });
 
-        Prototype.Selector.select('STYLE[type="text/x-imp-cssblocked"]', doc).each(function(style) {
+        doc.querySelectorAll('STYLE[type="text/x-imp-cssblocked"]').forEach(function(style) {
             style.setAttribute('type', 'text/css');
         });
 
@@ -95,7 +92,10 @@ var IMP_JS = {
 
     iframeInject: function(id, data)
     {
-        if (!(id = $(id))) {
+        if (typeof id === 'string') {
+            id = document.getElementById(id);
+        }
+        if (!id) {
             return;
         }
 
@@ -111,31 +111,27 @@ var IMP_JS = {
         d.close();
 
         ev = function(name, e) {
-            id.fire('IMP_JS:' + name, e);
+            id.dispatchEvent(new CustomEvent('IMP_JS:' + name, { bubbles: true, detail: e }));
         };
 
-        if (d.addEventListener) {
-            d.addEventListener('click', ev.curry('htmliframe_click'), false);
-            d.addEventListener('keydown', ev.curry('htmliframe_keydown'), false);
-        } else {
-            d.attachEvent('onclick', ev.curry('htmliframe_click'));
-            d.attachEvent('onkeydown', ev.curry('htmliframe_keydown'));
-        }
+        d.addEventListener('click', ev.bind(null, 'htmliframe_click'), false);
+        d.addEventListener('keydown', ev.bind(null, 'htmliframe_keydown'), false);
 
         this.iframeOverflowY(id, false);
-        id.show().previous().remove();
+        id.hidden = false;
+        var prev = id.previousElementSibling;
+        if (prev) { prev.remove(); }
         this.iframeResize(id);
     },
 
     // iframe = (Element)
     iframeResize: function(iframe)
     {
-        var id = iframe.identify();
+        var id = iframe.id || (iframe.id = 'horde_' + Date.now());
 
-        // IE (at a minimum) needs a slight delay to size properly
         if (!this.iframeresize_run[id]) {
             this.iframeresize_run[id] = true;
-            this.iframeResizeRun.bind(this, iframe).delay(this.resize_delay);
+            setTimeout(this.iframeResizeRun.bind(this, iframe), this.resize_delay * 1000);
         }
     },
 
@@ -145,7 +141,8 @@ var IMP_JS = {
             doc = this.iframeDoc(id);
 
         if (!doc) {
-            this.iframeresize_run[id.identify()] = false;
+            var eid = id.id || (id.id = 'horde_' + Date.now());
+            this.iframeresize_run[eid] = false;
             return;
         }
 
@@ -154,36 +151,35 @@ var IMP_JS = {
         iHeight = function() {
             return Math.max(
                 body.offsetHeight,
-                // IE 8 only
-                (Prototype.Browser.IE && !document.addEventListener) ? body.scrollHeight : 0,
                 html.offsetHeight,
                 html.scrollHeight
             );
         };
 
-        Element.setStyle(body, { height: null });
+        body.style.height = '';
 
         h1 = iHeight();
-        id.setStyle({ height: h1 + 'px' });
+        id.style.height = h1 + 'px';
 
         h2 = iHeight();
         if (h2 > h1) {
-            id.setStyle({ height: h2 + 'px' });
+            id.style.height = h2 + 'px';
         }
 
         this.iframeImgLazyLoad(id);
 
-        this.iframeresize_run[id.identify()] = false;
+        var eid2 = id.id || (id.id = 'horde_' + Date.now());
+        this.iframeresize_run[eid2] = false;
     },
 
     iframeImgLazyLoad: function(iframe)
     {
-        var id = iframe.identify();
+        var id = iframe.id || (iframe.id = 'horde_' + Date.now());
 
         if (!this.lazyload_run[id]) {
             this.lazyload_run[id] = true;
-            this.iframeImgLazyLoadRun.bind(this, iframe)
-                .delay(this.resize_delay);
+            setTimeout(this.iframeImgLazyLoadRun.bind(this, iframe),
+                this.resize_delay * 1000);
         }
     },
 
@@ -194,19 +190,22 @@ var IMP_JS = {
             mb = this.messageBody();
 
         if (!doc) {
-            this.lazyload_run[iframe.identify()] = false;
+            var eid = iframe.id || (iframe.id = 'horde_' + Date.now());
+            this.lazyload_run[eid] = false;
             return;
         }
 
         /* Load messages within 1 scrolled page of range boundaries. */
-        mb_height = mb.getHeight();
+        mb_height = mb.offsetHeight;
         range_top = mb.scrollTop - mb_height;
         range_bottom = mb.scrollTop + (2 * mb_height);
 
-        imgs = Prototype.Selector.select('IMG[data-src]', doc).findAll(Element.visible);
+        imgs = Array.from(doc.querySelectorAll('IMG[data-src]')).filter(function(img) {
+            return !img.hidden && img.offsetWidth > 0;
+        });
 
-        if (imgs.size()) {
-            iframe.setStyle({ overflowY: 'hidden' });
+        if (imgs.length) {
+            iframe.style.overflowY = 'hidden';
 
             error = this.iframeOverflowY.bind(this, iframe);
             resize = function() {
@@ -214,19 +213,21 @@ var IMP_JS = {
                 this.iframeOverflowY(iframe, true);
             }.bind(this);
 
-            imgs.each(function(img) {
-                var co = Element.cumulativeOffset(img);
-                if (co.top > range_top && co.top < range_bottom) {
+            imgs.forEach(function(img) {
+                var rect = img.getBoundingClientRect();
+                var co_top = rect.top + (doc.defaultView ? doc.defaultView.pageYOffset : 0);
+                if (co_top > range_top && co_top < range_bottom) {
                     this.iframeOverflowY(iframe, false);
                     img.onerror = error;
                     img.onload = resize;
-                    Element.writeAttribute(img, 'src', Element.readAttribute(img, 'data-src'));
-                    Element.writeAttribute(img, 'data-src', null);
+                    img.setAttribute('src', img.getAttribute('data-src'));
+                    img.removeAttribute('data-src');
                 }
             }, this);
         }
 
-        this.lazyload_run[iframe.identify()] = false;
+        var eid2 = iframe.id || (iframe.id = 'horde_' + Date.now());
+        this.lazyload_run[eid2] = false;
     },
 
     iframeDoc: function(i)
@@ -237,18 +238,18 @@ var IMP_JS = {
 
     iframeOverflowY: function(id, show)
     {
-        var key = id.identify();
+        var key = id.id || (id.id = 'horde_' + Date.now());
 
         if (show) {
             if (this.iframe_y[key] && !(--this.iframe_y[key])) {
-                id.setStyle({ overflowY: '' });
+                id.style.overflowY = '';
                 delete this.iframe_y[key];
             }
         } else {
             if (this.iframe_y[key]) {
                 ++this.iframe_y[key];
             } else {
-                id.setStyle({ overflowY: 'hidden' });
+                id.style.overflowY = 'hidden';
                 this.iframe_y[key] = 1;
             }
         }
@@ -256,14 +257,14 @@ var IMP_JS = {
 
     messageBody: function()
     {
-        return $('previewPane') || $('messageBody');
+        return document.getElementById('previewPane') || document.getElementById('messageBody');
     },
 
     printWindow: function(win)
     {
         win.print();
         // Bug #12833: Fixes closing print window in Chrome.
-        (function() { win.close(); }).defer();
+        setTimeout(function() { win.close(); }, 0);
     },
 
     resizePopup: function(win)
@@ -304,12 +305,12 @@ var IMP_JS = {
         var mb = this.messageBody();
 
         if (mb) {
-            mb.observe('scroll', function() {
-                $('messageBody').select('IFRAME.htmlMsgData').each(this.iframeImgLazyLoad.bind(this));
+            mb.addEventListener('scroll', function() {
+                Array.from(document.getElementById('messageBody').querySelectorAll('IFRAME.htmlMsgData')).forEach(this.iframeImgLazyLoad.bind(this));
             }.bind(this));
         }
     }
 
 };
 
-document.observe('dom:loaded', IMP_JS.onDomLoad.bind(IMP_JS));
+document.addEventListener('DOMContentLoaded', IMP_JS.onDomLoad.bind(IMP_JS));
