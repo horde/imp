@@ -22,8 +22,8 @@ var ImpMessage = {
         case 'reply_all':
         case 'reply_auto':
         case 'reply_list':
-            $('compose').show();
-            $('redirect').hide();
+            document.getElementById('compose').hidden = false;
+            document.getElementById('redirect').hidden = true;
             func = 'getReplyData';
             break;
 
@@ -31,30 +31,30 @@ var ImpMessage = {
         case 'forward_attach':
         case 'forward_body':
         case 'forward_both':
-            $('compose').show();
-            $('redirect').hide();
+            document.getElementById('compose').hidden = false;
+            document.getElementById('redirect').hidden = true;
             func = 'getForwardData';
             break;
 
         case 'forward_editasnew':
-            $('compose').show();
-            $('redirect').hide();
+            document.getElementById('compose').hidden = false;
+            document.getElementById('redirect').hidden = true;
             func = 'getResumeData';
             type = 'editasnew';
             break;
 
         case 'forward_redirect':
-            $('compose').hide();
-            $('redirect').show();
+            document.getElementById('compose').hidden = true;
+            document.getElementById('redirect').hidden = false;
             func = 'getRedirectData';
             break;
         }
 
-        $('msgData').hide();
-        $('qreply').show();
+        document.getElementById('msgData').hidden = true;
+        document.getElementById('qreply').hidden = false;
 
         ImpCore.doAction(func, {
-            imp_compose: $F('composeCache'),
+            imp_compose: document.getElementById('composeCache').value,
             type: type,
             view: this.mbox
         }, {
@@ -65,8 +65,9 @@ var ImpMessage = {
 
     updateAddressHeader: function(e)
     {
+        var tr = e.target.closest('TR');
         ImpCore.doAction('addressHeader', {
-            header: e.element().up('TR').identify().substring(9).toLowerCase(),
+            header: tr.id.substring(9).toLowerCase(),
             view: this.mbox
         }, {
             callback: this._updateAddressHeaderCallback.bind(this),
@@ -76,19 +77,20 @@ var ImpMessage = {
 
     _updateAddressHeaderCallback: function(r)
     {
-        $H(r.hdr_data).each(function(d) {
-            this.updateHeader(d.key, d.value);
+        Object.entries(r.hdr_data).forEach(function(d) {
+            this.updateHeader(d[0], d[1]);
         }, this);
     },
 
     updateHeader: function(hdr, data, limit)
     {
-        var elt = $('msgHeader' + hdr.capitalize());
+        var elt = document.getElementById('msgHeader' + hdr.charAt(0).toUpperCase() + hdr.slice(1));
         if (elt) {
-            elt = elt.show().down('TD:last');
-            ImpCore.buildAddressLinks(data, elt, limit);
+            elt.hidden = false;
+            var td = elt.querySelector('TD:last-child');
+            ImpCore.buildAddressLinks(data, td, limit);
             if (hdr === 'from' && this.resent) {
-                ImpCore.buildResentHeader(elt, this.resent);
+                ImpCore.buildResentHeader(td, this.resent);
                 delete this.resent;
             }
         }
@@ -96,14 +98,14 @@ var ImpMessage = {
 
     reloadPart: function(mimeid, params)
     {
-        ImpCore.doAction('inlineMessageOutput', Object.extend(params, {
+        ImpCore.doAction('inlineMessageOutput', Object.assign(params, {
             mimeid: mimeid,
             view: this.mbox
         }), {
             callback: function(r) {
-                $('messageBody')
-                    .down('DIV[impcontentsmimeid="' + r.mimeid + '"]')
-                    .replace(r.text);
+                var target = document.getElementById('messageBody')
+                    .querySelector('DIV[impcontentsmimeid="' + r.mimeid + '"]');
+                target.outerHTML = r.text;
             },
             uids: [ this.buid ]
         });
@@ -112,22 +114,23 @@ var ImpMessage = {
     /* Click handlers. */
     clickHandler: function(e)
     {
-        var base, cnames;
+        var base, cnames,
+            id = e.target.id || (e.target.closest('[id]') || {}).id;
 
-        switch (e.element().readAttribute('id')) {
+        switch (id) {
         case 'windowclose':
             window.close();
-            e.memo.hordecore_stop = true;
+            e.detail.hordecore_stop = true;
             break;
 
         case 'forward_link':
             this.quickreply('forward_auto');
-            e.memo.stop();
+            e.detail.stop();
             break;
 
         case 'reply_link':
             this.quickreply('reply_auto');
-            e.memo.stop();
+            e.detail.stop();
             break;
 
         case 'button_delete':
@@ -135,19 +138,19 @@ var ImpMessage = {
         case 'button_spam':
             if ((base = ImpCore.baseAvailable())) {
                 base.focus();
-                if (e.element().identify() == 'button_delete') {
+                if (id == 'button_delete') {
                     base.ImpBase.deleteMsg({
                         mailbox: this.mbox,
                         uid: this.buid
                     });
                 } else {
-                    base.ImpBase.reportSpam(e.element().identify() == 'button_spam', {
+                    base.ImpBase.reportSpam(id == 'button_spam', {
                         mailbox: this.mbox,
                         uid: this.buid
                     });
                 }
             } else {
-                if (e.element().identify() == 'button_delete') {
+                if (id == 'button_delete') {
                     ImpCore.doAction('deleteMessages', {
                         view: this.mbox
                     }, {
@@ -156,7 +159,7 @@ var ImpMessage = {
                     });
                 } else {
                     ImpCore.doAction('reportSpam', {
-                        spam: ~~(e.element().identify() == 'button_spam'),
+                        spam: ~~(id == 'button_spam'),
                         view: this.mbox
                     }, {
                         uids: [ this.buid ],
@@ -165,7 +168,7 @@ var ImpMessage = {
                 }
             }
             window.close();
-            e.memo.hordecore_stop = true;
+            e.detail.hordecore_stop = true;
             break;
 
         case 'msg_view_source':
@@ -189,7 +192,7 @@ var ImpMessage = {
             break;
 
         case 'qreply':
-            if (e.memo.element().match('DIV.headercloseimg IMG')) {
+            if (e.detail.element().match('DIV.headercloseimg IMG')) {
                 ImpCompose.confirmCancel();
             }
             break;
@@ -199,37 +202,40 @@ var ImpMessage = {
                 view: this.mbox
             }, {
                 callback: function(r) {
-                    $('sendMdnMessage').up(1).fade({ duration: 0.2 });
+                    var msg = document.getElementById('sendMdnMessage');
+                    if (msg) {
+                        msg.parentElement.hidden = true;
+                    }
                 },
                 uids: [ this.buid ]
             });
-            e.memo.stop();
+            e.detail.stop();
             break;
 
         default:
-            cnames = $w(e.element().className);
+            cnames = (e.target.className || '').split(/\s+/);
 
             if (cnames.indexOf('printAtc') !== -1) {
                 HordeCore.popupWindow(ImpCore.conf.URI_VIEW, {
                     actionID: 'print_attach',
                     buid: this.buid,
-                    id: e.element().readAttribute('mimeid'),
+                    id: e.target.getAttribute('mimeid'),
                     mailbox: this.mbox
                 }, {
                     name: this.buid + '|' + this.mbox + '|print',
                     onload: IMP_JS.printWindow
                 });
-                e.memo.stop();
+                e.detail.stop();
             } else if (cnames.indexOf('stripAtc') !== -1) {
                 if (window.confirm(ImpCore.text.strip_warn)) {
                     ImpCore.reloadMessage({
                         actionID: 'strip_attachment',
                         buid: this.buid,
-                        id: e.element().readAttribute('mimeid'),
+                        id: e.target.getAttribute('mimeid'),
                         mailbox: this.mbox
                     });
                 }
-                e.memo.stop();
+                e.detail.stop();
             }
             break;
         }
@@ -237,7 +243,7 @@ var ImpMessage = {
 
     contextOnClick: function(e)
     {
-        var id = e.memo.elt.readAttribute('id');
+        var id = e.detail.elt.id;
 
         switch (id) {
         case 'ctx_reply_reply':
@@ -258,24 +264,25 @@ var ImpMessage = {
 
     resizeWindow: function()
     {
-        var mb = $('msgData').down('DIV.messageBody');
+        var mb = document.getElementById('msgData').querySelector('DIV.messageBody');
 
-        mb.setStyle({
-            height: Math.max(
-                        document.viewport.getHeight() -
-                            mb.cumulativeOffset()[1] -
-                            parseInt(mb.getStyle('paddingTop'), 10) -
-                            parseInt(mb.getStyle('paddingBottom'), 10),
+        mb.style.height = Math.max(
+                        document.documentElement.clientHeight -
+                            mb.getBoundingClientRect().top -
+                            parseInt(window.getComputedStyle(mb).paddingTop, 10) -
+                            parseInt(window.getComputedStyle(mb).paddingBottom, 10),
                          0
-                    ) + 'px'
-        });
+                    ) + 'px';
     },
 
     _mimeTreeCallback: function(r)
     {
-        $('msg_all_parts').up().hide();
+        var allParts = document.getElementById('msg_all_parts');
+        if (allParts) { allParts.parentElement.hidden = true; }
 
-        $('partlist').show().update(r.tree);
+        var partlist = document.getElementById('partlist');
+        partlist.hidden = false;
+        partlist.innerHTML = r.tree;
 
         this.resizeWindow();
     },
@@ -287,7 +294,13 @@ var ImpMessage = {
         HordeCore.initHandler('click');
 
         if (ImpCore.conf.disable_compose) {
-            $('reply_link', 'forward_link').compact().invoke('up', 'SPAN').invoke('remove');
+            ['reply_link', 'forward_link'].forEach(function(id) {
+                var elt = document.getElementById(id);
+                if (elt) {
+                    var span = elt.closest('SPAN');
+                    if (span) { span.remove(); }
+                }
+            });
             delete ImpCore.context.ctx_contacts['new'];
         } else {
             ImpCore.addPopdown('reply_link', 'reply');
@@ -298,7 +311,7 @@ var ImpMessage = {
         }
 
         /* Set up address linking. */
-        [ 'from', 'to', 'cc', 'bcc' ].each(function(a) {
+        [ 'from', 'to', 'cc', 'bcc' ].forEach(function(a) {
             if (this[a]) {
                 this.updateHeader(a, this[a], true);
                 delete this[a];
@@ -310,7 +323,7 @@ var ImpMessage = {
                 base.ImpBase.poll();
             } else if (this.tasks) {
                 if (this.tasks['imp:maillog']) {
-                    this.tasks['imp:maillog'].each(function(l) {
+                    this.tasks['imp:maillog'].forEach(function(l) {
                         if (this.mbox == l.mbox &&
                             this.buid == l.buid) {
                             ImpCore.updateMsgLog(l.log);
@@ -328,8 +341,8 @@ var ImpMessage = {
         ImpCore.updateAtcList(this.msg_atc);
         delete this.msg_atc;
 
-        $('impLoading').hide();
-        $('msgData').show();
+        document.getElementById('impLoading').hidden = true;
+        document.getElementById('msgData').hidden = false;
 
         this.resizeWindow();
     }
@@ -338,29 +351,17 @@ var ImpMessage = {
 
 /* Attach event handlers. */
 /* Initialize onload handler. */
-document.observe('dom:loaded', function() {
-    if (Prototype.Browser.IE && !document.addEventListener) {
-        // IE 8
-        IMP_JS.iframeResize = IMP_JS.iframeResize.wrap(function(parentfunc, e, id) {
-            if ($('msgData').visible()) {
-                (function() { parentfunc(e, id); }).defer();
-            } else {
-                IMP_JS.iframeResize.bind(IMP_JS, e, id).defer();
-            }
-        });
-        ImpMessage.onDomLoad.bind(ImpMessage).delay(0.1);
-    } else {
-        ImpMessage.onDomLoad();
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    ImpMessage.onDomLoad();
 });
-document.observe('HordeCore:click', ImpMessage.clickHandler.bindAsEventListener(ImpMessage));
-Event.observe(window, 'resize', ImpMessage.resizeWindow.bind(ImpMessage));
+document.addEventListener('HordeCore:click', ImpMessage.clickHandler.bind(ImpMessage));
+window.addEventListener('resize', ImpMessage.resizeWindow.bind(ImpMessage));
 
 /* ContextSensitive events. */
-document.observe('ContextSensitive:click', ImpMessage.contextOnClick.bindAsEventListener(ImpMessage));
+document.addEventListener('ContextSensitive:click', ImpMessage.contextOnClick.bind(ImpMessage));
 
 /* ImpCore handlers. */
-document.observe('ImpCore:updateAddressHeader', ImpMessage.updateAddressHeader.bindAsEventListener(ImpMessage));
+document.addEventListener('ImpCore:updateAddressHeader', ImpMessage.updateAddressHeader.bind(ImpMessage));
 
 /* Define reloadMessage() method for this page. */
 ImpCore.reloadMessage = function(params) {

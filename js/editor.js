@@ -6,43 +6,36 @@
  * @license    GPL-2 (http://www.horde.org/licenses/gpl)
  */
 
-var IMP_Editor = Class.create({
+var IMP_Editor = function(id, config) {
+    this.config = Object.assign({}, config);
+    this.id = id;
 
-    // config,
-    // dready,
-    // editor,
-    // id,
-    // iready
-    // wait,
+    this.start();
 
-    initialize: function(id, config)
-    {
-        this.config = Object.clone(config);
-        this.id = id;
+    this.editor.on('instanceReady', function(evt) {
+        this.iready = true;
+        document.dispatchEvent(new CustomEvent('IMP_Editor:ready', { detail: evt.editor }));
+    }.bind(this));
+    this.editor.on('dataReady', function(evt) {
+        if (!this.dready) {
+            document.dispatchEvent(new CustomEvent('IMP_Editor:dataReady', { detail: evt.editor }));
+            this.dready = true;
+        }
+    }.bind(this));
+    this.editor.on('instanceDestroyed', function(evt) {
+        this.dready = this.iready = this.editor = false;
+        document.dispatchEvent(new CustomEvent('IMP_Editor:destroy', { detail: evt.editor }));
+    }.bind(this));
+};
 
-        this.start();
-
-        this.editor.on('instanceReady', function(evt) {
-            this.iready = true;
-            document.fire('IMP_Editor:ready', evt.editor);
-        }.bind(this));
-        this.editor.on('dataReady', function(evt) {
-            if (!this.dready) {
-                document.fire('IMP_Editor:dataReady', evt.editor);
-                this.dready = true;
-            }
-        }.bind(this));
-        this.editor.on('instanceDestroyed', function(evt) {
-            this.dready = this.iready = this.editor = false;
-            document.fire('IMP_Editor:destroy', evt.editor);
-        }.bind(this));
-    },
+IMP_Editor.prototype = {
 
     start: function()
     {
         if (!this.editor) {
-            if (Object.isUndefined(this.config.height)) {
-                this.config.height = Math.max($(this.id).getHeight(), 200) - 75;
+            if (typeof this.config.height === 'undefined') {
+                var elt = document.getElementById(this.id);
+                this.config.height = Math.max(elt.offsetHeight, 200) - 75;
             }
             this.editor = CKEDITOR.replace(this.id, this.config);
         }
@@ -68,7 +61,7 @@ var IMP_Editor = Class.create({
     setData: function(data)
     {
         if (this.busy()) {
-            this.setData.bind(this, data).delay(0.1);
+            setTimeout(this.setData.bind(this, data), 100);
         } else {
             this.wait = true;
             this.editor.setData(data, function() {
@@ -80,7 +73,7 @@ var IMP_Editor = Class.create({
     resize: function(width, height)
     {
         if (this.busy()) {
-            this.resize.bind(this, width, height).delay(0.1);
+            setTimeout(this.resize.bind(this, width, height), 100);
         } else {
             this.editor.resize(width, height);
         }
@@ -89,7 +82,7 @@ var IMP_Editor = Class.create({
     focus: function()
     {
         if (this.busy()) {
-            this.focus.bind(this).delay(0.1);
+            setTimeout(this.focus.bind(this), 100);
         } else {
             this.editor.focus();
         }
@@ -98,10 +91,10 @@ var IMP_Editor = Class.create({
     updateElement: function()
     {
         if (this.busy()) {
-            this.updateElement.bind(this).delay(0.1);
+            setTimeout(this.updateElement.bind(this), 100);
         } else {
             this.editor.updateElement();
         }
     }
 
-});
+};
