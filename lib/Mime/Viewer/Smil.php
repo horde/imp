@@ -44,7 +44,7 @@ class IMP_Mime_Viewer_Smil extends Horde_Mime_Viewer_Smil
             case 'TEXT':
                 if (isset($attrs['SRC'])
                     && (($rp = $this->_getRelatedLink($attrs['SRC'])) !== false)) {
-                    $this->_content .= htmlspecialchars($rp->getContents()) . '<br />';
+                    $this->_content .= htmlspecialchars($rp->getContents() ?? '') . '<br />';
                 }
                 break;
         }
