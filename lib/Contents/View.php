@@ -263,7 +263,7 @@ class IMP_Contents_View
             $part['type']
         );
         $header_dom = new Horde_Domhtml(
-            Horde_String::convertCharset($view->render('headers'), 'UTF-8', $ctype['charset']),
+            Horde_String::convertCharset($view->render('headers') ?? '', 'UTF-8', $ctype['charset']),
             $ctype['charset']
         );
         $elt = $header_dom->dom->getElementById('headerblock');

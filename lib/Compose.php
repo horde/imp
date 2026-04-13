@@ -3181,7 +3181,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         $type = $part->getType();
         $part_charset = $part->getCharset();
 
-        $msg = Horde_String::convertCharset($part->getContents(), $part_charset, 'UTF-8');
+        $msg = Horde_String::convertCharset($part->getContents() ?? '', $part_charset, 'UTF-8');
 
         /* Enforce reply limits. */
         if (!empty($options['replylimit'])
