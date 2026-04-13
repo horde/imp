@@ -56,7 +56,7 @@ abstract class IMP_Indices_Copy
                     $success = false;
                     continue;
                 }
-                $flowed = new Horde_Text_Flowed($body_part->getContents());
+                $flowed = new Horde_Text_Flowed($body_part->getContents() ?? '');
                 if ($body_part->getContentTypeParameter('delsp') == 'yes') {
                     $flowed->setDelSp(true);
                 }

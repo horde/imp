@@ -247,7 +247,7 @@ class IMP_Mime_Viewer_Plain extends Horde_Mime_Viewer_Plain
      */
     protected function _parseUUencode()
     {
-        $text = Horde_String::convertCharset($this->_mimepart->getContents(), $this->_mimepart->getCharset(), 'UTF-8');
+        $text = Horde_String::convertCharset($this->_mimepart->getContents() ?? '', $this->_mimepart->getCharset(), 'UTF-8');
 
         $files = new Horde_Mime_Uudecode($text);
         if (!count($files)) {
