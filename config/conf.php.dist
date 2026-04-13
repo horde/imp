@@ -26,6 +26,15 @@ $conf['server']['server_list'] = 'shown';
 
 // Send attachments as web-accessible download links instead of inline MIME parts
 $conf['compose']['link_attachments'] = false;
+// When link_attachments = true:
+// // Send notification email when first download of linked attachment occurs
+// $conf['compose']['link_attachments_notify'] = true;
+// // Attachment size threshold in bytes before linking; files below are attached inline (0 = link all)
+// $conf['compose']['link_attach_threshold'] = 5242880;
+// // Maximum total size of linked attachments per message in bytes (0 = no limit)
+// $conf['compose']['link_attach_size_limit'] = 0;
+// // Maximum total attachment size in bytes before ALL attachments are forced to be linked (0 = no hard limit)
+// $conf['compose']['link_attach_size_hard'] = 0;
 // Maximum total size of attachments per message in bytes (0 = no limit)
 $conf['compose']['attach_size_limit'] = 0;
 // Maximum number of attachments per message (0 = no limit)
