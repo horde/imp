@@ -187,15 +187,38 @@ class IMP_Prefs_Identity extends Horde_Core_Prefs_Identity
 
         if (!isset($this->_cached['from'][$ident])) {
             $val = $this->getValue($this->_prefnames['from_addr'], $ident);
-            if (!strlen($val)) {
+            $prefWasEmpty = !strlen((string) $val);
+
+            if ($prefWasEmpty) {
                 $val = $GLOBALS['registry']->getAuth();
             }
 
-            if (!strstr($val, '@')) {
-                $val .= '@' . $GLOBALS['injector']->getInstance('IMP_Factory_Imap')->create()->config->maildomain;
+            if (!strstr((string) $val, '@')) {
+                $maildomain = $GLOBALS['injector']->getInstance('IMP_Factory_Imap')->create()->config->maildomain;
+                if (strlen((string) $maildomain)) {
+                    $val .= '@' . $maildomain;
+                }
             }
 
-            $ob = new Horde_Mail_Rfc822_Address($val);
+            $ob = new Horde_Mail_Rfc822_Address((string) $val);
+
+            if (!$ob->valid || is_null($ob->host)) {
+                throw new IMP_Compose_Exception(
+                    _("Your identity does not have a valid email address. Please set one in your personal preferences before sending mail.")
+                );
+            }
+
+            if ($prefWasEmpty) {
+                $this->setValue($this->_prefnames['from_addr'], $ob->bare_address, $ident);
+                $this->save();
+                $GLOBALS['notification']->push(
+                    sprintf(
+                        _("Your login name \"%s\" has been set as the email address for your identity."),
+                        $ob->bare_address
+                    ),
+                    'horde.message'
+                );
+            }
 
             if (is_null($ob->personal)) {
                 $ob->personal = $this->getFullname($ident);
