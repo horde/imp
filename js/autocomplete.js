@@ -18,7 +18,7 @@
 var IMP_Autocompleter = function(elt, params) {
     var active;
 
-    this.cache = {};
+    this.cache = $H();
     this.itemid = 0;
     this.lastinput = '';
     this.p = Object.assign({
