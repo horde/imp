@@ -298,7 +298,7 @@ IMP_Autocompleter.prototype = {
     resize: function()
     {
         this.input.style.width = Math.max(80, this.input.value.length * 9) + 'px';
-        this.input.dispatchEvent(new CustomEvent('AutoComplete:resize', { bubbles: true }));
+        this.input.fire('AutoComplete:resize');
     },
 
     deleteImg: function()
