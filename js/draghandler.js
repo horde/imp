@@ -52,7 +52,7 @@ var DragHandler = {
 
         if (this.isFileDrag(e)) {
             if (this.dropelt.classList.contains(this.hoverclass)) {
-                this.dropelt.dispatchEvent(new CustomEvent('DragHandler:drop', { bubbles: true, detail: e.dataTransfer.files }));
+                this.dropelt.fire('DragHandler:drop', e.dataTransfer.files);
             }
             e.preventDefault();
         } else if (!e.target.closest('TEXTAREA') && !e.target.closest('INPUT')) {

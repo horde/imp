@@ -14,17 +14,17 @@ var IMP_Editor = function(id, config) {
 
     this.editor.on('instanceReady', function(evt) {
         this.iready = true;
-        document.dispatchEvent(new CustomEvent('IMP_Editor:ready', { detail: evt.editor }));
+        document.fire('IMP_Editor:ready', evt.editor);
     }.bind(this));
     this.editor.on('dataReady', function(evt) {
         if (!this.dready) {
-            document.dispatchEvent(new CustomEvent('IMP_Editor:dataReady', { detail: evt.editor }));
+            document.fire('IMP_Editor:dataReady', evt.editor);
             this.dready = true;
         }
     }.bind(this));
     this.editor.on('instanceDestroyed', function(evt) {
         this.dready = this.iready = this.editor = false;
-        document.dispatchEvent(new CustomEvent('IMP_Editor:destroy', { detail: evt.editor }));
+        document.fire('IMP_Editor:destroy', evt.editor);
     }.bind(this));
 };
 
