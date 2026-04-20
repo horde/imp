@@ -74,7 +74,7 @@ var ImpContacts = {
             addr[field].push(s.getAttribute('value'));
         });
 
-        parent.opener.document.dispatchEvent(new CustomEvent('ImpContacts:update', { bubbles: true, detail: addr }));
+        $(parent.opener.document).fire('ImpContacts:update', addr);
         window.close();
     },
 

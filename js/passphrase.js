@@ -32,7 +32,7 @@ var ImpPassphraseDialog = {
     callback: function(r)
     {
         if (r) {
-            document.getElementById('imp_passphrase').dispatchEvent(new CustomEvent('ImpPassphraseDialog:success', { bubbles: true }));
+            $('imp_passphrase').fire('ImpPassphraseDialog:success');
             HordeDialog.close();
         }
     }

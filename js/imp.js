@@ -111,7 +111,7 @@ var IMP_JS = {
         d.close();
 
         ev = function(name, e) {
-            id.dispatchEvent(new CustomEvent('IMP_JS:' + name, { bubbles: true, detail: e }));
+            $(id).fire('IMP_JS:' + name, e);
         };
 
         d.addEventListener('click', ev.bind(null, 'htmliframe_click'), false);
