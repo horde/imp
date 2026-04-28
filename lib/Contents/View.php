@@ -338,7 +338,7 @@ class IMP_Contents_View
     /**
      * Check for a download token.
      *
-     * @param Horde_Variables $vars  Form variables.
+     * @param Horde_Variables|Variables $vars  Form variables.
      *
      * @throws Horde_Exception  Exception on incorrect token.
      */

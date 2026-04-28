@@ -267,7 +267,7 @@ class IMP_Dynamic_Compose extends IMP_Dynamic_Base
     /**
      * Create the IMP_Contents objects needed to create a message.
      *
-     * @param Horde_Variables $vars  The variables object.
+     * @param Horde_Variables|Variables $vars  The variables object.
      *
      * @return IMP_Contents  The IMP_Contents object.
      * @throws IMP_Exception
