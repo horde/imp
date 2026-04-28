@@ -3503,7 +3503,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Store draft compose data if session expires.
      *
-     * @param Horde_Variables $vars  Object with the form data.
+     * @param Horde_Variables|Variables $vars  Object with the form data.
      */
     public function sessionExpireDraft(Variables|Horde_Variables $vars)
     {
