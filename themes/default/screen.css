@@ -9,6 +9,17 @@
 }
 
 /* Folder images. */
+.folderImg,
+.folderopenImg,
+.composetemplatesImg,
+.draftsImg,
+.inboxImg,
+.sentImg,
+.spamImg,
+.trashImg,
+.remoteImg {
+    background-size: 16px 16px;
+}
 .folderImg {
     background-image: url("graphics/folders/folder.png");
 }
@@ -77,7 +88,9 @@ div.vpRowSelected .msCheck {
 /* Other images. */
 .deleteImg {
     background-image: url("graphics/delete.png");
+    background-size: 16px 16px;
 }
 .closeImg {
     background-image: url("graphics/close.png");
+    background-size: 16px 16px;
 }
