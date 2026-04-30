@@ -19,6 +19,14 @@
  * session. Compose data will be garbage collected at the end of a session
  * (if a user logs out properly).
  *
+ * NOTE: This class uses Horde_Core_HashTable_PersistentSession (which extends
+ * Horde_HashTable_Vfs) as a session-scoped temp file manager. It is NOT a
+ * caching/data-structure use case — it uses VFS file storage with stream
+ * access and custom filename-based writes. The modern Horde\HashTable\
+ * interfaces (src/) do not cover this scenario. When modernizing, this should
+ * be replaced with a dedicated TempFileStore service in Core that operates on
+ * VFS directly, rather than abusing the HashTable API shape for file storage.
+ *
  * @author    Michael Slusarz <slusarz@horde.org>
  * @category  Horde
  * @copyright 2013-2017 Horde LLC
