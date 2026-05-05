@@ -974,11 +974,23 @@ var ImpMobile = {
         var list = $('#imp-message-atclist').empty();
 
         $.each(ImpMobile.atc, function(k, v) {
+            var downloadUrl = v.download_url;
+            if (typeof downloadUrl !== 'string' || !downloadUrl.length || downloadUrl === '[object Object]') {
+                // Some backends serialize URL objects in AJAX payloads.
+                // Fallback: extract href from the rendered download link HTML.
+                downloadUrl = $('<div></div>').html(v.download || '').find('a').attr('href') || '';
+            }
+            if (!downloadUrl.length || downloadUrl === '[object Object]') {
+                return;
+            }
             list.append(
                 $('<li class="imp-message-atc"></li>').append(
+                    // Attachments must bypass jQuery Mobile AJAX navigation so
+                    // binary responses (PDF, etc.) are handled as direct HTTP.
                     $('<a></a>').attr({
-                        href: v.download_url,
-                        rel: 'external'
+                        href: downloadUrl,
+                        rel: 'external',
+                        'data-ajax': 'false'
                     }).append(
                         $(v.icon).addClass('ui-li-icon')
                     ).append(
