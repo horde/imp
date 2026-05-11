@@ -974,19 +974,13 @@ var ImpMobile = {
         var list = $('#imp-message-atclist').empty();
 
         $.each(ImpMobile.atc, function(k, v) {
-            var downloadUrl = v.download_url;
-            if (typeof downloadUrl !== 'string' || !downloadUrl.length || downloadUrl === '[object Object]') {
-                // Some backends serialize URL objects in AJAX payloads.
-                // Fallback: extract href from the rendered download link HTML.
-                downloadUrl = $('<div></div>').html(v.download || '').find('a').attr('href') || '';
-            }
-            if (!downloadUrl.length || downloadUrl === '[object Object]') {
+            var downloadUrl = String(v.download_url || '');
+            if (!downloadUrl.length) {
+                console.log('IMP smartmobile: attachment missing download_url', v);
                 return;
             }
             list.append(
                 $('<li class="imp-message-atc"></li>').append(
-                    // Attachments must bypass jQuery Mobile AJAX navigation so
-                    // binary responses (PDF, etc.) are handled as direct HTTP.
                     $('<a></a>').attr({
                         href: downloadUrl,
                         rel: 'external',
