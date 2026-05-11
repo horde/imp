@@ -11,6 +11,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
+use Horde\Imp\Crypt\KeyStorage;
 use function PHP81_BC\strftime;
 
 /**
@@ -42,6 +43,11 @@ class IMP_Pgp
     protected $_pgp;
 
     /**
+     * @var KeyStorage|null
+     */
+    private ?KeyStorage $_keyStorage = null;
+
+    /**
      * Return whether PGP support is current enabled in IMP.
      *
      * @return boolean  True if PGP support is enabled.
@@ -61,6 +67,14 @@ class IMP_Pgp
     public function __construct(Horde_Crypt_Pgp $pgp)
     {
         $this->_pgp = $pgp;
+    }
+
+    private function keyStorage(): KeyStorage
+    {
+        if ($this->_keyStorage === null) {
+            $this->_keyStorage = new KeyStorage();
+        }
+        return $this->_keyStorage;
     }
 
     /**
@@ -130,7 +144,10 @@ class IMP_Pgp
      */
     public function addPersonalPublicKey($public_key)
     {
-        $GLOBALS['prefs']->setValue('pgp_public_key', trim($public_key));
+        $GLOBALS['prefs']->setValue(
+            'pgp_public_key',
+            $this->keyStorage()->encode(trim($public_key))
+        );
     }
 
     /**
@@ -141,7 +158,10 @@ class IMP_Pgp
      */
     public function addPersonalPrivateKey($private_key)
     {
-        $GLOBALS['prefs']->setValue('pgp_private_key', trim($private_key));
+        $GLOBALS['prefs']->setValue(
+            'pgp_private_key',
+            $this->keyStorage()->encode(trim($private_key))
+        );
     }
 
     /**
@@ -151,7 +171,11 @@ class IMP_Pgp
      */
     public function getPersonalPublicKey()
     {
-        return $GLOBALS['prefs']->getValue('pgp_public_key');
+        return $this->keyStorage()->decode(
+            $GLOBALS['prefs']->getValue('pgp_public_key'),
+            'pgp_public_key',
+            $GLOBALS['prefs']
+        );
     }
 
     /**
@@ -161,7 +185,11 @@ class IMP_Pgp
      */
     public function getPersonalPrivateKey()
     {
-        return $GLOBALS['prefs']->getValue('pgp_private_key');
+        return $this->keyStorage()->decode(
+            $GLOBALS['prefs']->getValue('pgp_private_key'),
+            'pgp_private_key',
+            $GLOBALS['prefs']
+        );
     }
 
     /**

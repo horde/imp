@@ -12,7 +12,7 @@
  * @package   IMP
  */
 
-use Horde\Util\HordeString;
+use Horde\Imp\Crypt\KeyStorage;
 
 /**
  * Contains code related to handling S/MIME messages within IMP.
@@ -47,6 +47,11 @@ class IMP_Smime
     protected $_smime;
 
     /**
+     * @var KeyStorage|null
+     */
+    private ?KeyStorage $_keyStorage = null;
+
+    /**
      * Return whether PGP support is current enabled in IMP.
      *
      * @return boolean  True if PGP support is enabled.
@@ -68,6 +73,14 @@ class IMP_Smime
     public function __construct(Horde_Crypt_Smime $smime)
     {
         $this->_smime = $smime;
+    }
+
+    private function keyStorage(): KeyStorage
+    {
+        if ($this->_keyStorage === null) {
+            $this->_keyStorage = new KeyStorage();
+        }
+        return $this->_keyStorage;
     }
 
     /**
@@ -109,11 +122,7 @@ class IMP_Smime
     {
         $prefName = $signkey ? 'smime_public_sign_key' : 'smime_public_key';
         $val = is_array($key) ? implode('', $key) : $key;
-        try {
-            $val = HordeString::convertToUtf8($val);
-        } catch (Exception $ex) {
-        }
-        $GLOBALS['prefs']->setValue($prefName, $val);
+        $GLOBALS['prefs']->setValue($prefName, $this->keyStorage()->encode($val));
     }
 
     /**
@@ -126,11 +135,7 @@ class IMP_Smime
     {
         $prefName = $signkey ? 'smime_private_sign_key' : 'smime_private_key';
         $val = is_array($key) ? implode('', $key) : $key;
-        try {
-            $val = HordeString::convertToUtf8($val);
-        } catch (Exception $ex) {
-        }
-        $GLOBALS['prefs']->setValue($prefName, $val);
+        $GLOBALS['prefs']->setValue($prefName, $this->keyStorage()->encode($val));
     }
 
     /**
@@ -143,11 +148,7 @@ class IMP_Smime
     {
         $prefName = $signkey ? 'smime_additional_sign_cert' : 'smime_additional_cert';
         $val = is_array($key) ? implode('', $key) : $key;
-        try {
-            $val = HordeString::convertToUtf8($val);
-        } catch (Exception $ex) {
-        }
-        $GLOBALS['prefs']->setValue($prefName, $val);
+        $GLOBALS['prefs']->setValue($prefName, $this->keyStorage()->encode($val));
     }
 
     /**
@@ -161,11 +162,18 @@ class IMP_Smime
     {
         global $prefs;
 
-        $key = $prefs->getValue(
-            $signkey ? 'smime_public_sign_key' : 'smime_public_key'
+        $prefName = $signkey ? 'smime_public_sign_key' : 'smime_public_key';
+        $key = $this->keyStorage()->decode(
+            $prefs->getValue($prefName),
+            $prefName,
+            $prefs
         );
         if (!$key && $signkey == self::KEY_SECONDARY_OR_PRIMARY) {
-            $key = $prefs->getValue('smime_public_key');
+            $key = $this->keyStorage()->decode(
+                $prefs->getValue('smime_public_key'),
+                'smime_public_key',
+                $prefs
+            );
         }
 
         return $key;
@@ -182,11 +190,18 @@ class IMP_Smime
     {
         global $prefs;
 
-        $key = $prefs->getValue(
-            $signkey ? 'smime_private_sign_key' : 'smime_private_key'
+        $prefName = $signkey ? 'smime_private_sign_key' : 'smime_private_key';
+        $key = $this->keyStorage()->decode(
+            $prefs->getValue($prefName),
+            $prefName,
+            $prefs
         );
         if (!$key && $signkey == self::KEY_SECONDARY_OR_PRIMARY) {
-            $key = $prefs->getValue('smime_private_key');
+            $key = $this->keyStorage()->decode(
+                $prefs->getValue('smime_private_key'),
+                'smime_private_key',
+                $prefs
+            );
         }
 
         return $key;
@@ -203,11 +218,18 @@ class IMP_Smime
     {
         global $prefs;
 
-        $key = $prefs->getValue(
-            $signkey ? 'smime_additional_sign_cert' : 'smime_additional_cert'
+        $prefName = $signkey ? 'smime_additional_sign_cert' : 'smime_additional_cert';
+        $key = $this->keyStorage()->decode(
+            $prefs->getValue($prefName),
+            $prefName,
+            $prefs
         );
         if (!$key && $signkey == self::KEY_SECONDARY_OR_PRIMARY) {
-            $key = $prefs->getValue('smime_additional_cert');
+            $key = $this->keyStorage()->decode(
+                $prefs->getValue('smime_additional_cert'),
+                'smime_additional_cert',
+                $prefs
+            );
         }
 
         return $key;
