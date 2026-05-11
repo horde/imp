@@ -92,7 +92,7 @@
             "lib/"
         ],
         "psr-4": {
-            "Horde\\Imp\\": "/src"
+            "Horde\\Imp\\": "src/"
         }
     },
     "autoload-dev": {
