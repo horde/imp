@@ -171,11 +171,17 @@ class IMP_Pgp
      */
     public function getPersonalPublicKey()
     {
-        return $this->keyStorage()->decode(
-            $GLOBALS['prefs']->getValue('pgp_public_key'),
-            'pgp_public_key',
-            $GLOBALS['prefs']
-        );
+        $raw = $GLOBALS['prefs']->getValue('pgp_public_key');
+        $key = $this->keyStorage()->decode($raw, 'pgp_public_key', $GLOBALS['prefs']);
+
+        if ($raw !== '' && $key === '') {
+            $GLOBALS['notification']->push(
+                _("Your stored PGP public key appears corrupt and could not be loaded."),
+                'horde.warning'
+            );
+        }
+
+        return $key;
     }
 
     /**
@@ -185,11 +191,17 @@ class IMP_Pgp
      */
     public function getPersonalPrivateKey()
     {
-        return $this->keyStorage()->decode(
-            $GLOBALS['prefs']->getValue('pgp_private_key'),
-            'pgp_private_key',
-            $GLOBALS['prefs']
-        );
+        $raw = $GLOBALS['prefs']->getValue('pgp_private_key');
+        $key = $this->keyStorage()->decode($raw, 'pgp_private_key', $GLOBALS['prefs']);
+
+        if ($raw !== '' && $key === '') {
+            $GLOBALS['notification']->push(
+                _("Your stored PGP private key appears corrupt and could not be loaded."),
+                'horde.warning'
+            );
+        }
+
+        return $key;
     }
 
     /**
