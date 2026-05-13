@@ -160,20 +160,29 @@ class IMP_Smime
      */
     public function getPersonalPublicKey($signkey = self::KEY_PRIMARY)
     {
-        global $prefs;
+        global $notification, $prefs;
 
         $prefName = $signkey ? 'smime_public_sign_key' : 'smime_public_key';
-        $key = $this->keyStorage()->decode(
-            $prefs->getValue($prefName),
-            $prefName,
-            $prefs
-        );
-        if (!$key && $signkey == self::KEY_SECONDARY_OR_PRIMARY) {
-            $key = $this->keyStorage()->decode(
-                $prefs->getValue('smime_public_key'),
-                'smime_public_key',
-                $prefs
+        $raw = $prefs->getValue($prefName);
+        $key = $this->keyStorage()->decode($raw, $prefName, $prefs);
+
+        if ($raw !== '' && $key === '') {
+            $notification->push(
+                _("Your stored S/MIME public key appears corrupt and could not be loaded."),
+                'horde.warning'
             );
+        }
+
+        if (!$key && $signkey == self::KEY_SECONDARY_OR_PRIMARY) {
+            $raw = $prefs->getValue('smime_public_key');
+            $key = $this->keyStorage()->decode($raw, 'smime_public_key', $prefs);
+
+            if ($raw !== '' && $key === '') {
+                $notification->push(
+                    _("Your stored S/MIME public key appears corrupt and could not be loaded."),
+                    'horde.warning'
+                );
+            }
         }
 
         return $key;
@@ -188,20 +197,29 @@ class IMP_Smime
      */
     public function getPersonalPrivateKey($signkey = self::KEY_PRIMARY)
     {
-        global $prefs;
+        global $notification, $prefs;
 
         $prefName = $signkey ? 'smime_private_sign_key' : 'smime_private_key';
-        $key = $this->keyStorage()->decode(
-            $prefs->getValue($prefName),
-            $prefName,
-            $prefs
-        );
-        if (!$key && $signkey == self::KEY_SECONDARY_OR_PRIMARY) {
-            $key = $this->keyStorage()->decode(
-                $prefs->getValue('smime_private_key'),
-                'smime_private_key',
-                $prefs
+        $raw = $prefs->getValue($prefName);
+        $key = $this->keyStorage()->decode($raw, $prefName, $prefs);
+
+        if ($raw !== '' && $key === '') {
+            $notification->push(
+                _("Your stored S/MIME private key appears corrupt and could not be loaded."),
+                'horde.warning'
             );
+        }
+
+        if (!$key && $signkey == self::KEY_SECONDARY_OR_PRIMARY) {
+            $raw = $prefs->getValue('smime_private_key');
+            $key = $this->keyStorage()->decode($raw, 'smime_private_key', $prefs);
+
+            if ($raw !== '' && $key === '') {
+                $notification->push(
+                    _("Your stored S/MIME private key appears corrupt and could not be loaded."),
+                    'horde.warning'
+                );
+            }
         }
 
         return $key;
@@ -216,20 +234,29 @@ class IMP_Smime
      */
     public function getAdditionalCert($signkey = self::KEY_PRIMARY)
     {
-        global $prefs;
+        global $notification, $prefs;
 
         $prefName = $signkey ? 'smime_additional_sign_cert' : 'smime_additional_cert';
-        $key = $this->keyStorage()->decode(
-            $prefs->getValue($prefName),
-            $prefName,
-            $prefs
-        );
-        if (!$key && $signkey == self::KEY_SECONDARY_OR_PRIMARY) {
-            $key = $this->keyStorage()->decode(
-                $prefs->getValue('smime_additional_cert'),
-                'smime_additional_cert',
-                $prefs
+        $raw = $prefs->getValue($prefName);
+        $key = $this->keyStorage()->decode($raw, $prefName, $prefs);
+
+        if ($raw !== '' && $key === '') {
+            $notification->push(
+                _("Your stored S/MIME certificate appears corrupt and could not be loaded."),
+                'horde.warning'
             );
+        }
+
+        if (!$key && $signkey == self::KEY_SECONDARY_OR_PRIMARY) {
+            $raw = $prefs->getValue('smime_additional_cert');
+            $key = $this->keyStorage()->decode($raw, 'smime_additional_cert', $prefs);
+
+            if ($raw !== '' && $key === '') {
+                $notification->push(
+                    _("Your stored S/MIME certificate appears corrupt and could not be loaded."),
+                    'horde.warning'
+                );
+            }
         }
 
         return $key;
