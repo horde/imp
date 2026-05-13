@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace Horde\IMP\Test\Crypt;
 
+use Horde\Imp\Crypt\CorruptKeyException;
 use Horde\Imp\Crypt\KeyStorage;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -218,5 +219,76 @@ class KeyStorageTest extends TestCase
         $decoded = $this->storage->decode($encoded);
 
         $this->assertSame(self::SAMPLE_MULTI_CERT, $decoded);
+    }
+
+    public function testIsValidPemEcPrivateKey(): void
+    {
+        $ecKey = "-----BEGIN EC PRIVATE KEY-----\nMHQCAQEEIBkg4LVWM9nuwNSk3yByxZpYRTBnVpqR1fR3YJig0bOdoAcGBSuBBAAi\noWQDYgAE2a8kaFME9dggFaXhelIpix0+MljTFVRkratfHsSqHpSN\n-----END EC PRIVATE KEY-----";
+
+        $this->assertTrue($this->storage->isValidPem($ecKey));
+    }
+
+    public function testIsValidPemDsaPrivateKey(): void
+    {
+        $dsaKey = "-----BEGIN DSA PRIVATE KEY-----\nMIIBugIBAAKBgQDRhGF7X4A0ZVlEg2ly5Hn2HQYH/MqSS+4qMB0\n-----END DSA PRIVATE KEY-----";
+
+        $this->assertTrue($this->storage->isValidPem($dsaKey));
+    }
+
+    public function testIsValidPemOpensshPrivateKey(): void
+    {
+        $opensshKey = "-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAAB\n-----END OPENSSH PRIVATE KEY-----";
+
+        $this->assertTrue($this->storage->isValidPem($opensshKey));
+    }
+
+    public function testIsValidPemEcParameters(): void
+    {
+        $ecParams = "-----BEGIN EC PARAMETERS-----\nBggqhkjOPQMBBw==\n-----END EC PARAMETERS-----";
+
+        $this->assertTrue($this->storage->isValidPem($ecParams));
+    }
+
+    public function testIsValidPemDhParameters(): void
+    {
+        $dhParams = "-----BEGIN DH PARAMETERS-----\nMIIBCAKCAQEA7+giV6afJJkD5Vqm7cHEP1M1\n-----END DH PARAMETERS-----";
+
+        $this->assertTrue($this->storage->isValidPem($dhParams));
+    }
+
+    public function testRoundTripEcKey(): void
+    {
+        $ecKey = "-----BEGIN EC PRIVATE KEY-----\nMHQCAQEEIBkg4LVWM9nuwNSk3yByxZpYRTBnVpqR1fR3YJig0bOdoAcGBSuBBAAi\noWQDYgAE2a8kaFME9dggFaXhelIpix0+MljTFVRkratfHsSqHpSN\n-----END EC PRIVATE KEY-----";
+
+        $encoded = $this->storage->encode($ecKey);
+        $decoded = $this->storage->decode($encoded);
+
+        $this->assertSame($ecKey, $decoded);
+    }
+
+    public function testDecodeStrictThrowsOnCorruptData(): void
+    {
+        $corrupt = 'this is not a key at all, just garbage data';
+
+        $this->expectException(CorruptKeyException::class);
+        $this->expectExceptionMessage('Corrupt key data in preference "pgp_public_key"');
+
+        $this->storage->decode($corrupt, 'pgp_public_key', null, true);
+    }
+
+    public function testDecodeStrictDoesNotThrowOnValidData(): void
+    {
+        $encoded = base64_encode(self::SAMPLE_CERT);
+
+        $result = $this->storage->decode($encoded, 'smime_public_key', null, true);
+
+        $this->assertSame(self::SAMPLE_CERT, $result);
+    }
+
+    public function testDecodeStrictDoesNotThrowOnEmpty(): void
+    {
+        $result = $this->storage->decode('', 'pgp_public_key', null, true);
+
+        $this->assertSame('', $result);
     }
 }
