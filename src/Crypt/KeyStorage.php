@@ -40,10 +40,15 @@ class KeyStorage
         'TRUSTED CERTIFICATE',
         'X509 CERTIFICATE',
         'RSA PRIVATE KEY',
+        'DSA PRIVATE KEY',
+        'EC PRIVATE KEY',
         'PRIVATE KEY',
         'ENCRYPTED PRIVATE KEY',
+        'OPENSSH PRIVATE KEY',
         'RSA PUBLIC KEY',
         'PUBLIC KEY',
+        'EC PARAMETERS',
+        'DH PARAMETERS',
         'PGP PUBLIC KEY BLOCK',
         'PGP PRIVATE KEY BLOCK',
         'PGP MESSAGE',
@@ -76,9 +81,11 @@ class KeyStorage
      * @param string $rawValue Value from prefs->getValue().
      * @param string $prefName Pref key name (for migration write-back).
      * @param object|null $prefs Prefs instance supporting setValue() for write-back.
+     * @param bool $strict If true, throws CorruptKeyException instead of returning ''.
      * @return string Decoded PEM data, or '' if empty/corrupt.
+     * @throws CorruptKeyException When $strict is true and data is corrupt.
      */
-    public function decode(string $rawValue, string $prefName = '', ?object $prefs = null): string
+    public function decode(string $rawValue, string $prefName = '', ?object $prefs = null, bool $strict = false): string
     {
         if ($rawValue === '') {
             return '';
@@ -97,6 +104,12 @@ class KeyStorage
         }
 
         // Data is corrupt
+        if ($strict) {
+            throw new CorruptKeyException(
+                sprintf('Corrupt key data in preference "%s"', $prefName)
+            );
+        }
+
         return '';
     }
 
