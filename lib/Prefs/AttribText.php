@@ -11,7 +11,6 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-use function PHP81_BC\strftime;
 
 /**
  * This class manages the attrib_text preference.
@@ -84,17 +83,28 @@ class IMP_Prefs_AttribText
                         return $h['Date'];
 
                     case '%d': /* Date as ddd, dd mmm yyyy. */
-                        return strftime(
-                            '%a, %d %b %Y',
-                            strtotime($h['Date'])
-                        );
+                        return (new IntlDateFormatter(
+                            $GLOBALS['language'],
+                            IntlDateFormatter::NONE,
+                            IntlDateFormatter::NONE,
+                            null,
+                            null,
+                            'EEE, dd MMM yyyy'
+                        ))->format(strtotime($h['Date']));
 
                     case '%c': /* Date and time in locale's default. */
+                        return (new IntlDateFormatter(
+                            $GLOBALS['language'],
+                            IntlDateFormatter::SHORT,
+                            IntlDateFormatter::MEDIUM
+                        ))->format(strtotime($h['Date']));
+
                     case '%x': /* Date in locale's default. */
-                        return strftime(
-                            $matches[0],
-                            strtotime($h['Date'])
-                        );
+                        return (new IntlDateFormatter(
+                            $GLOBALS['language'],
+                            IntlDateFormatter::SHORT,
+                            IntlDateFormatter::NONE
+                        ))->format(strtotime($h['Date']));
 
                     case '%m': /* Message-ID. */
                         return strval($h['Message-Id']);

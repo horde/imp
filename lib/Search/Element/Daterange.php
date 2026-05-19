@@ -11,7 +11,6 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-use function PHP81_BC\strftime;
 
 /**
  * Date-related search queries.
@@ -96,31 +95,33 @@ class IMP_Search_Element_Daterange extends IMP_Search_Element
      */
     public function queryText()
     {
+        $fmt = new IntlDateFormatter($GLOBALS['language'], IntlDateFormatter::SHORT, IntlDateFormatter::NONE, 'UTC');
+
         if (empty($this->_data->e)) {
             return sprintf(
                 _("After '%s'"),
-                gmstrftime('%x', $this->_data->b)
+                $fmt->format($this->_data->b)
             );
         }
 
         if (empty($this->_data->b)) {
             return sprintf(
                 _("Before '%s'"),
-                gmstrftime('%x', $this->_data->e)
+                $fmt->format($this->_data->e)
             );
         }
 
         if ($this->_data->b == $this->_data->e) {
             return sprintf(
                 _("On '%s'"),
-                gmstrftime('%x', $this->_data->b)
+                $fmt->format($this->_data->b)
             );
         }
 
         return sprintf(
             _("Between '%s' and '%s'"),
-            gmstrftime('%x', $this->_data->b),
-            gmstrftime('%x', $this->_data->e)
+            $fmt->format($this->_data->b),
+            $fmt->format($this->_data->e)
         );
     }
 

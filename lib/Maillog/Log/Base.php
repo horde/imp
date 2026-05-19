@@ -11,7 +11,6 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-use function PHP81_BC\strftime;
 
 /**
  * Abstract log entry.
@@ -61,9 +60,14 @@ abstract class IMP_Maillog_Log_Base
                 return $this->_action;
 
             case 'date':
-                return strftime(
-                    $prefs->getValue('date_format') . ' ' . $prefs->getValue('time_format_mini'),
-                    $this->timestamp
+                return \Horde\Date\Format::formatDate(
+                    $this->timestamp,
+                    $prefs->getValue('date_format'),
+                    $GLOBALS['language'] ?? 'en_US'
+                ) . ' ' . \Horde\Date\Format::formatDate(
+                    $this->timestamp,
+                    $prefs->getValue('time_format_mini'),
+                    $GLOBALS['language'] ?? 'en_US'
                 );
 
             case 'message':

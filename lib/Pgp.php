@@ -12,7 +12,6 @@
  * @package   IMP
  */
 use Horde\Imp\Crypt\KeyStorage;
-use function PHP81_BC\strftime;
 
 /**
  * Contains code related to handling PGP data within IMP.
@@ -879,8 +878,8 @@ class IMP_Pgp
 
             $msg .= $leftrow[0] . (isset($key['name']) ? stripcslashes($key['name']) : '') . "\n"
                 . $leftrow[1] . (($key['key_type'] == 'public_key') ? _('Public Key') : _('Private Key')) . "\n"
-                . $leftrow[2] . strftime('%D', $val[$sig_key]['created']) . "\n"
-                . $leftrow[3] . (empty($val[$sig_key]['expires']) ? '[' . _('Never') . ']' : strftime('%D', $val[$sig_key]['expires'])) . "\n"
+                . $leftrow[2] . date('m/d/y', $val[$sig_key]['created']) . "\n"
+                . $leftrow[3] . (empty($val[$sig_key]['expires']) ? '[' . _('Never') . ']' : date('m/d/y', $val[$sig_key]['expires'])) . "\n"
                 . $leftrow[4] . $key['key_size'] . " Bytes\n"
                 . $leftrow[5] . (empty($key['comment']) ? '[' . _('None') . ']' : $key['comment']) . "\n"
                 . $leftrow[6] . (empty($key['email']) ? '[' . _('None') . ']' : $key['email']) . "\n"

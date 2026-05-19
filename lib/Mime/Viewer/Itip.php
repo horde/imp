@@ -11,7 +11,6 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-use function PHP81_BC\strftime;
 
 /**
  * Displays vCalendar/iCalendar data and provides an option to import the data
@@ -217,22 +216,23 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
         try {
             $start = $vfb->getAttribute('DTSTART');
             $view->start = is_array($start)
-                ? strftime($prefs->getValue('date_format'), mktime(0, 0, 0, $start['month'], $start['mday'], $start['year']))
-                : strftime($prefs->getValue('date_format'), $start) . ' ' . date($prefs->getValue('twentyFour') ? ' G:i' : ' g:i a', $start);
+                ? \Horde\Date\Format::formatDate(mktime(0, 0, 0, $start['month'], $start['mday'], $start['year']), $prefs->getValue('date_format'), $GLOBALS['language'] ?? 'en_US')
+                : \Horde\Date\Format::formatDate($start, $prefs->getValue('date_format'), $GLOBALS['language'] ?? 'en_US') . ' ' . \Horde\Date\Format::formatDate($start, $prefs->getValue('twentyFour') ? 'HH:mm' : 'h:mm a', $GLOBALS['language'] ?? 'en_US');
         } catch (Horde_Icalendar_Exception $e) {
         }
 
         try {
             $end = $vfb->getAttribute('DTEND');
             if (is_array($end)) {
-                $view->end = strftime(
+                $view->end = \Horde\Date\Format::formatDate(
+                    mktime(0, 0, 0, $end['month'], $end['mday'], $end['year']),
                     $prefs->getValue('date_format'),
-                    mktime(0, 0, 0, $end['month'], $end['mday'], $end['year'])
+                    $GLOBALS['language'] ?? 'en_US'
                 );
             } elseif (is_int($end)) {
-                $view->end = strftime($prefs->getValue('date_format'), $end)
+                $view->end = \Horde\Date\Format::formatDate($end, $prefs->getValue('date_format'), $GLOBALS['language'] ?? 'en_US')
                     . ' '
-                    . date($prefs->getValue('twentyFour') ? ' G:i' : ' g:i a', $end);
+                    . \Horde\Date\Format::formatDate($end, $prefs->getValue('twentyFour') ? 'HH:mm' : 'h:mm a', $GLOBALS['language'] ?? 'en_US');
             } else {
                 $view->end = '';
             }
@@ -411,8 +411,8 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
         try {
             $start = $vevent->getAttribute('DTSTART');
             $view->start = is_array($start)
-                ? strftime($prefs->getValue('date_format'), mktime(0, 0, 0, $start['month'], $start['mday'], $start['year']))
-                : strftime($prefs->getValue('date_format'), $start) . ' ' . date($prefs->getValue('twentyFour') ? ' G:i' : ' g:i a', $start);
+                ? \Horde\Date\Format::formatDate(mktime(0, 0, 0, $start['month'], $start['mday'], $start['year']), $prefs->getValue('date_format'), $GLOBALS['language'] ?? 'en_US')
+                : \Horde\Date\Format::formatDate($start, $prefs->getValue('date_format'), $GLOBALS['language'] ?? 'en_US') . ' ' . \Horde\Date\Format::formatDate($start, $prefs->getValue('twentyFour') ? 'HH:mm' : 'h:mm a', $GLOBALS['language'] ?? 'en_US');
             $start_date = new Horde_Date($start);
         } catch (Horde_Icalendar_Exception $e) {
             $start = null;
@@ -421,8 +421,8 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
         try {
             $end = $vevent->getAttribute('DTEND');
             $view->end = is_array($end)
-                ? strftime($prefs->getValue('date_format'), mktime(0, 0, 0, $end['month'], $end['mday'], $end['year']))
-                : strftime($prefs->getValue('date_format'), $end) . ' ' . date($prefs->getValue('twentyFour') ? ' G:i' : ' g:i a', $end);
+                ? \Horde\Date\Format::formatDate(mktime(0, 0, 0, $end['month'], $end['mday'], $end['year']), $prefs->getValue('date_format'), $GLOBALS['language'] ?? 'en_US')
+                : \Horde\Date\Format::formatDate($end, $prefs->getValue('date_format'), $GLOBALS['language'] ?? 'en_US') . ' ' . \Horde\Date\Format::formatDate($end, $prefs->getValue('twentyFour') ? 'HH:mm' : 'h:mm a', $GLOBALS['language'] ?? 'en_US');
         } catch (Horde_Icalendar_Exception $e) {
             $end = null;
         }
@@ -592,8 +592,8 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
         try {
             $start = $vevent->getAttribute('DTSTART');
             $view->start = is_array($start)
-                ? strftime($prefs->getValue('date_format'), mktime(0, 0, 0, $start['month'], $start['mday'], $start['year']))
-                : strftime($prefs->getValue('date_format'), $start) . ' ' . date($prefs->getValue('twentyFour') ? ' G:i' : ' g:i a', $start);
+                ? \Horde\Date\Format::formatDate(mktime(0, 0, 0, $start['month'], $start['mday'], $start['year']), $prefs->getValue('date_format'), $GLOBALS['language'] ?? 'en_US')
+                : \Horde\Date\Format::formatDate($start, $prefs->getValue('date_format'), $GLOBALS['language'] ?? 'en_US') . ' ' . \Horde\Date\Format::formatDate($start, $prefs->getValue('twentyFour') ? 'HH:mm' : 'h:mm a', $GLOBALS['language'] ?? 'en_US');
         } catch (Horde_Icalendar_Exception $e) {
             $start = null;
         }
@@ -606,8 +606,8 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                 return false;
             }
             $view->end = is_array($end)
-                ? strftime($prefs->getValue('date_format'), mktime(0, 0, 0, $end['month'], $end['mday'], $end['year']))
-                : strftime($prefs->getValue('date_format'), $end) . ' ' . date($prefs->getValue('twentyFour') ? ' G:i' : ' g:i a', $end);
+                ? \Horde\Date\Format::formatDate(mktime(0, 0, 0, $end['month'], $end['mday'], $end['year']), $prefs->getValue('date_format'), $GLOBALS['language'] ?? 'en_US')
+                : \Horde\Date\Format::formatDate($end, $prefs->getValue('date_format'), $GLOBALS['language'] ?? 'en_US') . ' ' . \Horde\Date\Format::formatDate($end, $prefs->getValue('twentyFour') ? 'HH:mm' : 'h:mm a', $GLOBALS['language'] ?? 'en_US');
         } catch (Horde_Icalendar_Exception $e) {
             $end = null;
         }

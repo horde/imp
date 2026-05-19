@@ -11,7 +11,6 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-use function PHP81_BC\strftime;
 
 /**
  * Special prefs handling for the 'smimeprivatekey' preference.
@@ -77,11 +76,15 @@ class IMP_Prefs_Special_SmimePrivateKey implements Horde_Core_Prefs_Ui_Special
             if (!empty($cert['validity']['notafter'])) {
                 $expired = new Horde_Date($cert['validity']['notafter']);
                 if ($expired->before(time())) {
-                    $view->{'expiredate' . $suffix} = $expired->strftime(
-                        $prefs->getValue('date_format')
+                    $view->{'expiredate' . $suffix} = $expired->format(
+                        $prefs->getValue('date_format'),
+                        new \Horde\Date\Formatter\IcuFormatter(),
+                        $GLOBALS['language'] ?? 'en_US'
                     );
-                    $view->{'expiretime' . $suffix} = $expired->strftime(
-                        $prefs->getValue('time_format')
+                    $view->{'expiretime' . $suffix} = $expired->format(
+                        $prefs->getValue('time_format'),
+                        new \Horde\Date\Formatter\IcuFormatter(),
+                        $GLOBALS['language'] ?? 'en_US'
                     );
                 }
             }

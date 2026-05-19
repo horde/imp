@@ -11,7 +11,6 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-use function PHP81_BC\strftime;
 
 /**
  * Common code dealing with date formatting for messages.
@@ -108,7 +107,7 @@ class IMP_Message_Date
                 }
 
                 $this->_buildCache();
-                $tz = strftime('%Z'); // TODO replace strftime
+                $tz = date('T');
 
                 if (($udate < self::$_cache['today_start'])
                     || ($udate > self::$_cache['today_end'])) {
@@ -144,7 +143,7 @@ class IMP_Message_Date
 
         if ($format === self::DATE_FORCE) {
             return $this->_format('date_format', $udate) . ' ['
-                . $this->_format('time_format', $udate) . ' ' . strftime('%Z') // TODO replace strftime
+                . $this->_format('time_format', $udate) . ' ' . date('T')
                 . ']';
         }
 
@@ -197,7 +196,7 @@ class IMP_Message_Date
      */
     private function _format($type, $udate)
     {
-        return ltrim(strftime($GLOBALS['prefs']->getValue($type), (int) $udate));
+        return ltrim(\Horde\Date\Format::formatDate((int) $udate, $GLOBALS['prefs']->getValue($type), $GLOBALS['language'] ?? 'en_US'));
     }
 
 }

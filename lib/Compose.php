@@ -11,7 +11,6 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-use function PHP81_BC\strftime;
 use Horde\Util\Variables;
 
 /**
@@ -3066,7 +3065,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         if ($del_time = IMP_Compose_LinkedAttachment::keepDate(false)) {
             /* Subtract 1 from time to get the last day of the previous
              * month. */
-            $expire = ' (' . sprintf(_('links will expire on %s'), strftime('%x', $del_time - 1)) . ')';
+            $expire = ' (' . sprintf(_('links will expire on %s'), (new IntlDateFormatter($GLOBALS['language'], IntlDateFormatter::SHORT, IntlDateFormatter::NONE))->format($del_time - 1)) . ')';
         }
 
         $body .= "\n-----\n" . _('Attachments') . $expire . ":\n";
