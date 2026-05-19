@@ -153,7 +153,11 @@ class IMP_Application extends Horde_Registry_Application
 
         /* Grab the current server from the session to correctly populate
          * login form. */
-        $this->_oldserver = $injector->getInstance('IMP_Factory_Imap')->create()->server_key;
+        try {
+            $this->_oldserver = $injector->getInstance('IMP_Factory_Imap')->create()->server_key;
+        } catch (Exception $e) {
+            $this->_oldserver = null;
+        }
     }
 
     /**
