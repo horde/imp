@@ -1,4 +1,5 @@
 <?php
+use Horde\Injector\Injector;
 
 /**
  * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
@@ -28,7 +29,7 @@ class IMP_Factory_Maillog extends Horde_Core_Factory_Injector
      *
      * @return IMP_Maillog  The singleton instance.
      */
-    public function create(Horde_Injector $injector)
+    public function create(Horde_Injector|Injector $injector)
     {
         global $conf, $injector, $registry;
 

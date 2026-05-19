@@ -1,4 +1,5 @@
 <?php
+use Horde\Injector\Injector;
 
 /**
  * Copyright 2014-2026 Horde LLC (http://www.horde.org/)
@@ -38,7 +39,7 @@ class IMP_Factory_MailboxCache extends Horde_Core_Factory_Injector implements Ho
      *
      * @return IMP_Mailbox_SessionCache  Cache instance.
      */
-    public function create(Horde_Injector $injector)
+    public function create(Horde_Injector|Injector $injector)
     {
         global $session;
 

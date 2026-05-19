@@ -1,4 +1,5 @@
 <?php
+use Horde\Injector\Injector;
 
 /**
  * Copyright 2012-2026 Horde LLC (http://www.horde.org/)
@@ -28,7 +29,7 @@ class IMP_Factory_PrefsSort extends Horde_Core_Factory_Injector
      *
      * @return IMP_Prefs_Sort  The singleton instance.
      */
-    public function create(Horde_Injector $injector)
+    public function create(Horde_Injector|Injector $injector)
     {
         switch ($GLOBALS['registry']->getView()) {
             case Horde_Registry::VIEW_SMARTMOBILE:

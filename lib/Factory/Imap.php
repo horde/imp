@@ -1,4 +1,5 @@
 <?php
+use Horde\Injector\Injector;
 
 /**
  * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
@@ -34,7 +35,7 @@ class IMP_Factory_Imap extends Horde_Core_Factory_Base implements Horde_Shutdown
 
     /**
      */
-    public function __construct(Horde_Injector $injector)
+    public function __construct(Horde_Injector|Injector $injector)
     {
         parent::__construct($injector);
 

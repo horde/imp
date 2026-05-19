@@ -1,4 +1,5 @@
 <?php
+use Horde\Injector\Injector;
 
 /**
  * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
@@ -28,7 +29,7 @@ class IMP_Factory_Identity extends Horde_Core_Factory_Injector
      *
      * @return IMP_Prefs_Identity  The singleton instance.
      */
-    public function create(Horde_Injector $injector)
+    public function create(Horde_Injector|Injector $injector)
     {
         return $injector->getInstance('Horde_Core_Factory_Identity')->create(null, 'imp');
     }

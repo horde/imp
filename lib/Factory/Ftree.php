@@ -1,4 +1,5 @@
 <?php
+use Horde\Injector\Injector;
 
 /**
  * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
@@ -36,7 +37,7 @@ class IMP_Factory_Ftree extends Horde_Core_Factory_Injector implements Horde_Shu
      *
      * @return IMP_Ftree  The singleton instance.
      */
-    public function create(Horde_Injector $injector)
+    public function create(Horde_Injector|Injector $injector)
     {
         global $registry, $session;
 

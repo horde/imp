@@ -1,4 +1,5 @@
 <?php
+use Horde\Injector\Injector;
 
 /**
  * Copyright 2014-2026 Horde LLC (http://www.horde.org/)
@@ -35,7 +36,7 @@ class IMP_Factory_Contacts extends Horde_Core_Factory_Injector implements Horde_
      *
      * @return IMP_Contacts  The singleton instance.
      */
-    public function create(Horde_Injector $injector)
+    public function create(Horde_Injector|Injector $injector)
     {
         try {
             $this->_instance = $GLOBALS['session']->get('imp', self::SESS_KEY);

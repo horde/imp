@@ -1,4 +1,5 @@
 <?php
+use Horde\Injector\Injector;
 
 /**
  * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
@@ -29,7 +30,7 @@ class IMP_Factory_Sentmail extends Horde_Core_Factory_Injector
      * @return IMP_Sentmail  The singleton instance.
      * @throws IMP_Exception
      */
-    public function create(Horde_Injector $injector)
+    public function create(Horde_Injector|Injector $injector)
     {
         $driver = empty($GLOBALS['conf']['sentmail']['driver'])
             ? 'null'

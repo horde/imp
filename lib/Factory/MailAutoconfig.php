@@ -1,4 +1,5 @@
 <?php
+use Horde\Injector\Injector;
 
 /**
  * Copyright 2014-2026 Horde LLC (http://www.horde.org/)
@@ -28,7 +29,7 @@ class IMP_Factory_MailAutoconfig extends Horde_Core_Factory_Injector
      *
      * @return Horde_Mail_Autoconfig  The singleton instance.
      */
-    public function create(Horde_Injector $injector)
+    public function create(Horde_Injector|Injector $injector)
     {
         /* Need to manually set the drivers, since we should be using Horde
          * objects for Http_Client and Net_DNS2_Resolver. The return from
