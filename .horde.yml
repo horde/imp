@@ -31,10 +31,10 @@ authors:
     active: false
     role: lead
 version:
-  release: 7.0.0-beta3
+  release: 7.0.0-RC1
   api: 7.0.0alpha1
 state:
-  release: beta
+  release: RC
   api: alpha
 license:
   identifier: GPL-2.0-only
