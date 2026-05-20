@@ -1,5 +1,7 @@
 <?php
 
+use Horde\Util\Util;
+
 /**
  * See horde/config/prefs.php for documentation on the structure of this file.
  *
@@ -408,7 +410,7 @@ $prefGroups['smime'] = [
         'smimemanagement',
     ],
     'suppress' => function () {
-        return (!Horde_Util::extensionExists('openssl')
+        return (!Util::extensionExists('openssl')
                 || !isset($GLOBALS['conf']['openssl']['path']));
     },
 ];

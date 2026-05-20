@@ -60,11 +60,11 @@ abstract class IMP_Maillog_Log_Base
                 return $this->_action;
 
             case 'date':
-                return \Horde\Date\Format::formatDate(
+                return Horde\Date\Format::formatDate(
                     $this->timestamp,
                     $prefs->getValue('date_format'),
                     $GLOBALS['language'] ?? 'en_US'
-                ) . ' ' . \Horde\Date\Format::formatDate(
+                ) . ' ' . Horde\Date\Format::formatDate(
                     $this->timestamp,
                     $prefs->getValue('time_format_mini'),
                     $GLOBALS['language'] ?? 'en_US'

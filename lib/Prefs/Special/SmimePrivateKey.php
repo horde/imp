@@ -78,12 +78,12 @@ class IMP_Prefs_Special_SmimePrivateKey implements Horde_Core_Prefs_Ui_Special
                 if ($expired->before(time())) {
                     $view->{'expiredate' . $suffix} = $expired->format(
                         $prefs->getValue('date_format'),
-                        new \Horde\Date\Formatter\IcuFormatter(),
+                        new Horde\Date\Formatter\IcuFormatter(),
                         $GLOBALS['language'] ?? 'en_US'
                     );
                     $view->{'expiretime' . $suffix} = $expired->format(
                         $prefs->getValue('time_format'),
-                        new \Horde\Date\Formatter\IcuFormatter(),
+                        new Horde\Date\Formatter\IcuFormatter(),
                         $GLOBALS['language'] ?? 'en_US'
                     );
                 }

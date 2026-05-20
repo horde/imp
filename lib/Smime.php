@@ -13,6 +13,7 @@
  */
 
 use Horde\Imp\Crypt\KeyStorage;
+use Horde\Util\Util;
 
 /**
  * Contains code related to handling S/MIME messages within IMP.
@@ -62,7 +63,7 @@ class IMP_Smime
 
         return (!empty($conf['openssl']['path'])
                 && $prefs->getValue('use_smime')
-                && Horde_Util::extensionExists('openssl'));
+                && Util::extensionExists('openssl'));
     }
 
     /**

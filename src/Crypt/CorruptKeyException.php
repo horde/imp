@@ -28,6 +28,4 @@ use RuntimeException;
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
-class CorruptKeyException extends RuntimeException
-{
-}
+class CorruptKeyException extends RuntimeException {}

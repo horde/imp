@@ -11,6 +11,7 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
+use Horde\Imp\IdentityDriverPrefs;
 use Horde\Util\Variables;
 
 /**
@@ -420,7 +421,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
      *           objects).
      *   - body: (string) The text of the body part.
      *   - format: (string) The format of the body message ('html', 'text').
-     *   - identity: (mixed) See IMP_Prefs_Identity#getMatchingIdentity().
+     *   - identity: (mixed) See IdentityDriverPrefs#getMatchingIdentity().
      *   - priority: (string) The message priority.
      *   - readreceipt: (boolean) Add return receipt headers?
      *   - subject: (string) Formatted subject.
@@ -717,7 +718,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
      *
      * @param string $body                  The message body.
      * @param array $header                 List of message headers.
-     * @param IMP_Prefs_Identity $identity  The Identity object for the sender
+     * @param IdentityDriverPrefs $identity  The Identity object for the sender
      *                                      of this message.
      * @param array $opts                   An array of options w/the
      *                                      following keys:
@@ -749,7 +750,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
     public function buildAndSendMessage(
         $body,
         $header,
-        IMP_Prefs_Identity $identity,
+        IdentityDriverPrefs $identity,
         array $opts = []
     ) {
         global $injector, $prefs, $registry, $session, $conf;
@@ -1649,12 +1650,12 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
      * @param string $body                Message body.
      * @param array $options              Additional options:
      *   - html: (boolean) Is this a HTML message?
-     *   - identity: (IMP_Prefs_Identity) Identity of the sender.
+     *   - identity: (IdentityDriverPrefs) Identity of the sender.
      *   - nofinal: (boolean) This is not a message which will be sent out.
      *   - noattach: (boolean) Don't add attachment information.
      *   - pgp_attach_pubkey: (boolean) Attach the user's PGP public key?
      *   - recip: (Horde_Mail_Rfc822_List) The recipient list.
-     *   - signature: (IMP_Prefs_Identity|string) If set, add the signature to
+     *   - signature: (IdentityDriverPrefs|string) If set, add the signature to
      *                the message.
      *   - vcard_attach: (string) If set, attach user's vcard to message.
      *
@@ -2340,7 +2341,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
      *   - attach: (boolean) True if original message was attached.
      *   - body: (string) The text of the body part.
      *   - format: (string) The format of the body message ('html', 'text').
-     *   - identity: (mixed) See IMP_Prefs_Identity#getMatchingIdentity().
+     *   - identity: (mixed) See IdentityDriverPrefs#getMatchingIdentity().
      *   - subject: (string) Formatted subject.
      *   - title: (string) Title to use on page.
      *   - type: (integer) - The compose type.
@@ -2494,7 +2495,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
      * @return array  An array with the following keys:
      *   - body: (string) The text of the body part.
      *   - format: (string) The format of the body message ('html', 'text').
-     *   - identity: (mixed) See IMP_Prefs_Identity#getMatchingIdentity().
+     *   - identity: (mixed) See IdentityDriverPrefs#getMatchingIdentity().
      *   - subject: (string) Formatted subject.
      *   - title: (string) Title to use on page.
      *   - type: (integer) The compose type.
@@ -3394,7 +3395,11 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
             }
 
             try {
-                $out[] = $this->_addAttachment(
+                /**
+                 * WARNING: Horde_Util::dispelMagicQuotes() removed in PSR-4 version
+                 * Magic quotes are obsolete in PHP 8+. Remove this call.
+                 */
+$out[] = $this->_addAttachment(
                     $val['tmp_name'],
                     $val['size'],
                     Horde_Util::dispelMagicQuotes($val['name']),
