@@ -1,4 +1,6 @@
 <?php
+
+use Horde\Imp\IdentityDriverPrefs;
 use Horde\Injector\Injector;
 
 /**
@@ -8,7 +10,7 @@ use Horde\Injector\Injector;
  * did not receive this file, see http://www.horde.org/licenses/gpl.
  *
  * @category  Horde
- * @copyright 2010-2017 Horde LLC
+ * @copyright 2010-2026 Horde LLC
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
@@ -18,7 +20,7 @@ use Horde\Injector\Injector;
  *
  * @author    Michael Slusarz <slusarz@horde.org>
  * @category  Horde
- * @copyright 2010-2017 Horde LLC
+ * @copyright 2010-2026 Horde LLC
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
@@ -27,7 +29,7 @@ class IMP_Factory_Identity extends Horde_Core_Factory_Injector
     /**
      * Return the IMP identity instance.
      *
-     * @return IMP_Prefs_Identity  The singleton instance.
+     * @return IdentityDriverPrefs  The singleton instance.
      */
     public function create(Horde_Injector|Injector $injector)
     {
