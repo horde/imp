@@ -53,7 +53,11 @@ class IMP_Mbox_Import
         $this->_mbox = $mbox;
 
         $res = $this->_import($_FILES[$form_name]['tmp_name'], $_FILES[$form_name]['type']);
-        $mbox_name = basename(Horde_Util::dispelMagicQuotes($_FILES[$form_name]['name']));
+        /**
+         * WARNING: Horde_Util::dispelMagicQuotes() removed in PSR-4 version
+         * Magic quotes are obsolete in PHP 8+. Remove this call.
+         */
+$mbox_name = basename(Horde_Util::dispelMagicQuotes($_FILES[$form_name]['name']));
 
         if ($res === false) {
             throw new IMP_Exception(sprintf(_('There was an error importing %s.'), $mbox_name));

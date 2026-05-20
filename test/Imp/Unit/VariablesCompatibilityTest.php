@@ -36,6 +36,7 @@ use PHPUnit\Framework\TestCase;
  * @license    http://www.horde.org/licenses/gpl GPL
  * @package    IMP
  * @subpackage UnitTests
+ * @coversNothing
  */
 class Imp_Unit_VariablesCompatibilityTest extends TestCase
 {

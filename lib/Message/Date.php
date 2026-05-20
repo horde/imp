@@ -196,7 +196,7 @@ class IMP_Message_Date
      */
     private function _format($type, $udate)
     {
-        return ltrim(\Horde\Date\Format::formatDate((int) $udate, $GLOBALS['prefs']->getValue($type), $GLOBALS['language'] ?? 'en_US'));
+        return ltrim(Horde\Date\Format::formatDate((int) $udate, $GLOBALS['prefs']->getValue($type), $GLOBALS['language'] ?? 'en_US'));
     }
 
 }

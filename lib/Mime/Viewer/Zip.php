@@ -1,5 +1,7 @@
 <?php
 
+use Horde\Util\Util;
+
 /**
  * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
@@ -109,7 +111,7 @@ class IMP_Mime_Viewer_Zip extends Horde_Mime_Viewer_Zip
         $view->files = [];
         $view->tableclass = 'zipcontents';
 
-        $zlib = Horde_Util::extensionExists('zlib');
+        $zlib = Util::extensionExists('zlib');
 
         foreach ($this->_getZipInfo() as $key => $val) {
             $file = new stdClass();
