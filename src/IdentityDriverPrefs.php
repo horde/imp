@@ -23,6 +23,7 @@ use Horde_Prefs_Exception;
 use IMP;
 use IMP_Compose;
 use IMP_Compose_Exception;
+use IMP_Imap;
 use IMP_Mailbox;
 use IMP_Mailbox_SessionCache;
 
