@@ -298,6 +298,24 @@
     [mms] Don't send empty text part if a message contains attachments.
     [mms] Add button to allow folder tree to be rebuilt in smartmobile view.
     [mms] Add option to poll mailbox for new mailbox when creating a mailbox (Request #13227).
+7.0.0-RC2:
+  api: 7.0.0-RC2
+  state:
+    release: RC
+    api: RC
+  date: 2026-05-21
+  license:
+    identifier: GPL-2.0-only
+    uri: https://spdx.org/licenses/GPL-2.0-only.html
+  notes: |-
+    Class IMP_Imap not found
+    feat(imap): add XOAUTH2 authentication support
+    Implement try-catch for old server key retrieval
+    style: PER-1
+    refactor: Identity Factory now returns the PSR-4 class
+    refactor: Degrate IMP_Prefs_Identity to a shim for Horde\Imp\IdentityDriverPrefs
+    refactor(Identity): Build a PSR-4 Identity Driver
+    fix: Initialize stdClass before accessing attributes
 7.0.0-RC1:
   api: 7.0.0-RC1
   state:
