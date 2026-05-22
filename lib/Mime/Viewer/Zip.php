@@ -49,14 +49,15 @@ class IMP_Mime_Viewer_Zip extends Horde_Mime_Viewer_Zip
             return [];
         }
 
-        $text = $this->getConfigParam('zip')->decompress(
+        $result = $this->getConfigParam('zip')->decompress(
             $this->_mimepart->getContents(),
             [
-                'action' => Horde_Compress_Zip::ZIP_DATA,
+                'action' => Horde\Compress\Driver\Zip::ZIP_DATA,
                 'info' => $zipInfo,
                 'key' => $key,
             ]
         );
+        $text = is_array($result) ? $result['data'] : $result;
 
         return [
             $this->_mimepart->getMimeId() => [
@@ -162,7 +163,7 @@ class IMP_Mime_Viewer_Zip extends Horde_Mime_Viewer_Zip
         $zip = $this->getConfigParam('zip');
 
         return $zip->decompress($data, [
-            'action' => $zip::ZIP_LIST,
+            'action' => Horde\Compress\Driver\Zip::ZIP_LIST,
         ]);
     }
 

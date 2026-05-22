@@ -2195,7 +2195,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
             || ($lang = $h['X-Accept-Language'])) {
             $langs = [];
             foreach (explode(',', $lang->value_single) as $val) {
-                if (($name = Horde_Nls::getLanguageISO($val)) !== null) {
+                if (($name = (new Horde\Nls\Nls())->languages()->get($val)) !== null) {
                     $langs[trim($val)] = $name;
                 }
             }
@@ -3399,7 +3399,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
                  * WARNING: Horde_Util::dispelMagicQuotes() removed in PSR-4 version
                  * Magic quotes are obsolete in PHP 8+. Remove this call.
                  */
-$out[] = $this->_addAttachment(
+                $out[] = $this->_addAttachment(
                     $val['tmp_name'],
                     $val['size'],
                     Horde_Util::dispelMagicQuotes($val['name']),

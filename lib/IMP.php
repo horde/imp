@@ -89,7 +89,7 @@ class IMP
      */
     public static function numberFormat($number, $decimals)
     {
-        $localeinfo = Horde_Nls::getLocaleInfo();
+        $localeinfo = (new Horde\Nls\Nls())->getLocaleInfo();
 
         return str_replace(
             ['X', 'Y'],
