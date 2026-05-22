@@ -151,13 +151,13 @@ class IMP_Mime_Viewer_Tgz extends Horde_Mime_Viewer_Tgz
         try {
             $contents = $gzip->decompress($contents);
             $this->_metadata['compressed'] = true;
-        } catch (Horde_Compress_Exception $e) {
+        } catch (Horde\Compress\Exception $e) {
             $this->_metadata['compressed'] = false;
         }
 
         try {
             return $tar->decompress($contents);
-        } catch (Horde_Compress_Exception $e) {
+        } catch (Horde\Compress\Exception $e) {
             if ($this->_metadata['compressed']) {
                 /* Doubly gzip'd tgz files are somewhat common. Try a second
                  * decompression before giving up. */
@@ -165,7 +165,7 @@ class IMP_Mime_Viewer_Tgz extends Horde_Mime_Viewer_Tgz
                     return $tar->decompress(
                         $gzip->decompress($contents)
                     );
-                } catch (Horde_Compress_Exception $e) {
+                } catch (Horde\Compress\Exception $e) {
                 }
             }
         }

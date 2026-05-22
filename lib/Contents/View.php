@@ -81,10 +81,13 @@ class IMP_Contents_View
             return [];
         }
 
+        $zipData = (new Horde\Compress\CompressFactory())->create('zip')->compressFiles($tosave);
+        $stream = fopen('php://temp', 'r+');
+        fwrite($stream, $zipData);
+        rewind($stream);
+
         return [
-            'data' => Horde_Compress::factory('Zip')->compress($tosave, [
-                'stream' => true,
-            ]),
+            'data' => $stream,
             'name' => $zipfile,
             'type' => 'application/zip',
         ];

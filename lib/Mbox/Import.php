@@ -57,7 +57,7 @@ class IMP_Mbox_Import
          * WARNING: Horde_Util::dispelMagicQuotes() removed in PSR-4 version
          * Magic quotes are obsolete in PHP 8+. Remove this call.
          */
-$mbox_name = basename(Horde_Util::dispelMagicQuotes($_FILES[$form_name]['name']));
+        $mbox_name = basename(Horde_Util::dispelMagicQuotes($_FILES[$form_name]['name']));
 
         if ($res === false) {
             throw new IMP_Exception(sprintf(_('There was an error importing %s.'), $mbox_name));
@@ -110,29 +110,30 @@ $mbox_name = basename(Horde_Util::dispelMagicQuotes($_FILES[$form_name]['name'])
                     $fd = 'zip://' . $fname;
                 } else {
                     try {
-                        $zip = Horde_Compress::factory('Zip');
-                        if ($zip->canDecompress) {
+                        $zip = (new Horde\Compress\CompressFactory())->create('zip');
+                        if ($zip->canDecompress()) {
                             $file_data = file_get_contents($fname);
 
                             $zip_info = $zip->decompress($file_data, [
-                                'action' => Horde_Compress_Zip::ZIP_LIST,
+                                'action' => Horde\Compress\Driver\Zip::ZIP_LIST,
                             ]);
 
                             if (!empty($zip_info)) {
                                 $fd = fopen('php://temp', 'r+');
 
                                 foreach (array_keys($zip_info) as $key) {
-                                    fwrite($fd, $zip->decompress($file_data, [
-                                        'action' => Horde_Compress_Zip::ZIP_DATA,
+                                    $result = $zip->decompress($file_data, [
+                                        'action' => Horde\Compress\Driver\Zip::ZIP_DATA,
                                         'info' => $zip_info,
                                         'key' => $key,
-                                    ]));
+                                    ]);
+                                    fwrite($fd, is_array($result) ? $result['data'] : $result);
                                 }
 
                                 rewind($fd);
                             }
                         }
-                    } catch (Horde_Compress_Exception $e) {
+                    } catch (Horde\Compress\Exception $e) {
                         if ($fd) {
                             fclose($fd);
                             $fd = null;

@@ -456,16 +456,17 @@ class IMP_Application extends Horde_Registry_Application
 
                     case 'mboxzip':
                         try {
-                            $data = Horde_Compress::factory('Zip')->compress([
+                            $zipStr = (new Horde\Compress\CompressFactory())->create('zip')->compressFiles([
                                 [
                                     'data' => $mbox,
                                     'name' => $name . '.mbox',
                                 ],
-                            ], [
-                                'stream' => true,
                             ]);
                             fclose($mbox);
-                        } catch (Horde_Exception $e) {
+                            $data = fopen('php://temp', 'r+');
+                            fwrite($data, $zipStr);
+                            rewind($data);
+                        } catch (Horde\Compress\Exception $e) {
                             fclose($mbox);
                             throw $e;
                         }
