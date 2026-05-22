@@ -10,9 +10,9 @@
  * @copyright 2012-2017 Horde LLC
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
+ */
 
 use Horde\Util\Variables;
- */
 
 /**
  * Attach the import encrpyt key javascript code into a page.
@@ -22,8 +22,6 @@ use Horde\Util\Variables;
  * @copyright 2012-2017 Horde LLC
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
-
-use Horde\Util\Variables;
  */
 class IMP_Ajax_Imple_ImportEncryptKey extends Horde_Core_Ajax_Imple
 {
