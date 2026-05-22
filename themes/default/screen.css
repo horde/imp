@@ -94,3 +94,15 @@ div.vpRowSelected .msCheck {
     background-image: url("graphics/close.png");
     background-size: 16px 16px;
 }
+
+/* Constrain preference icons to inline size. */
+#mailto_handler img {
+    height: 16px;
+    vertical-align: middle;
+    width: 16px;
+}
+.flagcolorpicker img {
+    height: 16px;
+    vertical-align: middle;
+    width: 16px;
+}
