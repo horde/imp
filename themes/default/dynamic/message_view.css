@@ -193,6 +193,7 @@ div.mimeStatusMessage, div.mimePartInfo {
     border: 1px dashed;
     background-position: 2px 50%;
     background-repeat: no-repeat;
+    background-size: 24px 24px;
     padding-left: 35px;
 }
 span.mimePartInfoSize {
