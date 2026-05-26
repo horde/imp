@@ -33,6 +33,8 @@ class IMP_Auth
      *   - password: (string) The user password.
      *   - server: (string) The server key to use (from backends.php).
      *   - userId: (string) The username.
+     *   - xoauth2_token: (Horde_Imap_Client_Password_Xoauth2) XOAUTH2 token
+     *                    (alternative to password, used with OIDC auth).
      *
      * @throws Horde_Auth_Exception
      */
@@ -59,7 +61,8 @@ class IMP_Auth
         // Check for valid IMAP Client object.
         if (!$imp_imap->init) {
             if (!isset($credentials['userId'])
-                || !isset($credentials['password'])) {
+                || (!isset($credentials['password'])
+                    && !isset($credentials['xoauth2_token']))) {
                 throw new Horde_Auth_Exception('', Horde_Auth::REASON_BADLOGIN);
             }
 
@@ -74,7 +77,11 @@ class IMP_Auth
             }
 
             try {
-                $imp_imap->createBaseImapObject($credentials['userId'], $credentials['password'], $credentials['server']);
+                $imp_imap->createBaseImapObject(
+                    $credentials['userId'],
+                    $credentials['xoauth2_token'] ?? $credentials['password'],
+                    $credentials['server']
+                );
             } catch (IMP_Imap_Exception $e) {
                 self::_log(false, $imp_imap);
                 throw $e->authException();
@@ -112,8 +119,8 @@ class IMP_Auth
             $credentials['userId'] = $auth_ob->getCredential('userId');
         }
 
-        if (!isset($credentials['password'])
-            || !strlen($credentials['password'])) {
+        if (empty($credentials['xoauth2_token'])
+            && empty($credentials['password'])) {
             return false;
         }
 
@@ -203,6 +210,40 @@ class IMP_Auth
     protected static function _canAutoLogin($server_key = null, $force = false)
     {
         global $injector, $registry;
+
+        // OIDC/XOAUTH2: only if auth driver is oidc.
+        // Must come before loadServerConfig() which may fail when IMP is not
+        // fully initialised (e.g. portal rendering before IMP appInit).
+        if (!empty($GLOBALS['conf']['auth']['driver'])
+            && strcasecmp($GLOBALS['conf']['auth']['driver'], 'oidc') === 0) {
+            $username = $registry->getAuth();
+            if ($username) {
+                $tokenService   = $injector->getInstance(\Horde\Core\Service\OAuthTokenService::class);
+                $providerConfig = $injector->getInstance(\Horde\Core\Service\OAuthProviderConfigRepository::class);
+                $row = \Horde\Core\Service\OidcHookHelper::findProviderForUser(
+                    $username, $tokenService, $providerConfig
+                );
+                if ($row !== null) {
+                    $accessToken = \Horde\Core\Service\OidcHookHelper::getValidAccessToken(
+                        $username, $row, $tokenService, $injector
+                    );
+                    if ($accessToken !== null) {
+                        $xoauth2User = \Horde\Core\Service\OidcHookHelper::xoauth2Username(
+                            $username, $row
+                        );
+                        return [
+                            'userId' => $xoauth2User,
+                            'xoauth2_token' => new Horde_Imap_Client_Password_Xoauth2(
+                                $xoauth2User, $accessToken
+                            ),
+                            'server' => $server_key ?? self::getAutoLoginServer(),
+                        ];
+                    }
+                }
+            }
+            // OIDC driver but no tokens available — do not fall through to hordeauth
+            return false;
+        }
 
         if (($servers = $injector->getInstance('IMP_Factory_Imap')->create()->loadServerConfig()) === false) {
             return false;

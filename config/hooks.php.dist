@@ -100,6 +100,60 @@ class IMP_Hooks
     //     return $credentials;
     // }
 
+    // =========================================================================
+    // OIDC / XOAUTH2 hooks
+    // =========================================================================
+    // These hooks enable XOAUTH2 authentication for IMAP when the user has
+    // logged in via an OIDC provider (e.g. Apereo CAS, Keycloak).
+    // Requires horde/Core >= 6.x with OAuthTokenService configured.
+    //
+    // To activate: uncomment and place in var/config/imp/hooks.php
+    // =========================================================================
+
+    /**
+     * imap_preauthenticate
+     *
+     * Called by IMP before opening an IMAP connection.
+     * Injects a Horde_Imap_Client_Password_Xoauth2 object if the user has
+     * OAuth2 tokens stored. Falls back to password auth if not.
+     *
+     * @param array $credentials Current credentials array
+     * @return array Modified credentials
+     */
+//    public function imap_preauthenticate(array $credentials): array
+//    {
+//        global $injector;
+//
+//        $username = $injector->getInstance('Horde_Registry')->getAuth();
+//        if (!$username) {
+//            return $credentials;
+//        }
+//
+//        $tokenService   = $injector->getInstance(\Horde\Core\Service\OAuthTokenService::class);
+//        $providerConfig = $injector->getInstance(\Horde\Core\Service\OAuthProviderConfigRepository::class);
+//
+//        $row = \Horde\Core\Service\OidcHookHelper::findProviderForUser(
+//            $username, $tokenService, $providerConfig
+//        );
+//        if ($row === null) {
+//            return $credentials;
+//        }
+//
+//        $accessToken = \Horde\Core\Service\OidcHookHelper::getValidAccessToken(
+//            $username, $row, $tokenService, $injector
+//        );
+//        if ($accessToken === null) {
+//            return $credentials;
+//        }
+//
+//        $xoauth2User = \Horde\Core\Service\OidcHookHelper::xoauth2Username($username, $row);
+//        $credentials['password'] = new Horde_Imap_Client_Password_Xoauth2(
+//            $xoauth2User,
+//            $accessToken
+//        );
+//
+//        return $credentials;
+//    }
 
     /**
      * PREFERENCE INIT: Set preference values on login.
@@ -522,6 +576,42 @@ class IMP_Hooks
      */
     public function dynamic_prefs()
     {
+        // ---------------------------------------------------------------
+        // OIDC/XOAUTH2: proactive token refresh
+        // Uncomment to refresh OAuth2 tokens before they expire in IMP.
+        // Requires horde/Core >= 6.x with OAuthTokenService configured.
+        // ---------------------------------------------------------------
+        // global $injector;
+        // $tokenService   = $injector->getInstance(\Horde\Core\Service\OAuthTokenService::class);
+        // $providerConfig = $injector->getInstance(\Horde\Core\Service\OAuthProviderConfigRepository::class);
+        // $username = $injector->getInstance('Horde_Registry')->getAuth();
+        // if ($username) {
+        //     $row = \Horde\Core\Service\OidcHookHelper::findProviderForUser(
+        //         $username, $tokenService, $providerConfig
+        //     );
+        //     if ($row !== null) {
+        //         try {
+        //             $tokenSet = $tokenService->getTokenSet($username, $row['provider_id']);
+        //             if ($tokenSet->isExpired(300)) {
+        //                 $accessToken = \Horde\Core\Service\OidcHookHelper::getValidAccessToken(
+        //                     $username, $row, $tokenService, $injector
+        //                 );
+        //                 if ($accessToken !== null) {
+        //                     $xoauth2User = \Horde\Core\Service\OidcHookHelper::xoauth2Username($username, $row);
+        //                     $xoauth2Obj  = new Horde_Imap_Client_Password_Xoauth2($xoauth2User, $accessToken);
+        //                     $session     = $injector->getInstance('Horde_Session');
+        //                     foreach (array_keys($_SESSION['imp'] ?? []) as $key) {
+        //                         if (str_starts_with($key, 'IMP_Imap_Password/')) {
+        //                             $session->set('imp', $key, $xoauth2Obj, $session::ENCRYPT);
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         } catch (\Throwable $e) {}
+        //     }
+        // }
+        // ---------------------------------------------------------------
+
         return array(
             /* Preview pane. Valid values:
              *   - 'horiz': Horizontal mode
