@@ -33,6 +33,8 @@ class IMP_Auth
      *   - password: (string) The user password.
      *   - server: (string) The server key to use (from backends.php).
      *   - userId: (string) The username.
+     *   - xoauth2_token: (Horde_Imap_Client_Password_Xoauth2) XOAUTH2 token
+     *                    (alternative to password, used with OIDC auth).
      *
      * @throws Horde_Auth_Exception
      */
@@ -59,7 +61,8 @@ class IMP_Auth
         // Check for valid IMAP Client object.
         if (!$imp_imap->init) {
             if (!isset($credentials['userId'])
-                || !isset($credentials['password'])) {
+                || (!isset($credentials['password'])
+                    && !isset($credentials['xoauth2_token']))) {
                 throw new Horde_Auth_Exception('', Horde_Auth::REASON_BADLOGIN);
             }
 
@@ -74,7 +77,11 @@ class IMP_Auth
             }
 
             try {
-                $imp_imap->createBaseImapObject($credentials['userId'], $credentials['password'], $credentials['server']);
+                $imp_imap->createBaseImapObject(
+                    $credentials['userId'],
+                    $credentials['xoauth2_token'] ?? $credentials['password'],
+                    $credentials['server']
+                );
             } catch (IMP_Imap_Exception $e) {
                 self::_log(false, $imp_imap);
                 throw $e->authException();
@@ -204,8 +211,8 @@ class IMP_Auth
             $credentials['userId'] = $auth_ob->getCredential('userId');
         }
 
-        if (!isset($credentials['password'])
-            || !strlen($credentials['password'])) {
+        if (empty($credentials['xoauth2_token'])
+            && empty($credentials['password'])) {
             return false;
         }
 
@@ -311,21 +318,61 @@ class IMP_Auth
     protected static function _canAutoLogin($server_key = null, $force = false)
     {
         global $injector, $registry;
-
         if (($servers = $injector->getInstance('IMP_Factory_Imap')->create()->loadServerConfig()) === false) {
             return false;
         }
-
         if (is_null($server_key) || !$force) {
             $auto_server = self::getAutoLoginServer();
             if (is_null($server_key)) {
                 $server_key = $auto_server;
             }
         }
+        if (empty($auto_server) && !$force) {
+            return false;
+        }
+        if (!$registry->getAuth()) {
+            return false;
+        }
 
-        if ((!empty($auto_server) || $force)
-            && $registry->getAuth()
-            && !empty($servers[$server_key]->hordeauth)) {
+        // If this backend declares an associated OAuth provider via
+        // 'oauth' => 'provider-id' in backends.php, try XOAUTH2.
+        if (!empty($servers[$server_key]->oauth)) {
+            $username = $registry->getAuth();
+            $tokenService   = $injector->getInstance(\Horde\Core\Service\OAuthTokenService::class);
+            $providerConfig = $injector->getInstance(\Horde\Core\Service\OAuthProviderConfigRepository::class);
+
+            try {
+                $row = $providerConfig->get($servers[$server_key]->oauth);
+            } catch (\Throwable $e) {
+                Horde::log(
+                    sprintf('IMP: backend "%s" declares oauth provider "%s" which does not exist: %s',
+                        $server_key, $servers[$server_key]->oauth, $e->getMessage()),
+                    'ERR'
+                );
+                return false;
+            }
+            if ($tokenService->hasTokens($username, $row['provider_id'])) {
+                $accessToken = \Horde\Core\Service\OidcHookHelper::getValidAccessToken(
+                    $username, $row, $tokenService, $injector
+                );
+
+                if ($accessToken !== null) {
+                    $xoauth2User = \Horde\Core\Service\OidcHookHelper::xoauth2Username(
+                        $username, $row
+                    );
+                    return [
+                        'userId' => $xoauth2User,
+                        'password' => new Horde_Imap_Client_Password_Xoauth2(
+                            $xoauth2User, $accessToken
+                        ),
+                        'server' => $server_key,
+                    ];
+                }
+            }
+            return false;
+        }
+
+        if (!empty($servers[$server_key]->hordeauth)) {
             return [
                 'userId' => $registry->getAuth((strcasecmp($servers[$server_key]->hordeauth, 'full') === 0) ? null : 'bare'),
                 'password' => $registry->getAuthCredential('password'),
@@ -334,6 +381,58 @@ class IMP_Auth
         }
 
         return false;
+    }
+
+    /**
+     * Validate that any required OAuth tokens are still present for the
+     * currently active backend.
+     *
+     * Called via IMP_Application::authValidate() on every request
+     * (checkExistingAuth()), so that a backchannel logout / token
+     * revocation is detected promptly rather than only at the next full
+     * re-authentication.
+     *
+     * @return boolean  True if valid (or if this backend doesn't require
+     *                  OAuth), false if OAuth is required but no tokens
+     *                  remain.
+     */
+    public static function validateOauth()
+    {
+        global $injector, $registry;
+
+        $imp_imap = $injector->getInstance('IMP_Factory_Imap')->create();
+        if (!$imp_imap->init) {
+            // No active connection to validate against.
+            return true;
+        }
+
+        $server_key = $imp_imap->server_key;
+        if (($servers = $imp_imap->loadServerConfig()) === false
+            || empty($servers[$server_key]->oauth)) {
+            // Not an OAuth-backed backend — nothing to validate here.
+            return true;
+        }
+
+        $username = $registry->getAuth();
+        if (!$username) {
+            return true;
+        }
+
+        $tokenService   = $injector->getInstance(\Horde\Core\Service\OAuthTokenService::class);
+        $providerConfig = $injector->getInstance(\Horde\Core\Service\OAuthProviderConfigRepository::class);
+
+        try {
+            $row = $providerConfig->get($servers[$server_key]->oauth);
+        } catch (\Throwable $e) {
+            Horde::log(
+                sprintf('IMP: validateOauth() could not resolve oauth provider "%s" for backend "%s": %s',
+                    $servers[$server_key]->oauth, $server_key, $e->getMessage()),
+                'ERR'
+            );
+            return true; // fail-open: infra issue shouldn't log the user out
+        }
+
+        return $tokenService->hasTokens($username, $row['provider_id']);
     }
 
     /**
