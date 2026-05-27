@@ -72,7 +72,25 @@ class IMP_Flags implements ArrayAccess, Serializable
         }
 
         if ($f_list = $GLOBALS['prefs']->getValue('msgflags')) {
-            $f_list = @unserialize($f_list);
+            $f_list = @unserialize($f_list, ['allowed_classes' => [
+                'IMP_Flag_User',
+                'IMP_Flag_Imap_Answered',
+                'IMP_Flag_Imap_Deleted',
+                'IMP_Flag_Imap_Draft',
+                'IMP_Flag_Imap_Flagged',
+                'IMP_Flag_Imap_Forwarded',
+                'IMP_Flag_Imap_Junk',
+                'IMP_Flag_Imap_NotJunk',
+                'IMP_Flag_Imap_Seen',
+                'IMP_Flag_System_Attachment',
+                'IMP_Flag_System_Encrypted',
+                'IMP_Flag_System_HighPriority',
+                'IMP_Flag_System_List',
+                'IMP_Flag_System_LowPriority',
+                'IMP_Flag_System_Personal',
+                'IMP_Flag_System_Signed',
+                'IMP_Flag_System_Unseen',
+            ]]);
             if (is_array($f_list)) {
                 foreach ($f_list as $val) {
                     $this->_userflags[$val->id] = $val;

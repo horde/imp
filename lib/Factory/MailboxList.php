@@ -56,7 +56,11 @@ class IMP_Factory_MailboxList extends Horde_Core_Factory_Base implements Horde_S
             $mailbox = IMP_Mailbox::get($mailbox);
 
             if ($ob = $this->_getCache($mailbox)->get($key)) {
-                $ob = @unserialize($ob);
+                $ob = @unserialize($ob, ['allowed_classes' => [
+                    'IMP_Mailbox_List',
+                    'IMP_Mailbox_List_Virtual',
+                    'IMP_Mailbox_List_Pop3',
+                ]]);
             }
 
             if (!$ob) {
