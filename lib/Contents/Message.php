@@ -218,7 +218,8 @@ class IMP_Contents_Message
                 $tmp = [];
                 foreach ($part_info as $val) {
                     if (isset($summary[$val])) {
-                        $tmp[$val] = ($summary[$val] instanceof Horde_Url)
+                        $tmp[$val] = ($summary[$val] instanceof Horde_Url
+                            || $summary[$val] instanceof \Horde\Url\Url)
                             ? strval($summary[$val]->setRaw(true))
                             : $summary[$val];
                     }
