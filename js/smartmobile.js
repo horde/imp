@@ -974,9 +974,14 @@ var ImpMobile = {
         var list = $('#imp-message-atclist').empty();
 
         $.each(ImpMobile.atc, function(k, v) {
-            var downloadUrl = String(v.download_url || '');
+            var downloadUrl = v.download_url;
+            if (typeof downloadUrl !== 'string') {
+                if (downloadUrl != null) {
+                    console.log('IMP smartmobile: attachment download_url must be a string', v);
+                }
+                return;
+            }
             if (!downloadUrl.length) {
-                console.log('IMP smartmobile: attachment missing download_url', v);
                 return;
             }
             list.append(
