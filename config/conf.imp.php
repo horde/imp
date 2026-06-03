@@ -1,1 +1,0 @@
-/home/i567442/php/running/horde/var/config/imp/conf.imp.php
