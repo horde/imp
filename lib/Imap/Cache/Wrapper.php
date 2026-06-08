@@ -70,15 +70,19 @@ class IMP_Imap_Cache_Wrapper implements Serializable
 
         switch ($this->_params['driver']) {
             case 'cache':
+            case 'hashtable':
+                /* The 'hashtable' driver is retired. The legacy
+                 * Horde_Imap_Client_Cache_Backend_Hashtable bypassed
+                 * Horde_Cache to write one entry per UID, optimized for
+                 * Memcache 1.0's poor multi-get performance. Modern Redis
+                 * (with MGET/pipelining) handles the sliced strategy of
+                 * Backend_Cache equally well, and going through Horde_Cache
+                 * gives one code path with consistent TTL/age handling. Old
+                 * configurations that still set driver='hashtable' fall
+                 * through here so users do not need to update their config
+                 * during the migration period. */
                 $ob = new Horde_Imap_Client_Cache_Backend_Cache(array_filter([
                     'cacheob' => $injector->getInstance('Horde_Cache'),
-                    'lifetime' => ($this->_params['lifetime'] ?? null),
-                ]));
-                break;
-
-            case 'hashtable':
-                $ob = new Horde_Imap_Client_Cache_Backend_Hashtable(array_filter([
-                    'hashtable' => $injector->getInstance('Horde_HashTable'),
                     'lifetime' => ($this->_params['lifetime'] ?? null),
                 ]));
                 break;
