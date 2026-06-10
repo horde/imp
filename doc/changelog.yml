@@ -298,6 +298,22 @@
     [mms] Don't send empty text part if a message contains attachments.
     [mms] Add button to allow folder tree to be rebuilt in smartmobile view.
     [mms] Add option to poll mailbox for new mailbox when creating a mailbox (Request #13227).
+7.0.0-RC4:
+  api: 7.0.0-RC4
+  state:
+    release: RC
+    api: RC
+  date: 2026-06-10
+  license:
+    identifier: GPL-2.0-only
+    uri: https://spdx.org/licenses/GPL-2.0-only.html
+  notes: |-
+    refactor(imp): retire 'hashtable' IMAP cache driver, fall through to 'cache'
+    style: php-cs-fixer
+    Remove broken config/conf.imp.php symlink
+    Update smartmobile.js
+    Refactor summary handling for URL instances
+    fix(security): restrict unserialize allowed_classes (ZDI-20-1051)
 7.0.0-RC3:
   api: 7.0.0-RC3
   state:
