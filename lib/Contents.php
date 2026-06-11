@@ -1322,8 +1322,14 @@ class IMP_Contents
      */
     protected function _fetchData(Horde_Imap_Client_Fetch_Query $query)
     {
+        $mbox = $this->getMailbox();
+        if (!$mbox) {
+            $e = new IMP_Exception(_('Error displaying message: message does not exist on server.'));
+            $e->setLogLevel('NOTICE');
+            throw $e;
+        }
+
         try {
-            $mbox = $this->getMailbox();
             $imp_imap = $mbox->imp_imap;
             return $imp_imap->fetch($mbox, $query, [
                 'ids' => $imp_imap->getIdsOb($this->getUid()),

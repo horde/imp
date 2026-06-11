@@ -283,11 +283,6 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
             return true;
         }
 
-        /* Only update search mailboxes on forced refreshes. */
-        if ($this->indices->mailbox->search) {
-            return !empty($this->_vars->forceUpdate);
-        }
-
         if (!$this->_vars->viewport->cacheid) {
             return false;
         }
@@ -414,6 +409,11 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
      */
     public function deleteMsgs(IMP_Indices $indices, $changed, $force = false)
     {
+        /* Search results may have been invalidated during deletion. */
+        if (!$changed) {
+            $changed = $this->changed(true);
+        }
+
         /* Check if we need to update thread information. */
         if (!$changed) {
             $changed = ($this->indices->mailbox->getSort()->sortby == Horde_Imap_Client::SORT_THREAD);
