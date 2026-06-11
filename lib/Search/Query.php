@@ -66,6 +66,13 @@ class IMP_Search_Query implements Serializable
     protected $_cache = [];
 
     /**
+     * Cache generation. Incremented when underlying mailbox contents change.
+     *
+     * @var integer
+     */
+    protected $_cacheGen = 0;
+
+    /**
      * Can this query be edited?
      *
      * @var boolean
@@ -327,6 +334,25 @@ class IMP_Search_Query implements Serializable
     }
 
     /**
+     * Return the cache generation for this query.
+     *
+     * @return integer
+     */
+    public function cacheGeneration()
+    {
+        return $this->_cacheGen;
+    }
+
+    /**
+     * Invalidate cached search results for this query.
+     */
+    public function invalidateCache()
+    {
+        ++$this->_cacheGen;
+        $this->_cache = [];
+    }
+
+    /**
      * Reduce the sorted return ID list by running search element callbacks..
      *
      * @param IMP_Mailbox $mbox  Mailbox.
@@ -366,6 +392,7 @@ class IMP_Search_Query implements Serializable
             'm' => $this->_mboxes,
             'v' => self::VERSION,
         ]);
+        $data['g'] = $this->_cacheGen;
 
         foreach ($this->_nosave as $val) {
             unset($data[$val]);
@@ -383,6 +410,7 @@ class IMP_Search_Query implements Serializable
             'm' => $this->_mboxes,
             'v' => self::VERSION,
         ]);
+        $data['g'] = $this->_cacheGen;
 
         foreach ($this->_nosave as $val) {
             unset($data[$val]);
@@ -420,6 +448,9 @@ class IMP_Search_Query implements Serializable
         if (isset($data['m'])) {
             $this->_mboxes = $data['m'];
         }
+        if (isset($data['g'])) {
+            $this->_cacheGen = $data['g'];
+        }
     }
     public function __unserialize(array $data): void
     {
@@ -440,6 +471,9 @@ class IMP_Search_Query implements Serializable
         }
         if (isset($data['m'])) {
             $this->_mboxes = $data['m'];
+        }
+        if (isset($data['g'])) {
+            $this->_cacheGen = $data['g'];
         }
     }
 }

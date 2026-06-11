@@ -291,6 +291,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
         }
         $imap_move = false;
         $return_value = true;
+        $affected_mailboxes = [];
 
         switch ($action) {
             case 'move':
@@ -326,6 +327,11 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
                     'ids' => $imp_imap->getIdsOb($ob->uids),
                     'move' => $imap_move,
                 ]);
+
+                if ($imap_move) {
+                    $affected_mailboxes[strval($ob->mbox)] = $ob->mbox;
+                    $affected_mailboxes[strval($targetMbox)] = $targetMbox;
+                }
             } catch (Exception $e) {
                 $error_msg = sprintf(
                     $message,
@@ -341,6 +347,12 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
 
                 $return_value = false;
             }
+        }
+
+        if ($return_value && $imap_move && !empty($affected_mailboxes)) {
+            $GLOBALS['injector']->getInstance('IMP_Search')->invalidateMailboxes(
+                array_values($affected_mailboxes)
+            );
         }
 
         return $return_value;
@@ -385,6 +397,7 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
             ? $injector->getInstance('IMP_Maillog')
             : null;
         $return_value = 0;
+        $affected_mailboxes = [];
 
         /* Check for Trash mailbox. */
         $no_expunge = $use_trash_mbox = $use_vtrash = false;
@@ -428,12 +441,9 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
                 continue;
             }
 
-            if ($return_value !== false) {
-                $return_value += count($ob->uids);
-            }
-
             $imp_imap = $ob->mbox->imp_imap;
             $ids_ob = $imp_imap->getIdsOb($ob->uids);
+            $processed = false;
 
             /* Trash is only valid for IMAP mailboxes. */
             if ($use_trash_mbox
@@ -453,6 +463,9 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
                             'ids' => $ids_ob,
                             'move' => true,
                         ]);
+                        $affected_mailboxes[strval($ob->mbox)] = $ob->mbox;
+                        $affected_mailboxes[strval($trash)] = $trash;
+                        $processed = true;
                     } catch (IMP_Imap_Exception $e) {
                         if ($e->getCode() == $e::OVERQUOTA) {
                             $notification->push(
@@ -510,9 +523,22 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
                             new IMP_Indices($ob->mbox, $ids_ob)
                         );
                     }
+
+                    $affected_mailboxes[strval($ob->mbox)] = $ob->mbox;
+                    $processed = true;
                 } catch (IMP_Imap_Exception $e) {
                 }
             }
+
+            if ($processed && ($return_value !== false)) {
+                $return_value += count($ob->uids);
+            }
+        }
+
+        if ($return_value !== false && !empty($affected_mailboxes)) {
+            $injector->getInstance('IMP_Search')->invalidateMailboxes(
+                array_values($affected_mailboxes)
+            );
         }
 
         return $return_value;

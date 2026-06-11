@@ -1363,6 +1363,15 @@ class IMP_Mailbox
             }
         }
 
+        if (!empty($update_list)) {
+            $GLOBALS['injector']->getInstance('IMP_Search')->invalidateMailboxes(
+                array_filter(array_map(
+                    [IMP_Mailbox::class, 'get'],
+                    array_keys($update_list)
+                ))
+            );
+        }
+
         if ($msg_list) {
             return new IMP_Indices($update_list);
         }
@@ -1591,8 +1600,8 @@ class IMP_Mailbox
      * from the mailbox. Additionally, if CONDSTORE is available on the remote
      * IMAP server, this ID will change if flag information changes.
      *
-     * For search mailboxes, this value never changes (search mailboxes must
-     * be forcibly refreshed).
+     * For search mailboxes, this value changes when underlying mailbox
+     * contents change or when search display preferences change.
      *
      * @param boolean $date  If true, adds date information to ID.
      *
@@ -1601,15 +1610,11 @@ class IMP_Mailbox
      */
     protected function _getCacheID($date = false)
     {
-        global $prefs;
+        global $injector, $prefs;
 
         $date = $date
             ? 'D' . date('z')
             : '';
-
-        if ($this->search) {
-            return '1' . ($date ? '|' . $date : '');
-        }
 
         $sortpref = $this->getSort(true);
         $addl = [
@@ -1619,6 +1624,16 @@ class IMP_Mailbox
         ];
         if ($date) {
             $addl[] = $date;
+        }
+
+        if ($this->search) {
+            $cache_gen = 0;
+            $imp_search = $injector->getInstance('IMP_Search');
+            if ($imp_search->offsetExists($this->_mbox)) {
+                $cache_gen = $imp_search[$this->_mbox]->cacheGeneration();
+            }
+
+            return $cache_gen . '|' . implode('|', $addl);
         }
 
         try {

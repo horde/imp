@@ -446,6 +446,65 @@ class IMP_Search implements ArrayAccess, IteratorAggregate, Serializable
     }
 
     /**
+     * Invalidate cached search results for queries that include the given
+     * mailboxes.
+     *
+     * @param array $mboxes  List of IMP_Mailbox objects and/or mailbox names.
+     */
+    public function invalidateMailboxes(array $mboxes)
+    {
+        global $injector;
+
+        if (empty($mboxes)) {
+            return;
+        }
+
+        $mboxes = array_unique(array_filter(array_map(
+            'strval',
+            array_map([IMP_Mailbox::class, 'get'], $mboxes)
+        )));
+
+        $list_factory = $injector->getInstance('IMP_Factory_MailboxList');
+
+        foreach (['query', 'vfolders'] as $type) {
+            foreach ($this->_search[$type] as $query) {
+                if (!$this->_queryAffected($query, $mboxes)) {
+                    continue;
+                }
+
+                $query->invalidateCache();
+                $list_factory->create($query->mid)->rebuild(true);
+                $this->changed = true;
+            }
+        }
+    }
+
+    /**
+     * Does a search query include any of the given mailboxes?
+     *
+     * @param IMP_Search_Query $query   Search query object.
+     * @param array $mboxes             List of mailbox names.
+     *
+     * @return boolean
+     */
+    protected function _queryAffected(IMP_Search_Query $query, array $mboxes)
+    {
+        if ($query->all) {
+            return true;
+        }
+
+        $mboxes = array_flip($mboxes);
+
+        foreach ($query->mboxes as $mbox) {
+            if (isset($mboxes[strval($mbox)])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Strip the identifying label from a mailbox ID.
      *
      * @param string $id  The mailbox query ID.
