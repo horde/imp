@@ -177,9 +177,11 @@ class IMP_Auth
              * server for this web server. This decision is based on the
              * global 'SERVER_NAME' and 'HTTP_HOST' server variables and the
              * contents of the 'preferred' field in the backend's config. */
+            $serverName = $_SERVER['SERVER_NAME'] ?? null;
+            $httpHost = $_SERVER['HTTP_HOST'] ?? null;
             if (($preferred = $val->preferred)
-                && (in_array($_SERVER['SERVER_NAME'], $preferred)
-                 || in_array($_SERVER['HTTP_HOST'], $preferred))) {
+                && (($serverName !== null && in_array($serverName, $preferred))
+                 || ($httpHost !== null && in_array($httpHost, $preferred)))) {
                 return $key;
             }
         }
