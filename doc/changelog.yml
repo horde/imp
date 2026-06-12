@@ -1,4 +1,98 @@
 ---
+7.0.0-RC5:
+  api: 7.0.0-RC5
+  state:
+    release: RC
+    api: RC
+  date: 2026-06-12
+  license:
+    identifier: GPL-2.0-only
+    uri: https://spdx.org/licenses/GPL-2.0-only.html
+  notes: |-
+    fix(imp): repair PHP 8.4 use imports and iTip handling for calendar replies
+    fix(imp): repair PHP 8.4 use imports and iTip handling for calendar replies
+    fix(imp): invalidate search cache when mailboxes change
+    fix(imp): guard missing HTTP_HOST in getAutoLoginServer()
+7.0.0-RC4:
+  api: 7.0.0-RC4
+  state:
+    release: RC
+    api: RC
+  date: 2026-06-10
+  license:
+    identifier: GPL-2.0-only
+    uri: https://spdx.org/licenses/GPL-2.0-only.html
+  notes: |-
+    refactor(imp): retire 'hashtable' IMAP cache driver, fall through to 'cache'
+    style: php-cs-fixer
+    Remove broken config/conf.imp.php symlink
+    Update smartmobile.js
+    Refactor summary handling for URL instances
+    fix(security): restrict unserialize allowed_classes (ZDI-20-1051)
+7.0.0-RC3:
+  api: 7.0.0-RC3
+  state:
+    release: RC
+    api: RC
+  date: 2026-05-25
+  license:
+    identifier: GPL-2.0-only
+    uri: https://spdx.org/licenses/GPL-2.0-only.html
+  notes: |-
+    Merge pull request #54 from horde/feat/adopt-compress-nls-psr4
+    refactor: Use PSR-4 version of horde/compress and horde/nls
+    fix: misplaced use statement
+    fix: resize icons, closes horde/imp#47
+    chore: Update workflow dependency
+7.0.0-RC2:
+  api: 7.0.0-RC2
+  state:
+    release: RC
+    api: RC
+  date: 2026-05-21
+  license:
+    identifier: GPL-2.0-only
+    uri: https://spdx.org/licenses/GPL-2.0-only.html
+  notes: |-
+    Class IMP_Imap not found
+    feat(imap): add XOAUTH2 authentication support
+    Implement try-catch for old server key retrieval
+    style: PER-1
+    refactor: Identity Factory now returns the PSR-4 class
+    refactor: Degrate IMP_Prefs_Identity to a shim for Horde\Imp\IdentityDriverPrefs
+    refactor(Identity): Build a PSR-4 Identity Driver
+    fix: Initialize stdClass before accessing attributes
+7.0.0-RC1:
+  api: 7.0.0-RC1
+  state:
+    release: RC
+    api: RC
+  date: 2026-05-19
+  license:
+    identifier: GPL-2.0-only
+    uri: https://spdx.org/licenses/GPL-2.0-only.html
+  notes: |-
+    refactor(injector): Widen type hints from Horde_Injector to Horde_Injector|Injector
+    refactor: Migrate from strftime to IntlDateFormatter
+    fix: Simplify Torben's previous PR on download URLs
+    test: Cover KeyStorage class
+    feat: Add some modern types to KeyStorage and optionally throw on error.
+    feat: Emit a warning notification if the SMIME key appears corrupt
+    feat: Emit a warning notification if the key appears corrupt
+    fix: Wrong prefix for PSR-4
+    feat: base64-encode keys for storage
+    Refactor download URL extraction logic
+    docs: Upgrade note on hashtable driver abuse as a temp fs
+    refactor: Accept Horde\Util\Variables in most places which accept Horde_Variables
+    docs: icon license
+    style: Changed CSS and icon assets to Lucide Icons with proper attribution
+    fix: Make imp more explicit when email address was not configured
+    docs(conf.php.dist): Add missing keys
+    fix: guard convertCharset() against null getContents() for PHP 8.1+
+    fix: Null safety
+    docs: Add documented example config file
+    fix: More defensive code when trying to drop tables
+    docs: Clarify where to put local overrides
 7.0.0-beta3:
   api: 7.0.0-beta3
   state:
@@ -298,86 +392,6 @@
     [mms] Don't send empty text part if a message contains attachments.
     [mms] Add button to allow folder tree to be rebuilt in smartmobile view.
     [mms] Add option to poll mailbox for new mailbox when creating a mailbox (Request #13227).
-7.0.0-RC4:
-  api: 7.0.0-RC4
-  state:
-    release: RC
-    api: RC
-  date: 2026-06-10
-  license:
-    identifier: GPL-2.0-only
-    uri: https://spdx.org/licenses/GPL-2.0-only.html
-  notes: |-
-    refactor(imp): retire 'hashtable' IMAP cache driver, fall through to 'cache'
-    style: php-cs-fixer
-    Remove broken config/conf.imp.php symlink
-    Update smartmobile.js
-    Refactor summary handling for URL instances
-    fix(security): restrict unserialize allowed_classes (ZDI-20-1051)
-7.0.0-RC3:
-  api: 7.0.0-RC3
-  state:
-    release: RC
-    api: RC
-  date: 2026-05-25
-  license:
-    identifier: GPL-2.0-only
-    uri: https://spdx.org/licenses/GPL-2.0-only.html
-  notes: |-
-    Merge pull request #54 from horde/feat/adopt-compress-nls-psr4
-    refactor: Use PSR-4 version of horde/compress and horde/nls
-    fix: misplaced use statement
-    fix: resize icons, closes horde/imp#47
-    chore: Update workflow dependency
-7.0.0-RC2:
-  api: 7.0.0-RC2
-  state:
-    release: RC
-    api: RC
-  date: 2026-05-21
-  license:
-    identifier: GPL-2.0-only
-    uri: https://spdx.org/licenses/GPL-2.0-only.html
-  notes: |-
-    Class IMP_Imap not found
-    feat(imap): add XOAUTH2 authentication support
-    Implement try-catch for old server key retrieval
-    style: PER-1
-    refactor: Identity Factory now returns the PSR-4 class
-    refactor: Degrate IMP_Prefs_Identity to a shim for Horde\Imp\IdentityDriverPrefs
-    refactor(Identity): Build a PSR-4 Identity Driver
-    fix: Initialize stdClass before accessing attributes
-7.0.0-RC1:
-  api: 7.0.0-RC1
-  state:
-    release: RC
-    api: RC
-  date: 2026-05-19
-  license:
-    identifier: GPL-2.0-only
-    uri: https://spdx.org/licenses/GPL-2.0-only.html
-  notes: |-
-    refactor(injector): Widen type hints from Horde_Injector to Horde_Injector|Injector
-    refactor: Migrate from strftime to IntlDateFormatter
-    fix: Simplify Torben's previous PR on download URLs
-    test: Cover KeyStorage class
-    feat: Add some modern types to KeyStorage and optionally throw on error.
-    feat: Emit a warning notification if the SMIME key appears corrupt
-    feat: Emit a warning notification if the key appears corrupt
-    fix: Wrong prefix for PSR-4
-    feat: base64-encode keys for storage
-    Refactor download URL extraction logic
-    docs: Upgrade note on hashtable driver abuse as a temp fs
-    refactor: Accept Horde\Util\Variables in most places which accept Horde_Variables
-    docs: icon license
-    style: Changed CSS and icon assets to Lucide Icons with proper attribution
-    fix: Make imp more explicit when email address was not configured
-    docs(conf.php.dist): Add missing keys
-    fix: guard convertCharset() against null getContents() for PHP 8.1+
-    fix: Null safety
-    docs: Add documented example config file
-    fix: More defensive code when trying to drop tables
-    docs: Clarify where to put local overrides
 6.2.28:
   api: 6.2.0
   state:
@@ -769,6 +783,30 @@
     [mms] Fix dragging a mailbox to the base level in dynamic view.
     [mms] Add ability to drag/drop text to dynamic HTML compose window on Chrome and IE.
     [mms] Re-enable drag/drop of text to dynamic plaintext compose window (Bug #13281).
+6.2.0:
+  api: 6.2.0
+  state:
+    release: stable
+    api: stable
+  date: 2014-07-08
+  license:
+    identifier: GPL-2.0
+    uri: http://www.horde.org/licenses/gpl
+  notes: |
+    [mms] Fix some regressions in linked attachments behavior (Bug #13232).
+    [mjr] Fix fatal error when printing empty HTML attachments (Bug #13322).
+6.2.0-RC1:
+  api: 6.2.0
+  state:
+    release: beta
+    api: beta
+  date: 2014-07-01
+  license:
+    identifier: GPL-2.0
+    uri: http://www.horde.org/licenses/gpl
+  notes: |
+    Original version string was 6.2.0RC1
+    [mms] Fix handling image attachments when added via the HTML editor Image dialog.
 6.2.0-beta3:
   api: 6.2.0
   state:
@@ -874,30 +912,6 @@
     [mms] Allow configurable access to remote accounts from within a session (Request #8077).
     [jan] Display "Other Options" icon instead of "New Window" icon in collapsed preview headers.
     [mms] More advanced auto-completion for smartmobile view.
-6.2.0-RC1:
-  api: 6.2.0
-  state:
-    release: beta
-    api: beta
-  date: 2014-07-01
-  license:
-    identifier: GPL-2.0
-    uri: http://www.horde.org/licenses/gpl
-  notes: |
-    Original version string was 6.2.0RC1
-    [mms] Fix handling image attachments when added via the HTML editor Image dialog.
-6.2.0:
-  api: 6.2.0
-  state:
-    release: stable
-    api: stable
-  date: 2014-07-08
-  license:
-    identifier: GPL-2.0
-    uri: http://www.horde.org/licenses/gpl
-  notes: |
-    [mms] Fix some regressions in linked attachments behavior (Bug #13232).
-    [mjr] Fix fatal error when printing empty HTML attachments (Bug #13322).
 6.1.8:
   api: 6.1.0
   state:
@@ -1049,6 +1063,37 @@
     [mms] Fix regression preventing Virtual Inbox from refreshing once opened in dynamic view (Bug #12304).
     [mms] Don't show option to add senders to safe images list if the current address cannot be added to the safe list.
     [mms] Don't log authentication exception messages from the IMAP library; authentication failures are already logged by the authentication code.
+6.1.0:
+  api: 6.1.0
+  state:
+    release: stable
+    api: stable
+  date: 2013-06-04
+  license:
+    identifier: GPL-2.0
+    uri: http://www.horde.org/licenses/gpl
+  notes: |
+    [mms] Fix fatal error when importing a S/MIME key (Bug #12290).
+    [mms] Fixed segfaults caused by SMTP debugging.
+6.1.0-RC1:
+  api: 6.0.0
+  state:
+    release: beta
+    api: stable
+  date: 2013-05-29
+  license:
+    identifier: GPL-2.0
+    uri: http://www.horde.org/licenses/gpl
+  notes: |
+    Original version string was 6.1.0RC1
+    [mms] Add ability to (un)subscribe to all subfolders in dynamic view.
+    [mms] When checking for personal addresses when deciding whether to display images, only check against e-mail field.
+    [mms] Correctly notify dynamic mailbox view if sent-mail mailboxes are created in compose page.
+    [mms] Fix sending group addresses from smartmobile view.
+    [mms] Add 'horde_auth' option to SMTP configuration in backends.php.
+    [mms] Add null spam reporting driver.
+    [mms] Display information to user if incorrect character set data is preventing a text part from being displayed.
+    [mms] Fix regression in renaming mailboxes (Bug #12260).
 6.1.0-beta2:
   api: 6.0.0
   state:
@@ -1134,37 +1179,6 @@
     [mms] Better UI for changing quicksearch criteria in dynamic mailbox screen.
     [mms] Collapse multiple mailbox export options in dynamic mailbox view to single action.
     [mms] Importing a PGP personal key now only requires the private key.
-6.1.0-RC1:
-  api: 6.0.0
-  state:
-    release: beta
-    api: stable
-  date: 2013-05-29
-  license:
-    identifier: GPL-2.0
-    uri: http://www.horde.org/licenses/gpl
-  notes: |
-    Original version string was 6.1.0RC1
-    [mms] Add ability to (un)subscribe to all subfolders in dynamic view.
-    [mms] When checking for personal addresses when deciding whether to display images, only check against e-mail field.
-    [mms] Correctly notify dynamic mailbox view if sent-mail mailboxes are created in compose page.
-    [mms] Fix sending group addresses from smartmobile view.
-    [mms] Add 'horde_auth' option to SMTP configuration in backends.php.
-    [mms] Add null spam reporting driver.
-    [mms] Display information to user if incorrect character set data is preventing a text part from being displayed.
-    [mms] Fix regression in renaming mailboxes (Bug #12260).
-6.1.0:
-  api: 6.1.0
-  state:
-    release: stable
-    api: stable
-  date: 2013-06-04
-  license:
-    identifier: GPL-2.0
-    uri: http://www.horde.org/licenses/gpl
-  notes: |
-    [mms] Fix fatal error when importing a S/MIME key (Bug #12290).
-    [mms] Fixed segfaults caused by SMTP debugging.
 6.0.6:
   notes: |
     [mms] Fix displaying some HTML messages that contain blocked CSS rules (Bug #12294).
@@ -1296,6 +1310,53 @@
     [mms] Fixes to PGP Private key generation (Bug #11597).
     [mms] Don't block remote message styling if sender is in whitelist.
     [mms] Fix spellcheck display in dynamic view if HTML composition mode is the default (Bug #11592).
+6.0.0:
+  api: 6.0.0
+  state:
+    release: stable
+    api: stable
+  date: 2012-10-30
+  license:
+    identifier: GPL-2.0
+    uri: http://www.horde.org/licenses/gpl
+  notes: |
+    [mms] Fix regression in adding an attachment in minimal view.
+6.0.0-RC2:
+  api: 6.0.0beta1
+  state:
+    release: beta
+    api: beta
+  date: 2012-10-29
+  license:
+    identifier: GPL-2.0
+    uri: http://www.horde.org/licenses/gpl
+  notes: |
+    Original version string was 6.0.0RC2
+    [jan] Update Polish translation (Krzysztof Kozera <krzysztof113@o2.pl>).
+    [jan] Update Dutch translation (Arjen de Korte <arjen+horde@de-korte.org>).
+    [mms] Fix regression causing large amounts of whitespace padding to be added to compose text in basic view.
+    [mms] Fix regression in sending messages in basic/minimal mode if no attachment is added (Bug #11582).
+    [jan] Fix key navigation in message view of basic mode.
+6.0.0-RC1:
+  api: 6.0.0beta1
+  state:
+    release: beta
+    api: beta
+  date: 2012-10-26
+  license:
+    identifier: GPL-2.0
+    uri: http://www.horde.org/licenses/gpl
+  notes: |
+    Original version string was 6.0.0RC1
+    [mms] Attach as many files as possible instead of aborting on first failed attachment add.
+    [mms] Fix determining first/last unseen message in a mailbox (use message date instead of arrival date).
+    [jan] Don't show application menus in iTip MIME viewer popups.
+    [mms] Hide subfolder creation option in dynamic view if IMAP server indicates that child mailboxes cannot be created.
+    [mms] Correctly send deleted flag information to browser cache when using dynamic/smartmobile view (Bug #11362).
+    [mms] Auto-update folders list in smartmobile view if special mailbox is auto-created (Request #11482).
+    [mms] Load folders list on-demand in smartmobile view.
+    [mms] Fix thread view when mailbox is not thread sorted (Bug #11320).
+    [mms] Display message range when dragging slider on dynamic mailbox page.
 6.0.0-beta4:
   api: 6.0.0beta1
   state:
@@ -1452,53 +1513,6 @@
     [mms] Fix accessing mailboxes containing ampersands (Bug #10093).
     [mms] Size of sidebar now saved in dynamic view.
     [mms] Browser-specific UI elements in dynamic view now saved in browser storage (Request #10723).
-6.0.0-RC2:
-  api: 6.0.0beta1
-  state:
-    release: beta
-    api: beta
-  date: 2012-10-29
-  license:
-    identifier: GPL-2.0
-    uri: http://www.horde.org/licenses/gpl
-  notes: |
-    Original version string was 6.0.0RC2
-    [jan] Update Polish translation (Krzysztof Kozera <krzysztof113@o2.pl>).
-    [jan] Update Dutch translation (Arjen de Korte <arjen+horde@de-korte.org>).
-    [mms] Fix regression causing large amounts of whitespace padding to be added to compose text in basic view.
-    [mms] Fix regression in sending messages in basic/minimal mode if no attachment is added (Bug #11582).
-    [jan] Fix key navigation in message view of basic mode.
-6.0.0-RC1:
-  api: 6.0.0beta1
-  state:
-    release: beta
-    api: beta
-  date: 2012-10-26
-  license:
-    identifier: GPL-2.0
-    uri: http://www.horde.org/licenses/gpl
-  notes: |
-    Original version string was 6.0.0RC1
-    [mms] Attach as many files as possible instead of aborting on first failed attachment add.
-    [mms] Fix determining first/last unseen message in a mailbox (use message date instead of arrival date).
-    [jan] Don't show application menus in iTip MIME viewer popups.
-    [mms] Hide subfolder creation option in dynamic view if IMAP server indicates that child mailboxes cannot be created.
-    [mms] Correctly send deleted flag information to browser cache when using dynamic/smartmobile view (Bug #11362).
-    [mms] Auto-update folders list in smartmobile view if special mailbox is auto-created (Request #11482).
-    [mms] Load folders list on-demand in smartmobile view.
-    [mms] Fix thread view when mailbox is not thread sorted (Bug #11320).
-    [mms] Display message range when dragging slider on dynamic mailbox page.
-6.0.0:
-  api: 6.0.0
-  state:
-    release: stable
-    api: stable
-  date: 2012-10-30
-  license:
-    identifier: GPL-2.0
-    uri: http://www.horde.org/licenses/gpl
-  notes: |
-    [mms] Fix regression in adding an attachment in minimal view.
 5.0.24:
   api: 5.0.0
   state:
@@ -1977,6 +1991,78 @@
     [mms] Fix composing messages in mobile view.
     [mms] IMP will refuse to work with POP3 servers that don't support UIDL.
     [mms] Many POP3 fixes.
+5.0.0:
+  api: 5.0.0
+  state:
+    release: stable
+    api: stable
+  date: 2011-04-06
+  license:
+    identifier: GPL-2.0
+    uri: http://www.horde.org/licenses/gpl
+  notes: |
+    First stable release for Horde 4.
+    [jan] Notify about new mails in any Horde application.
+    [mms] New mail notifications now handled by the Horde Notification system (Request #9751).
+    [mms] Fix resuming messages with attachments (Bug #9780).
+    [mms] Fix javascript actions in standard view in IE 7/8 (Bugs #9801, 9809).
+    [jan] Fix application-specific permission checks (Bug #9786).
+    [mms] Fix printing of message parts in IE, regardless of local user settings (Bug #9756).
+    [mms] Fix IMP_Maillog regression from RC2 (Bug #9763).
+    [mms] Fix honoring default encryption option in dynamic view.
+    [jan] Show full alarm notifications in dynamic view (Request #9748).
+    [jan] Fix saving S/MIME certs to address book.
+    [mms] Support importing of compressed mailbox files if the zip extension is not available.
+5.0.0-RC2:
+  api: 5.0.0
+  state:
+    release: beta
+    api: beta
+  date: 2011-03-29
+  license:
+    identifier: GPL-2.0
+    uri: http://www.horde.org/licenses/gpl
+  notes: |
+    Original version string was 5.0.0RC2
+    Second release candidate for Horde 4.
+    [mms] Fix max_folders permission (Bug #9741).
+    [jan] Rename all scripts in bin/ to be prefixed with imp- (Request #9647).
+    [jan] Correctly render notifications with embedded HTML in dynamic view (Bug #9729).
+    [mms] Fix moving to new mailbox, tasklist, and notepad in traditional view (Bug #9732).
+    [jan] Add left and right keys as aliases for up and down keys in dynamic view.
+    [mms] Add mailbox sorting and select all messages to vertical layout in the dynamic view (Request #9708).
+    [jan] Fix expansion of quoted sections in thread view.
+    [jan] Fix message previews in traditional view (Bug #9695).
+    [jan] Support importing of compressed mailbox files.
+    [jan] Fix upgrading of search_fields preference.
+    [jan] Fix key navigation in traditional mailbox view.
+    [mms] Don't cache FETCH data for the Spam and Trash mailboxes.
+    [mms] All views now honor 'initial_page' preference.
+    [mms] Fix loading virtual folder as initial page in standard view (Bug #9696).
+5.0.0-RC1:
+  api: 5.0.0
+  state:
+    release: beta
+    api: beta
+  date: 2011-03-23
+  license:
+    identifier: GPL-2.0
+    uri: http://www.horde.org/licenses/gpl
+  notes: |
+    Original version string was 5.0.0RC1
+    First release candidate for Horde 4.
+    [jan] Update installation and upgrade instructions.
+    [mms] Fix loading virtual folder as initial page in standard view (Bug #9696).
+    [mms] Fix upgrading virtual folders from IMP 4 (Bug #9692).
+    [mms] Fix editing the size search criteria.
+    [mms] Optimize importing messages from mbox file.
+    [mms] Fix deletion from Virtual Inbox in standard view (Bug #9686).
+    [mms] Fix loading virtual folders from drop-down folder list (Bug #9687).
+    [mms] Fix thread sort by newest messages first (Bug #9685).
+    [mms] Add ability to import/download mailboxes in dynamic view.
+    [jan] Remove application tabs from AJAX interface (Bug #9679).
+    [mms] Move all portal rendering code to Horde.
+    [mms] Fix flag display in message list in traditional view (Bug #9673).
 5.0.0-beta1:
   api: 5.0.0
   state:
@@ -2168,78 +2254,6 @@
     [mms] Added readonly mailbox and disable compose hooks.
     [mms] Saving draft on session expiration now handled via VFS.
     [mms] Add preference to delete draft on resume & send.
-5.0.0-RC2:
-  api: 5.0.0
-  state:
-    release: beta
-    api: beta
-  date: 2011-03-29
-  license:
-    identifier: GPL-2.0
-    uri: http://www.horde.org/licenses/gpl
-  notes: |
-    Original version string was 5.0.0RC2
-    Second release candidate for Horde 4.
-    [mms] Fix max_folders permission (Bug #9741).
-    [jan] Rename all scripts in bin/ to be prefixed with imp- (Request #9647).
-    [jan] Correctly render notifications with embedded HTML in dynamic view (Bug #9729).
-    [mms] Fix moving to new mailbox, tasklist, and notepad in traditional view (Bug #9732).
-    [jan] Add left and right keys as aliases for up and down keys in dynamic view.
-    [mms] Add mailbox sorting and select all messages to vertical layout in the dynamic view (Request #9708).
-    [jan] Fix expansion of quoted sections in thread view.
-    [jan] Fix message previews in traditional view (Bug #9695).
-    [jan] Support importing of compressed mailbox files.
-    [jan] Fix upgrading of search_fields preference.
-    [jan] Fix key navigation in traditional mailbox view.
-    [mms] Don't cache FETCH data for the Spam and Trash mailboxes.
-    [mms] All views now honor 'initial_page' preference.
-    [mms] Fix loading virtual folder as initial page in standard view (Bug #9696).
-5.0.0-RC1:
-  api: 5.0.0
-  state:
-    release: beta
-    api: beta
-  date: 2011-03-23
-  license:
-    identifier: GPL-2.0
-    uri: http://www.horde.org/licenses/gpl
-  notes: |
-    Original version string was 5.0.0RC1
-    First release candidate for Horde 4.
-    [jan] Update installation and upgrade instructions.
-    [mms] Fix loading virtual folder as initial page in standard view (Bug #9696).
-    [mms] Fix upgrading virtual folders from IMP 4 (Bug #9692).
-    [mms] Fix editing the size search criteria.
-    [mms] Optimize importing messages from mbox file.
-    [mms] Fix deletion from Virtual Inbox in standard view (Bug #9686).
-    [mms] Fix loading virtual folders from drop-down folder list (Bug #9687).
-    [mms] Fix thread sort by newest messages first (Bug #9685).
-    [mms] Add ability to import/download mailboxes in dynamic view.
-    [jan] Remove application tabs from AJAX interface (Bug #9679).
-    [mms] Move all portal rendering code to Horde.
-    [mms] Fix flag display in message list in traditional view (Bug #9673).
-5.0.0:
-  api: 5.0.0
-  state:
-    release: stable
-    api: stable
-  date: 2011-04-06
-  license:
-    identifier: GPL-2.0
-    uri: http://www.horde.org/licenses/gpl
-  notes: |
-    First stable release for Horde 4.
-    [jan] Notify about new mails in any Horde application.
-    [mms] New mail notifications now handled by the Horde Notification system (Request #9751).
-    [mms] Fix resuming messages with attachments (Bug #9780).
-    [mms] Fix javascript actions in standard view in IE 7/8 (Bugs #9801, 9809).
-    [jan] Fix application-specific permission checks (Bug #9786).
-    [mms] Fix printing of message parts in IE, regardless of local user settings (Bug #9756).
-    [mms] Fix IMP_Maillog regression from RC2 (Bug #9763).
-    [mms] Fix honoring default encryption option in dynamic view.
-    [jan] Show full alarm notifications in dynamic view (Request #9748).
-    [jan] Fix saving S/MIME certs to address book.
-    [mms] Support importing of compressed mailbox files if the zip extension is not available.
 4.3.10:
   notes: |
     [jan] Don't submit the action form when reloading messages with iTip attachments (Bug #9502).
@@ -2319,6 +2333,10 @@
     [jan] Use mailer configuration when sending iTip replies (Bug #7388).
     [jan] Always display multipart/appledouble attachments.
     [mms] Upgrade prototype.js to v1.6.0.3.
+4.3.0:
+  notes: |
+    [jan] Add compose token to redirect view (Bug #7383).
+    [jan] Don't resize window if not composing messages in a popup.
 4.3.0-RC2:
   notes: |
     Original version string was 4.3.0RC2
@@ -2368,85 +2386,19 @@
     [mms] Fix rare case when spellchecking HTML input could result in the HTML tags being recognized as misspelled words.
     [jan] Fix parsing for Token System configuration parameters.
     [mms] Add ability to search by size.
-4.3.0:
-  notes: |
-    [jan] Add compose token to redirect view (Bug #7383).
-    [jan] Don't resize window if not composing messages in a popup.
 4.2.2:
   notes: |
     [cjh] SECURITY: Escape output in message.php, pgp.php and smime.php (found by Gunnar Wrobel <p@rdus.de>).
 4.2.1:
   notes: |
     [jan] SECURITY: Escape output in test.php.
-4.2.0-alpha1:
+4.2.0:
   notes: |
-    Original version string was 4.2.0alpha
-    [jan] Add configuration for folders that may not be modified.
-    [mms] Inline PHP-generated javascript to avoid cross-domain leaking (Bug #5307).
-    [cjh] Preserve current mailbox when composing in the main window (Bug #5415).
-    [cjh] Add a few more new mail sounds and allow the user to choose between them (Request #3260).
-    [mms] Preserve URL anchor information when performing login.
-    [jan] Fetch public PGP keys from keyserver if not available in address book (Requires Horde 3.2).
-    [mms] Add compose support for e-mails containing Internationalized Domain Names (Request #5180).
-    [jan] Add a hook for post sending actions, after a message has been sent.
-    [mms] Add option to login screen to allow user to select the application mode if either DIMP or MIMP is also installed.
-    [jan] Add unified IMAP quota driver to obsolete the Cyrus and Courier drivers.
-    [mms] Don't allow namespace delimiters in new mailbox names.
-    [mms] Change 'Important' flag to 'Flagged For Followup' and clear the flag after a reply (Request #4867).
-    [mms] Allow display of shared/public folders separate from a user's personal folders (Request #3581).
-    [mms] Allow thumbnails to be generated for all attached images, regardless of image size.
-    [cjh] Add a modal confirmation dialog for emptying a folder (Request #4812).
-    [mms] Add ability for admin to limit size of reply text.
-    [mms] Add RSS/Atom feed for mailboxes (Eric Garrido <ekg2002@columbia.edu>, Request #2733).
-    [mms] If tidy is available, use it to clean up outgoing HTML messages.
-    [mms] Automatically delete blacklisted messages (Request #4569).
-    [cjh] Implement non-modal newmail popups (Request #3327).
-    [mms] Add option to restrict size of MIME message parts that can be displayed inline.
-    [cjh] Add a Help entry for keyboard navigation (Bug #4716).
-    [mms] Most javascript code now uses the Prototype library.
-    [jan] Address auto-completion searches only at beginning of names and addresses.
-    [jan] Add button to empty the current folder.
-    [jan] Show percentage of attachment limit usage in compose window (Eric Garrido <ekg2002@columbia.edu>, Request #3434).
-    [jan] Add SQL driver for quotas (Tomas Simonaitis <haden@homelan.lt>, Request #4053).
-    [mms] Allow user to view PGP encrypted messages sent by themself (Bug #4332).
-    [mas] Make ACL editor more intuitive (Eric Garrido <ekg2002@columbia.edu>, Request #3808).
-    [mas] Conform to WCAG 1.0 Priority 2/Section 508 accessibility guidelines. (Request #4080)
-    [mms] Added preference to allow composition in reply/forward based on "richest" format available in original message (Request #4270).
-    [mms] Added preferences to determine default forwarding method and whether to include body text in forwards by default.
-    [mms] Add preference to only verify PGP & S/MIME signed data upon user request (Request #4022).
-    [mms] Add preference to indicate default cursor location in compose text area (Request #3245).
-    [jan] Add support for symmetric PGP encryption (Requires Horde 3.2).
-    [cjh] Add an onbeforeunload handler so Firefox and IE users can be prompted before accidentally closing a compose window (phyre@rogers.com, Request #4271).
-    [jan] Move mail_hdr preference from identities to a regular preference.
-    [mms] Remove current mailbox information from session - allows multiple simultaneous open IMP windows (Request #3171).
-    [mms] Add folder size display to folders screen (Request #4065).
-    [mms] Add ability to filter HTML message output with tidy (Request #388).
-    [cjh] Show thumbnails of large images instead of linking to them (Eric Garrido <ekg2002@columbia.edu>, Request #3808).
-    [mms] Page location in mailbox is remembered for subsequent mailbox visits.
-    [mas] Add maintenance task to purge old messages from spam folder (Request #3860).
-    [mms] Implement mailbox message list caching.
-    [mms] Port AJAX spell checking code from DIMP.
-    [mms] Port auto-complete contacts AJAX code from DIMP.
-    [mms] Add preference to poll all folders for new mail (Request #2197).
-    [mms] Allow admins to add "Printed By" headers to the top of all printed messages (Request #1965).
-    [mms] Allow user to save per-folder sort preferences (Request #1483).
-    [jan] Add multidomain support for Kolab servers (tokoe@kde.org, Request #3579).
-    [cjh] Add a hook for post-login actions, after the session is established but before redirection.
-    [mms] Recent search queries can be retrieved on the search page (Request #3337).
-    [mms] Convert all templates to Horde_Template::.
-    [cjh] Show vTodo parts in the iTip driver (Request #3344).
-    [jan] Add maintenance task to purge old messages from sent-mail folders.
-    [cjh] Move allow_cc and allow_bcc to compose_cc and compose_bcc preferences.
-    [ben] Better support for MS-SQL.
-    [jan] Whether and where to show alternative mime parts is now a preference instead of MIME configuration.
-    [mms] Split out custom spelling dictionary into separate configuration file.
-    [jan] Delete original message after saving a resumed draft.
-    [cjh] If the browser supports the necessary javascript, unblock images in HTML messages without a page reload.
-    [cjh] Do all message styling based on flags with CSS.
-    [mms] Implement message caching.
-    [jan] Add permissions to restrict maximum number of recipients per message and time.
-    [jan] Add API method "contacts/favouriteRecipients".
-    [jan] Add logging of sent messages.
+    [cjh] Fix display of email groups in received messages.
+    [cjh] Fix sending email to contact lists (Bug #6732).
+    [cjh] Make sure that email addresses entered in the Identities screen pass basic well-formedness validation (Bug #6654).
+    [cjh] Fix default server selection on the login screen (adrieder@sbox.tugraz.at, Bug #6738).
+    [cjh] Fix defaulting to the wrong address book in the Contacts popup (steinhof@umich.edu, Bug #6723).
 4.2.0-RC4:
   notes: |
     Original version string was 4.2.0RC4
@@ -2520,13 +2472,75 @@
     [cjh] Fix a fatal error when composing for users with no signature (Bug #5682).
     [cjh] The pspell extension is no longer supported for spell checking since it doesn't work with HTML composition at all (Bug #5516).
     [cjh] Fix switching signatures when using HTML composition (Bugs #3753, #5594).
-4.2.0:
+4.2.0-alpha1:
   notes: |
-    [cjh] Fix display of email groups in received messages.
-    [cjh] Fix sending email to contact lists (Bug #6732).
-    [cjh] Make sure that email addresses entered in the Identities screen pass basic well-formedness validation (Bug #6654).
-    [cjh] Fix default server selection on the login screen (adrieder@sbox.tugraz.at, Bug #6738).
-    [cjh] Fix defaulting to the wrong address book in the Contacts popup (steinhof@umich.edu, Bug #6723).
+    Original version string was 4.2.0alpha
+    [jan] Add configuration for folders that may not be modified.
+    [mms] Inline PHP-generated javascript to avoid cross-domain leaking (Bug #5307).
+    [cjh] Preserve current mailbox when composing in the main window (Bug #5415).
+    [cjh] Add a few more new mail sounds and allow the user to choose between them (Request #3260).
+    [mms] Preserve URL anchor information when performing login.
+    [jan] Fetch public PGP keys from keyserver if not available in address book (Requires Horde 3.2).
+    [mms] Add compose support for e-mails containing Internationalized Domain Names (Request #5180).
+    [jan] Add a hook for post sending actions, after a message has been sent.
+    [mms] Add option to login screen to allow user to select the application mode if either DIMP or MIMP is also installed.
+    [jan] Add unified IMAP quota driver to obsolete the Cyrus and Courier drivers.
+    [mms] Don't allow namespace delimiters in new mailbox names.
+    [mms] Change 'Important' flag to 'Flagged For Followup' and clear the flag after a reply (Request #4867).
+    [mms] Allow display of shared/public folders separate from a user's personal folders (Request #3581).
+    [mms] Allow thumbnails to be generated for all attached images, regardless of image size.
+    [cjh] Add a modal confirmation dialog for emptying a folder (Request #4812).
+    [mms] Add ability for admin to limit size of reply text.
+    [mms] Add RSS/Atom feed for mailboxes (Eric Garrido <ekg2002@columbia.edu>, Request #2733).
+    [mms] If tidy is available, use it to clean up outgoing HTML messages.
+    [mms] Automatically delete blacklisted messages (Request #4569).
+    [cjh] Implement non-modal newmail popups (Request #3327).
+    [mms] Add option to restrict size of MIME message parts that can be displayed inline.
+    [cjh] Add a Help entry for keyboard navigation (Bug #4716).
+    [mms] Most javascript code now uses the Prototype library.
+    [jan] Address auto-completion searches only at beginning of names and addresses.
+    [jan] Add button to empty the current folder.
+    [jan] Show percentage of attachment limit usage in compose window (Eric Garrido <ekg2002@columbia.edu>, Request #3434).
+    [jan] Add SQL driver for quotas (Tomas Simonaitis <haden@homelan.lt>, Request #4053).
+    [mms] Allow user to view PGP encrypted messages sent by themself (Bug #4332).
+    [mas] Make ACL editor more intuitive (Eric Garrido <ekg2002@columbia.edu>, Request #3808).
+    [mas] Conform to WCAG 1.0 Priority 2/Section 508 accessibility guidelines. (Request #4080)
+    [mms] Added preference to allow composition in reply/forward based on "richest" format available in original message (Request #4270).
+    [mms] Added preferences to determine default forwarding method and whether to include body text in forwards by default.
+    [mms] Add preference to only verify PGP & S/MIME signed data upon user request (Request #4022).
+    [mms] Add preference to indicate default cursor location in compose text area (Request #3245).
+    [jan] Add support for symmetric PGP encryption (Requires Horde 3.2).
+    [cjh] Add an onbeforeunload handler so Firefox and IE users can be prompted before accidentally closing a compose window (phyre@rogers.com, Request #4271).
+    [jan] Move mail_hdr preference from identities to a regular preference.
+    [mms] Remove current mailbox information from session - allows multiple simultaneous open IMP windows (Request #3171).
+    [mms] Add folder size display to folders screen (Request #4065).
+    [mms] Add ability to filter HTML message output with tidy (Request #388).
+    [cjh] Show thumbnails of large images instead of linking to them (Eric Garrido <ekg2002@columbia.edu>, Request #3808).
+    [mms] Page location in mailbox is remembered for subsequent mailbox visits.
+    [mas] Add maintenance task to purge old messages from spam folder (Request #3860).
+    [mms] Implement mailbox message list caching.
+    [mms] Port AJAX spell checking code from DIMP.
+    [mms] Port auto-complete contacts AJAX code from DIMP.
+    [mms] Add preference to poll all folders for new mail (Request #2197).
+    [mms] Allow admins to add "Printed By" headers to the top of all printed messages (Request #1965).
+    [mms] Allow user to save per-folder sort preferences (Request #1483).
+    [jan] Add multidomain support for Kolab servers (tokoe@kde.org, Request #3579).
+    [cjh] Add a hook for post-login actions, after the session is established but before redirection.
+    [mms] Recent search queries can be retrieved on the search page (Request #3337).
+    [mms] Convert all templates to Horde_Template::.
+    [cjh] Show vTodo parts in the iTip driver (Request #3344).
+    [jan] Add maintenance task to purge old messages from sent-mail folders.
+    [cjh] Move allow_cc and allow_bcc to compose_cc and compose_bcc preferences.
+    [ben] Better support for MS-SQL.
+    [jan] Whether and where to show alternative mime parts is now a preference instead of MIME configuration.
+    [mms] Split out custom spelling dictionary into separate configuration file.
+    [jan] Delete original message after saving a resumed draft.
+    [cjh] If the browser supports the necessary javascript, unblock images in HTML messages without a page reload.
+    [cjh] Do all message styling based on flags with CSS.
+    [mms] Implement message caching.
+    [jan] Add permissions to restrict maximum number of recipients per message and time.
+    [jan] Add API method "contacts/favouriteRecipients".
+    [jan] Add logging of sent messages.
 4.1.6:
   notes: |
     [jan] Fix sentmail folder not being updated in the preference interface after updating to Horde 3.1.5 (Bug #5842).
@@ -2544,6 +2558,13 @@
     [jan] Fix parsing of certain distribution lists (Bug #5134).
     [mms] Fix rare occurrence where an action perfomed on the mailbox screen would instead be performed on the INBOX (Bug #5202).
     [mms] Don't show save attachments prompt in compose screen if configured to automatically link all attachments (Request #5189).
+4.1.4:
+  notes: |
+    [jan] SECURITY: Fix XSS vulnerabilities in the search screen and thread view.
+    [jan] Improve displaying of PGP messages (requires Horde 3.1.4 partially).
+    [mms] Make sure we pass a read/write IMAP stream to the filters API (Bug #5054).
+    [mms] Do not allow move to trash unless trash folder is defined (Bug #5012).
+    [jan] Fix an encoding issue with the address book popup (Bug #5050).
 4.1.4-RC1:
   notes: |
     Original version string was 4.1.4RC1
@@ -2560,13 +2581,6 @@
     [cjh] Don't return empty sent-mail folders from the identity (Bug #4380).
     [cjh] Don't rename folders from or to an empty string (Bug #4380).
     [mas] Don't replace spaces with '.' when expanding addresses. (Bug #4236)
-4.1.4:
-  notes: |
-    [jan] SECURITY: Fix XSS vulnerabilities in the search screen and thread view.
-    [jan] Improve displaying of PGP messages (requires Horde 3.1.4 partially).
-    [mms] Make sure we pass a read/write IMAP stream to the filters API (Bug #5054).
-    [mms] Do not allow move to trash unless trash folder is defined (Bug #5012).
-    [jan] Fix an encoding issue with the address book popup (Bug #5050).
 4.1.3:
   notes: |
     [mms] Add 'login_tries' server configuration option.
@@ -2605,6 +2619,9 @@
     [mms] Fix spellcheck on send (Bug #3589).
     [mms] Allow user to select sent-mail folder in public namespace if public namespace is blank (Bug #3603).
     [mms] Add preference to define how we want to expand folder list in sidebar.
+4.1.0:
+  notes: |
+    [mms] Correctly expunge current mailbox when deleting messages on a POP3 server (Bug #3156).
 4.1.0-RC3:
   notes: |
     Original version string was 4.1.0RC3
@@ -2679,13 +2696,15 @@
     [mms] Include Cc: header information in the header text we display for forward and reply messages (Bug #1079).
     [jan] Show ZIP icon with "Download all attachments" link.
     [mms] S/MIME parts should always attempt to be viewed inline, notwithstanding the Content-Disposition for the part (requires Horde 3.1).
-4.1.0:
-  notes: |
-    [mms] Correctly expunge current mailbox when deleting messages on a POP3 server (Bug #3156).
 4.0.5:
   notes: |
     [cjh] Correctly escape all folder names.
     [jan] Fix French translation.
+4.0.4:
+  notes: |
+    [mms] Add warning that PGP key generation may take awhile (Bug #2672).
+    [mas] Add confirmation when reporting spam/innocent from message view. (kevin_myer@iu13.org, Bug #2285)
+    [cjh] Fix check for duplicate addresses when automatically saving recipients (Bug #2663).
 4.0.4-RC2:
   notes: |
     Original version string was 4.0.4RC2
@@ -2734,11 +2753,11 @@
     [cjh] Don't trigger the left/right key message navigation if the user is holding down any modifier keys - let those bubble up to the browser (Bug #1763).
     [cjh] Only use a Refresh: header if we need to, and if the URL is under 160 characters, to prevent triggering browser bugs that cause hangs (Bug #1728).
     [cjh] Prevent IE from clearing compose window fields if the user presses ESC (Bug #1686).
-4.0.4:
+4.0.3:
   notes: |
-    [mms] Add warning that PGP key generation may take awhile (Bug #2672).
-    [mas] Add confirmation when reporting spam/innocent from message view. (kevin_myer@iu13.org, Bug #2285)
-    [cjh] Fix check for duplicate addresses when automatically saving recipients (Bug #2663).
+    [jan] Ignore quoted text if spellchecking with aspell (Bug #1673, kevin_myer@iu13.org).
+    [cjh] Fix typo in attachment.php that caused a PHP warning (Xavier Montagutelli <xavier.montagutelli@unilim.fr>).
+    [mms] Correctly store all data from the compose screen when spell checking a message (Bug #1425).
 4.0.3-RC1:
   notes: |
     Original version string was 4.0.3RC1
@@ -2764,11 +2783,11 @@
     [mms] Be smarter about we we consider to be downloadable/forwardable. Make sure text isn't both forwarded and attached in a forward message.
     [jan] Fix success screen after redirecting a message (Bug #1374).
     [jan] Fix "undefined index" warning (Bug #1367).
-4.0.3:
+4.0.2:
   notes: |
-    [jan] Ignore quoted text if spellchecking with aspell (Bug #1673, kevin_myer@iu13.org).
-    [cjh] Fix typo in attachment.php that caused a PHP warning (Xavier Montagutelli <xavier.montagutelli@unilim.fr>).
-    [mms] Correctly store all data from the compose screen when spell checking a message (Bug #1425).
+    [mms] Don't wrap flowed text in print view (Bug #1318).
+    [jan] Don't append trailer text twice if sending a message resumed from a draft (Bug #1306).
+    [mms] Fix display of attachment names when forwarding messages (Bug #1300).
 4.0.2-RC1:
   notes: |
     Original version string was 4.0.2RC1
@@ -2790,16 +2809,49 @@
     [jan] Fix custom_login.php example script.
     [cjh] Don't insert entries for emails that already exist when gathering addresses from outgoing emails (Bug #1054).
     [jan] Fix wrapping of header in mailbox view with IE (Bug #1110).
-4.0.2:
-  notes: |
-    [mms] Don't wrap flowed text in print view (Bug #1318).
-    [jan] Don't append trailer text twice if sending a message resumed from a draft (Bug #1306).
-    [mms] Fix display of attachment names when forwarding messages (Bug #1300).
 4.0.1:
   notes: |
     [cjh] Fix columns running in to each other with Safari/KHTML in the mailbox view (requires Horde 3.0.1) (Bug #1026).
     [mms] Allow signed messages sent via multipart/encrypted to be displayed on non S/MIME enabled installations (Bug #1037).
     [cjh] Fix for login_compose when IMP does not provide authentication (Bug #892).
+4.0.0:
+  notes: |
+    [mms] Messages sent in HTML format no longer link email addresses to non-existant javascript calls.
+    [jan] Use short, indented folder names in search form.
+    [jan] Return to correct mailbox page when clicking "Back to" link in threaded view.
+    [jan] Fix sorting of folder names in summary block (Bug #987).
+    [mms] Determine the default IMAP delimiter according to RFC 3501.
+    [mms] Added 'smtpport' parameter to server configuration (bergonz@labs.it).
+    [jan] Correctly wrap quoted headers in message replies (Bug #962).
+    [jan] Show buttons on "message sent" screen as menu again.
+4.0.0-RC3:
+  notes: |
+    Original version string was 4.0.0RC3
+    [jan] Fix link generation in HTML composer (Bug #941).
+    [cjh] Always honor the login_compose action (Bug #892).
+    [cjh] Save messages with a "message/rfc822" mime type (Bug #922).
+    [mms] Don't require to configure an e-mail address if using a spam hook.
+    [mms] Fix expansion of e-mail addresses (Bug #889).
+    [mms] Fix display of user-defined headers if the message contains more than one of those headers (Bug #912).
+    [jan] Set one global date format in Horde's preferences (Bug #788).
+    [jan] Fix some javascript errors with IE 5.0.
+4.0.0-RC2:
+  notes: |
+    Original version string was 4.0.0RC2
+    [mms] Allow more than one recipient for encrypted messages; store encrypted messages locally using the local user's encryption (Bug #865).
+    [mms] Fix various S/MIME issues and update the code to more closely match the look and feel of the PGP code.
+    [jan] Fix automatic spell checking on send, cutting off parts of the message (Bugs #227, #259).
+4.0.0-RC1:
+  notes: |
+    Original version string was 4.0.0RC1
+    [jan] Fix HTML message editor in IE (Bugs #692, #793).
+    [cjh] Search only the preferred address books for senders allowed to send HTML messages with images.
+    [jan] Disable Kolab servers if Kolab has been disabled globally.
+    [mms] Allow all subscribed folders to be viewed in the IMP menu tree interface.
+    [mms] Only scan for emoticons in the body of text MIME parts.
+    [mms] Fix message saving and attachment ZIP file generation.
+    [mms] Allow the spam reporting system to bounce a message to an email address.
+    [mms] Move spam handling to a separate class.
 4.0.0-beta1:
   notes: |
     Original version string was 4.0.0beta
@@ -2983,44 +3035,6 @@
     [jon] Add <link> support to the mailbox and message views.
     [mms] Move the quote prefix character from conf.php to the preferences.
     [mms] Move the maintenace framework to Horde.
-4.0.0-RC3:
-  notes: |
-    Original version string was 4.0.0RC3
-    [jan] Fix link generation in HTML composer (Bug #941).
-    [cjh] Always honor the login_compose action (Bug #892).
-    [cjh] Save messages with a "message/rfc822" mime type (Bug #922).
-    [mms] Don't require to configure an e-mail address if using a spam hook.
-    [mms] Fix expansion of e-mail addresses (Bug #889).
-    [mms] Fix display of user-defined headers if the message contains more than one of those headers (Bug #912).
-    [jan] Set one global date format in Horde's preferences (Bug #788).
-    [jan] Fix some javascript errors with IE 5.0.
-4.0.0-RC2:
-  notes: |
-    Original version string was 4.0.0RC2
-    [mms] Allow more than one recipient for encrypted messages; store encrypted messages locally using the local user's encryption (Bug #865).
-    [mms] Fix various S/MIME issues and update the code to more closely match the look and feel of the PGP code.
-    [jan] Fix automatic spell checking on send, cutting off parts of the message (Bugs #227, #259).
-4.0.0-RC1:
-  notes: |
-    Original version string was 4.0.0RC1
-    [jan] Fix HTML message editor in IE (Bugs #692, #793).
-    [cjh] Search only the preferred address books for senders allowed to send HTML messages with images.
-    [jan] Disable Kolab servers if Kolab has been disabled globally.
-    [mms] Allow all subscribed folders to be viewed in the IMP menu tree interface.
-    [mms] Only scan for emoticons in the body of text MIME parts.
-    [mms] Fix message saving and attachment ZIP file generation.
-    [mms] Allow the spam reporting system to bounce a message to an email address.
-    [mms] Move spam handling to a separate class.
-4.0.0:
-  notes: |
-    [mms] Messages sent in HTML format no longer link email addresses to non-existant javascript calls.
-    [jan] Use short, indented folder names in search form.
-    [jan] Return to correct mailbox page when clicking "Back to" link in threaded view.
-    [jan] Fix sorting of folder names in summary block (Bug #987).
-    [mms] Determine the default IMAP delimiter according to RFC 3501.
-    [mms] Added 'smtpport' parameter to server configuration (bergonz@labs.it).
-    [jan] Correctly wrap quoted headers in message replies (Bug #962).
-    [jan] Show buttons on "message sent" screen as menu again.
 3.2.8:
   notes: |
     [jan] Close XSS when setting the parent frame's page title by javascript (cjh).
@@ -3179,6 +3193,15 @@
     [jan] Fix bug in the maintenance section if IMP is not in the default directory.
     [jan] Add Danish translation (Martin List-Petersen <martin@list-petersen.dk>).
     [jan] Keep the state of all form elements in the compose window during page reloads (expanding name, spell checking).
+3.0.0:
+  notes: |
+    [jan] Use the 'use_trash' preference instead of the 'expunge_on_move' configuration to decide if we have to expunge the folders.
+    [avsm] Add .htaccess files to deny access to data directories.
+    [jan] Add Swedish translation (Andreas Dahlén <andreas@dahlen.ws>).
+    [jan] Add Finnish translation (Leena Heino <liinu@uta.fi>).
+    [cjh] Re-add Save As feature.
+    [jan] Add Swedish translation (Andreas Dahlén <andreas@dahlen.ws>).
+    [cjh] Fix problems when $prefix or $namespace is also a substring within folder names.
 3.0.0-RC4:
   notes: |
     Original version string was 3.0.0RC4
@@ -3202,15 +3225,6 @@
     Original version string was 3.0.0RC1
     [jan] Add Greek translation (Stefanos I. Dimitriou <sdimitri@teiath.gr>).
     [jan] Add Korean translation (J.I Kim <aporie@netian.com>).
-3.0.0:
-  notes: |
-    [jan] Use the 'use_trash' preference instead of the 'expunge_on_move' configuration to decide if we have to expunge the folders.
-    [avsm] Add .htaccess files to deny access to data directories.
-    [jan] Add Swedish translation (Andreas Dahlén <andreas@dahlen.ws>).
-    [jan] Add Finnish translation (Leena Heino <liinu@uta.fi>).
-    [cjh] Re-add Save As feature.
-    [jan] Add Swedish translation (Andreas Dahlén <andreas@dahlen.ws>).
-    [cjh] Fix problems when $prefix or $namespace is also a substring within folder names.
 2.3.7:
   notes: |
     [jon] Rename the 'append_header' configuration variable to 'prepend_header'.
