@@ -370,7 +370,7 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                             $sender,
                         ]);
                         $notification->push(_('Respondent Status Updated.'), 'horde.success');
-                    } catch (Throwable $e) {
+                    } catch (Horde_Exception $e) {
                         $notification->push(sprintf(_('There was an error updating the event: %s'), $e->getMessage()), 'horde.error');
                     }
                 } else {
@@ -759,7 +759,7 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                             $sender,
                         ]);
                         $notification->push(_('Respondent Status Updated.'), 'horde.success');
-                    } catch (Throwable $e) {
+                    } catch (Horde_Exception $e) {
                         $notification->push(sprintf(_('There was an error updating the task: %s'), $e->getMessage()), 'horde.error');
                     }
                 } elseif ($registry->hasMethod('tasks/updateAttendee')) {
