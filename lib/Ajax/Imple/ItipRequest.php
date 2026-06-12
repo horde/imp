@@ -59,7 +59,7 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
      *
      * @return boolean  True on success.
      */
-    protected function _handle(Horde_Variables|Variables $vars)
+    protected function _handle(Variables|Horde_Variables $vars)
     {
         global $injector, $notification, $registry;
 

@@ -86,7 +86,7 @@ class IMP_Ajax_Imple_PassphraseDialog extends Horde_Core_Ajax_Imple
 
     /**
      */
-    protected function _handle(Horde_Variables|Variables $vars)
+    protected function _handle(Variables|Horde_Variables $vars)
     {
         return false;
     }

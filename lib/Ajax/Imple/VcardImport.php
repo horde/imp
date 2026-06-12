@@ -61,7 +61,7 @@ class IMP_Ajax_Imple_VcardImport extends Horde_Core_Ajax_Imple
      *
      * @return boolean  True on success.
      */
-    protected function _handle(Horde_Variables|Variables $vars)
+    protected function _handle(Variables|Horde_Variables $vars)
     {
         global $registry, $injector, $notification;
 
