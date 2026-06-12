@@ -10,9 +10,9 @@
  * @copyright 2010-2017 Horde LLC
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
+ */
 
 use Horde\Util\Variables;
- */
 
 /**
  * Attach the passphrase dialog to the page.
@@ -22,8 +22,6 @@ use Horde\Util\Variables;
  * @copyright 2010-2017 Horde LLC
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
-
-use Horde\Util\Variables;
  */
 class IMP_Ajax_Imple_PassphraseDialog extends Horde_Core_Ajax_Imple
 {
@@ -88,7 +86,7 @@ class IMP_Ajax_Imple_PassphraseDialog extends Horde_Core_Ajax_Imple
 
     /**
      */
-    protected function _handle(Variables|Horde_Variables $vars)
+    protected function _handle(Horde_Variables|Variables $vars)
     {
         return false;
     }

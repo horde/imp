@@ -10,9 +10,9 @@
  * @copyright 2012-2017 Horde LLC
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
+ */
 
 use Horde\Util\Variables;
- */
 
 /**
  * Attach javascript used to process a Vcard import request from IMP.
@@ -22,8 +22,6 @@ use Horde\Util\Variables;
  * @copyright 2014-2017 Horde LLC
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
-
-use Horde\Util\Variables;
  */
 class IMP_Ajax_Imple_VcardImport extends Horde_Core_Ajax_Imple
 {
@@ -63,7 +61,7 @@ class IMP_Ajax_Imple_VcardImport extends Horde_Core_Ajax_Imple
      *
      * @return boolean  True on success.
      */
-    protected function _handle(Variables|Horde_Variables $vars)
+    protected function _handle(Horde_Variables|Variables $vars)
     {
         global $registry, $injector, $notification;
 

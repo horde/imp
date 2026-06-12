@@ -361,10 +361,7 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
 
             case 'REPLY':
                 $desc = _('%s has replied to the invitation to "%s".');
-                $from = $this->getConfigParam('imp_contents')->getHeader()->getHeader('from');
-                $sender = $from
-                    ? $from->getAddressList(true)->first()->bare_address
-                    : null;
+                $sender = $this->_senderFromHeader();
                 if ($registry->hasMethod('calendar/updateAttendee')
                     && $this->_autoUpdateReply(self::AUTO_UPDATE_EVENT_REPLY, $sender)) {
                     try {
@@ -373,7 +370,7 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                             $sender,
                         ]);
                         $notification->push(_('Respondent Status Updated.'), 'horde.success');
-                    } catch (Horde_Exception $e) {
+                    } catch (Throwable $e) {
                         $notification->push(sprintf(_('There was an error updating the event: %s'), $e->getMessage()), 'horde.error');
                     }
                 } else {
@@ -752,10 +749,7 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
 
             case 'REPLY':
                 $desc = _('%s has replied to the assignment of task "%s".');
-                $from = $this->getConfigParam('imp_contents')->getHeader()->getHeader('from');
-                $sender = $from
-                    ? $from->getAddressList(true)->first()->bare_address
-                    : null;
+                $sender = $this->_senderFromHeader();
 
                 if ($registry->hasMethod('tasks/updateAttendee')
                     && $this->_autoUpdateReply(self::AUTO_UPDATE_TASK_REPLY, $sender)) {
@@ -765,7 +759,7 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                             $sender,
                         ]);
                         $notification->push(_('Respondent Status Updated.'), 'horde.success');
-                    } catch (Horde_Exception $e) {
+                    } catch (Throwable $e) {
                         $notification->push(sprintf(_('There was an error updating the task: %s'), $e->getMessage()), 'horde.error');
                     }
                 } elseif ($registry->hasMethod('tasks/updateAttendee')) {
@@ -929,6 +923,18 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
      *
      * @return boolean
      */
+    protected function _senderFromHeader()
+    {
+        $from = $this->getConfigParam('imp_contents')->getHeader()->getHeader('from');
+        if (!$from) {
+            return null;
+        }
+
+        $addr = $from->getAddressList(true)->first();
+
+        return $addr ? $addr->bare_address : null;
+    }
+
     protected function _autoUpdateReply($type, $sender)
     {
         if (!empty($this->_conf[$type])) {

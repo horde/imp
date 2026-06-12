@@ -60,7 +60,7 @@ class IMP_Ajax_Imple_ImportEncryptKey extends Horde_Core_Ajax_Imple
      * @return boolean  True on success.
      * @throws IMP_Exception
      */
-    protected function _handle(Variables|Horde_Variables $vars)
+    protected function _handle(Horde_Variables|Variables $vars)
     {
         global $injector, $notification;
 
