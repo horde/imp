@@ -231,6 +231,7 @@ $mime_drivers = [
         'handles' => [
             'text/calendar',
             'text/x-vcalendar',
+            'application/ics',
         ],
         'icons' => [
             'default' => 'itip.png',
