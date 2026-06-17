@@ -26,7 +26,7 @@
  */
 class Imp_Stub_Ajax_Imple_ItipRequest extends IMP_Ajax_Imple_ItipRequest
 {
-    public function handle(Horde_Variables $vars)
+    public function handle(Horde_Variables|Horde\Util\Variables $vars)
     {
         $this->_handle($vars);
     }

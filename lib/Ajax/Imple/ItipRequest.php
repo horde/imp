@@ -126,18 +126,29 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
                     break;
 
                 case 'update':
-                    // vEvent reply.
+                    // vEvent reply or counter-proposal.
                     // vTodo reply.
                     switch ($components[$key]->getType()) {
                         case 'vEvent':
                             if ($registry->hasMethod('calendar/updateAttendee')) {
                                 try {
                                     if ($tmp = $contents->getHeader()->getHeader('from')) {
+                                        $storeProposal = false;
+                                        try {
+                                            $storeProposal = strtoupper($vCal->getAttribute('METHOD')) === 'COUNTER';
+                                        } catch (Horde_Icalendar_Exception $e) {
+                                        }
                                         $registry->call('calendar/updateAttendee', [
                                             $components[$key],
                                             $tmp->getAddressList(true)->first()->bare_address,
+                                            $storeProposal,
                                         ]);
-                                        $notification->push(_('Respondent Status Updated.'), 'horde.success');
+                                        $notification->push(
+                                            $storeProposal
+                                                ? _('Counter proposal recorded.')
+                                                : _('Respondent Status Updated.'),
+                                            'horde.success'
+                                        );
                                         $result = true;
                                     }
                                 } catch (Horde_Exception $e) {
@@ -165,6 +176,48 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
                                 $notification->push(_('This action is not supported.'), 'horde.warning');
                             }
                             break;
+                    }
+                    break;
+
+                case 'counter-accept':
+                    if (isset($components[$key]) && $components[$key]->getType() == 'vEvent') {
+                        $result = $this->_handlevEvent($key, $components, $mime_part);
+                        if ($result && $registry->hasMethod('calendar/updateAttendee')) {
+                            try {
+                                if ($tmp = $contents->getHeader()->getHeader('from')) {
+                                    $registry->call('calendar/updateAttendee', [
+                                        $components[$key],
+                                        $tmp->getAddressList(true)->first()->bare_address,
+                                        true,
+                                    ]);
+                                }
+                            } catch (Horde_Exception $e) {
+                                $notification->push(sprintf(_('There was an error updating the event attendee state: %s'), $e->getMessage()), 'horde.warning');
+                            }
+                        }
+                    } else {
+                        $notification->push(_('This action is not supported.'), 'horde.warning');
+                    }
+                    break;
+
+                case 'counter-decline':
+                    if (isset($components[$key]) && $components[$key]->getType() == 'vEvent') {
+                        try {
+                            $to = null;
+                            if ($tmp = $contents->getHeader()->getHeader('from')) {
+                                $to = $tmp->getAddressList(true)->first()->bare_address;
+                            }
+                            if (empty($to)) {
+                                throw new Horde_Exception(_("Unable to determine attendee address."));
+                            }
+                            $this->_sendDeclineCounter($components[$key], $to, $vars->identity);
+                            $notification->push(_('Decline counter sent.'), 'horde.success');
+                            $result = true;
+                        } catch (Exception $e) {
+                            $notification->push(sprintf(_('Error sending decline counter: %s.'), $e->getMessage()), 'horde.error');
+                        }
+                    } else {
+                        $notification->push(_('This action is not supported.'), 'horde.warning');
                     }
                     break;
 
@@ -461,6 +514,59 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
         }
 
         return $result;
+    }
+
+    /**
+     * Send a METHOD=DECLINECOUNTER response to an attendee.
+     */
+    protected function _sendDeclineCounter(
+        Horde_Icalendar_Vevent $vevent,
+        $toAddress,
+        $identityId = null
+    ) {
+        global $injector;
+
+        $identity = $injector->getInstance('IMP_Identity');
+        $identity->setDefault($identityId);
+        $from = $identity->getFromAddress();
+
+        $vCal = new Horde_Icalendar();
+        $vCal->setAttribute('PRODID', '-//The Horde Project//' . strval(Horde_Mime_Headers_UserAgent::create()) . '//EN');
+        $vCal->setAttribute('METHOD', 'DECLINECOUNTER');
+        $counterEvent = clone $vevent;
+        $counterEvent->setAttribute('DTSTAMP', new Horde_Date('now', 'UTC'));
+        $vCal->addComponent($counterEvent);
+
+        $body = new Horde_Mime_Part();
+        $body->setType('text/plain');
+        $body->setCharset('UTF-8');
+        $body->setContents(Horde_String::wrap(_('Your proposed new time was declined by the organizer.'), 76));
+
+        $ics = new Horde_Mime_Part();
+        $ics->setType('text/calendar');
+        $ics->setCharset('UTF-8');
+        $ics->setContents($vCal->exportvCalendar());
+        $ics->setName('icalendar.ics');
+        $ics->setContentTypeParameter('METHOD', 'DECLINECOUNTER');
+
+        $mime = new Horde_Mime_Part();
+        $mime[] = $body;
+        $mime[] = $ics;
+
+        $headers = new Horde_Mime_Headers();
+        $headers->addHeaderOb(Horde_Core_Mime_Headers_Received::createHordeHop());
+        $headers->addHeaderOb(Horde_Mime_Headers_MessageId::create());
+        $headers->addHeaderOb(Horde_Mime_Headers_Date::create());
+        $headers->addHeader('From', $from);
+        $headers->addHeader('To', $toAddress);
+
+        $replyto = $identity->getValue('replyto_addr');
+        if (!empty($replyto) && !$from->match($replyto)) {
+            $headers->addHeader('Reply-To', $replyto);
+        }
+        $headers->addHeader('Subject', _('Decline Counter Proposal'));
+
+        $mime->send($toAddress, $headers, $injector->getInstance('IMP_Mail'));
     }
 
     protected function _handlevEvent($key, array $components, $mime_part)
