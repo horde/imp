@@ -13,6 +13,8 @@
  * @subpackage UnitTests
  */
 
+use Horde\Util\Variables;
+
 /**
  * Stub for testing the IMP Itip Imple handler.
  *
@@ -26,7 +28,7 @@
  */
 class Imp_Stub_Ajax_Imple_ItipRequest extends IMP_Ajax_Imple_ItipRequest
 {
-    public function handle(Horde_Variables|Horde\Util\Variables $vars)
+    public function handle(Horde_Variables|Variables $vars)
     {
         $this->_handle($vars);
     }

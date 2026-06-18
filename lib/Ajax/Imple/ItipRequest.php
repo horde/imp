@@ -12,6 +12,7 @@
  * @package   IMP
  */
 
+use Horde\Util\HordeString;
 use Horde\Util\Variables;
 
 /**
@@ -213,7 +214,8 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
                             $this->_sendDeclineCounter($components[$key], $to, $vars->identity);
                             $notification->push(_('Decline counter sent.'), 'horde.success');
                             $result = true;
-                        } catch (Exception $e) {
+                        } catch (Horde_Exception $e) {
+                            Horde::log($e, Horde_Log::ERR);
                             $notification->push(sprintf(_('Error sending decline counter: %s.'), $e->getMessage()), 'horde.error');
                         }
                     } else {
@@ -540,7 +542,7 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
         $body = new Horde_Mime_Part();
         $body->setType('text/plain');
         $body->setCharset('UTF-8');
-        $body->setContents(Horde_String::wrap(_('Your proposed new time was declined by the organizer.'), 76));
+        $body->setContents(HordeString::wrap(_('Your proposed new time was declined by the organizer.'), 76));
 
         $ics = new Horde_Mime_Part();
         $ics->setType('text/calendar');
