@@ -378,6 +378,32 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                 }
                 break;
 
+            case 'COUNTER':
+                $desc = _('%s has proposed a new time for "%s".');
+                $sender = $this->_senderFromHeader();
+                if ($registry->hasMethod('calendar/updateAttendee')
+                    && $this->_autoUpdateReply(self::AUTO_UPDATE_EVENT_REPLY, $sender)) {
+                    try {
+                        $registry->call('calendar/updateAttendee', [
+                            $vevent,
+                            $sender,
+                            true,
+                        ]);
+                        $notification->push(_('Counter proposal recorded.'), 'horde.success');
+                    } catch (Horde_Exception $e) {
+                        $notification->push(sprintf(_('There was an error updating the event: %s'), $e->getMessage()), 'horde.error');
+                    }
+                } elseif ($registry->hasMethod('calendar/updateAttendee')) {
+                    $options['update'] = _('Record proposed new time');
+                }
+                if ($registry->hasMethod('calendar/replace')) {
+                    $options['counter-accept'] = _('Accept proposed time');
+                }
+                if ($registry->hasMethod('calendar/updateAttendee')) {
+                    $options['counter-decline'] = _('Decline proposed time');
+                }
+                break;
+
             case 'CANCEL':
                 try {
                     $vevent->getAttributeSingle('RECURRENCE-ID');
