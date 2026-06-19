@@ -212,11 +212,16 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
                                 throw new Horde_Exception(_("Unable to determine attendee address."));
                             }
                             if ($registry->hasMethod('calendar/declineCounterProposal')) {
-                                $registry->call('calendar/declineCounterProposal', [
-                                    $components[$key],
-                                    $to,
-                                    true,
-                                ]);
+                                try {
+                                    $registry->call('calendar/declineCounterProposal', [
+                                        $components[$key],
+                                        $to,
+                                        true,
+                                    ]);
+                                } catch (Horde_Exception $e) {
+                                    Horde::log($e, Horde_Log::ERR);
+                                    $notification->push(sprintf(_('There was an error clearing the proposed new time: %s'), $e->getMessage()), 'horde.warning');
+                                }
                             }
                             $this->_sendDeclineCounter($components[$key], $to, $vars->identity);
                             $notification->push(_('Decline counter sent.'), 'horde.success');
