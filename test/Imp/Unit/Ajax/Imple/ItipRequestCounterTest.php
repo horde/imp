@@ -302,7 +302,7 @@ class Imp_Unit_Ajax_Imple_ItipRequestCounterTest extends TestCase
         $this->assertTrue($declineCall[1][2]);
     }
 
-    public function testCounterAcceptNotifiesAttendeesAfterAcceptingEvent()
+    public function testCounterAcceptPassesAttendeeEmailToAcceptCounterProposal()
     {
         $this->_doRequest('counter-accept', $this->_getCounterCalendar(), 'default', true);
 
