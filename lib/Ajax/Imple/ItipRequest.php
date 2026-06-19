@@ -596,7 +596,13 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
         }
         $headers->addHeader('Subject', _('Decline Counter Proposal'));
 
-        Kronolith::applyDeclineCounterToLocalUser($toAddress, $vevent);
+        if (class_exists('Kronolith') && method_exists('Kronolith', 'applyDeclineCounterToLocalUser')) {
+            try {
+                Kronolith::applyDeclineCounterToLocalUser($toAddress, $vevent);
+            } catch (Horde_Exception $e) {
+                Horde::log($e, Horde_Log::ERR);
+            }
+        }
 
         $mime->send($toAddress, $headers, $injector->getInstance('IMP_Mail'));
     }
