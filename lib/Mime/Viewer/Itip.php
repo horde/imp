@@ -29,6 +29,7 @@
 class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
 {
     public const AUTO_UPDATE_EVENT_REPLY = 'auto_update_eventreply';
+    public const AUTO_UPDATE_EVENT_REQUEST = 'auto_update_eventrequest';
     public const AUTO_UPDATE_FB_PUBLISH  = 'auto_update_fbpublish';
     public const AUTO_UPDATE_FB_REPLY    = 'auto_update_fbreply';
     public const AUTO_UPDATE_TASK_REPLY  = 'auto_update_taskreply';
@@ -333,7 +334,34 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                     }
                 }
 
-                if ($is_update && $registry->hasMethod('calendar/replace')) {
+                $auto_updated = false;
+                if ($is_update
+                    && $registry->hasMethod('calendar/replace')
+                    && $this->_autoUpdateReply(self::AUTO_UPDATE_EVENT_REQUEST, $this->_senderFromHeader())) {
+                    try {
+                        $uid = $vevent->getAttributeSingle('UID');
+                        $registry->call('calendar/replace', [
+                            $uid,
+                            $vevent,
+                            'text/calendar',
+                        ]);
+                        $url = Horde::url($registry->link('calendar/show', ['uid' => $uid]));
+                        $notification->push(
+                            _('The event was updated in your calendar.') . '&nbsp;'
+                                . Horde::link($url, _('View event'), null, '_blank')
+                                . Horde_Themes_Image::tag('mime/icalendar.png', ['alt' => _('View event')])
+                                . '</a>',
+                            'horde.success',
+                            ['content.raw']
+                        );
+                        $auto_updated = true;
+                    } catch (Horde_Exception $e) {
+                        Horde::log($e, Horde_Log::ERR);
+                        $notification->push(sprintf(_('There was an error updating the event: %s'), $e->getMessage()), 'horde.error');
+                    }
+                }
+
+                if ($is_update && !$auto_updated && $registry->hasMethod('calendar/replace')) {
                     $options['accept-import'] = _('Accept and update in my calendar');
                     $options['import'] = _('Update in my calendar');
                 } elseif ($registry->hasMethod('calendar/import')) {
@@ -401,6 +429,23 @@ class IMP_Mime_Viewer_Itip extends Horde_Mime_Viewer_Base
                 }
                 if ($registry->hasMethod('calendar/updateAttendee')) {
                     $options['counter-decline'] = _('Decline proposed time');
+                }
+                break;
+
+            case 'DECLINECOUNTER':
+                $desc = _('%s has declined your proposed new time for "%s".');
+                $sender = $this->_senderFromHeader();
+                if ($registry->hasMethod('calendar/declineCounterProposal')
+                    && $this->_autoUpdateReply(self::AUTO_UPDATE_EVENT_REQUEST, $sender)) {
+                    try {
+                        $registry->call('calendar/declineCounterProposal', [$vevent]);
+                        $notification->push(_('The proposed new time was removed from your calendar.'), 'horde.success');
+                    } catch (Horde_Exception $e) {
+                        Horde::log($e, Horde_Log::ERR);
+                        $notification->push(sprintf(_('There was an error updating the event: %s'), $e->getMessage()), 'horde.error');
+                    }
+                } elseif ($registry->hasMethod('calendar/declineCounterProposal')) {
+                    $options['decline-counter'] = _('Remove proposed new time from my calendar');
                 }
                 break;
 
