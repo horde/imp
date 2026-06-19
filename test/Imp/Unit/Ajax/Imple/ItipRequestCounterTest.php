@@ -207,6 +207,8 @@ class Imp_Unit_Ajax_Imple_ItipRequestCounterTest extends TestCase
     public function _registryHasMethod($method)
     {
         return in_array($method, [
+            'calendar/acceptCounterProposal',
+            'calendar/declineCounterProposal',
             'calendar/updateAttendee',
             'calendar/export',
             'calendar/replace',
@@ -287,22 +289,32 @@ class Imp_Unit_Ajax_Imple_ItipRequestCounterTest extends TestCase
             'counter.attendee@example.com',
             $this->_getMailHeaders()->getValue('To')
         );
+
+        $declineCalls = array_filter(
+            $this->_registryCalls,
+            function ($call) {
+                return $call[0] === 'calendar/declineCounterProposal';
+            }
+        );
+        $this->assertCount(1, $declineCalls);
+        $declineCall = reset($declineCalls);
+        $this->assertSame('counter.attendee@example.com', $declineCall[1][1]);
+        $this->assertTrue($declineCall[1][2]);
     }
 
-    public function testCounterAcceptStoresProposalAfterAcceptingEvent()
+    public function testCounterAcceptPassesAttendeeEmailToAcceptCounterProposal()
     {
         $this->_doRequest('counter-accept', $this->_getCounterCalendar(), 'default', true);
 
-        $updateCalls = array_filter(
+        $acceptCalls = array_filter(
             $this->_registryCalls,
             function ($call) {
-                return $call[0] === 'calendar/updateAttendee';
+                return $call[0] === 'calendar/acceptCounterProposal';
             }
         );
-        $this->assertCount(1, $updateCalls);
-        $updateCall = reset($updateCalls);
-        $this->assertTrue($updateCall[1][2]);
-        $this->assertSame('counter.attendee@example.com', $updateCall[1][1]);
+        $this->assertCount(1, $acceptCalls);
+        $acceptCall = reset($acceptCalls);
+        $this->assertSame('counter.attendee@example.com', $acceptCall[1][1]);
     }
 
     public function testCounterUpdateStoresProposalForCounterMethod()

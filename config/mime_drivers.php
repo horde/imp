@@ -246,6 +246,16 @@ $mime_drivers = [
          *            reply status to be explicitly updated by user action. */
         'auto_update_eventreply' => false,
 
+        /* How event updates (METHOD=REQUEST for an existing event) are
+         * handled when a user opens the message.
+         *   - false: The calendar is never automatically updated; requires
+         *            explicit action by the user.
+         *   - true: The calendar is always automatically updated.
+         *   - Array: An array of domains for which updates are always
+         *            automatically applied. All other domains require the
+         *            user to explicitly update the calendar. */
+        'auto_update_eventrequest' => true,
+
         /* How free/busy publish data is handled when a user opens the
          * message.
          *   - false: Free/busy data is never automatically updated; requires

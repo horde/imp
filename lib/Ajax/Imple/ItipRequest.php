@@ -183,17 +183,17 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
                 case 'counter-accept':
                     if (isset($components[$key]) && $components[$key]->getType() == 'vEvent') {
                         $result = $this->_handlevEvent($key, $components, $mime_part);
-                        if ($result && $registry->hasMethod('calendar/updateAttendee')) {
+                        if ($result && $registry->hasMethod('calendar/acceptCounterProposal')) {
                             try {
                                 if ($tmp = $contents->getHeader()->getHeader('from')) {
-                                    $registry->call('calendar/updateAttendee', [
+                                    $registry->call('calendar/acceptCounterProposal', [
                                         $components[$key],
                                         $tmp->getAddressList(true)->first()->bare_address,
-                                        true,
                                     ]);
                                 }
                             } catch (Horde_Exception $e) {
-                                $notification->push(sprintf(_('There was an error updating the event attendee state: %s'), $e->getMessage()), 'horde.warning');
+                                Horde::log($e, Horde_Log::ERR);
+                                $notification->push(sprintf(_('There was an error notifying attendees of the accepted proposal: %s'), $e->getMessage()), 'horde.warning');
                             }
                         }
                     } else {
@@ -211,12 +211,40 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
                             if (empty($to)) {
                                 throw new Horde_Exception(_("Unable to determine attendee address."));
                             }
+                            if ($registry->hasMethod('calendar/declineCounterProposal')) {
+                                try {
+                                    $registry->call('calendar/declineCounterProposal', [
+                                        $components[$key],
+                                        $to,
+                                        true,
+                                    ]);
+                                } catch (Horde_Exception $e) {
+                                    Horde::log($e, Horde_Log::ERR);
+                                    $notification->push(sprintf(_('There was an error clearing the proposed new time: %s'), $e->getMessage()), 'horde.warning');
+                                }
+                            }
                             $this->_sendDeclineCounter($components[$key], $to, $vars->identity);
                             $notification->push(_('Decline counter sent.'), 'horde.success');
                             $result = true;
                         } catch (Horde_Exception $e) {
                             Horde::log($e, Horde_Log::ERR);
                             $notification->push(sprintf(_('Error sending decline counter: %s.'), $e->getMessage()), 'horde.error');
+                        }
+                    } else {
+                        $notification->push(_('This action is not supported.'), 'horde.warning');
+                    }
+                    break;
+
+                case 'decline-counter':
+                    if (isset($components[$key]) && $components[$key]->getType() == 'vEvent'
+                        && $registry->hasMethod('calendar/declineCounterProposal')) {
+                        try {
+                            $registry->call('calendar/declineCounterProposal', [$components[$key]]);
+                            $notification->push(_('The proposed new time was removed from your calendar.'), 'horde.success');
+                            $result = true;
+                        } catch (Horde_Exception $e) {
+                            Horde::log($e, Horde_Log::ERR);
+                            $notification->push(sprintf(_('There was an error updating the event: %s'), $e->getMessage()), 'horde.error');
                         }
                     } else {
                         $notification->push(_('This action is not supported.'), 'horde.warning');
@@ -567,6 +595,14 @@ class IMP_Ajax_Imple_ItipRequest extends Horde_Core_Ajax_Imple
             $headers->addHeader('Reply-To', $replyto);
         }
         $headers->addHeader('Subject', _('Decline Counter Proposal'));
+
+        if (class_exists('Kronolith') && method_exists('Kronolith', 'applyDeclineCounterToLocalUser')) {
+            try {
+                Kronolith::applyDeclineCounterToLocalUser($toAddress, $vevent);
+            } catch (Horde_Exception $e) {
+                Horde::log($e, Horde_Log::ERR);
+            }
+        }
 
         $mime->send($toAddress, $headers, $injector->getInstance('IMP_Mail'));
     }
