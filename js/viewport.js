@@ -511,9 +511,15 @@ var ViewPort = Class.create({
             });
             this.opts.content.setStyle({ width: 'auto' });
             sp.currbar.show();
+            var _ph = Math.max(document.viewport.getHeight() - this.opts.pane_data.viewportOffset()[1], 0);
             this.opts.pane_data.show().setStyle({
-                height: Math.max(document.viewport.getHeight() - this.opts.pane_data.viewportOffset()[1], 0) + 'px'
+                height: _ph + 'px'
             });
+            document.documentElement.style.setProperty('--imp-pane-mode', 'horiz');
+            document.documentElement.style.setProperty('--imp-list-height', h + 'px');
+            document.documentElement.style.setProperty('--imp-list-width', 'auto');
+            document.documentElement.style.setProperty('--imp-preview-height', _ph + 'px');
+            document.documentElement.style.setProperty('--imp-preview-width', 'auto');
             break;
 
         case 'vert':
@@ -540,9 +546,15 @@ var ViewPort = Class.create({
             sp.currbar.setStyle({
                 height: h - sp.currbar.getLayout().get('border-bottom') + 'px'
             }).show();
+            var _pvh = h - this.opts.pane_data.getLayout().get('border-bottom');
             this.opts.pane_data.setStyle({
-                height: h - this.opts.pane_data.getLayout().get('border-bottom') + 'px'
+                height: _pvh + 'px'
             }).show();
+            document.documentElement.style.setProperty('--imp-pane-mode', 'vert');
+            document.documentElement.style.setProperty('--imp-list-height', h + 'px');
+            document.documentElement.style.setProperty('--imp-list-width', sp.vert.width + 'px');
+            document.documentElement.style.setProperty('--imp-preview-height', _pvh + 'px');
+            document.documentElement.style.setProperty('--imp-preview-width', 'auto');
             break;
 
         default:
@@ -559,12 +571,18 @@ var ViewPort = Class.create({
                 this.page_size = this.getPageSize('max');
             }
 
+            var _dlh = h + (lh * this.page_size);
             this.opts.list_container.setStyle({
                 cssFloat: 'none',
-                height: (h + (lh * this.page_size)) + 'px',
+                height: _dlh + 'px',
                 width: 'auto'
             });
             this.opts.content.setStyle({ width: 'auto' });
+            document.documentElement.style.setProperty('--imp-pane-mode', 'none');
+            document.documentElement.style.setProperty('--imp-list-height', _dlh + 'px');
+            document.documentElement.style.setProperty('--imp-list-width', 'auto');
+            document.documentElement.style.removeProperty('--imp-preview-height');
+            document.documentElement.style.removeProperty('--imp-preview-width');
             break;
         }
 
