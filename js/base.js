@@ -348,17 +348,18 @@ var ImpBase = {
 
     setSidebarWidth: function()
     {
-        var tmp = $('horde-sidebar');
-
-        tmp.setStyle({
-            width: ImpCore.getPref('splitbar_side') + 'px'
-        });
-        this.splitbar.setStyle({
-            left: tmp.clientWidth + 'px'
-        });
-        $('horde-page').setStyle({
-            left: (tmp.clientWidth) + 'px'
-        });
+        var width = ImpCore.getPref('splitbar_side');
+        var px = width === null ? '0px' : width + 'px';
+        document.documentElement.style.setProperty('--horde-sidebar-width', px);
+        if ($("horde-page")) {
+            $("horde-page").setStyle({ left: px });
+        }
+        if ($("horde-sidebar")) {
+            $("horde-sidebar").setStyle({ width: px });
+        }
+        if ($("horde-slideleft")) {
+            $("horde-slideleft").setStyle({ left: px });
+        }
     },
 
     // r = ViewPort row data
