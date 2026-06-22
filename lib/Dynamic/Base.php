@@ -133,7 +133,7 @@ abstract class IMP_Dynamic_Base
             // URL variables
             'URI_COMPOSE' => strval(IMP_Dynamic_Compose::url()->setRaw(true)),
             'URI_MAILLOG' => strval(IMP_Dynamic_Maillog::url()->setRaw(true)),
-            'URI_VIEW' => strval(Horde::url('view.php')->add(IMP_Contents_View::addToken())),
+            'URI_VIEW' => strval(Horde::url('view.php')),
 
             // Other variables
             'disable_compose' => !IMP_Compose::canCompose(),

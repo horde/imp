@@ -33,35 +33,49 @@
  */
 
 require_once __DIR__ . '/lib/Application.php';
-Horde_Registry::appInit('imp', [
-    'session_control' => 'readonly',
-]);
+Horde_Registry::appInit('imp');
 
 $vars = $injector->getInstance('Horde_Variables');
+$res = null;
 
 /* Run through action handlers */
-switch ($vars->actionID) {
-    case 'compose_attach_preview':
-        $view_ob = new IMP_Compose_View($vars->composeCache);
-        $res = $view_ob->composeAttachPreview($vars->id, true, $vars->ctype);
-        break;
+try {
+    switch ($vars->actionID) {
+        case 'compose_attach_preview':
+            $view_ob = new IMP_Compose_View($vars->composeCache);
+            $res = $view_ob->composeAttachPreview($vars->id, true, $vars->ctype);
+            break;
 
-    case 'print_attach':
-        $view_ob = new IMP_Contents_View(new IMP_Indices_Mailbox($vars));
-        $view_ob->checkToken($vars);
-        $res = $view_ob->printAttach($vars->id);
-        break;
+        case 'print_attach':
+            IMP_Contents_View::validateRequestToken($vars);
+            $view_ob = new IMP_Contents_View(new IMP_Indices_Mailbox($vars));
+            $res = $view_ob->printAttach($vars->id);
+            break;
 
-    case 'view_attach':
-        $view_ob = new IMP_Contents_View(new IMP_Indices_Mailbox($vars));
-        $view_ob->checkToken($vars);
-        $res = $view_ob->viewAttach($vars->id, $vars->mode, $vars->autodetect, $vars->ctype);
-        break;
+        case 'view_attach':
+            IMP_Contents_View::validateRequestToken($vars);
+            $view_ob = new IMP_Contents_View(new IMP_Indices_Mailbox($vars));
+            $res = $view_ob->viewAttach($vars->id, $vars->mode, $vars->autodetect, $vars->ctype);
+            break;
 
-    case 'view_source':
-        $view_ob = new IMP_Contents_View(new IMP_Indices_Mailbox($vars));
-        $res = $view_ob->viewSource();
-        break;
+        case 'view_source':
+            $view_ob = new IMP_Contents_View(new IMP_Indices_Mailbox($vars));
+            $res = $view_ob->viewSource();
+            break;
+    }
+} catch (Horde_Exception $e) {
+    Horde::log($e, Horde_Log::ERR);
+
+    if (!headers_sent()) {
+        header('Content-Type: text/html; charset=UTF-8');
+    }
+
+    echo '<!DOCTYPE html><html><head><title>',
+        htmlspecialchars(_('Error')),
+        '</title></head><body><p>',
+        htmlspecialchars($e->getMessage()),
+        '</p></body></html>';
+    exit;
 }
 
 if (empty($res)) {
