@@ -348,17 +348,24 @@ var ImpBase = {
 
     setSidebarWidth: function()
     {
-        var width = ImpCore.getPref('splitbar_side');
-        var px = width === null ? '0px' : width + 'px';
+        var tmp = $('horde-sidebar'),
+            width = ImpCore.getPref('splitbar_side');
+
+        if (tmp) {
+            tmp.setStyle({ width: (width === null ? 0 : width) + 'px' });
+        }
+
+        /* Use the sidebar's rendered width (accounts for padding/box-sizing)
+         * for the left offsets, matching the original behaviour, and expose
+         * the same value as a CSS custom property. */
+        var px = (tmp ? tmp.clientWidth : (width === null ? 0 : width)) + 'px';
+
         document.documentElement.style.setProperty('--horde-sidebar-width', px);
+        if (this.splitbar) {
+            this.splitbar.setStyle({ left: px });
+        }
         if ($("horde-page")) {
             $("horde-page").setStyle({ left: px });
-        }
-        if ($("horde-sidebar")) {
-            $("horde-sidebar").setStyle({ width: px });
-        }
-        if ($("horde-slideleft")) {
-            $("horde-slideleft").setStyle({ left: px });
         }
     },
 
