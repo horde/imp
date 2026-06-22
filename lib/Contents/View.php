@@ -12,6 +12,9 @@
  * @package   IMP
  */
 
+use Horde\Core\Session\HordeSession;
+use Horde\Token\Exception\TokenException;
+use Horde\Token\Token;
 use Horde\Util\Variables;
 
 /**
@@ -347,7 +350,37 @@ class IMP_Contents_View
      */
     public function checkToken(Variables|Horde_Variables $vars)
     {
-        $GLOBALS['session']->checkToken($vars->get(self::VIEW_TOKEN_PARAM));
+        self::validateRequestToken($vars);
+    }
+
+    /**
+     * Validate the download/view request token.
+     *
+     * @param Horde_Variables|Variables $vars  Form variables.
+     *
+     * @throws Horde_Exception
+     */
+    public static function validateRequestToken(Variables|Horde_Variables $vars)
+    {
+        $token = $vars->get(self::VIEW_TOKEN_PARAM);
+        if (!strlen((string) $token)) {
+            $token = $vars->get('token');
+        }
+
+        $tokenService = $GLOBALS['injector']->getInstance(Token::class);
+
+        try {
+            $valid = $tokenService->isValid(
+                (string) $token,
+                HordeSession::CSRF_SEED
+            );
+        } catch (TokenException $e) {
+            throw new Horde_Exception('Invalid token!');
+        }
+
+        if (!$valid) {
+            throw new Horde_Exception('Invalid token!');
+        }
     }
 
     /* Static methods. */

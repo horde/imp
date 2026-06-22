@@ -1004,16 +1004,21 @@ class IMP_Contents
                 : null;
         }
 
-        $url = Horde::popupJs(Horde::url('view.php'), [
-            'menu' => true,
-            'onload' => empty($options['onload']) ? 'IMP_JS.resizePopup' : $options['onload'],
-            'params' => $this->_urlViewParams($mime_part, $actionID, $options['params'] ?? []),
-            'urlencode' => true,
-        ]);
+        $params = $this->_urlViewParams($mime_part, $actionID, $options['params'] ?? []);
+        unset($params[IMP_Contents_View::VIEW_TOKEN_PARAM]);
+
+        $onclick = Horde::popupJs(
+            Horde::url('view.php', true)->add($params),
+            [
+                'menu' => 1,
+                'onload' => empty($options['onload']) ? 'IMP_JS.resizePopup' : $options['onload'],
+                'urlencode' => true,
+            ]
+        ) . 'return false;';
 
         return empty($options['widget'])
-            ? Horde::link('#', $options['jstext'], empty($options['css']) ? null : $options['css'], null, $url) . $text . '</a>'
-            : Horde::widget(['url' => '#', 'class' => empty($options['css']) ? null : $options['css'], 'onclick' => $url, 'title' => $text]);
+            ? Horde::link('#', $options['jstext'], empty($options['css']) ? null : $options['css'], null, $onclick) . $text . '</a>'
+            : Horde::widget(['url' => '#', 'class' => empty($options['css']) ? null : $options['css'], 'onclick' => $onclick, 'title' => $text]);
     }
 
     /**
