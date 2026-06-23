@@ -647,7 +647,7 @@ class IMP_Contents_Message
                         }
                     }
 
-                    $part_text .= '<div class="mimePartData">' . $info['data'] . '</div>';
+                    $part_text .= '<div class="mimePartData">' . ($info['data'] ?? '') . '</div>';
                 } elseif ($show_parts == 'atc') {
                     $atc_parts[$id] = 1;
                 }

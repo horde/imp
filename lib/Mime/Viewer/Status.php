@@ -182,12 +182,14 @@ class IMP_Mime_Viewer_Status extends Horde_Mime_Viewer_Base
             }
         }
 
-        $ret[$mime_id] = array_filter([
+        $ret[$mime_id] = [
             'data' => '',
-            'status' => $status ?: null,
             'type' => 'text/html; charset=' . $this->getConfigParam('charset'),
             'wrap' => 'mimePartWrap',
-        ]);
+        ];
+        if ($status) {
+            $ret[$mime_id]['status'] = $status;
+        }
 
         return $ret;
     }

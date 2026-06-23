@@ -676,7 +676,9 @@ class IMP_Contents
 
         /* Don't show empty parts. */
         if (($textmode == 'inline')
-            && !empty($ret[$mime_id]) && !is_null($ret[$mime_id]['data'])
+            && !empty($ret[$mime_id])
+            && isset($ret[$mime_id]['data'])
+            && !is_null($ret[$mime_id]['data'])
             && !strlen($ret[$mime_id]['data'])
             && !isset($ret[$mime_id]['status'])) {
             $ret[$mime_id] = null;
