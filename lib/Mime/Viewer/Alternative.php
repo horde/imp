@@ -65,6 +65,15 @@ class IMP_Mime_Viewer_Alternative extends Horde_Mime_Viewer_Base
     protected function _IMPrender($inline)
     {
         $base_id = $this->_mimepart->getMimeId();
+        $imp_contents = $this->getConfigParam('imp_contents');
+
+        if ($inline && $this->_mimepart->getType() == 'multipart/alternative') {
+            $combined = $this->_renderInvitationAlternative($base_id, $imp_contents);
+            if ($combined !== null) {
+                return $combined;
+            }
+        }
+
         $display_ids = $ret = [];
         $prefer_plain = ($GLOBALS['prefs']->getValue('alternative_display') == 'text');
 
@@ -187,6 +196,64 @@ class IMP_Mime_Viewer_Alternative extends Horde_Mime_Viewer_Base
         }
 
         return $ret;
+    }
+
+    /**
+     * Render iTip calendar data above the HTML body for invitation mail.
+     *
+     * @author Torben Dannhauer <torben@dannhauer.de>
+     *
+     * @return array|null  Render map, or null if not an invitation alternative.
+     */
+    protected function _renderInvitationAlternative($base_id, IMP_Contents $imp_contents)
+    {
+        $itip_ids = [];
+        $html_id = null;
+
+        foreach ($this->_mimepart->partIterator() as $part) {
+            $id = $part->getMimeId();
+            if (strcmp($base_id, $id) === 0) {
+                continue;
+            }
+
+            if (!$imp_contents->canDisplay($id, IMP_Contents::RENDER_INLINE)) {
+                continue;
+            }
+
+            $type = $part->getType();
+            if ($type == 'text/calendar' || $type == 'application/ics') {
+                $itip_ids[$id] = true;
+            } elseif ($type == 'text/html') {
+                $html_id = $id;
+            }
+        }
+
+        if (empty($itip_ids) || is_null($html_id)) {
+            return null;
+        }
+
+        $itip_html = '';
+        foreach (array_keys($itip_ids) as $id) {
+            $render = $imp_contents->renderMIMEPart($id, IMP_Contents::RENDER_INLINE);
+            foreach ($render as $info) {
+                if (!is_null($info) && !empty($info['data'])) {
+                    $itip_html .= $info['data'];
+                }
+            }
+        }
+
+        $ret = [];
+        $render = $imp_contents->renderMIMEPart($html_id, IMP_Contents::RENDER_INLINE);
+        foreach ($render as $render_id => $info) {
+            if (is_null($info)) {
+                continue;
+            }
+
+            $info['data'] = $itip_html . ($info['data'] ?? '');
+            $ret[$render_id] = $info;
+        }
+
+        return empty($ret) ? null : $ret;
     }
 
 }
