@@ -27,7 +27,7 @@
  * @property-read array $source_list  The list of sources in the contacts
  *                                    backend.
  */
-class IMP_Contacts implements IteratorAggregate, Serializable, JsonSerializable
+class IMP_Contacts implements IteratorAggregate, JsonSerializable
 {
     /**
      * Has the internal data changed?
@@ -244,14 +244,7 @@ class IMP_Contacts implements IteratorAggregate, Serializable, JsonSerializable
         return $this->searchEmail('');
     }
 
-    /* Serializable methods. */
-
-    /**
-     */
-    public function serialize()
-    {
-        return json_encode($this->__serialize());
-    }
+    /* Magic serialization methods. */
 
     #[ReturnTypeWillChange]
     public function jsonSerialize()
@@ -267,15 +260,8 @@ class IMP_Contacts implements IteratorAggregate, Serializable, JsonSerializable
         ];
     }
 
-    /**
-     */
-    public function unserialize($data)
-    {
-        $this->__unserialize([$data]);
-    }
-
     public function __unserialize(array $data): void
     {
-        [$this->_fields, $this->_sources] = json_decode(array_unshift($data), true);
+        [$this->_fields, $this->_sources] = $data;
     }
 }

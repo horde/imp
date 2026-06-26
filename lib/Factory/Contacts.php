@@ -41,11 +41,16 @@ class IMP_Factory_Contacts extends Horde_Core_Factory_Injector implements Horde_
     {
         try {
             $this->_instance = $GLOBALS['session']->get('imp', self::SESS_KEY);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             Horde::log('Could not unserialize stored IMP_Contacts object.', 'DEBUG');
         }
 
-        if (is_null($this->_instance)) {
+        /* HordeSession::getScoped returns the raw bytes when unpacking
+         * fails, so a poisoned session slot surfaces here as a string (or
+         * any other non-IMP_Contacts value) rather than as a thrown
+         * exception. Treat anything that isn't an IMP_Contacts as missing
+         * and rebuild from scratch. */
+        if (!($this->_instance instanceof IMP_Contacts)) {
             $this->_instance = new IMP_Contacts();
         }
 
@@ -59,8 +64,11 @@ class IMP_Factory_Contacts extends Horde_Core_Factory_Injector implements Horde_
      */
     public function shutdown()
     {
-        /* Only need to store the object if the object has changed. */
-        if ($this->_instance->changed) {
+        /* Only need to store the object if the object has changed. The
+         * instanceof guard protects against shutdown firing without a
+         * prior create() call. */
+        if ($this->_instance instanceof IMP_Contacts
+            && $this->_instance->changed) {
             $GLOBALS['session']->set('imp', self::SESS_KEY, $this->_instance);
         }
     }
