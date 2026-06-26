@@ -3383,7 +3383,7 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
         $out = [];
 
         foreach ($finfo as $val) {
-            switch (empty($val['type']) ? $val['type'] : '') {
+            switch (empty($val['type']) ? '' : $val['type']) {
                 case 'application/unknown':
                 case '':
                     $type = 'application/octet-stream';
