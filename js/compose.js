@@ -1793,7 +1793,8 @@ ImpCompose.classes.Attachlist = Class.create({
     uploadAttach: function(data, params, callback)
     {
         var li, tmp,
-            out = $H()
+            files,
+            out = $H(),
             u = $('upload');
 
         if (Object.isElement(data)) {
@@ -1817,7 +1818,9 @@ ImpCompose.classes.Attachlist = Class.create({
             data = data.memo;
         }
 
-        if ($A(data).size() > this.num_limit) {
+        files = $A(data);
+
+        if (files.size() > this.num_limit) {
             HordeCore.notify(ImpCore.text.max_atc_num, 'horde.error');
             return;
         }
@@ -1825,7 +1828,7 @@ ImpCompose.classes.Attachlist = Class.create({
         /* First pass - check for size limitations. Do in groups, rather than
          * individually, since it is a UX nightmare if some files are attached
          * and others aren't. */
-        if ($A(data).detect(function(d) {
+        if (files.detect(function(d) {
             return (parseInt(d.size, 10) >= this.size_limit);
         }, this)) {
             HordeCore.notify(ImpCore.text.max_atc_size, 'horde.error');
@@ -1838,63 +1841,23 @@ ImpCompose.classes.Attachlist = Class.create({
         });
         HordeCore.addRequestParams(params);
 
-        /* Second pass - actually send the files. */
-        $A(data).each(function(d) {
-            var fd = new FormData(), li;
-
-            params.merge({
-                file_id: ++this.ajax_atc_id,
-                file_upload: d
-            }).each(function(p) {
-                fd.append(p.key, p.value);
+        /* CKEditor's paste/drop handler keys responses off a single
+         * request-level file_id. Send those one request per file so the
+         * existing per-file callback contract is preserved. Everything else
+         * goes as a single batched POST so concurrent compose-cache writes
+         * cannot race (see #76). */
+        if (params.get('img_data')) {
+            files.each(function(d) {
+                out.set(
+                    this._uploadAttachOne(d, params, callback),
+                    d
+                );
+            }, this);
+        } else if (files.size()) {
+            this._uploadAttachBatch(files, params, callback).each(function(pair) {
+                out.set(pair.key, pair.value);
             });
-
-            ++this.curr_upload;
-            if (Object.isNumber(this.num_limit)) {
-                --this.num_limit;
-            }
-
-            HordeCore.doAction('addAttachment', {}, {
-                ajaxopts: {
-                    postBody: fd,
-                    requestHeaders: { "Content-type": null },
-                    onComplete: function() {
-                        --this.curr_upload;
-                        li.remove();
-                        this.compose.resizeMsgArea();
-                    }.bind(this),
-                    onCreate: function(e) {
-                        if (e.transport && e.transport.upload) {
-                            var p = new Element('SPAN')
-                                .addClassName('attach_upload_progress')
-                                .hide()
-                                .insert(new Element('SPAN'));
-                            li = this.uploadAttachWait(d);
-                            li.insert(p);
-
-                            e.transport.upload.onprogress = function(e2) {
-                                if (e2.lengthComputable) {
-                                    p.down('SPAN').setStyle({
-                                        width: parseInt((e2.loaded / e2.total) * 100, 10) + "%"
-                                    });
-                                    if (!p.visible()) {
-                                        li.down('.attach_upload_text')
-                                            .addClassName('attach_upload_text_progress')
-                                            .down('SPAN').remove();
-                                        p.show();
-                                    }
-                                }
-                            };
-                        } else {
-                            li = this.uploadAttachWait(d);
-                        }
-                    }.bind(this)
-                },
-                callback: callback || Prototype.emptyFunction
-            });
-
-            out.set(this.ajax_atc_id, d);
-        }, this);
+        }
 
         /* Reset upload FORM element so that this function will trigger
          * again. */
@@ -1913,6 +1876,132 @@ ImpCompose.classes.Attachlist = Class.create({
         }
 
         return out;
+    },
+
+    /* Send a single file as its own POST. Used by the CKEditor paste/drop
+     * path, which needs one response per file because callers correlate the
+     * response's file_id to a placeholder DOM element. */
+    _uploadAttachOne: function(d, params, callback)
+    {
+        var fd = new FormData(),
+            fileId = ++this.ajax_atc_id,
+            row;
+
+        params.merge({
+            file_id: fileId,
+            file_upload: d
+        }).each(function(p) {
+            fd.append(p.key, p.value);
+        });
+
+        ++this.curr_upload;
+        if (Object.isNumber(this.num_limit)) {
+            --this.num_limit;
+        }
+
+        /* Create the placeholder row before the request fires so the
+         * onComplete callback never reads an unassigned reference. */
+        row = this.uploadAttachWait(d);
+
+        HordeCore.doAction('addAttachment', {}, {
+            ajaxopts: {
+                postBody: fd,
+                requestHeaders: { "Content-type": null },
+                onCreate: function(e) {
+                    this._attachUploadProgress(e, [row]);
+                }.bind(this),
+                onComplete: function() {
+                    --this.curr_upload;
+                    row.remove();
+                    this.compose.resizeMsgArea();
+                }.bind(this)
+            },
+            callback: callback || Prototype.emptyFunction
+        });
+
+        return fileId;
+    },
+
+    /* Send multiple files in one POST as file_upload[]. The server-side
+     * IMP_Compose::addAttachmentFromUpload() already handles the array shape
+     * via the is_array($_FILES[$field]['size']) branch; collapsing N parallel
+     * requests into one removes the compose-cache write race that drops
+     * attachments under non-locking session handlers (issue #76). */
+    _uploadAttachBatch: function(files, params, callback)
+    {
+        var fd = new FormData(),
+            rows = files.map(function(d) { return this.uploadAttachWait(d); }, this),
+            ids = files.map(function(d) { return { key: ++this.ajax_atc_id, value: d }; }, this);
+
+        /* The request-level file_id stays for log/diagnostic correlation;
+         * per-file identity is established server-side by IMP_Compose. */
+        params.merge({
+            file_id: ids.first().key
+        }).each(function(p) {
+            fd.append(p.key, p.value);
+        });
+        files.each(function(d) {
+            fd.append('file_upload[]', d, d.name);
+        });
+
+        this.curr_upload += files.size();
+        if (Object.isNumber(this.num_limit)) {
+            this.num_limit -= files.size();
+        }
+
+        HordeCore.doAction('addAttachment', {}, {
+            ajaxopts: {
+                postBody: fd,
+                requestHeaders: { "Content-type": null },
+                onCreate: function(e) {
+                    this._attachUploadProgress(e, rows);
+                }.bind(this),
+                onComplete: function() {
+                    this.curr_upload -= files.size();
+                    rows.invoke('remove');
+                    this.compose.resizeMsgArea();
+                }.bind(this)
+            },
+            callback: callback || Prototype.emptyFunction
+        });
+
+        return ids;
+    },
+
+    /* Wire an XHR's upload progress event to one or more placeholder rows.
+     * For batched uploads we cannot split progress per file (the browser
+     * reports a single byte counter for the whole POST), so all rows track
+     * the same percentage. */
+    _attachUploadProgress: function(e, rows)
+    {
+        if (!e.transport || !e.transport.upload) {
+            return;
+        }
+
+        var bars = rows.map(function(row) {
+            var p = new Element('SPAN')
+                .addClassName('attach_upload_progress')
+                .hide()
+                .insert(new Element('SPAN'));
+            row.insert(p);
+            return { row: row, bar: p };
+        });
+
+        e.transport.upload.onprogress = function(e2) {
+            if (!e2.lengthComputable) {
+                return;
+            }
+            var pct = parseInt((e2.loaded / e2.total) * 100, 10) + '%';
+            bars.each(function(b) {
+                b.bar.down('SPAN').setStyle({ width: pct });
+                if (!b.bar.visible()) {
+                    b.row.down('.attach_upload_text')
+                        .addClassName('attach_upload_text_progress')
+                        .down('SPAN').remove();
+                    b.bar.show();
+                }
+            });
+        };
     },
 
     /* Event observers. */
