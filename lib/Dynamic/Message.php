@@ -35,8 +35,7 @@ class IMP_Dynamic_Message extends IMP_Dynamic_Base
         }
 
         $page_output->addScriptFile('message.js');
-        $page_output->addScriptFile('external/CustomElements.js');
-        $page_output->addScriptFile('external/time-elements.js');
+        $page_output->addScriptFile('relative_time.js');
         $page_output->addScriptFile('textarearesize.js', 'horde');
         $page_output->addScriptFile('toggle_quotes.js', 'horde');
 
