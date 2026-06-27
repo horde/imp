@@ -1898,13 +1898,13 @@ var ImpBase = {
             $('msgHeaderDate').show().down('.date')
                 .update(r.localdate.escapeHTML() + ' (')
                 .insert(
-                    // document.createElement(), with 2nd argument, required
-                    // for Chrome
-                    document.createElement('TIME', 'time-ago')
+                    // Customized built-in <time is="time-ago">; the is:
+                    // option on the construction call is what triggers the
+                    // custom-element upgrade. See js/relative_time.js.
+                    document.createElement('time', { is: 'time-ago' })
                         .writeAttribute({
                             className: 'msgHeaderDateRelative',
-                            datetime: r.datestamp,
-                            is: 'time-ago'
+                            datetime: r.datestamp
                         })
                 )
                 .insert(')');
