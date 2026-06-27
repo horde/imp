@@ -189,6 +189,13 @@ class IMP_Message_Date
     /**
      * Format the date/time.
      *
+     * The stored preference value is itself a Horde\Date\Format format
+     * string: an ICU pattern, a strftime pattern, or a named ICU style
+     * (e.g. 'medium-time' for the locale's canonical time rendering).
+     * Format::formatDate() dispatches on the value's shape, so the caller
+     * does not need to branch on the preference name to pick a time-only
+     * vs date-only axis.
+     *
      * @param string $type    The date/time preference name.
      * @param integer $udate  The UNIX timestamp.
      *
@@ -196,9 +203,6 @@ class IMP_Message_Date
      */
     private function _format($type, $udate)
     {
-        if (in_array($type, ['time_format', 'time_format_mini'], true)) {
-            return ltrim(Horde\Date\Format::formatDate((int) $udate, $GLOBALS['prefs']->getValue($type), $GLOBALS['language'] ?? 'en_US', Horde\Date\Format::TIME_ONLY));
-        }
         return ltrim(Horde\Date\Format::formatDate((int) $udate, $GLOBALS['prefs']->getValue($type), $GLOBALS['language'] ?? 'en_US'));
     }
 }
