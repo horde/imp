@@ -1,0 +1,118 @@
+/*
+ * Dark-mode overrides for imp/themes/default/dynamic/compose.css.
+ *
+ * Horde's theme cascade merges this file on top of the default compose CSS
+ * when the "Dark Mode" theme is active (see Horde_Themes_Cache::build()).
+ * Only re-color the surfaces that hardcode light-theme values in the default
+ * sheet; layout, sizing, and graphics inherit unchanged.
+ *
+ * Palette mirrors base/themes/dark/screen.css:
+ *   body bg     #161B22
+ *   panel bg    #1C2128
+ *   muted bg    #21262d
+ *   text        #E1E4E8
+ *   strong text #F0F3F6
+ *   link/accent #4A9EFF
+ *   border      #30363D
+ *
+ * Closes horde/imp#80.
+ */
+
+/* Header strip above the compose form (toolbar background). */
+#composeContainer .header,
+#qreply .header {
+    background-color: #1C2128;
+    border-bottom-color: #30363D;
+}
+
+/* Main writing area: header rows, labels, links, options column. */
+.msgwrite {
+    background-color: #1C2128;
+    border-bottom-color: #30363D;
+    color: #E1E4E8;
+}
+.msgwrite td.label {
+    color: #E1E4E8;
+}
+.composeAddrbook,
+#togglebcc,
+#togglecc {
+    color: #4A9EFF;
+}
+
+/* Attachment area. */
+#atcdiv {
+    border-top-color: #30363D;
+}
+#compose_upload_add {
+    color: #4A9EFF;
+}
+#atcdrop {
+    border-color: #4a525a;
+    color: #8a939c;
+}
+.atcdrop_over {
+    border-color: #E1E4E8 !important;
+    color: #F0F3F6 !important;
+}
+#attach_list span.attachName {
+    color: #4A9EFF;
+}
+#attach_list span.attachName:hover {
+    color: #ff7f7f;
+}
+
+/* Reply-all / reply-list notice banner: keep warning hue but dark-friendly. */
+#replyallnotice,
+#replylistnotice {
+    background-color: #4d2222;
+    color: #F0F3F6;
+}
+
+/* Signature block. */
+#signatureParent {
+    background-color: #1C2128;
+    border-top-color: #30363D;
+}
+#signatureBorder {
+    background-color: #161B22;
+    border-color: #30363D;
+}
+#signature {
+    background-color: #161B22;
+    color: #E1E4E8;
+}
+
+/* Main message textarea. */
+#composeMessage {
+    background-color: #161B22;
+    color: #E1E4E8;
+}
+
+/* RTE loading overlay (semi-transparent backdrop already dark-friendly). */
+#rteloading span {
+    background-color: #21262d;
+    color: #E1E4E8;
+}
+
+/* Autocomplete recipient strip and dropdown messages. */
+.impACBox {
+    background-color: #161B22;
+    color: #E1E4E8;
+}
+.impACBoxFocus {
+    background-color: #1C2128;
+}
+.impACGroupExpand {
+    background: #21262d;
+    color: #4A9EFF;
+}
+.impACListItemBad {
+    background-color: #7a2929;
+    border-color: #ff7f7f;
+    color: #F0F3F6;
+}
+.impACLoadingText,
+.impACNoResultsText {
+    color: #E1E4E8;
+}
