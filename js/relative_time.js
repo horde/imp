@@ -214,12 +214,41 @@
         }
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', sweep);
-    } else {
+
+    function init() {
         sweep();
+        setTimeout(tick, 60 * 1000);
+    
+        // Watch for future DOM insertions (AJAX message loading).
+        if (window.MutationObserver) {
+            var observer = new MutationObserver(function(mutations) {
+                for (var i = 0; i < mutations.length; i++) {
+                    var added = mutations[i].addedNodes;
+                    for (var j = 0; j < added.length; j++) {
+                        var node = added[j];
+                        if (node.nodeType !== 1) continue;
+                        // The node itself.
+                        if (node.matches && node.matches('time[is="time-ago"]')) {
+                            register(node);
+                        }
+                        // Its descendants.
+                        var children = node.querySelectorAll('time[is="time-ago"]');
+                        for (var k = 0; k < children.length; k++) {
+                            register(children[k]);
+                        }
+                    }
+                }
+            });
+            observer.observe(document.body || document.documentElement, {
+                childList: true,
+                subtree: true
+            });
+        }
     }
 
-    // Kick off the refresh loop.
-    setTimeout(tick, 60 * 1000);
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
 }());
