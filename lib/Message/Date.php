@@ -196,7 +196,9 @@ class IMP_Message_Date
      */
     private function _format($type, $udate)
     {
+        if (in_array($type, ['time_format', 'time_format_mini'], true)) {
+            return ltrim(Horde\Date\Format::formatDate((int) $udate, $GLOBALS['prefs']->getValue($type), $GLOBALS['language'] ?? 'en_US', Horde\Date\Format::TIME_ONLY));
+        }
         return ltrim(Horde\Date\Format::formatDate((int) $udate, $GLOBALS['prefs']->getValue($type), $GLOBALS['language'] ?? 'en_US'));
     }
-
 }
