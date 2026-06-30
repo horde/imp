@@ -12,20 +12,17 @@ list: ~
 type: application
 homepage: https://www.horde.org/apps/imp
 authors:
-  -
-    name: Jan Schneider
+  - name: Jan Schneider
     user: jan
     email: jan@horde.org
     active: true
     role: lead
-  -
-    name: Michael Slusarz
+  - name: Michael Slusarz
     user: slusarz
     email: slusarz@horde.org
     active: false
     role: lead
-  -
-    name: Chuck Hagenbuch
+  - name: Chuck Hagenbuch
     user: chuck
     email: chuck@horde.org
     active: false
@@ -110,3 +107,150 @@ keywords:
   - webmail
   - imap
 vendor: horde
+ci-platform:
+  '8.1':
+    - php: '>=7.2'
+    - composer-plugin-api: ^2.2.0
+    - ext-ctype
+    - ext-curl
+    - ext-date
+    - ext-dom
+    - ext-filter
+    - ext-gettext
+    - ext-hash
+    - ext-iconv
+    - ext-intl
+    - ext-json
+    - ext-libxml
+    - ext-mbstring
+    - ext-openssl
+    - ext-pcre
+    - ext-session
+    - ext-simplexml
+    - ext-spl
+    - ext-xml
+    - ext-xmlreader
+    - ext-xmlwriter
+    - lib-libxml
+  '8.2':
+    - php: '>=7.2'
+    - composer-plugin-api: ^2.2.0
+    - ext-ctype
+    - ext-curl
+    - ext-date
+    - ext-dom
+    - ext-filter
+    - ext-gettext
+    - ext-hash
+    - ext-iconv
+    - ext-intl
+    - ext-json
+    - ext-libxml
+    - ext-mbstring
+    - ext-openssl
+    - ext-pcre
+    - ext-session
+    - ext-simplexml
+    - ext-spl
+    - ext-xml
+    - ext-xmlreader
+    - ext-xmlwriter
+    - lib-libxml
+  '8.3':
+    - php: '>=7.2'
+    - composer-plugin-api: ^2.2.0
+    - ext-ctype
+    - ext-curl
+    - ext-date
+    - ext-dom
+    - ext-filter
+    - ext-gettext
+    - ext-hash
+    - ext-iconv
+    - ext-intl
+    - ext-json
+    - ext-libxml
+    - ext-mbstring
+    - ext-openssl
+    - ext-pcre
+    - ext-session
+    - ext-simplexml
+    - ext-spl
+    - ext-xml
+    - ext-xmlreader
+    - ext-xmlwriter
+    - lib-libxml
+  '8.4':
+    - php: '>=7.2'
+    - composer-plugin-api: ^2.2.0
+    - ext-ctype
+    - ext-curl
+    - ext-date
+    - ext-dom
+    - ext-filter
+    - ext-gettext
+    - ext-hash
+    - ext-iconv
+    - ext-intl
+    - ext-json
+    - ext-libxml
+    - ext-mbstring
+    - ext-openssl
+    - ext-pcre
+    - ext-session
+    - ext-simplexml
+    - ext-spl
+    - ext-xml
+    - ext-xmlreader
+    - ext-xmlwriter
+    - lib-libxml
+  '8.5':
+    - php: '>=7.2'
+    - composer-plugin-api: ^2.2.0
+    - ext-ctype
+    - ext-curl
+    - ext-date
+    - ext-dom
+    - ext-filter
+    - ext-gettext
+    - ext-hash
+    - ext-iconv
+    - ext-intl
+    - ext-json
+    - ext-libxml
+    - ext-mbstring
+    - ext-openssl
+    - ext-pcre
+    - ext-session
+    - ext-simplexml
+    - ext-spl
+    - ext-xml
+    - ext-xmlreader
+    - ext-xmlwriter
+    - lib-libxml
+  '8.6':
+    - php: '>=7.2'
+    - composer-plugin-api: ^2.2.0
+    - ext-ctype
+    - ext-curl
+    - ext-date
+    - ext-dom
+    - ext-filter
+    - ext-gettext
+    - ext-hash
+    - ext-iconv
+    - ext-intl
+    - ext-json
+    - ext-libxml
+    - ext-mbstring
+    - ext-openssl
+    - ext-pcre
+    - ext-session
+    - ext-simplexml
+    - ext-spl
+    - ext-xml
+    - ext-xmlreader
+    - ext-xmlwriter
+    - lib-libxml
+ci-platform-flags:
+  needs_installer_plugin: true
