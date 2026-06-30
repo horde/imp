@@ -3769,7 +3769,5 @@
 0.0.1:
   notes: |-
     Original version string was extra0.0.1
-    |
-  [mms] SECURITY: |-
-    XSS - Make sure mailbox name displayed on mailbox page is
-  [mms] Use IMAP_Tree: []
+    [mms] SECURITY: XSS - Make sure mailbox name displayed on mailbox page is
+    [mms] Use IMAP_Tree.
