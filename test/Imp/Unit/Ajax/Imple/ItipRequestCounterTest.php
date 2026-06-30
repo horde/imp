@@ -21,6 +21,9 @@ class Imp_Stub_Ajax_Imple_ItipRequestCounterAccept extends Imp_Stub_Ajax_Imple_I
     }
 }
 
+/**
+ * @coversNothing
+ */
 class Imp_Unit_Ajax_Imple_ItipRequestCounterTest extends TestCase
 {
     private $_contents;
@@ -47,7 +50,7 @@ class Imp_Unit_Ajax_Imple_ItipRequestCounterTest extends TestCase
             ->willReturnCallback([$this, '_injectorGetInstance']);
         $GLOBALS['injector'] = $injector;
 
-        $calendarApi = new class () {
+        $calendarApi = new class {
             public function listCalendars($all = false)
             {
                 return [];
