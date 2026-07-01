@@ -209,7 +209,16 @@ class IMP_Search_Query implements Serializable
                         }
                     }
 
-                    $this->_cache['mboxes'] = array_unique($out, SORT_REGULAR);
+                    $mboxes = [];
+                    foreach ($out as $mbox) {
+                        if (!$mbox instanceof IMP_Mailbox) {
+                            $mbox = IMP_Mailbox::get($mbox);
+                        }
+                        if ($mbox) {
+                            $mboxes[strval($mbox)] = $mbox;
+                        }
+                    }
+                    $this->_cache['mboxes'] = array_values($mboxes);
                 }
 
                 return $this->_cache['mboxes'];
