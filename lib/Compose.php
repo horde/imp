@@ -2917,28 +2917,52 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
                  * the base ckeditor directory, so search for that and replace
                  * with the filesystem information if found (Request
                  * #13051). Need to ignore other image links that may have
-                 * been explicitly added by the user. */
+                 * been explicitly added by the user.
+                 *
+                 * SECURITY: the previous implementation trusted a stripos()
+                 * prefix check and rebuilt the filesystem path with
+                 * str_replace(), leaving any `../` sequences in the URL
+                 * intact. That let a crafted <img src> read arbitrary
+                 * server files via file_get_contents() and exfiltrate them
+                 * inside the outgoing MIME body. We now extract the tail
+                 * after `/ckeditor/`, reject anything that is not a plain
+                 * relative filename under the ckeditor tree, and require
+                 * realpath() containment before touching the file. */
                 $js_path = strval(Horde::url($registry->get('jsuri', 'horde'), true));
-                if (stripos($src, $js_path . '/ckeditor') === 0) {
-                    $file = str_replace(
-                        $js_path,
-                        $registry->get('jsfs', 'horde'),
-                        $src
+                $js_prefix = $js_path . '/ckeditor/';
+                if (stripos($src, $js_prefix) === 0) {
+                    $tail = substr($src, strlen($js_prefix));
+                    /* Drop any query string or fragment the browser may
+                     * have kept on the URL. */
+                    $tail = preg_replace('/[?#].*$/', '', $tail);
+                    $ckeditor_base = realpath(
+                        $registry->get('jsfs', 'horde') . '/ckeditor'
                     );
+                    if ($ckeditor_base !== false
+                        && $tail !== ''
+                        && strpos($tail, "\0") === false
+                        && !preg_match('{(?:^|/)\.\.?(?:/|$)}', $tail)
+                        && preg_match('{^[A-Za-z0-9._/-]+$}D', $tail)) {
+                        $file = realpath($ckeditor_base . '/' . $tail);
+                        if ($file !== false
+                            && str_starts_with(
+                                $file,
+                                $ckeditor_base . DIRECTORY_SEPARATOR
+                            )
+                            && is_readable($file)) {
+                            $data_part = new Horde_Mime_Part();
+                            $data_part->setContents(file_get_contents($file));
+                            $data_part->setName(basename($file));
 
-                    if (is_readable($file)) {
-                        $data_part = new Horde_Mime_Part();
-                        $data_part->setContents(file_get_contents($file));
-                        $data_part->setName(basename($file));
-
-                        try {
-                            $this->addRelatedAttachment(
-                                $this->addAttachmentFromPart($data_part),
-                                $node,
-                                'src'
-                            );
-                        } catch (IMP_Compose_Exception $e) {
-                            // Keep existing data on error.
+                            try {
+                                $this->addRelatedAttachment(
+                                    $this->addAttachmentFromPart($data_part),
+                                    $node,
+                                    'src'
+                                );
+                            } catch (IMP_Compose_Exception $e) {
+                                // Keep existing data on error.
+                            }
                         }
                     }
                 }
