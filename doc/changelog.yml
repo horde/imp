@@ -1,4 +1,14 @@
 ---
+7.0.1:
+  api: 7.0.1
+  state:
+    release: stable
+    api: stable
+  date: 2026-07-01
+  license:
+    identifier: GPL-2.0-only
+    uri: https://spdx.org/licenses/GPL-2.0-only.html
+  notes: "fix(security): prevent path traversal in HTML compose img src handler [CVE-2026-58451]\nfix(imp): prevent search and subscribe PHP warnings"
 7.0.0:
   api: 7.0.0
   state:
