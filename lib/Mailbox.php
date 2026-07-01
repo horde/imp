@@ -960,6 +960,10 @@ class IMP_Mailbox
                 $notify = $sub
                     ? sprintf(_('You were successfully subscribed to "%s" and all subfolders.'), $this->display)
                     : sprintf(_('You were successfully unsubscribed from "%s" and all subfolders.'), $this->display);
+            } else {
+                $notify = $sub
+                    ? sprintf(_('You were successfully subscribed to "%s".'), $this->display)
+                    : sprintf(_('You were successfully unsubscribed from "%s".'), $this->display);
             }
         }
 
