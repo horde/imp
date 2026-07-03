@@ -38,7 +38,24 @@ class IMP_Ajax_Application_Handler_Common extends Horde_Core_Ajax_Application_Ha
          * separate poll action because there are other tasks done when
          * specifically requesting a poll. */
 
-        $this->_base->queue->quota($this->_base->indices->mailbox, false);
+        $mailbox = $this->_base->indices->mailbox;
+
+        /* If the user forced a poll on a search mailbox (e.g. clicked the
+         * search_refresh toolbar button on the Virtual INBOX), the search
+         * cacheid alone will not advance because it is derived from the
+         * query generation counter which is only bumped by mutations.
+         * Invalidate the underlying query and rebuild its mailbox list so
+         * changed() can see fresh state and the viewport gets repopulated. */
+        if (($this->vars->forceUpdate || $this->vars->viewport->force) &&
+            $mailbox->search) {
+            $imp_search = $GLOBALS['injector']->getInstance('IMP_Search');
+            if (isset($imp_search[strval($mailbox)])) {
+                $imp_search[strval($mailbox)]->invalidateCache();
+                $mailbox->list_ob->rebuild(true);
+            }
+        }
+
+        $this->_base->queue->quota($mailbox, false);
 
         if ($this->_base->changed()) {
             $this->_base->addTask('viewport', $this->_base->viewPortData(true));

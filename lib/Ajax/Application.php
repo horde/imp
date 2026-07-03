@@ -269,7 +269,9 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
      *
      * Variables used:
      *   - cacheid: (string) The browser (ViewPort) cache identifier.
-     *   - forceUpdate: (integer) If 1, forces an update.
+     *   - forceUpdate: (integer) If 1, forces an update. Accepted at
+     *                  either the top level (as sent by IMP.poll()) or
+     *                  nested under 'viewport' as 'force'.
      *
      * @param boolean $rw  Open mailbox as READ+WRITE?
      *
@@ -278,8 +280,13 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
      */
     public function changed($rw = null)
     {
-        /* Forced viewport return. */
-        if ($this->_vars->viewport->force) {
+        /* Forced viewport return. Accept both the nested viewport->force
+         * flag and the top-level forceUpdate flag: the dynamic view sends
+         * forceUpdate=1 from IMP.poll(true) (e.g. the search_refresh
+         * toolbar button) and IMP_Ajax_Application_Handler_Common::viewPort()
+         * sets vars->forceUpdate after a sort change to re-run search
+         * mailboxes. */
+        if ($this->_vars->viewport->force || $this->_vars->forceUpdate) {
             return true;
         }
 
