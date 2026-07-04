@@ -1,4 +1,14 @@
 ---
+7.0.2:
+  api: 7.0.2
+  state:
+    release: stable
+    api: stable
+  date: 2026-07-04
+  license:
+    identifier: GPL-2.0-only
+    uri: https://spdx.org/licenses/GPL-2.0-only.html
+  notes: 'fix(dynamic): make search_refresh actually refresh virtual folders'
 7.0.1:
   api: 7.0.1
   state:
