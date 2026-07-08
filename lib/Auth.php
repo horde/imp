@@ -111,6 +111,12 @@ class IMP_Auth
 
         $imp_imap = $injector->getInstance('IMP_Factory_Imap')->create();
         if ($imp_imap->init) {
+            try {
+                $imp_imap->login();
+            } catch (IMP_Imap_Exception $e) {
+                self::_log(false, $imp_imap);
+                throw $e->authException();
+            }
             return;
         }
 
