@@ -64,7 +64,9 @@ class IMP_Search_Vfolder_Vtrash extends IMP_Search_Vfolder_Builtin
                     $iterator::NONIMAP,
                 ]);
 
-                return array_map('strval', iterator_to_array($iterator, false));
+                return IMP_Mailbox::get(
+                    array_map('strval', iterator_to_array($iterator, false))
+                );
         }
 
         return parent::__get($name);
