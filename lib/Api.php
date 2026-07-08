@@ -382,6 +382,27 @@ class IMP_Api extends Horde_Registry_Api
     }
 
     /**
+     * Ensure a live IMAP connection exists for the current user.
+     *
+     * Stateless entry points (ActiveSync, RPC) authenticate to Horde but
+     * still require an explicit IMAP login for hordeauth backends. Exposed
+     * as a 'mail' API method so Horde_Core can trigger the login without
+     * depending on IMP directly.
+     *
+     * @param array $credentials  Optional fallback credentials (userId,
+     *                            password, server). See
+     *                            IMP_Auth::ensureImapConnection().
+     *
+     * @throws Horde_Auth_Exception
+     *
+     * @author Torben Dannhauer <torben@dannhauer.de>
+     */
+    public function ensureImapConnection(array $credentials = [])
+    {
+        IMP_Auth::ensureImapConnection($credentials);
+    }
+
+    /**
      * Return the list of user-settable IMAP flags.
      *
      * @param string $mailbox  If set, returns the list of flags filtered by

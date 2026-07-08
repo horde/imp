@@ -90,6 +90,83 @@ class IMP_Auth
     }
 
     /**
+     * Ensure a live IMAP connection exists.
+     *
+     * Unlike authenticate(), this always opens the mail server connection when
+     * needed. Stateless entry points (ActiveSync, RPC) authenticate to Horde
+     * first but still require an explicit IMAP login for hordeauth backends.
+     *
+     * @param array $credentials  Optional fallback credentials:
+     *   - userId: (string) Username.
+     *   - password: (string) Password.
+     *   - server: (string) Server key from backends.php.
+     *
+     * @throws Horde_Auth_Exception
+     *
+     * @author Torben Dannhauer <torben@dannhauer.de>
+     */
+    public static function ensureImapConnection(array $credentials = [])
+    {
+        global $injector, $registry;
+
+        $imp_imap = $injector->getInstance('IMP_Factory_Imap')->create();
+        if ($imp_imap->init) {
+            return;
+        }
+
+        if (!isset($credentials['server'])) {
+            $credentials['server'] = self::getAutoLoginServer();
+        }
+        if (empty($credentials['server'])) {
+            throw new Horde_Auth_Exception('', Horde_Auth::REASON_MESSAGE);
+        }
+
+        $servers = IMP_Imap::loadServerConfig();
+        $serverConfig = $servers[$credentials['server']] ?? null;
+
+        if ((empty($credentials['userId']) || !isset($credentials['password']))
+            && $registry->getAuth()
+            && $serverConfig
+            && !empty($serverConfig->hordeauth)) {
+            $hordeauth = $serverConfig->hordeauth;
+            $credentials['userId'] = $registry->getAuth(
+                strcasecmp($hordeauth, 'full') === 0 ? null : 'bare'
+            );
+            $stored = $registry->getAuthCredential('password');
+            if ($stored !== false) {
+                $credentials['password'] = $stored;
+            }
+        }
+
+        if (empty($credentials['userId'])
+            || !isset($credentials['password'])
+            || !strlen((string) $credentials['password'])) {
+            throw new Horde_Auth_Exception('', Horde_Auth::REASON_BADLOGIN);
+        }
+
+        try {
+            $credentials = $injector->getInstance('Horde_Core_Hooks')->callHook(
+                'imap_preauthenticate',
+                'imp',
+                [$credentials]
+            );
+        } catch (Horde_Exception_HookNotSet $e) {
+        }
+
+        try {
+            $imp_imap->createBaseImapObject(
+                $credentials['userId'],
+                $credentials['password'],
+                $credentials['server']
+            );
+            $imp_imap->login();
+        } catch (IMP_Imap_Exception $e) {
+            self::_log(false, $imp_imap);
+            throw $e->authException();
+        }
+    }
+
+    /**
      * Perform transparent authentication.
      *
      * @param Horde_Auth_Application $auth_ob  The authentication object.
