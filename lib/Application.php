@@ -419,10 +419,19 @@ class IMP_Application extends Horde_Registry_Application
      */
     public function download(Variables|Horde_Variables $vars)
     {
-        global $injector, $registry;
+        global $injector, $registry, $session;
 
         /* Check for an authenticated user. */
         if (!$registry->isAuthenticated(['app' => 'imp'])) {
+            // TEMPORARY diagnostics for horde/imp#88. Remove once root
+            // cause of the readonly-download auth failure is confirmed.
+            Horde::log(sprintf(
+                'imp#88 debug: download() auth failure. getAuth=%s auth_app/imp=%s sessionActive=%s',
+                var_export($registry->getAuth(), true),
+                var_export($session->exists('horde', 'auth_app/imp'), true),
+                var_export($session->isActive(), true)
+            ), Horde_Log::DEBUG);
+
             $e = new IMP_Exception(_('User is not authenticated.'));
             $e->logged = true;
             throw $e;
