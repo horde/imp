@@ -118,12 +118,20 @@ class IMP_Auth
             $credentials['server'] = self::getAutoLoginServer();
         }
         if (empty($credentials['server'])) {
-            throw new Horde_Auth_Exception('', Horde_Auth::REASON_MESSAGE);
+            throw new Horde_Auth_Exception(
+                _('No IMAP backend is available for auto-login.'),
+                Horde_Auth::REASON_MESSAGE
+            );
         }
 
         $servers = IMP_Imap::loadServerConfig();
+        if ($servers === false) {
+            throw new Horde_Auth_Exception(
+                _('Could not load IMAP backend configuration.'),
+                Horde_Auth::REASON_MESSAGE
+            );
+        }
         $serverConfig = $servers[$credentials['server']] ?? null;
-
         if ((empty($credentials['userId']) || !isset($credentials['password']))
             && $registry->getAuth()
             && $serverConfig
