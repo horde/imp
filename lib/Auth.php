@@ -154,7 +154,8 @@ class IMP_Auth
 
         if (empty($credentials['userId'])
             || !isset($credentials['password'])
-            || !strlen((string) $credentials['password'])) {
+            || (!is_string($credentials['password']) && !($credentials['password'] instanceof Horde_Imap_Client_Password_Xoauth2))
+            || (is_string($credentials['password']) && $credentials['password'] === '')) {
             throw new Horde_Auth_Exception('', Horde_Auth::REASON_BADLOGIN);
         }
 
