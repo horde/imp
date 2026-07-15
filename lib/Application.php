@@ -55,6 +55,7 @@ class IMP_Application extends Horde_Registry_Application
         'list',
         'remove',
         'transparent',
+        'loginparams',
     ];
 
     /**
