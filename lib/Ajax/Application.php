@@ -426,6 +426,14 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
             $changed = ($this->indices->mailbox->getSort()->sortby == Horde_Imap_Client::SORT_THREAD);
         }
 
+        /* Search BUIDs are session-synthetic and the result set is rebuilt
+         * after mailbox mutations. Always refresh the viewport so moved/
+         * deleted messages leave the search list instead of lingering with
+         * an optimistic \Deleted appearance. */
+        if (!$changed && $this->indices->mailbox->search) {
+            $changed = true;
+        }
+
         if ($changed) {
             $this->addTask('viewport', $this->viewPortData(true));
         } elseif (($indices instanceof IMP_Indices_Mailbox)

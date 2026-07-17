@@ -3802,7 +3802,14 @@ var ImpBase = {
         opts.vs = this._getSelection(opts);
 
         if (this._doMsgAction('deleteMessages', opts, {})) {
-            this.updateFlag(opts.vs, ImpCore.conf.FLAG_DELETED, true);
+            /* When using a Trash mailbox (nodeleteshow), messages are moved
+             * or hidden — they must not be painted as IMAP \Deleted. That
+             * optimistic mark is only correct for classic mark-for-deletion
+             * mode, and in search views it often sticks even after a successful
+             * move-to-trash. Rely on the server disappear/viewport refresh. */
+            if (!this.viewport.getMetaData('nodeleteshow')) {
+                this.updateFlag(opts.vs, ImpCore.conf.FLAG_DELETED, true);
+            }
         }
     },
 
