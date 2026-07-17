@@ -444,46 +444,49 @@ class IMP_Indices implements ArrayAccess, Countable, Iterator
             $imp_imap = $ob->mbox->imp_imap;
             $ids_ob = $imp_imap->getIdsOb($ob->uids);
             $processed = false;
+            $moved_to_trash = false;
 
             /* Trash is only valid for IMAP mailboxes. */
             if ($use_trash_mbox
                 && ($ob->mbox != $trash)
                 /* TODO(?): Don't use Trash mailbox for remote accounts. */
-                && !$ob->mbox->remote_mbox) {
-                if ($ob->mbox->access_expunge) {
-                    try {
-                        if ($mark_seen) {
-                            $imp_imap->store($ob->mbox, [
-                                'add' => [Horde_Imap_Client::FLAG_SEEN],
-                                'ids' => $ids_ob,
-                            ]);
-                        }
-
-                        $imp_imap->copy($ob->mbox, $trash, [
+                && !$ob->mbox->remote_mbox
+                && $ob->mbox->access_expunge) {
+                try {
+                    if ($mark_seen) {
+                        $imp_imap->store($ob->mbox, [
+                            'add' => [Horde_Imap_Client::FLAG_SEEN],
                             'ids' => $ids_ob,
-                            'move' => true,
                         ]);
-                        $affected_mailboxes[strval($ob->mbox)] = $ob->mbox;
-                        $affected_mailboxes[strval($trash)] = $trash;
-                        $processed = true;
-                    } catch (IMP_Imap_Exception $e) {
-                        if ($e->getCode() == $e::OVERQUOTA) {
-                            $notification->push(
-                                _('You are over your quota, so your messages will be permanently deleted instead of moved to the Trash mailbox.'),
-                                'horde.warning'
-                            );
-
-                            $idx = new IMP_Indices($ob->mbox, $ob->uids);
-                            return $idx->delete([
-                                'keeplog' => !empty($opts['keeplog']),
-                                'nuke' => true,
-                            ]);
-                        }
-
-                        return false;
                     }
+
+                    $imp_imap->copy($ob->mbox, $trash, [
+                        'ids' => $ids_ob,
+                        'move' => true,
+                    ]);
+                    $affected_mailboxes[strval($ob->mbox)] = $ob->mbox;
+                    $affected_mailboxes[strval($trash)] = $trash;
+                    $processed = true;
+                    $moved_to_trash = true;
+                } catch (IMP_Imap_Exception $e) {
+                    if ($e->getCode() == $e::OVERQUOTA) {
+                        $notification->push(
+                            _('You are over your quota, so your messages will be permanently deleted instead of moved to the Trash mailbox.'),
+                            'horde.warning'
+                        );
+
+                        $idx = new IMP_Indices($ob->mbox, $ob->uids);
+                        return $idx->delete([
+                            'keeplog' => !empty($opts['keeplog']),
+                            'nuke' => true,
+                        ]);
+                    }
+
+                    return false;
                 }
-            } else {
+            }
+
+            if (!$moved_to_trash) {
                 /* Delete message logs now. This may result in loss of message
                  * log data for messages that might not be deleted - i.e. if
                  * an error occurs. But 1) the user has already indicated they
