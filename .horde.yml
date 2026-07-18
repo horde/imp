@@ -28,7 +28,7 @@ authors:
     active: false
     role: lead
 version:
-  release: 7.0.2
+  release: 7.1.0
   api: 7.0.0alpha1
 state:
   release: stable
@@ -109,7 +109,7 @@ keywords:
 vendor: horde
 ci-platform:
   '8.1':
-    - php: '>=8.1'
+    - php: ^8.1
     - composer-plugin-api: ^2.2.0
     - ext-ctype
     - ext-curl
@@ -133,7 +133,7 @@ ci-platform:
     - ext-xmlwriter
     - lib-libxml
   '8.2':
-    - php: '>=8.1'
+    - php: ^8.2
     - composer-plugin-api: ^2.2.0
     - ext-ctype
     - ext-curl
@@ -157,7 +157,7 @@ ci-platform:
     - ext-xmlwriter
     - lib-libxml
   '8.3':
-    - php: '>=8.1'
+    - php: ^8.3
     - composer-plugin-api: ^2.2.0
     - ext-ctype
     - ext-curl
@@ -181,7 +181,7 @@ ci-platform:
     - ext-xmlwriter
     - lib-libxml
   '8.4':
-    - php: '>=8.1'
+    - php: ^8.4
     - composer-plugin-api: ^2.2.0
     - ext-ctype
     - ext-curl
@@ -205,7 +205,7 @@ ci-platform:
     - ext-xmlwriter
     - lib-libxml
   '8.5':
-    - php: '>=8.1'
+    - php: ^8.5
     - composer-plugin-api: ^2.2.0
     - ext-ctype
     - ext-curl
@@ -229,7 +229,7 @@ ci-platform:
     - ext-xmlwriter
     - lib-libxml
   '8.6':
-    - php: '>=8.1'
+    - php: ^8.6
     - composer-plugin-api: ^2.2.0
     - ext-ctype
     - ext-curl

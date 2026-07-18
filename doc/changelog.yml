@@ -1,4 +1,14 @@
 ---
+7.1.0:
+  api: 7.1.0
+  state:
+    release: stable
+    api: stable
+  date: 2026-07-18
+  license:
+    identifier: GPL-2.0-only
+    uri: https://spdx.org/licenses/GPL-2.0-only.html
+  notes: "style: reorder auth capabilities alphabetically\nfix(auth): declare 'loginparams' capability so the server selector works regardless of auth driver\nMerge pull request #92 from horde/fix/search-delete-trash-ui\nfix(imp): refresh search list after trash delete\nfix(imp): return IMP_Mailbox objects from Vtrash mboxes\nPotential fix for pull request finding\nPotential fix for pull request finding\nPotential fix for pull request finding\nfeat(imp): add ensureImapConnection for stateless IMAP login"
 7.0.2:
   api: 7.0.2
   state:
