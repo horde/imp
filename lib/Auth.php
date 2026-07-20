@@ -255,11 +255,27 @@ class IMP_Auth
      */
     public static function getAutoLoginServer()
     {
+        global $session;
+
         if (($servers = IMP_Imap::loadServerConfig()) === false) {
             return null;
         }
 
+        // Honor a server explicitly selected on the Horde login screen, even
+        // when Horde itself authenticated through a driver unrelated to IMP
+        // (LDAP, SQL, ...). horde/base's login.php stores raw posted values
+        // per app in the session; only IMP interprets the 'imp_server_key'
+        // field.
+        $login_params = $session->exists('horde', 'login_app_params')
+            ? $session->get('horde', 'login_app_params')
+            : [];
+        $selected = $login_params['imp']['imp_server_key'] ?? null;
+        if (!empty($selected) && isset($servers[$selected])) {
+            return $selected;
+        }
+
         $server_key = null;
+
         foreach ($servers as $key => $val) {
             if (is_null($server_key) && (substr($key, 0, 1) != '_')) {
                 $server_key = $key;
