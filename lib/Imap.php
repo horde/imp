@@ -11,6 +11,8 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
+use Horde\Log\Logger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Provides common functions for interaction with IMAP/POP3 servers via the
@@ -688,7 +690,7 @@ class IMP_Imap implements Serializable
                     return $this->_temp['ns'];
                 }
                 $nsconfig = $this->config->namespace;
-                $params[0] = is_null($nsconfig) ? [] : $nsconfig;
+                $params[0] = $this->_validateNamespaceConfig($nsconfig);
                 $params[1] = ['ob_return' => true];
                 break;
 
@@ -955,6 +957,137 @@ class IMP_Imap implements Serializable
         return is_null($server)
             ? self::$_backends
             : (self::$_backends[$server] ?? false);
+    }
+
+    /**
+     * Validate the backend's `namespace` config entry and normalize it
+     * to the flat list of non-empty strings that
+     * {@see Horde_Imap_Client_Base::getNamespaces()} expects for its
+     * `$additional` parameter.
+     *
+     * The intended config shape per imp/config/backends.php:
+     *
+     *     'namespace' => array('#shared/', '#news/', '#public/')
+     *
+     * — a flat list of strings identifying additional namespaces the
+     * IMAP server does not advertise. Anything else (nested arrays,
+     * objects that aren't Stringable, empty strings) is a
+     * misconfiguration.
+     *
+     * Historical behaviour was to hand the raw value to the library,
+     * which used `array_map('strval', ...)` and triggered PHP's
+     * "Array to string conversion" warning on nested-array shapes
+     * (imp#94). horde/Imap_Client PR #48 hardened the library to
+     * filter non-scalars silently. imp#95 asks us to validate at IMP's
+     * boundary so the misconfiguration surfaces to the admin instead
+     * of being silently discarded downstream.
+     *
+     * Behaviour:
+     * - `null` or missing → returns `[]`; no complaint (the config
+     *   entry is optional).
+     * - array of strings, well-formed → returns them.
+     * - array containing bad entries alongside good ones → logs a
+     *   warning per bad entry and returns the good subset.
+     * - array with only bad entries (and there was clearly an intent
+     *   to configure something, i.e. non-empty input) → throws
+     *   {@see IMP_Exception}. The admin wanted extra namespaces and
+     *   got none through; silent zero-result is worse than a loud
+     *   config error.
+     * - anything else (scalar, object) → throws.
+     *
+     * @param mixed $nsconfig  Raw config value from `$this->config->namespace`.
+     *
+     * @return array<int, string>  Validated flat list of namespace strings.
+     * @throws IMP_Exception  When the config exists but yields no usable
+     *                        entries after filtering, or is not an array.
+     */
+    private function _validateNamespaceConfig($nsconfig): array
+    {
+        if ($nsconfig === null || $nsconfig === []) {
+            return [];
+        }
+
+        if (!is_array($nsconfig)) {
+            throw new IMP_Exception(sprintf(
+                'IMP backend `namespace` config must be an array of '
+                . 'strings; got %s. See imp/config/backends.php.',
+                get_debug_type($nsconfig),
+            ));
+        }
+
+        $logger = $this->_logger();
+        $valid = [];
+        $droppedCount = 0;
+
+        foreach ($nsconfig as $key => $value) {
+            if (is_string($value) && $value !== '') {
+                $valid[] = $value;
+                continue;
+            }
+            if (is_object($value) && method_exists($value, '__toString')) {
+                $stringified = (string) $value;
+                if ($stringified !== '') {
+                    $valid[] = $stringified;
+                    continue;
+                }
+            }
+            /* Anything else — nested array, empty string, null,
+             * non-Stringable object — is a config error. Log and drop.
+             * Uses printf's %s + var_export so the offending shape
+             * shows up in the log for the admin. */
+            $droppedCount++;
+            if ($logger !== null) {
+                $logger->warning(sprintf(
+                    'IMP backend `namespace` config at key %s has an '
+                    . 'unusable value; expected a non-empty string, '
+                    . 'got %s. Fix: use array(\'#shared/\', \'#news/\') '
+                    . 'shape per imp/config/backends.php. See imp#95.',
+                    var_export($key, true),
+                    is_array($value)
+                        ? 'array (' . count($value) . ' entries)'
+                        : get_debug_type($value),
+                ));
+            }
+        }
+
+        if ($valid === [] && $droppedCount > 0) {
+            /* Admin configured `namespace` but every entry was
+             * unusable. That's a loud failure — silently proceeding
+             * with an empty additional-namespaces list would mask the
+             * misconfiguration. */
+            throw new IMP_Exception(sprintf(
+                'IMP backend `namespace` config has %d entries but '
+                . 'none are usable; all were dropped as malformed. '
+                . 'See imp/config/backends.php for the expected '
+                . 'array-of-strings shape.',
+                $droppedCount,
+            ));
+        }
+
+        return $valid;
+    }
+
+    /**
+     * Resolve the modern PSR-3 logger for warnings emitted by this
+     * class's validation code. Returns null when the injector is not
+     * available (bootstrap-time contexts, tests) so callers can
+     * degrade to silent filtering.
+     */
+    private function _logger(): ?LoggerInterface
+    {
+        if (!isset($GLOBALS['injector'])) {
+            return null;
+        }
+        try {
+            $logger = $GLOBALS['injector']->getInstance(
+                Logger::class,
+            );
+            return $logger instanceof LoggerInterface
+                ? $logger
+                : null;
+        } catch (Throwable) {
+            return null;
+        }
     }
 
     /* Serializable methods. */
