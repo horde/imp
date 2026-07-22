@@ -51,15 +51,28 @@ class IMP_Maillog_Message
     }
 
     /**
+     * Populate the message payload.
      *
+     * Accepts either an {@see IMP_Indices} (msgid resolved lazily on
+     * first read via IMAP fetch) or an already-known Message-ID
+     * string. Empty/false input is discarded so a getter that finds
+     * neither payload can return an empty string cleanly rather than
+     * fault on a null indices reference. See imp#96 —
+     * Compose::sendRedirectMessage constructs one of these from a
+     * `reset()` on a possibly-empty ids array, which yields `false`.
      */
     public function add($data)
     {
         if ($data instanceof IMP_Indices) {
             $this->_indices = $data;
-        } else {
-            $this->_msgid = strval($data);
+        } elseif (($stringified = strval($data)) !== '') {
+            $this->_msgid = $stringified;
         }
+        /* else: caller handed us an empty/false value. Neither
+         * $_indices nor $_msgid is set; the msgid getter returns ''
+         * and downstream Storage/History::_getUniqueHistoryId's
+         * empty-string guard turns it into a clean
+         * RuntimeException. */
     }
 
     /**
@@ -79,7 +92,23 @@ class IMP_Maillog_Message
 
             case 'msgid':
                 if (!$this->_msgid) {
-                    [$mbox, $uid] = $this->indices->getSingle();
+                    /* Constructed without an IMP_Indices AND without a
+                     * usable Message-ID. Callers that build a message
+                     * with a false/empty/malformed id (see imp#96 —
+                     * Compose::sendRedirectMessage on a message whose
+                     * Message-ID header had no parseable id) would
+                     * otherwise fault here with "Call to a member
+                     * function getSingle() on null". Return an empty
+                     * string; downstream storage layers (notably
+                     * IMP_Maillog_Storage_History::_getUniqueHistoryId)
+                     * already throw a clean RuntimeException on
+                     * empty msgids, which is the intended failure
+                     * mode. */
+                    if ($this->_indices === null) {
+                        return '';
+                    }
+
+                    [$mbox, $uid] = $this->_indices->getSingle();
 
                     $query = new Horde_Imap_Client_Fetch_Query();
                     $query->envelope();
