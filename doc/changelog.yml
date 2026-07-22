@@ -1,4 +1,14 @@
 ---
+7.1.1:
+  api: 7.1.1
+  state:
+    release: stable
+    api: stable
+  date: 2026-07-22
+  license:
+    identifier: GPL-2.0-only
+    uri: https://spdx.org/licenses/GPL-2.0-only.html
+  notes: "fix(imp#96): guard IMP_Maillog_Message against unresolvable Message-ID\nfix(imp#95): validate backend `namespace` config before passing downstream\nfix(auth): honor session-stored server selection in getAutoLoginServer()"
 7.1.0:
   api: 7.1.0
   state:
