@@ -2630,20 +2630,30 @@ class IMP_Compose implements ArrayAccess, Countable, IteratorAggregate
                 if ($log && ($tmp = $headers['Message-ID'])) {
                     $msg_id = reset($tmp->getIdentificationOb()->ids);
 
-                    /* Store history information. */
-                    $injector->getInstance('IMP_Maillog')->log(
-                        new IMP_Maillog_Message($msg_id),
-                        new IMP_Maillog_Log_Redirect([
-                            'msgid' => reset($resent_headers->getIdentificationOb()->ids),
-                            'recipients' => $recipients,
-                        ])
-                    );
+                    /* Some inbound messages ship a Message-ID header
+                     * whose value cannot be parsed into an id (missing
+                     * angle brackets, empty header, mailer-daemon
+                     * bounces, malformed Notes/SharePoint output).
+                     * reset() on the resulting empty ids array returns
+                     * false; skip the maillog + sentmail write rather
+                     * than construct log entries that will fault
+                     * downstream. See imp#96. */
+                    if ($msg_id) {
+                        /* Store history information. */
+                        $injector->get('IMP_Maillog')->log(
+                            new IMP_Maillog_Message($msg_id),
+                            new IMP_Maillog_Log_Redirect([
+                                'msgid' => reset($resent_headers->getIdentificationOb()->ids),
+                                'recipients' => $recipients,
+                            ])
+                        );
 
-                    $injector->getInstance('IMP_Sentmail')->log(
-                        IMP_Sentmail::REDIRECT,
-                        $msg_id,
-                        $recipients
-                    );
+                        $injector->get('IMP_Sentmail')->log(
+                            IMP_Sentmail::REDIRECT,
+                            $msg_id,
+                            $recipients
+                        );
+                    }
                 }
 
                 $tmp = new stdClass();
