@@ -4,7 +4,7 @@
 # Ivan Noris <vix@vazka.sk>, 2002, 2003
 # Martin Matuška <martin@matuska.org>, 2008
 # Marika Schvarczova <schvarczova.marika@domeny.sk>, 2012
-# Jozef Sudolský <jozef.sudolsky@elbia.sk>, 2012-2014
+# Jozef Sudolský <jozef.sudolsky@elbia.sk>, 2012-2026
 #
 msgid ""
 msgstr ""
@@ -1257,7 +1257,7 @@ msgstr "Priečinok pre šablóny:"
 
 #: lib/Dynamic/Compose/Common.php:253
 msgid "Compose action completed. You may now safely close this window."
-msgstr ""
+msgstr "Správa bola vytvorená. Toto okno môžete teraz zavrieť."
 
 #: config/prefs.php:599
 msgid "Compose messages in a separate window?"
@@ -2257,6 +2257,10 @@ msgid ""
 "this request. You may redo the flag action if desired; this warning is "
 "precautionary to ensure you don't overwrite flag changes."
 msgstr ""
+"Príznaky neboli zmenené aspoň pri jednej správe v priečinku \"%s\", pretože "
+"ich pred touto požiadavkou zmenilo iné pripojenie k schránke. Ak chcete, "
+"môžete akciu s príznakmi zopakovať; toto upozornenie slúži ako ochrana, aby "
+"ste neprepísali zmeny vykonané iným pripojením."
 
 #: lib/Basic/Mailbox.php:682 lib/Basic/Message.php:603
 msgid "Fo_rward"
