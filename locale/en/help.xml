@@ -568,7 +568,10 @@
     <entry id="prefs-image_replacement">
         <title>Message: Preferences: Image Replacement</title>
         <para>
-            For messages displayed inline (i.e. on the message view page), should all image tags be blocked until you specifically decide to view those images? Note that, if explicitly viewing the attachment, images will always be displayed.
+            For messages displayed inline (i.e. on the message view page), controls how images embedded in HTML messages are handled: show all images (including remote ones, which may be used by senders to track whether you have read a message); show only images attached directly to the message while blocking those loaded from remote servers (recommended); or block all images until you specifically decide to view them.
+        </para>
+        <para>
+            In all blocking modes, a notification appears allowing you to unblock images on a per-message basis, or to permanently allow images from a given sender. Note that, if explicitly viewing the attachment, images will always be displayed.
         </para>
     </entry>
 

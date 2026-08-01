@@ -1013,12 +1013,17 @@ $_prefs['alternative_display'] = [
     },
 ];
 
-$_prefs['image_replacement'] = [
-    'value' => 1,
-    'type' => 'checkbox',
-    'desc' => _("Block images in messages unless they are specifically requested to be loaded?"),
+$_prefs['image_replacement'] = array(
+    'value' => 2,
+    'type'  => 'enum',
+    'enum'  => array(
+        0 => _("Show all images"),
+        1 => _("Block all images in messages unless they are specifically requested to be loaded?"),
+        2 => _("Show inline images, block remote images"),
+    ),
+    'desc'  => _("How should images in HTML messages be handled?"),
     'help' => 'prefs-image_replacement',
-];
+);
 
 $_prefs['image_replacement_manage'] = [
     'type' => 'special',
