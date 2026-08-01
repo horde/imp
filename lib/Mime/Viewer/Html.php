@@ -146,6 +146,7 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
                 'imgblock' => false,
                 'imgbroken' => false,
                 'inline' => $inline,
+                'remoteblock' => false,
                 'style' => [],
             ];
         }
@@ -231,8 +232,13 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
 
                     $link = $text = null;
                     if ($this->_imptmp['imgblock']) {
-                        $text = _('Images have been blocked in this message part.');
-                        $link = _('Show Images?');
+                        if ($this->_imptmp['remoteblock']) {
+                            $text = _('Remote images have been blocked in this message part.');
+                            $link = _('Load Remote Images?');
+                        } else {
+                            $text = _('Images have been blocked in this message part.');
+                            $link = _('Show Images?');
+                        }
                     } elseif ($this->_imptmp['cssblock']) {
                         $text = _('Message styling has been suppressed in this message part since the style data lives on a remote server.');
                         $link = _('Load Styling?');
@@ -372,6 +378,7 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
                     $val = $node->getAttribute('src');
 
                     /* Multipart/related. */
+                    $is_cid = false;
                     if (($tag == 'img') && ($id = $this->_cidSearch($val))) {
                         $val = $this->getConfigParam('imp_contents')->urlView(null, 'view_attach', ['params' => [
                             'ctype' => 'image/*',
@@ -381,7 +388,7 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
                     }
 
                     /* Block images.*/
-                    if ($this->_imgBlock()) {
+                    if ($this->_imgBlock() && !($is_cid && $this->_isRemoteBlock())) {
                         if (Horde_Url_Data::isData($val)) {
                             $url = new Horde_Url_Data($val);
                         } else {
@@ -401,6 +408,9 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
                             $node->setAttribute(self::IMGBLOCK, $url);
                             $node->setAttribute('src', $this->_imgBlockImg());
                             $this->_imptmp['imgblock'] = true;
+                            if ($this->_isRemoteBlock()) {
+                                $this->_imptmp['remoteblock'] = true;
+                            }
                         } else {
                             $node->parentNode->removeChild($node);
                             $this->_imptmp['imgbroken'] = true;
@@ -636,6 +646,9 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
         } else {
             $this->_imptmp['node']->setAttribute(self::IMGBLOCK, $matches[2]);
             $this->_imptmp['imgblock'] = true;
+            if ($this->_isRemoteBlock()) {
+                $this->_imptmp['remoteblock'] = true;
+            }
             $replace = $this->_imgBlockImg();
         }
         return $matches[1] . $replace . $matches[3];
@@ -700,4 +713,15 @@ class IMP_Mime_Viewer_Html extends Horde_Mime_Viewer_Html
         return $this->_imptmp['blockimg'];
     }
 
+    /**
+     * Are we in "block remote images only" mode?
+     *
+     * @return boolean  True if only remote images are blocked.
+     */
+    protected function _isRemoteBlock()
+    {
+        global $prefs;
+
+        return ($prefs->getValue('image_replacement') == 2);
+    }
 }
