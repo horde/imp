@@ -150,13 +150,6 @@
         </tip>
     </entry>
 
-    <entry id="pgp-compose-attach-pubkey">
-        <title>PGP: Preferences: Attach Public Key</title>
-        <para>
-            If selected then a copy of your PGP public key, if it exists, will be attached to the outgoing message. You can set the default behavior via the PGP Preferences screen.
-        </para>
-    </entry>
-
     <entry id="pgp-option-reply-pubkey">
         <title>PGP: Preferences: Validate PGP Public Keys When Replying</title>
         <para>
@@ -189,6 +182,10 @@
         <heading>PGP Sign/Encrypt Message with passphrase</heading>
         <para>
             This option will first digitally sign your message and then will encrypt the resulting output with a passphrase. See the &quot;PGP Encrypt Message with passphrase&quot; and &quot;PGP Sign Message&quot; entries for further information.
+        </para>
+        <heading>Attach Public Key</heading>
+        <para>
+            If selected then a copy of your PGP public key, if it exists, will be attached to the outgoing message. You can set the default behavior via the PGP Preferences screen.
         </para>
         <heading>S/MIME Encrypt Message</heading>
         <para>
