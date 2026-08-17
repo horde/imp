@@ -58,14 +58,14 @@ class IMP_Mime_Viewer_Audio extends Horde_Mime_Viewer_Audio
 
         if ($minutes = floor($duration->value / 60)) {
             $text[] = sprintf(
-                ngettext(_('%d minute'), _('%d minutes'), $minutes),
+                ngettext('%d minute', '%d minutes', $minutes),
                 $minutes
             );
         }
 
         if ($seconds = ($duration->value % 60)) {
             $text[] = sprintf(
-                ngettext(_('%d second'), _('%d seconds'), $seconds),
+                ngettext('%d second', '%d seconds', $seconds),
                 $seconds
             );
         }
