@@ -1,4 +1,14 @@
 ---
+7.2.0:
+  api: 7.2.0
+  state:
+    release: stable
+    api: stable
+  date: 2026-08-21
+  license:
+    identifier: GPL-2.0-only
+    uri: https://spdx.org/licenses/GPL-2.0-only.html
+  notes: "fix: CVE-2026-65053 Stored Cross-Site Scripting (XSS) in Horde IMP AppleDouble MIME Viewer\nUpdate french help file.\nfeat(imp): add \"block remote images only\" mode to image replacement preference\nfix(imp): move pgp-compose-attach-pubkey into compose-options-encrypt entry\nUpdate imp.po"
 7.1.1:
   api: 7.1.1
   state:
