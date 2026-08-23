@@ -511,8 +511,9 @@ var ViewPort = Class.create({
             });
             this.opts.content.setStyle({ width: 'auto' });
             sp.currbar.show();
+            this.opts.pane_data.show();
             var _ph = Math.max(document.viewport.getHeight() - this.opts.pane_data.viewportOffset()[1], 0);
-            this.opts.pane_data.show().setStyle({
+            this.opts.pane_data.setStyle({
                 height: _ph + 'px'
             });
             document.documentElement.style.setProperty('--imp-pane-mode', 'horiz');
