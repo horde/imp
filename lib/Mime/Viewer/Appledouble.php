@@ -96,7 +96,7 @@ class IMP_Mime_Viewer_Appledouble extends Horde_Mime_Viewer_Base
         $data_name = $this->getConfigParam('imp_contents')->getPartName($data_part);
 
         $status = new IMP_Mime_Status($this->_mimepart, array(
-            sprintf(_("This message contains a Macintosh file (named \"%s\")."), $data_name),
+            sprintf(_("This message contains a Macintosh file (named \"%s\")."), htmlspecialchars($data_name, ENT_QUOTES, $this->getConfigParam('charset'))),
             $this->getConfigParam('imp_contents')->linkViewJS(
                 $applefile_part,
                 'download_attach',
