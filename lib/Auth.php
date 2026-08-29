@@ -38,12 +38,18 @@ class IMP_Auth
      */
     public static function authenticate($credentials = [])
     {
-        global $injector, $registry;
+        global $conf, $injector, $registry;
 
-        // Do 'horde' authentication.
+        // Do 'horde' authentication. This passthrough also applies in
+        // federated app-auth mode, where Horde identity is established by an
+        // external mechanism and IMP performs no primary-IMAP authentication:
+        // a valid Horde principal is accepted, absence is rejected.
         $imp_app = $registry->getApiInstance('imp', 'application');
-        if (!empty($imp_app->initParams['authentication'])
-            && ($imp_app->initParams['authentication'] == 'horde')) {
+        $federated = !empty($conf['imp']['app_auth_mode'])
+            && ($conf['imp']['app_auth_mode'] == 'federated');
+        if ($federated
+            || (!empty($imp_app->initParams['authentication'])
+                && ($imp_app->initParams['authentication'] == 'horde'))) {
             if ($registry->getAuth()) {
                 return;
             }

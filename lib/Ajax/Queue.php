@@ -218,41 +218,67 @@ class IMP_Ajax_Queue
             $this->_flag = [];
         }
 
-        /* Add flag configuration. */
-        switch ($this->_flagconfig) {
-            case Horde_Registry::VIEW_DYNAMIC:
-            case Horde_Registry::VIEW_MINIMAL:
-            case Horde_Registry::VIEW_SMARTMOBILE:
-                $flags = [];
-                foreach ($injector->getInstance('IMP_Flags')->getList() as $val) {
-                    $tmp = [
-                        'b' => $val->bgdefault ? null : $val->bgcolor,
-                        'f' => $val->fgcolor,
-                        'id' => $val->id,
-                        'l' => $val->label,
-                        's' => intval($val instanceof IMP_Flag_Imap),
-                    ];
-
-                    if ($this->_flagconfig === Horde_Registry::VIEW_DYNAMIC) {
-                        $tmp += [
-                            'a' => $val->canset,
-                            'c' => $val->css,
-                            'i' => $val->css ? null : $val->cssicon,
-                            'u' => intval($val instanceof IMP_Flag_User),
+        /* Add flag configuration.
+         *
+         * Federated mode check: Until a federated-aware
+         * flag source exists, emit an empty flag config
+         * list which the JS client (base.js tasksHandler()) treats as a
+         * no-op update. */
+        if ($ajax->federated) {
+            switch ($this->_flagconfig) {
+                case Horde_Registry::VIEW_DYNAMIC:
+                case Horde_Registry::VIEW_MINIMAL:
+                case Horde_Registry::VIEW_SMARTMOBILE:
+                    $ajax->addTask('flag-config', []);
+                    break;
+            }
+        } else {
+            switch ($this->_flagconfig) {
+                case Horde_Registry::VIEW_DYNAMIC:
+                case Horde_Registry::VIEW_MINIMAL:
+                case Horde_Registry::VIEW_SMARTMOBILE:
+                    $flags = [];
+                    foreach ($injector->getInstance('IMP_Flags')->getList() as $val) {
+                        $tmp = [
+                            'b' => $val->bgdefault ? null : $val->bgcolor,
+                            'f' => $val->fgcolor,
+                            'id' => $val->id,
+                            'l' => $val->label,
+                            's' => intval($val instanceof IMP_Flag_Imap),
                         ];
-                    }
 
-                    $flags[] = array_filter($tmp);
-                }
-                $ajax->addTask('flag-config', $flags);
-                break;
+                        if ($this->_flagconfig === Horde_Registry::VIEW_DYNAMIC) {
+                            $tmp += [
+                                'a' => $val->canset,
+                                'c' => $val->css,
+                                'i' => $val->css ? null : $val->cssicon,
+                                'u' => intval($val instanceof IMP_Flag_User),
+                            ];
+                        }
+
+                        $flags[] = array_filter($tmp);
+                    }
+                    $ajax->addTask('flag-config', $flags);
+                    break;
+            }
         }
 
-        /* Add folder tree information. */
-        $this->_addFtreeInfo($ajax);
+        /* Add folder tree information.
+         *
+         * IMP_Ftree models the traditional main-account/remote-account
+         * tree which does not exist in federated mode.
+         */
+        if (!$ajax->federated) {
+            $this->_addFtreeInfo($ajax);
+        }
 
-        /* Add maillog information. */
-        $this->_addMaillogInfo($ajax);
+        /* Add maillog information.
+         *
+         * _addMaillogInfo() resolves messages via IMP_Indices
+         */
+        if (!$ajax->federated) {
+            $this->_addMaillogInfo($ajax);
+        }
 
         /* Add message information. */
         if (!empty($this->_messages)) {
@@ -260,34 +286,50 @@ class IMP_Ajax_Queue
             $this->_messages = [];
         }
 
-        /* Add poll information. */
-        $poll = $poll_list = [];
-        if (!empty($this->_poll)) {
-            foreach ($this->_poll as $val) {
-                $poll_list[strval($val)] = 1;
-            }
-        }
-
-        if (count($poll_list)) {
-            $imap_ob = $injector->getInstance('IMP_Factory_Imap')->create();
-            if ($imap_ob->init) {
-                try {
-                    foreach ($imap_ob->status(array_keys($poll_list), Horde_Imap_Client::STATUS_UNSEEN) as $key => $val) {
-                        $poll[IMP_Mailbox::formTo($key)] = intval($val['unseen']);
-                    }
-                } catch (Exception $e) {
-                    // Ignore errors in status() calls.
+        /* Add poll information.
+         *
+         * Federated mode skips the unseen-count lookup for now.
+         */
+        if ($ajax->federated) {
+            $this->_poll = [];
+        } else {
+            $poll = $poll_list = [];
+            if (!empty($this->_poll)) {
+                foreach ($this->_poll as $val) {
+                    $poll_list[strval($val)] = 1;
                 }
             }
 
-            if (!empty($poll)) {
-                $ajax->addTask('poll', $poll);
-                $this->_poll = [];
+            if (count($poll_list)) {
+                $imap_ob = $injector->getInstance('IMP_Factory_Imap')->create();
+                if ($imap_ob->init) {
+                    try {
+                        foreach ($imap_ob->status(array_keys($poll_list), Horde_Imap_Client::STATUS_UNSEEN) as $key => $val) {
+                            $poll[IMP_Mailbox::formTo($key)] = intval($val['unseen']);
+                        }
+                    } catch (Exception $e) {
+                        // Ignore errors in status() calls.
+                    }
+                }
+
+                if (!empty($poll)) {
+                    $ajax->addTask('poll', $poll);
+                    $this->_poll = [];
+                }
             }
         }
 
-        /* Add quota information. */
-        if ($this->_quota
+        /* Add quota information.
+         *
+         * Federated mode skips quota for now.
+         *
+         * IMP_Quota_Ui::quota() assumes a single
+         * default backend via IMP_Factory_Imap->create(). Skip and clear
+         * any queued quota request until a federated-aware quota source
+         * exists. */
+        if ($ajax->federated) {
+            $this->_quota = false;
+        } elseif ($this->_quota
             && ($quotadata = $injector->getInstance('IMP_Quota_Ui')->quota($this->_quota[0], $this->_quota[1]))) {
             $ajax->addTask('quota', [
                 'm' => $quotadata['message'],
