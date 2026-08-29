@@ -69,7 +69,6 @@ class IMP_Ajax_Application_Handler_Dynamic extends Horde_Core_Ajax_Application_H
     public function createMailbox()
     {
         global $injector, $notification;
-
         if (!isset($this->vars->mbox)) {
             return false;
         }
@@ -291,21 +290,17 @@ class IMP_Ajax_Application_Handler_Dynamic extends Horde_Core_Ajax_Application_H
     public function listMailboxes()
     {
         global $injector, $prefs, $session;
-
         $ftree = $injector->getInstance('IMP_Ftree');
         $iterator = new AppendIterator();
-
         /* This might be a long running operation. */
         if ($this->vars->initial) {
             $session->close();
             $ftree->eltdiff->clear();
-
             /* @todo: Correctly handle unsubscribed mailboxes in ftree. */
             if ($ftree->unsubscribed_loaded && !$this->vars->reload) {
                 $ftree->init();
             }
         }
-
         if ($this->vars->reload) {
             $ftree->init();
         }
@@ -416,7 +411,6 @@ class IMP_Ajax_Application_Handler_Dynamic extends Horde_Core_Ajax_Application_H
                 $ftree->expand($val);
             }
         }
-
         array_map(
             [$ftree->eltdiff, 'add'],
             array_unique(iterator_to_array($iterator, false))
@@ -433,7 +427,6 @@ class IMP_Ajax_Application_Handler_Dynamic extends Horde_Core_Ajax_Application_H
                 $this->vars->reload = false;
             }
         }
-
         return true;
     }
 
@@ -447,15 +440,54 @@ class IMP_Ajax_Application_Handler_Dynamic extends Horde_Core_Ajax_Application_H
      */
     public function dynamicInit()
     {
-        $this->_base->callAction('viewPort');
-
-        $this->vars->initial = 1;
-        $this->vars->mboxes = json_encode([$this->vars->mailbox]);
-        $this->listMailboxes();
-
+        if ($this->_base->federated) {
+            /* Federated mode: No "main account" mailbox and no
+             * IMP_Ftree-based folder tree to iterate.
+             * For now skip the classic viewPort/listMailboxes calls entirely and
+             * queue only the minimum task payloads the dynamic-view JS
+             * client (ViewPort.parseJSONResponse(), mailboxCallback())
+             * needs to complete its initial bootstrap without a message
+             * list or folder tree to display. */
+            $this->_base->addTask('viewport', $this->_federatedViewportStub());
+            $this->_base->addTask('mailbox', new stdClass());
+        } else {
+            $this->_base->callAction('viewPort');
+            $this->vars->initial = 1;
+            // In FW 6.1 imp, the mailbox property may be unset and mboxes might be empty
+            $this->vars->mboxes = json_encode([$this->vars?->mailbox]);
+            $this->listMailboxes();
+        }
         $this->_base->queue->flagConfig(Horde_Registry::VIEW_DYNAMIC);
-
         return true;
+    }
+
+    /**
+     * Build the minimum "viewport" task payload expected by the
+     * dynamic-view JS ViewPort class when running in federated mode,
+     * where no mailbox/account has been resolved yet.
+     *
+     * Deliberately does not touch IMP_Mailbox/IMP_Ftree/IMP_Imap: Unlike
+     * IMP_Ajax_Application_Viewport which derives 'cacheid' from a real,
+     * backend-connected mailbox this stub must remain safe to build with
+     * zero configured mail accounts.
+     *
+     * @return object  An object exposing toObject(), as expected by
+     *                 IMP_Ajax_Application::getTasks() for the
+     *                 'imp:viewport' task.
+     */
+    protected function _federatedViewportStub()
+    {
+        return new class {
+            public function toObject()
+            {
+                $ob = new stdClass();
+                $ob->view = '';
+                $ob->cacheid = strval(new Horde_Support_Randomid());
+                $ob->data = new stdClass();
+                $ob->rowlist = new stdClass();
+                return $ob;
+            }
+        };
     }
 
     /**

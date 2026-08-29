@@ -14,6 +14,7 @@
 
 /**
  * This object is a clearinghouse for actions related to an IMP mailbox.
+ * In IMAP lingo, a mailbox is a mail folder inside an account.
  *
  * @author    Michael Slusarz <slusarz@horde.org>
  * @category  Horde
