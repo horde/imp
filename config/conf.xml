@@ -13,6 +13,17 @@
     <case name="shown" desc="Shown" />
     <case name="hidden" desc="Hidden" />
    </configswitch>
+   <configswitch name="app_auth_mode" desc="How does IMP participate in
+   authentication? 'traditional' preserves classic behaviour: IMP can drive
+   Horde login and authenticates against the primary IMAP backend.
+   'federated' means Horde authentication happens by some other mechanism
+   (e.g. OIDC, GitHub, Gmail); IMP does not provide application authentication
+   and performs no eager primary-IMAP connection. Mailboxes are supplied by
+   account providers, so the canvas starts empty except for manually-added
+   external mailboxes.">traditional
+    <case name="traditional" desc="Traditional (IMP drives login / primary IMAP auth)" />
+    <case name="federated" desc="Federated (external auth; no eager mailbox connect)" />
+   </configswitch>
   </configsection>
  </configtab>
 
