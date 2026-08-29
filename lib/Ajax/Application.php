@@ -12,6 +12,8 @@
  * @package   IMP
  */
 
+use Horde\Core\Config\ConfigLoader;
+
 /**
  * Defines the AJAX interface for IMP.
  *
@@ -48,10 +50,25 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
     public $queue;
 
     /**
+     * True if IMP is running with app_auth_mode = 'federated' (mailbox
+     * accounts are not split into a privileged "main" account plus
+     * "remote" accounts and every account is equal. IMP does not perform
+     * its own application-level authentication). False (the default) is
+     * the classic/traditional model.
+     *
+     * @see IMP_Application::appAuthMode()
+     * @var boolean
+     */
+    public $federated = false;
+
+    /**
      */
     protected function _init()
     {
         global $injector, $registry;
+
+        $impConfig = $injector->getInstance(ConfigLoader::class)->load('imp');
+        $this->federated = $impConfig->get('server.app_auth_mode') === 'federated';
 
         $this->queue = $injector->getInstance('IMP_Ajax_Queue');
 
@@ -66,7 +83,8 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
                 $this->addHandler('IMP_Ajax_Application_Handler_Mboxtoggle');
                 $this->addHandler('IMP_Ajax_Application_Handler_Passphrase');
                 $this->addHandler('IMP_Ajax_Application_Handler_Search');
-                if ($injector->getInstance('IMP_Factory_Imap')->create()->access(IMP_Imap::ACCESS_REMOTE)) {
+                if (!$this->federated
+                    && $injector->getInstance('IMP_Factory_Imap')->create()->access(IMP_Imap::ACCESS_REMOTE)) {
                     $this->addHandler('IMP_Ajax_Application_Handler_Remote');
                     $this->addHandler('IMP_Ajax_Application_Handler_RemotePrefs');
                 }
@@ -116,15 +134,26 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
             );
         }
 
-        /* Check for global poll task. */
+        /* Check for global poll task.
+         *
+         * Federated mode: An empty poll list traditionally means "poll
+         * all mailboxes tracked by IMP_Ftree" which doesn't exist here.
+         * Only honor an explicit mailbox list. Skip the whole-tree poll
+         * until a federated-aware poll list exists. */
         if (isset($this->_vars->poll)) {
             $poll = json_decode($this->_vars->poll);
-            $this->queue->poll(
-                empty($poll)
-                    ? $injector->getInstance('IMP_Ftree')->poll->getPollList()
-                    : IMP_Mailbox::formFrom($poll),
-                true
-            );
+            if ($this->federated) {
+                if (!empty($poll)) {
+                    $this->queue->poll(IMP_Mailbox::formFrom($poll), true);
+                }
+            } else {
+                $this->queue->poll(
+                    empty($poll)
+                        ? $injector->getInstance('IMP_Ftree')->poll->getPollList()
+                        : IMP_Mailbox::formFrom($poll),
+                    true
+                );
+            }
         }
     }
 
