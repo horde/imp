@@ -104,9 +104,12 @@ class IMP_Ftree implements ArrayAccess, Countable, IteratorAggregate, Serializab
 
     /**
      * Constructor.
+     * Archaic: No DI, internal construction of dependencies, reliance on global prefs, injector, session and legacy registry.
+     * TODO: Allow injecting dependencies as optional args first.
      */
     public function __construct()
     {
+        // FTREE should know if it operates in classic mode (main account + remotes) or modern mode (all accounts are equally "remotes")
         $this->init();
     }
 
@@ -149,7 +152,7 @@ class IMP_Ftree implements ArrayAccess, Countable, IteratorAggregate, Serializab
     public function init()
     {
         global $injector, $session;
-
+        /* TODO: For a truely multi-account setup this logic must be reworked. access_folders must be decided per-account */
         $access_folders = $injector->getInstance('IMP_Factory_Imap')->create()->access(IMP_Imap::ACCESS_FOLDERS);
 
         /* Reset class variables to the defaults. */
@@ -171,9 +174,12 @@ class IMP_Ftree implements ArrayAccess, Countable, IteratorAggregate, Serializab
         }
 
         /* Add base account. */
+        /* TODO: Adding "base account" and "Remotes" only makes sense in traditional mailbox handling.
+For federated mailbox handling this may be an empty list and all accounts (if any) are of the same basic type */
         $ob = $this->_accounts[self::BASE_ELT] = $access_folders
             ? new IMP_Ftree_Account_Imap()
             : new IMP_Ftree_Account_Inboxonly();
+        // TODO: This should be array_map($this->_insertElt(), $ob->getList) in PHP 8.1+
         array_map([$this, '_insertElt'], $ob->getList(null, $mask));
 
         if ($access_folders) {
