@@ -31,7 +31,7 @@ if (!defined('HORDE_BASE')) {
  * Horde_Registry_Application::). */
 require_once HORDE_BASE . '/lib/core.php';
 
-use Horde\Core\Config\ConfigLoader;
+use Horde\Imp\AppAuthMode;
 use Horde\Util\Variables;
 
 /**
@@ -123,7 +123,7 @@ class IMP_Application extends Horde_Registry_Application
         /* In federated mode IMP does not provide application authentication:
          * Horde identity comes from another mechanism (e.g. OIDC). Stop
          * advertising IMP as a mailbox auth driver. */
-        $federated = $this->appAuthMode() === 'federated';
+        $federated = $injector->get(AppAuthMode::class)->isFederated();
         if ($federated) {
             $this->auth = array_diff($this->auth, ['authenticate', 'transparent']);
         }
@@ -143,30 +143,14 @@ class IMP_Application extends Horde_Registry_Application
     }
 
     /**
-     * Returns the configured application authentication mode.
-     *
-     * @return string  Either 'traditional' (classic IMP-driven login and
-     *                 primary IMAP authentication) or 'federated' (external
-     *                 identity, no eager mailbox connection). Defaults to
-     *                 'traditional' when unset so installs that have not yet
-     *                 regenerated conf.php keep classic behaviour.
-     */
-    protected function appAuthMode()
-    {
-        global $injector;
-
-        return $injector->getInstance(ConfigLoader::class)
-            ->load('imp')
-            ->get('server.app_auth_mode', 'traditional');
-    }
-
-    /**
      */
     protected function _authenticated()
     {
+        global $injector;
+
         /* Federated mode does not eagerly connect to the primary mailbox on
          * authentication; account providers open connections on demand. */
-        if ($this->appAuthMode() === 'federated') {
+        if ($injector->get(AppAuthMode::class)->isFederated()) {
             return;
         }
 
