@@ -12,7 +12,7 @@
  * @package   IMP
  */
 
-use Horde\Core\Config\ConfigLoader;
+use Horde\Imp\AppAuthMode;
 
 /**
  * Defines the AJAX interface for IMP.
@@ -56,7 +56,7 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
      * its own application-level authentication). False (the default) is
      * the classic/traditional model.
      *
-     * @see IMP_Application::appAuthMode()
+     * @see \Horde\Imp\AppAuthMode
      * @var boolean
      */
     public $federated = false;
@@ -67,8 +67,7 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
     {
         global $injector, $registry;
 
-        $impConfig = $injector->getInstance(ConfigLoader::class)->load('imp');
-        $this->federated = $impConfig->get('server.app_auth_mode') === 'federated';
+        $this->federated = $injector->get(AppAuthMode::class)->isFederated();
 
         $this->queue = $injector->getInstance('IMP_Ajax_Queue');
 
