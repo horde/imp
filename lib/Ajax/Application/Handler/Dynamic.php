@@ -441,13 +441,26 @@ class IMP_Ajax_Application_Handler_Dynamic extends Horde_Core_Ajax_Application_H
     public function dynamicInit()
     {
         if ($this->_base->federated) {
-            /* Federated mode: No "main account" mailbox and no
-             * IMP_Ftree-based folder tree to iterate.
-             * For now skip the classic viewPort/listMailboxes calls entirely and
-             * queue only the minimum task payloads the dynamic-view JS
-             * client (ViewPort.parseJSONResponse(), mailboxCallback())
-             * needs to complete its initial bootstrap without a message
-             * list or folder tree to display. */
+            /* Federated mode: there is no privileged "main account" mailbox
+             * and no IMP_Ftree-based folder tree to iterate. The classic
+             * viewPort/listMailboxes calls both assume a backend-connected
+             * base account (IMP_Factory_Imap::create() with IMP_Imap->init),
+             * which does not exist here.
+             *
+             * Until federated account resolution feeds these tasks, queue the
+             * minimum empty payloads the dynamic-view JS client expects so its
+             * initial bootstrap completes cleanly:
+             *
+             *   - 'viewport': empty message list. Replaced once a mailbox is
+             *     resolved from a federated account and can drive
+             *     IMP_Ajax_Application_ListMessages.
+             *   - 'mailbox': empty folder-tree delta (base.js mailboxCallback
+             *     reads no added/changed/deleted nodes). Replaced once folders
+             *     are enumerated over a federated connection.
+             *
+             * The 'flag-config' task below is emitted for both modes; in
+             * federated mode IMP_Ajax_Queue currently flushes it as an empty
+             * list, which base.js flagConfigCallback treats as a no-op. */
             $this->_base->addTask('viewport', $this->_federatedViewportStub());
             $this->_base->addTask('mailbox', new stdClass());
         } else {
