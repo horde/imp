@@ -13,6 +13,7 @@
  */
 
 use Horde\Imp\AppAuthMode;
+use Horde\Imp\Ajax\FederatedUnsupportedException;
 
 /**
  * Defines the AJAX interface for IMP.
@@ -183,6 +184,28 @@ class IMP_Ajax_Application extends Horde_Core_Ajax_Application
     }
 
     /* Shared code between handlers. */
+
+    /**
+     * Guard an AJAX action that has no federated-mode implementation yet.
+     *
+     * Handlers whose backend behavior still depends on the legacy base
+     * IMP_Imap (acquired via IMP_Factory_Imap::create()) call this at the top
+     * of their federated path. In traditional mode it is a no-op. In federated
+     * mode it throws a typed, correctly-attributed error instead of letting the
+     * request fall through to legacy IMAP code, where IMP_Imap::__call() would
+     * raise a Horde_Exception_AuthenticationFailure that the client renders as
+     * a misleading session timeout.
+     *
+     * @param string $action  The AJAX action name, for the error message.
+     *
+     * @throws FederatedUnsupportedException  If running federated.
+     */
+    public function assertFederatedSupported($action)
+    {
+        if ($this->federated) {
+            throw new FederatedUnsupportedException($action);
+        }
+    }
 
     /**
      * Initialize the objects needed to compose.
