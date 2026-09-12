@@ -32,6 +32,12 @@ if (!defined('HORDE_BASE')) {
 require_once HORDE_BASE . '/lib/core.php';
 
 use Horde\Imp\AppAuthMode;
+use Horde\Imp\Mailbox\MailboxAccountManager;
+use Horde\Imp\Mailbox\MailboxAccountManagerFactory;
+use Horde\Imp\Mailbox\MailboxCredentialSource;
+use Horde\Imp\Mailbox\SessionCredentialSource;
+use Horde\Imp\Mailbox\SiteAccountsProvider;
+use Horde\Imp\Mailbox\SiteAccountsProviderFactory;
 use Horde\Util\Variables;
 
 /**
@@ -126,6 +132,27 @@ class IMP_Application extends Horde_Registry_Application
         $federated = $injector->get(AppAuthMode::class)->isFederated();
         if ($federated) {
             $this->auth = array_diff($this->auth, ['authenticate', 'transparent']);
+
+            /* Federated Mode mailbox account layer. The account manager
+             * resolves accounts from configured backends and hands out lazy
+             * per-account connections. The credential source turns the
+             * authenticated Horde session into a per-account mailbox
+             * credential so getConnection() works without explicit
+             * credentials. */
+            $injector->bindFactory(
+                SiteAccountsProvider::class,
+                SiteAccountsProviderFactory::class,
+                'create'
+            );
+            $injector->bindImplementation(
+                MailboxCredentialSource::class,
+                SessionCredentialSource::class
+            );
+            $injector->bindFactory(
+                MailboxAccountManager::class,
+                MailboxAccountManagerFactory::class,
+                'create'
+            );
         }
 
         /* Methods only available if admin config is set for this
@@ -148,8 +175,7 @@ class IMP_Application extends Horde_Registry_Application
     {
         global $injector;
 
-        /* Federated mode does not eagerly connect to the primary mailbox on
-         * authentication; account providers open connections on demand. */
+        /* Federated mode does not have a "main" account which implies IMP application level authentication. */
         if ($injector->get(AppAuthMode::class)->isFederated()) {
             return;
         }

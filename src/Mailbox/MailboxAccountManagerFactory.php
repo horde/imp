@@ -100,6 +100,7 @@ final class MailboxAccountManagerFactory
                 static fn(string $class) => $injector->get($class),
                 self::PROVIDERS
             ),
+            credentialSource: $injector->get(MailboxCredentialSource::class),
         );
     }
 
@@ -181,12 +182,19 @@ final class MailboxAccountManagerFactory
      * Construct the ImpMailboxAccountManager from the resolved provider array.
      * Both entrypoints delegate here.
      *
-     * @param list<MailboxProvider> $providers
+     * @param list<MailboxProvider>        $providers
+     * @param MailboxCredentialSource|null $credentialSource Credential source for
+     *                                                       getConnection(). Null on the
+     *                                                       builder/CLI path, which uses
+     *                                                       getConnectionWith() explicitly.
      */
-    private function assemble(array $providers): ImpMailboxAccountManager
-    {
+    private function assemble(
+        array $providers,
+        ?MailboxCredentialSource $credentialSource = null,
+    ): ImpMailboxAccountManager {
         return new ImpMailboxAccountManager(
             providers: $providers,
+            credentialSource: $credentialSource,
         );
     }
 }

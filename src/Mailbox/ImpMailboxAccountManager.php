@@ -30,10 +30,17 @@ final class ImpMailboxAccountManager implements MailboxAccountManager
     private readonly array $providers;
 
     /**
-     * @param MailboxProvider[] $providers Sorted by getPriority() ascending.
+     * @param MailboxProvider[]           $providers        Sorted by getPriority() ascending.
+     * @param MailboxCredentialSource|null $credentialSource Resolves owner + credential for
+     *                                                       getConnection(). When null,
+     *                                                       getConnection() has no credential
+     *                                                       source and callers must use
+     *                                                       getConnectionWith() with an explicit
+     *                                                       credential (the CLI/daemon path).
      */
     public function __construct(
         array $providers,
+        private readonly ?MailboxCredentialSource $credentialSource = null,
         private readonly ConnectionCache $cache = new NullConnectionCache(),
     ) {
         usort(
@@ -77,22 +84,28 @@ final class ImpMailboxAccountManager implements MailboxAccountManager
 
     public function getConnection(MailboxAccount $account): MailboxConnection
     {
-        // @todo Resolve the current user's ID and a MailboxCredential for this
-        //       account (from the session AuthCredentialStore or the
-        //       CredentialVault), then delegate to getConnectionWith():
-        //
-        //   $userId     = $this->session->getAuthId();
-        //   $credential = $this->credentialStore->find($account->getId());
-        //   return $this->getConnectionWith($account, $credential, $userId);
-        //
-        // Until a credential source exists, callers that already hold a
-        // credential (the CLI diagnostic, a daemon that unrolled it from a
-        // vault) call getConnectionWith() directly.
-        throw new \LogicException(
-            'getConnection() requires a credential source (AuthCredentialStore / '
-                . 'CredentialVault) — not yet implemented. Use getConnectionWith() '
-                . 'when you already hold a credential.'
-        );
+        if ($this->credentialSource === null) {
+            throw new \LogicException(
+                'getConnection() needs a MailboxCredentialSource. This manager '
+                    . 'was built without one; use getConnectionWith() with an '
+                    . 'explicit credential (the CLI/daemon path).'
+            );
+        }
+
+        $userId = $this->credentialSource->ownerUserId();
+        if ($userId === null) {
+            throw new \RuntimeException(
+                'Cannot open a mailbox connection: no authenticated Horde user '
+                    . 'in this request.'
+            );
+        }
+
+        // Resolution decides which credential represents the account; it does
+        // not connect or log in. A missing secret surfaces later as a
+        // non-Present state at the explicit, lazy login moment, not here.
+        $credential = $this->credentialSource->resolve($account);
+
+        return $this->getConnectionWith($account, $credential, $userId);
     }
 
     public function getConnectionWith(
