@@ -34,6 +34,9 @@
  * @property string $debug  The debug handler.
  * @property boolean $debug_raw  Do raw debugging?
  * @property mixed $hordeauth  Type of horde authentication to use.
+ * @property string $oauth  Provider ID of the associated OAuth/OIDC
+ *                          provider (see horde_oauth_providers), if this
+ *                          backend authenticates via XOAUTH2.
  * @property string $hostspec  Hostspec of the backend.
  * @property array $id  List of ID information to send via the ID command.
  * @property-read integer $import_limit  The maximum number of messages
@@ -131,7 +134,7 @@ class IMP_Imap_Config implements Serializable
      */
     private $_soptions = [
         'cache_lifetime', 'comparator', 'debug', 'hostspec', 'import_limit',
-        'maildomain', 'name', 'port', 'protocol', 'thread', 'timeout',
+        'maildomain', 'name', 'oauth', 'port', 'protocol', 'thread', 'timeout',
     ];
 
     /**

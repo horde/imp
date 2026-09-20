@@ -56,6 +56,7 @@ class IMP_Application extends Horde_Registry_Application
         'loginparams',
         'remove',
         'transparent',
+        'validate',
     ];
 
     /**
@@ -264,6 +265,11 @@ class IMP_Application extends Horde_Registry_Application
     public function authTransparent($auth_ob)
     {
         return IMP_Auth::transparent($auth_ob);
+    }
+
+    public function authValidate($params = [])
+    {
+        return IMP_Auth::validateOauth();
     }
 
     /**
