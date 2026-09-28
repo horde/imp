@@ -87,6 +87,13 @@ class IMP_Auth
             self::_log(false, $imp_imap);
             throw $e->authException();
         }
+
+        /* Rebuild the folder tree after IMAP login. In the smartmobile view
+         * the tree can be built before the IMAP socket exists (login
+         * ordering), which makes IMP_Ftree::init() pick
+         * IMP_Ftree_Account_Inboxonly (only INBOX is shown). So re-initializing here.
+        */
+        $injector->getInstance('IMP_Ftree')->init();
     }
 
     /**
