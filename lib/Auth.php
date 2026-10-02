@@ -93,7 +93,7 @@ class IMP_Auth
          * ordering), which makes IMP_Ftree::init() pick
          * IMP_Ftree_Account_Inboxonly (only INBOX is shown). So re-initializing here.
         */
-        $injector->getInstance('IMP_Ftree')->init();
+        $injector->get(IMP_Ftree::class)->init();
     }
 
     /**
