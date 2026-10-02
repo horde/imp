@@ -66,6 +66,7 @@ dependencies:
       horde/notification: ^3
       horde/pack: ^2
       horde/perms: ^3
+      horde/sasl: ^1
       horde/spellchecker: ^3
       horde/stream: ^2
       horde/stream_filter: ^3
