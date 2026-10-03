@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Horde\Imp\Mailboxes;
 
+use Horde\Core\Auth\AuthCredentialStore;
 use Horde\Core\Service\CredentialStore;
 use Horde\Core\Service\ServicePurpose;
 use Horde\Core\Service\GrantStrategy;
@@ -11,7 +12,6 @@ use Horde\Horde\Service\SessionToCredentialStoreProvisioner;
 use Horde\Horde\Traits\HtmlResponseTrait;
 use Horde\Horde\Traits\RedirectResponseTrait;
 use Horde\Imp\ImpBackendConfig;
-use Horde\SessionHandler\SessionHandler;
 use Horde_Registry;
 use Psr\Http\Message\ResponseInterface;
 use Horde\Http\ResponseFactory;
@@ -31,7 +31,7 @@ class AuthTestController implements RequestHandlerInterface
 
     public function __construct(
         private readonly CredentialStore $store,
-        private readonly SessionHandler $session,
+        private readonly AuthCredentialStore $authCredentials,
         private readonly ImpBackendConfig $backendConfig,
         private readonly Horde_Registry $registry,
         private readonly ResponseFactory $responseFactory,
@@ -41,7 +41,6 @@ class AuthTestController implements RequestHandlerInterface
     {
         $method = $request->getMethod();
         $body = $request->getParsedBody() ?? [];
-
         // Handle POST - provision from session
         if ($method === 'POST' && isset($body['backend_id'])) {
             return $this->provisionFromSession($body['backend_id']);
@@ -57,7 +56,6 @@ class AuthTestController implements RequestHandlerInterface
         $backends = $this->backendConfig->toArray();
         $results = [];
         $message = $request->getQueryParams()['message'] ?? null;
-
         foreach ($backends as $backendId => $backend) {
             if (isset($backend['disabled']) && $backend['disabled']) {
                 continue;
@@ -109,10 +107,12 @@ class AuthTestController implements RequestHandlerInterface
     private function provisionFromSession(string $backendId): ResponseInterface
     {
         $userId = $this->registry->getAuth();
+        $creds = $this->registry->getAuthCredential();
+        $password = $creds['password'] ?? null;
         $purpose = ServicePurpose::of('imap', GrantStrategy::Isolated);
 
         $provisioner = new SessionToCredentialStoreProvisioner(
-            $this->session,
+            $this->authCredentials,
             $this->store
         );
 
@@ -124,6 +124,7 @@ class AuthTestController implements RequestHandlerInterface
         }
 
         // Redirect back to GET with message
+        // TODO: Use the routes framework instead of this hardcoding.
         return $this->redirect('/imp/mailboxes/authtest/?message=' . urlencode($message));
     }
 
@@ -179,7 +180,8 @@ class AuthTestController implements RequestHandlerInterface
                     <?php endif; ?>
                 </td>
                 <td>
-                    <?php if ($result['status'] === 'not_found'): ?>
+                    <?php if ($result['status'] === 'not_found'): /* TODO: Use the routes framework instead of hardcoding this path. Hardcoding this path is bad*/?>
+                    <?php echo "User: " . $this->registry->getAuth(); $creds = $this->registry->getAuthCredential(); echo empty($creds['password']) ? ' (No password in session)' : ' (Password in session)'; ?>
                     <form method="POST" action="/imp/mailboxes/authtest/">
                         <input type="hidden" name="backend_id" value="<?php echo htmlspecialchars($result['backend_id']) ?>">
                         <button type="submit">Retrieve from Session</button>
