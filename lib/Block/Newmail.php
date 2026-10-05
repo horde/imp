@@ -69,9 +69,13 @@ class IMP_Block_Newmail extends Horde_Core_Block
             $html .= '<tr><td><em>' . _('No unread messages') . '</em></td></tr>';
         } else {
             $imp_ui = new IMP_Mailbox_Ui($inbox);
-            $shown = empty($this->_params['msgs_shown'])
-                ? 3
-                : $this->_params['msgs_shown'];
+            $shown = 3;
+            if (!empty($this->_params['msgs_shown'])) {
+                $shown = filter_var((string)$this->_params['msgs_shown'], FILTER_VALIDATE_INT);
+                if ($shown === false || $shown < 1) {
+                    $shown = 3;
+                }
+            }
 
             $query = new Horde_Imap_Client_Fetch_Query();
             $query->envelope();
