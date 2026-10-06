@@ -106,3 +106,9 @@ div.vpRowSelected .msCheck {
     vertical-align: middle;
     width: 16px;
 }
+
+/* Fix font for message body */
+.fixed {
+    font-family: Arial, "DejaVu Sans", sans-serif;
+}
+
