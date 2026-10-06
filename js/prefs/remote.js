@@ -13,91 +13,95 @@ var ImpRemotePrefs = {
 
     _sendData: function(a, d, c)
     {
-        $('remote_action').setValue(a);
-        $('remote_data').setValue(d);
+        document.getElementById('remote_action').value = a;
+        document.getElementById('remote_data').value = d;
         if (c) {
-            $('prefs').getInputs('hidden', 'actionID').first().clear();
+            document.querySelector('#prefs input[type="hidden"][name="actionID"]').value = '';
         }
-        $('prefs').submit();
+        document.getElementById('prefs').submit();
     },
 
     _autoconfigCallback: function(r)
     {
         if (r.success) {
-            $('remote_type').setValue(r.mconfig.imap ? 'imap' : 'pop3');
-            $('remote_server').setValue(r.mconfig.host);
-            $('remote_user').setValue(r.mconfig.username);
-            $('remote_port').setValue(r.mconfig.port);
-            $('remote_secure_autoconfig').setValue(r.mconfig.tls);
+            document.getElementById('remote_type').value = r.mconfig.imap ? 'imap' : 'pop3';
+            document.getElementById('remote_server').value = r.mconfig.host;
+            document.getElementById('remote_user').value = r.mconfig.username;
+            document.getElementById('remote_port').value = r.mconfig.port;
+            document.getElementById('remote_secure_autoconfig').value = r.mconfig.tls;
 
-            if ($F('remote_label').blank()) {
-                $('remote_label').setValue(r.mconfig.label);
+            if (!document.getElementById('remote_label').value.trim()) {
+                document.getElementById('remote_label').value = r.mconfig.label;
             }
 
-            $('remote_password').remove();
-            $('autoconfig_button').hide();
-            $('add_button').show();
+            document.getElementById('remote_password').remove();
+            document.getElementById('autoconfig_button').hidden = true;
+            document.getElementById('add_button').hidden = false;
         } else {
-            $('autoconfig_button').setValue(this.next);
+            document.getElementById('autoconfig_button').value = this.next;
         }
 
-        $('prefs').enable();
+        Array.from(document.getElementById('prefs').elements).forEach(function(el) {
+            el.disabled = false;
+        });
     },
 
     clickHandler: function(e)
     {
-        if (e.isRightClick()) {
+        if (e.button === 2) {
             return;
         }
 
-        var elt = e.element();
+        var elt = e.target;
 
-        while (Object.isElement(elt)) {
-            if (elt.hasClassName('remotedelete')) {
+        while (elt instanceof Element) {
+            if (elt.classList.contains('remotedelete')) {
                 if (window.confirm(this.confirm_delete)) {
-                    this._sendData('delete', elt.readAttribute('data-id'));
+                    this._sendData('delete', elt.dataset.id);
                 }
-                e.stop();
+                e.preventDefault();
                 return;
             }
 
-            switch (elt.readAttribute('id')) {
+            switch (elt.id) {
             case 'add_button':
                 this._sendData('add', '');
                 break;
 
             case 'autoconfig_button':
-                if ($F('remote_email').blank()) {
+                if (!document.getElementById('remote_email').value.trim()) {
                     window.alert(this.empty_email);
-                } else if ($F('remote_password').empty()) {
+                } else if (!document.getElementById('remote_password').value) {
                     window.alert(this.empty_password);
                 } else {
                     HordeCore.doAction(
                         'autoconfigAccount',
                         {
-                            email: $F('remote_email'),
-                            // Base64 encode just to keep password data from
-                            // being plaintext. A trivial obfuscation, but
-                            // will prevent passwords from leaking in the
-                            // event of some sort of data dump.
-                            password: Base64.encode($F('remote_password')),
+                            email: document.getElementById('remote_email').value,
+                            password: Base64.encode(document.getElementById('remote_password').value),
                             password_base64: true,
-                            secure: ~~($F('remote_secure') == 'yes')
+                            secure: ~~(document.getElementById('remote_secure').value == 'yes')
                         },
                         {
                             callback: this._autoconfigCallback.bind(this)
                         }
                     );
-                    elt.setValue(this.wait);
-                    $('prefs').disable();
+                    elt.value = this.wait;
+                    Array.from(document.getElementById('prefs').elements).forEach(function(el) {
+                        el.disabled = true;
+                    });
                 }
-                e.stop();
+                e.preventDefault();
                 break;
 
             case 'advanced_show':
-                $('prefs').select('.imp-remote-autoconfig').invoke('hide');
-                $('remote_secure_autoconfig').remove();
-                $('prefs').select('.imp-remote-advanced').invoke('show');
+                document.querySelectorAll('#prefs .imp-remote-autoconfig').forEach(function(el) {
+                    el.hidden = true;
+                });
+                document.getElementById('remote_secure_autoconfig').remove();
+                document.querySelectorAll('#prefs .imp-remote-advanced').forEach(function(el) {
+                    el.hidden = false;
+                });
                 break;
 
             case 'cancel_button':
@@ -109,10 +113,10 @@ var ImpRemotePrefs = {
                 break;
             }
 
-            elt = elt.up();
+            elt = elt.parentElement;
         }
     }
 
 };
 
-document.observe('click', ImpRemotePrefs.clickHandler.bindAsEventListener(ImpRemotePrefs));
+document.addEventListener('click', ImpRemotePrefs.clickHandler.bind(ImpRemotePrefs));

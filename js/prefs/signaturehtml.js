@@ -12,12 +12,12 @@ var ImpHtmlSignaturePrefs = {
 
     changeIdentity: function(e)
     {
-        switch (e.memo.pref) {
+        switch (e.detail.pref) {
         case 'signature_html_select':
             if (this.editor) {
-                this.editor.setData(this.sigs[e.memo.i]);
+                this.editor.setData(this.sigs[e.detail.i]);
             } else {
-                this.changeIdentity.bind(this, e).delay(0.1);
+                setTimeout(this.changeIdentity.bind(this, e), 100);
             }
             break;
         }
@@ -72,5 +72,5 @@ var ImpHtmlSignaturePrefs = {
 
 };
 
-document.observe('dom:loaded', ImpHtmlSignaturePrefs.onDomLoad.bind(ImpHtmlSignaturePrefs));
-document.observe('HordeIdentitySelect:change', ImpHtmlSignaturePrefs.changeIdentity.bindAsEventListener(ImpHtmlSignaturePrefs));
+document.addEventListener('DOMContentLoaded', ImpHtmlSignaturePrefs.onDomLoad.bind(ImpHtmlSignaturePrefs));
+document.addEventListener('HordeIdentitySelect:change', ImpHtmlSignaturePrefs.changeIdentity.bind(ImpHtmlSignaturePrefs));

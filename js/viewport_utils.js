@@ -6,20 +6,20 @@
  * @license    GPL-2 (http://www.horde.org/licenses/gpl)
  */
 
-Object.extend(Array.prototype, {
+Object.assign(Array.prototype, {
 
     // Need our own diff() function because prototypejs's without() function
     // does not handle array input.
     diff: function(values)
     {
-        return this.select(function(value) {
-            return !values.include(value);
+        return this.filter(function(value) {
+            return values.indexOf(value) === -1;
         });
     },
 
     numericSort: function()
     {
-        return this.collect(Number).sort(function(a, b) {
+        return this.map(Number).sort(function(a, b) {
             return (a > b) ? 1 : ((a < b) ? -1 : 0);
         });
     },
@@ -30,12 +30,12 @@ Object.extend(Array.prototype, {
     {
         opts = opts || {};
 
-        var u = (opts.raw ? this.clone() : this.numericSort()),
+        var u = (opts.raw ? this.slice() : this.numericSort()),
             first = u.shift(),
             last = first,
             out = [];
 
-        u.each(function(k) {
+        u.forEach(function(k) {
             if (!opts.raw && (last + 1 == k)) {
                 last = k;
             } else {
@@ -50,18 +50,21 @@ Object.extend(Array.prototype, {
 
 });
 
-Object.extend(String.prototype, {
+Object.assign(String.prototype, {
 
     parseViewportUidString: function()
     {
         var out = [];
 
-        this.strip().split(',').each(function(e) {
+        this.trim().split(',').forEach(function(e) {
             var r = e.split(':');
-            if (r.size() == 1) {
+            if (r.length == 1) {
                 out.push(Number(e));
             } else {
-                out = out.concat($A($R(Number(r[0]), Number(r[1]))));
+                var start = Number(r[0]), end = Number(r[1]);
+                for (var i = start; i <= end; i++) {
+                    out.push(i);
+                }
             }
         });
 
