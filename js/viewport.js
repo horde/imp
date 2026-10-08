@@ -1429,20 +1429,52 @@ ViewPort_Scroller = Class.create({
 
     mousewheelHandler: function(e)
     {
-        var delta = e.wheelDelta || 0;
+        var lh, px, rows;
 
-        if (e.detail) {
-            delta = e.detail * -1;
-        }
-        if (e.deltaY) {
-            delta = e.deltaY * -1;
-        }
-        if (!Object.isUndefined(e.wheelDeltaY)) {
-            delta = e.wheelDeltaY;
+        /* Legacy events (mousewheel / DOMMouseScroll) carry no pixel
+         * delta: keep the historical fixed step of 3 rows per notch. */
+        if (Object.isUndefined(e.deltaY)) {
+            px = e.wheelDelta || 0;
+            if (e.detail) {
+                px = e.detail * -1;
+            }
+            if (px) {
+                this.moveScroll(this.currentOffset() + (Math.min(this.vp.getPageSize(), 3) * (px > 0 ? -1 : 1)));
+            }
+            return;
         }
 
-        if (delta) {
-            this.moveScroll(this.currentOffset() + (Math.min(this.vp.getPageSize(), 3) * (delta > 0 ? -1 : 1)));
+        /* Horizontal gesture: not ours. */
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+            return;
+        }
+
+        /* Scroll proportionally to the wheel delta. Moving a fixed 3 rows
+         * per event made trackpads and free-spinning wheels, which emit
+         * many small events per gesture, scroll far too fast. Small deltas
+         * are accumulated until they add up to a full row. */
+        lh = this.vp._getLineHeight() || 1;
+        px = e.deltaY;
+        if (e.deltaMode === 1) {
+            px *= lh;
+        } else if (e.deltaMode === 2) {
+            px *= lh * this.vp.getPageSize();
+        }
+
+        if (this.wheelacc && ((this.wheelacc > 0) !== (px > 0))) {
+            this.wheelacc = 0;
+        }
+        this.wheelacc = (this.wheelacc || 0) + px;
+
+        rows = (this.wheelacc > 0)
+            ? Math.floor(this.wheelacc / lh)
+            : Math.ceil(this.wheelacc / lh);
+        this.wheelacc -= rows * lh;
+
+        e.preventDefault();
+
+        if (rows) {
+            this.moveScroll(this.currentOffset() + rows);
         }
     },
 
