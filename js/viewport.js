@@ -1461,7 +1461,7 @@ ViewPort_Scroller = Class.create({
             px *= lh * this.vp.getPageSize();
         }
 
-        if (this.wheelacc && ((this.wheelacc > 0) !== (px > 0))) {
+        if (px && this.wheelacc && ((this.wheelacc > 0) !== (px > 0))) {
             this.wheelacc = 0;
         }
         this.wheelacc = (this.wheelacc || 0) + px;
