@@ -14,38 +14,38 @@ var ImpContacts = {
 
     selectedAddresses: function()
     {
-        return $('selected_addresses').select('[value]');
+        return Array.from(document.getElementById('selected_addresses').querySelectorAll('[value]'));
     },
 
     addAddress: function(f)
     {
         var df = document.createDocumentFragment(),
             sa = this.selectedAddresses(),
-            sr = $('search_results'),
-            sel = $F(sr);
+            sr = document.getElementById('search_results'),
+            sel = Array.from(sr.selectedOptions).map(function(o) { return o.value; });
 
-        if (!sel.size()) {
+        if (!sel.length) {
             HordeCore.notify(this.text.select, 'horde.warning');
             return;
         }
 
-        sel.each(function(s) {
-            if (!sa.any(function(j) {
-                return (j.readAttribute('value') == s) &&
-                       (j.retrieve('header') == f);
+        sel.forEach(function(s) {
+            if (!sa.some(function(j) {
+                return (j.getAttribute('value') == s) &&
+                       (j._header == f);
             })) {
-                df.appendChild(
-                    new Element('OPTION', { value: s })
-                        .store('header', f)
-                        .insert(
-                            new Element('EM').insert(this.text.rcpt[f] + ': ')
-                        )
-                        .insert(s.escapeHTML())
-                );
+                var opt = document.createElement('OPTION');
+                opt.value = s;
+                opt._header = f;
+                var em = document.createElement('EM');
+                em.textContent = this.text.rcpt[f] + ': ';
+                opt.appendChild(em);
+                opt.appendChild(document.createTextNode(s));
+                df.appendChild(opt);
             }
         }, this);
 
-        $('selected_addresses').appendChild(df);
+        document.getElementById('selected_addresses').appendChild(df);
     },
 
     updateMessage: function()
@@ -59,19 +59,19 @@ var ImpContacts = {
             return;
         }
 
-        if (!sa.size()) {
+        if (!sa.length) {
             HordeCore.notify(this.text.no_contacts_selected, 'horde.warning');
             return;
         }
 
-        sa.each(function(s) {
-            var field = s.retrieve('header');
+        sa.forEach(function(s) {
+            var field = s._header;
 
-            if (Object.isUndefined(addr[field])) {
+            if (typeof addr[field] === 'undefined') {
                 addr[field] = [];
             }
 
-            addr[field].push(s.readAttribute('value'));
+            addr[field].push(s.getAttribute('value'));
         });
 
         $(parent.opener.document).fire('ImpContacts:update', addr);
@@ -80,7 +80,7 @@ var ImpContacts = {
 
     removeAddress: function()
     {
-        $('selected_addresses').childElements().each(function(o) {
+        Array.from(document.getElementById('selected_addresses').children).forEach(function(o) {
             if (o.selected) {
                 o.remove();
             }
@@ -89,21 +89,22 @@ var ImpContacts = {
 
     contactsSearch: function()
     {
-        var sr = $('search_results');
+        var sr = document.getElementById('search_results');
 
-        sr.select('[value]').invoke('remove');
-        sr.childElements().invoke('hide');
-        sr.appendChild(
-            new Element('OPTION', { disabled: true, value: "" })
-                .insert(this.text.searching)
-        );
+        Array.from(sr.querySelectorAll('[value]')).forEach(function(o) { o.remove(); });
+        Array.from(sr.children).forEach(function(o) { o.hidden = true; });
+        var opt = document.createElement('OPTION');
+        opt.disabled = true;
+        opt.value = "";
+        opt.textContent = this.text.searching;
+        sr.appendChild(opt);
 
         HordeCore.doAction('contactsSearch', {
-            search: this.searchGhost.hasinput ? $F('search') : '',
-            source: $F('source')
+            search: this.searchGhost.hasinput ? document.getElementById('search').value : '',
+            source: document.getElementById('source').value
         }, {
             callback: function(r) {
-                sr.select(':not([value])').invoke('show');
+                Array.from(sr.querySelectorAll(':not([value])')).forEach(function(o) { o.hidden = false; });
                 this.updateResults(r.results);
             }.bind(this)
         });
@@ -112,18 +113,18 @@ var ImpContacts = {
     updateResults: function(r)
     {
         var df = document.createDocumentFragment(),
-            sr = $('search_results');
+            sr = document.getElementById('search_results');
 
-        r.each(function(addr) {
-            df.appendChild(
-                new Element('OPTION', { value: addr })
-                    .insert(addr.escapeHTML())
-            );
+        r.forEach(function(addr) {
+            var opt = document.createElement('OPTION');
+            opt.value = addr;
+            opt.textContent = addr;
+            df.appendChild(opt);
         });
 
-        sr.select('[value]').invoke('remove');
+        Array.from(sr.querySelectorAll('[value]')).forEach(function(o) { o.remove(); });
 
-        if (r.size()) {
+        if (r.length) {
             sr.appendChild(df);
         }
     },
@@ -132,7 +133,7 @@ var ImpContacts = {
     {
         window.resizeBy(
             0,
-            Math.max(0, document.body.clientHeight - document.viewport.getHeight())
+            Math.max(0, document.body.clientHeight - document.documentElement.clientHeight)
         );
     },
 
@@ -141,7 +142,7 @@ var ImpContacts = {
         HordeCore.initHandler('click');
         HordeCore.initHandler('dblclick');
 
-        $('contacts').observe('FormGhost:submit', function(e) {
+        document.getElementById('contacts').addEventListener('FormGhost:submit', function(e) {
             if (this.searchGhost.hasinput) {
                 this.contactsSearch();
             }
@@ -154,12 +155,14 @@ var ImpContacts = {
 
         this.searchGhost = new FormGhost('search');
 
-        this.resize.bind(this).delay(0.1);
+        setTimeout(this.resize.bind(this), 100);
     },
 
     clickHandler: function(e)
     {
-        switch (e.element().readAttribute('id')) {
+        var id = e.target.id || (e.target.closest('[id]') || {}).id;
+
+        switch (id) {
         case 'btn_add_bcc':
             this.addAddress('bcc');
             break;
@@ -174,7 +177,7 @@ var ImpContacts = {
 
         case 'btn_cancel':
             window.close();
-            e.memo.hordecore_stop = true;
+            e.detail.hordecore_stop = true;
             break;
 
         case 'btn_clear':
@@ -186,7 +189,7 @@ var ImpContacts = {
             break;
 
         case 'btn_search_all':
-            $('search').value = '';
+            document.getElementById('search').value = '';
             this.contactsSearch();
             break;
 
@@ -198,7 +201,9 @@ var ImpContacts = {
 
     dblclickHandler: function(e)
     {
-        switch (e.element().readAttribute('id')) {
+        var id = e.target.id || (e.target.closest('[id]') || {}).id;
+
+        switch (id) {
         case 'search_results':
             this.addAddress('to');
             break;
@@ -211,6 +216,6 @@ var ImpContacts = {
 
 };
 
-document.observe('dom:loaded', ImpContacts.onDomLoad.bind(ImpContacts));
-document.observe('HordeCore:click', ImpContacts.clickHandler.bindAsEventListener(ImpContacts));
-document.observe('HordeCore:dblclick', ImpContacts.dblclickHandler.bindAsEventListener(ImpContacts));
+document.addEventListener('DOMContentLoaded', ImpContacts.onDomLoad.bind(ImpContacts));
+document.addEventListener('HordeCore:click', ImpContacts.clickHandler.bind(ImpContacts));
+document.addEventListener('HordeCore:dblclick', ImpContacts.dblclickHandler.bind(ImpContacts));

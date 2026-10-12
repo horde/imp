@@ -1,5 +1,5 @@
 /**
- * DragHandler library for use with prototypejs.
+ * DragHandler library.
  *
  * @author     Michael Slusarz <slusarz@horde.org>
  * @copyright  2013-2015 Horde LLC
@@ -19,7 +19,7 @@ var DragHandler = {
     {
         return (e.dataTransfer &&
                 e.dataTransfer.types &&
-                $A(e.dataTransfer.types).include('Files') &&
+                Array.from(e.dataTransfer.types).indexOf('Files') !== -1 &&
                 ((e.type != 'drop') || e.dataTransfer.files.length));
     },
 
@@ -27,25 +27,20 @@ var DragHandler = {
     {
         if (this.dropelt &&
             (e.dataTransfer ||
-             (e.memo && e.memo.dataTransfer) ||
-             this.dropelt.visible())) {
-            if (Prototype.Browser.IE &&
-                !(("onpropertychange" in document) && (!!window.matchMedia))) {
-                // IE 9 supports drag/drop, but not dataTransfer.files
-            } else {
-                switch (e.type) {
-                case 'dragleave':
-                    this.handleLeave();
-                    break;
+             (e.detail && e.detail.dataTransfer) ||
+             !this.dropelt.hidden)) {
+            switch (e.type) {
+            case 'dragleave':
+                this.handleLeave();
+                break;
 
-                case 'dragover':
-                    this.handleOver(e);
-                    break;
+            case 'dragover':
+                this.handleOver(e);
+                break;
 
-                case 'drop':
-                    this.handleDrop(e);
-                    break;
-                }
+            case 'drop':
+                this.handleDrop(e);
+                break;
             }
         }
     },
@@ -53,23 +48,23 @@ var DragHandler = {
     handleDrop: function(e)
     {
         this.leave = true;
-        this.hide();
+        this.hide(); // eslint-disable-line horde/no-prototype-methods -- DragHandler.hide()
 
         if (this.isFileDrag(e)) {
-            if (this.dropelt.hasClassName(this.hoverclass)) {
+            if (this.dropelt.classList.contains(this.hoverclass)) {
                 this.dropelt.fire('DragHandler:drop', e.dataTransfer.files);
             }
-            e.stop();
-        } else if (!e.findElement('TEXTAREA') && !e.findElement('INPUT')) {
-            e.stop();
+            e.preventDefault();
+        } else if (!e.target.closest('TEXTAREA') && !e.target.closest('INPUT')) {
+            e.preventDefault();
         }
     },
 
     hide: function()
     {
         if (this.leave) {
-            this.dropelt.hide();
-            this.droptarget.show();
+            this.dropelt.hidden = true;
+            this.droptarget.hidden = false;
             this.leave = false;
         }
     },
@@ -77,7 +72,7 @@ var DragHandler = {
     handleLeave: function()
     {
         clearTimeout(this.to);
-        this.to = this.hide.bind(this).delay(0.25);
+        this.to = setTimeout(this.hide.bind(this), 250);
         this.leave = true;
     },
 
@@ -85,27 +80,30 @@ var DragHandler = {
     {
         var file = this.isFileDrag(e);
 
-        if (file && !this.dropelt.visible()) {
-            this.dropelt.clonePosition(this.droptarget).show();
-            this.droptarget.hide();
+        if (file && this.dropelt.hidden) {
+            // Position dropelt over droptarget
+            var rect = this.droptarget.getBoundingClientRect();
+            this.dropelt.style.position = 'absolute';
+            this.dropelt.style.left = rect.left + 'px';
+            this.dropelt.style.top = rect.top + 'px';
+            this.dropelt.style.width = rect.width + 'px';
+            this.dropelt.style.height = rect.height + 'px';
+            this.dropelt.hidden = false;
+            this.droptarget.hidden = true;
         }
 
         this.leave = false;
 
         if (file && (e.target == this.dropelt)) {
-            this.dropelt.addClassName(this.hoverclass);
-            e.stop();
+            this.dropelt.classList.add(this.hoverclass);
+            e.preventDefault();
         } else {
-            this.dropelt.removeClassName(this.hoverclass);
-            if (Prototype.Browser.IE ||
-                Prototype.Browser.Gecko) {
-                e.stop();
-            }
+            this.dropelt.classList.remove(this.hoverclass);
         }
     }
 
 };
 
-document.observe('dragleave', DragHandler.handleObserve.bindAsEventListener(DragHandler));
-document.observe('dragover', DragHandler.handleObserve.bindAsEventListener(DragHandler));
-document.observe('drop', DragHandler.handleObserve.bindAsEventListener(DragHandler));
+document.addEventListener('dragleave', DragHandler.handleObserve.bind(DragHandler));
+document.addEventListener('dragover', DragHandler.handleObserve.bind(DragHandler));
+document.addEventListener('drop', DragHandler.handleObserve.bind(DragHandler));

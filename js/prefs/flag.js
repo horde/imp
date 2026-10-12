@@ -20,32 +20,32 @@ var ImpFlagPrefs = {
 
     _sendData: function(a, d)
     {
-        $('flag_action').setValue(a);
-        $('flag_data').setValue(d);
-        $('prefs').submit();
+        document.getElementById('flag_action').value = a;
+        document.getElementById('flag_data').value = d;
+        document.getElementById('prefs').submit();
     },
 
     changeHandler: function(e, elt)
     {
-        if (elt.identify().startsWith('bg_')) {
-            elt.setStyle({ background: elt.getValue() });
+        if (elt.id.startsWith('bg_')) {
+            elt.style.background = elt.value;
         }
     },
 
     clickHandler: function(e)
     {
         var cnames, elt2,
-            elt = e.element();
+            elt = e.detail.element();
 
-        if (elt.readAttribute('id') == 'new_button') {
+        if (elt.id == 'new_button') {
             this.addFlag();
         } else {
-            cnames = $w(elt.className);
+            cnames = elt.className.split(/\s+/);
 
             if (cnames.indexOf('flagcolorpicker') !== -1) {
-                elt2 = elt.previous('INPUT');
+                elt2 = elt.previousElementSibling;
                 new ColorPicker({
-                    color: $F(elt2),
+                    color: elt2.value,
                     draggable: true,
                     offsetParent: elt,
                     resizable: true,
@@ -54,21 +54,21 @@ var ImpFlagPrefs = {
                         [ elt2, 'background' ]
                     ]
                 });
-                e.memo.stop();
+                e.detail.stop();
             } else if (cnames.indexOf('flagdelete') !== -1) {
                 if (window.confirm(this.confirm_delete)) {
-                    this._sendData('delete', elt.previous('INPUT').readAttribute('id'));
+                    this._sendData('delete', elt.previousElementSibling.id);
                 }
-                e.memo.stop();
+                e.detail.stop();
             }
         }
     },
 
     resetHandler: function()
     {
-        $('prefs').getInputs('text').each(function(i) {
-            if (i.readAttribute('id').startsWith('color_')) {
-                i.setStyle({ backgroundColor: $F(i) });
+        document.getElementById('prefs').querySelectorAll('input[type="text"]').forEach(function(i) {
+            if (i.id.startsWith('color_')) {
+                i.style.backgroundColor = i.value;
             }
         });
     },
@@ -76,13 +76,17 @@ var ImpFlagPrefs = {
     onDomLoad: function()
     {
         HordeCore.initHandler('click');
-        $('prefs').observe('reset', function() {
-            this.resetHandler.delay(0.1);
+        document.getElementById('prefs').addEventListener('reset', function() {
+            setTimeout(this.resetHandler.bind(this), 100);
         }.bind(this));
     }
 
 };
 
-document.observe('dom:loaded', ImpFlagPrefs.onDomLoad.bind(ImpFlagPrefs));
-document.observe('HordeCore:click', ImpFlagPrefs.clickHandler.bindAsEventListener(ImpFlagPrefs));
-document.on('change', 'INPUT', ImpFlagPrefs.changeHandler.bind(ImpFlagPrefs));
+document.addEventListener('DOMContentLoaded', ImpFlagPrefs.onDomLoad.bind(ImpFlagPrefs));
+document.addEventListener('HordeCore:click', ImpFlagPrefs.clickHandler.bind(ImpFlagPrefs));
+document.addEventListener('change', function(e) {
+    if (e.target.matches('INPUT')) {
+        ImpFlagPrefs.changeHandler(e, e.target);
+    }
+});

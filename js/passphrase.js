@@ -10,7 +10,7 @@ var ImpPassphraseDialog = {
 
     display: function(data)
     {
-        HordeDialog.display(Object.extend(data, {
+        HordeDialog.display(Object.assign(data, {
             form_id: 'imp_passphrase',
             password: true
         }));
@@ -18,11 +18,11 @@ var ImpPassphraseDialog = {
 
     onClick: function(e)
     {
-        switch (e.element().identify()) {
+        switch (e.target.id || (e.target.closest('[id]') || {}).id) {
         case 'imp_passphrase':
             HordeCore.doAction(
                 'checkPassphrase',
-                e.findElement('FORM').serialize(true),
+                Object.fromEntries(new FormData(e.target.closest('FORM'))),
                 { callback: this.callback.bind(this) }
             );
             break;
@@ -39,4 +39,4 @@ var ImpPassphraseDialog = {
 
 };
 
-document.observe('HordeDialog:onClick', ImpPassphraseDialog.onClick.bindAsEventListener(ImpPassphraseDialog));
+document.addEventListener('HordeDialog:onClick', ImpPassphraseDialog.onClick.bind(ImpPassphraseDialog));
