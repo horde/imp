@@ -21,6 +21,8 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
+use Horde\Imp\ImpConfig;
+
 class IMP_Compose_LinkedAttachment
 {
     /**
@@ -55,10 +57,12 @@ class IMP_Compose_LinkedAttachment
      */
     public function __construct($user, $id = null)
     {
-        global $conf, $injector;
+        global $injector;
+
+        $config = $injector->get('ImpConfig');
 
         /* Sanity checking - no gettext needed. */
-        if (empty($conf['compose']['link_attachments'])) {
+        if (empty($config->get('compose.link_attachments'))) {
             throw new IMP_Exception('Linked attachments are forbidden.');
         }
 
@@ -101,7 +105,9 @@ class IMP_Compose_LinkedAttachment
      */
     public function delete($token)
     {
-        if (empty($GLOBALS['conf']['compose']['link_attachments_notify'])
+        $config = $injector->get('ImpConfig');
+
+        if (empty($config->get('compose.link_attachments_notify')
             || !($dtoken = $this->_getDeleteToken())
             || ($dtoken != $token)) {
             return false;
@@ -177,9 +183,10 @@ class IMP_Compose_LinkedAttachment
      */
     public function sendNotification()
     {
-        global $conf, $injector, $registry;
+        global $injector, $registry;
 
-        if (empty($conf['compose']['link_attachments_notify'])) {
+        $config = $injector->get('ImpConfig');
+        if (empty($config->get('compose.link_attachments_notify')) {
             return;
         }
 
