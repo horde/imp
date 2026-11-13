@@ -6,6 +6,7 @@
  * @license   http://www.horde.org/licenses/gpl GPLv2
  * @copyright 2026 Horde LLC (http://www.horde.org)
  * @package   IMP
+ * @todo Framework 6.1 migrate to Horde\Browser\Browser or Horde\Browser\HttpUtils
  */
 
 require_once __DIR__ . '/../../../Stub/ItipRequest.php';

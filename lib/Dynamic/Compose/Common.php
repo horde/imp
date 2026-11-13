@@ -10,6 +10,7 @@
  * @copyright 2005-2017 Horde LLC
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
+ * @todo Framework 6.1 migrate to Horde\Browser\Browser or Horde\Browser\HttpUtils
  */
 
 /**
