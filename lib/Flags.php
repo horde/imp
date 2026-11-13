@@ -12,6 +12,8 @@
  * @package   IMP
  */
 
+use Horde\Util\HordeString;
+
 /**
  * Provides an interface to deal with display of flags/keywords/labels on
  * messages.
@@ -180,6 +182,32 @@ class IMP_Flags implements ArrayAccess, Serializable
         }
 
         return array_values($ret);
+    }
+
+    /**
+     * User-created IMAP keywords, keyed by lowercase flag name.
+     *
+     * Values are the display labels. Built-in flags are omitted, including
+     * ones whose color or label was customized and therefore stored in the
+     * same preference. ActiveSync uses this map as message categories.
+     *
+     * @return array<string, string>
+     */
+    public function msgflags(): array
+    {
+        $msgFlags = [];
+        foreach ($this->_userflags as $flag) {
+            if (!$flag instanceof IMP_Flag_User) {
+                continue;
+            }
+            $keyword = $flag->imapflag;
+            if (!is_string($keyword) || $keyword === '') {
+                continue;
+            }
+            $msgFlags[HordeString::lower($keyword)] = (string) $flag->label;
+        }
+
+        return $msgFlags;
     }
 
     /**
