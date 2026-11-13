@@ -103,7 +103,6 @@
     "bin": [
         "bin/imp-admin-upgrade",
         "bin/imp-bounce-spam",
-        "bin/imp-federated-mode-test",
         "bin/imp-mailbox-decode",
         "bin/imp-query-imap-cache",
         "bin/imp-test-imap",
