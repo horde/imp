@@ -25,7 +25,7 @@
         "webmail",
         "imap"
     ],
-    "time": "2026-08-21",
+    "time": "2026-11-13",
     "repositories": [],
     "require": {
         "horde/horde-installer-plugin": "dev-FRAMEWORK_6_0 || ^3 || ^2",
@@ -103,6 +103,7 @@
     "bin": [
         "bin/imp-admin-upgrade",
         "bin/imp-bounce-spam",
+        "bin/imp-federated-mode-test",
         "bin/imp-mailbox-decode",
         "bin/imp-query-imap-cache",
         "bin/imp-test-imap",
