@@ -419,6 +419,22 @@ class IMP_Api extends Horde_Registry_Api
     }
 
     /**
+     * Return the current user's IMAP keywords for ActiveSync categories.
+     *
+     * Keys are lowercase flag keywords. Values are the display labels.
+     * Only flags the user created are included. Callers query this as the
+     * mail capability mail/msgflags and do not unserialize IMP flag objects.
+     *
+     * @return array<string, string>
+     *
+     * @author Torben Dannhauer <torben@dannhauer.de>
+     */
+    public function msgflags(): array
+    {
+        return $GLOBALS['injector']->getInstance(IMP_Flags::class)->msgflags();
+    }
+
+    /**
      * Return the list of special mailboxes.
      *
      * @return @see IMP_Mailbox::getSpecialMailboxes()
