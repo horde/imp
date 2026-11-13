@@ -431,7 +431,7 @@ class IMP_Api extends Horde_Registry_Api
      */
     public function msgflags(): array
     {
-        return $GLOBALS['injector']->getInstance(IMP_Flags::class)->msgflags();
+        return $GLOBALS['injector']->get(IMP_Flags::class)->msgflags();
     }
 
     /**
