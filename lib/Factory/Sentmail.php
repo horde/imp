@@ -23,6 +23,9 @@ use Horde\Injector\Injector;
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   IMP
  */
+
+use Horde\Imp\ImpConfig;
+
 class IMP_Factory_Sentmail extends Horde_Core_Factory_Injector
 {
     /**
@@ -33,9 +36,11 @@ class IMP_Factory_Sentmail extends Horde_Core_Factory_Injector
      */
     public function create(Horde_Injector|Injector $injector)
     {
-        $driver = empty($GLOBALS['conf']['sentmail']['driver'])
+        $config = $injector->get('ImpConfig');
+
+        $driver = empty($config->get('sentmail.driver'))
             ? 'null'
-            : $GLOBALS['conf']['sentmail']['driver'];
+            : $config->get('sentmail.driver');
         $params = Horde::getDriverConfig('sentmail', $driver);
 
         switch (Horde_String::lower($driver)) {
