@@ -36,7 +36,7 @@ class IMP_Factory_Sentmail extends Horde_Core_Factory_Injector
      */
     public function create(Horde_Injector|Injector $injector)
     {
-        $config = $injector->get('ImpConfig');
+        $config = $injector->get(ImpConfig::class);
 
         $driver = empty($config->get('sentmail.driver'))
             ? 'null'
