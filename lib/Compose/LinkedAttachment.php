@@ -60,7 +60,7 @@ class IMP_Compose_LinkedAttachment
     {
         global $injector;
 
-        $config = $injector->get('ImpConfig');
+        $config = $injector->get(ImpConfig::class);
 
         /* Sanity checking - no gettext needed. */
         if (empty($config->get('compose.link_attachments'))) {
@@ -106,9 +106,11 @@ class IMP_Compose_LinkedAttachment
      */
     public function delete($token)
     {
-        $config = $injector->get('ImpConfig');
+        global $injector;
 
-        if (empty($config->get('compose.link_attachments_notify')
+        $config = $injector->get(ImpConfig::class);
+
+        if (empty($config->get('compose.link_attachments_notify'))
             || !($dtoken = $this->_getDeleteToken())
             || ($dtoken != $token)) {
             return false;
@@ -186,8 +188,8 @@ class IMP_Compose_LinkedAttachment
     {
         global $injector, $registry;
 
-        $config = $injector->get('ImpConfig');
-        if (empty($config->get('compose.link_attachments_notify')) {
+        $config = $injector->get(ImpConfig::class);
+        if (empty($config->get('compose.link_attachments_notify'))) {
             return;
         }
 

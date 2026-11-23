@@ -583,9 +583,11 @@ class IMP_Contents
      */
     public function renderMIMEPart($mime_id, $mode, array $options = [])
     {
+        global $injector;
+
         $this->_buildMessage();
-        
-        $config = $injector->get('ImpConfig');
+
+        $config = $injector->get(ImpConfig::class);
 
         $mime_part = empty($options['mime_part'])
             ? $this->getMimePart($mime_id)
@@ -604,7 +606,8 @@ class IMP_Contents
             }
             fclose($fp);
 
-            $options['type'] = Horde_Mime_Magic::analyzeFile($tempfile, empty($config->get('mime.magic_db') ? null : $config->get('mime.magic_db');
+            $magic_db = $config->get('mime.magic_db');
+            $options['type'] = Horde_Mime_Magic::analyzeFile($tempfile, empty($magic_db) ? null : $magic_db);
         }
 
         $type = empty($options['type'])
