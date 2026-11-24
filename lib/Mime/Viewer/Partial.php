@@ -85,6 +85,13 @@ class IMP_Mime_Viewer_Partial extends Horde_Mime_Viewer_Base
             return null;
         }
 
+        /* RFC 2046 §5.2.2 defines the id parameter as a msg-id. It must
+         * not contain control characters. Reject any such value to
+         * prevent IMAP command injection via a crafted Content-Type header. */
+        if (preg_match('/[\x00-\x1f\x7f]/', $id)) {
+            return null;
+        }
+
         /* Perform the search to find the other parts of the message. */
         $query = new Horde_Imap_Client_Search_Query();
         $query->headerText('Content-Type', $id);
