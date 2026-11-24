@@ -1396,18 +1396,18 @@ ViewPort_Scroller = Class.create({
         this.scrollDiv = new Element('DIV', { className: 'vpScroll' }).setStyle({ cssFloat: 'right', overflow: 'hidden' }).hide();
         c.insert({ before: this.scrollDiv });
 
-        this.scrollDiv.observe('Slider2:change', function() {
+        this.scrollDiv.addEventListener('Slider2:change', function() {
             if (!this.noupdate) {
                 this.vp.requestContentRefresh(this.currentOffset());
             }
         }.bind(this));
-        this.scrollDiv.observe('Slider2:end', function() {
+        this.scrollDiv.addEventListener('Slider2:end', function() {
             this.vp.opts.container.fire('ViewPort:sliderEnd');
         }.bind(this));
-        this.scrollDiv.observe('Slider2:slide', function() {
+        this.scrollDiv.addEventListener('Slider2:slide', function() {
             this.vp.opts.container.fire('ViewPort:sliderSlide');
         }.bind(this));
-        this.scrollDiv.observe('Slider2:start', function() {
+        this.scrollDiv.addEventListener('Slider2:start', function() {
             this.vp.opts.container.fire('ViewPort:sliderStart');
         }.bind(this));
 
