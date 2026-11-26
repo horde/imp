@@ -35,7 +35,7 @@ var ImpFlagPrefs = {
     clickHandler: function(e)
     {
         var cnames, elt2,
-            elt = e.detail.element();
+            elt = e.detail.target;
 
         if (elt.id == 'new_button') {
             this.addFlag();
@@ -54,12 +54,14 @@ var ImpFlagPrefs = {
                         [ elt2, 'background' ]
                     ]
                 });
-                e.detail.stop();
+                e.detail.preventDefault();
+                e.detail.stopPropagation();
             } else if (cnames.indexOf('flagdelete') !== -1) {
                 if (window.confirm(this.confirm_delete)) {
                     this._sendData('delete', elt.previousElementSibling.id);
                 }
-                e.detail.stop();
+                e.detail.preventDefault();
+                e.detail.stopPropagation();
             }
         }
     },

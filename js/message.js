@@ -125,12 +125,14 @@ var ImpMessage = {
 
         case 'forward_link':
             this.quickreply('forward_auto');
-            e.detail.stop();
+            e.detail.preventDefault();
+            e.detail.stopPropagation();
             break;
 
         case 'reply_link':
             this.quickreply('reply_auto');
-            e.detail.stop();
+            e.detail.preventDefault();
+            e.detail.stopPropagation();
             break;
 
         case 'button_delete':
@@ -192,7 +194,7 @@ var ImpMessage = {
             break;
 
         case 'qreply':
-            if (e.detail.element().match('DIV.headercloseimg IMG')) {
+            if (e.detail.target.matches('DIV.headercloseimg IMG')) {
                 ImpCompose.confirmCancel();
             }
             break;
@@ -209,7 +211,8 @@ var ImpMessage = {
                 },
                 uids: [ this.buid ]
             });
-            e.detail.stop();
+            e.detail.preventDefault();
+            e.detail.stopPropagation();
             break;
 
         default:
@@ -225,7 +228,8 @@ var ImpMessage = {
                     name: this.buid + '|' + this.mbox + '|print',
                     onload: IMP_JS.printWindow
                 });
-                e.detail.stop();
+                e.detail.preventDefault();
+                e.detail.stopPropagation();
             } else if (cnames.indexOf('stripAtc') !== -1) {
                 if (window.confirm(ImpCore.text.strip_warn)) {
                     ImpCore.reloadMessage({
@@ -235,7 +239,8 @@ var ImpMessage = {
                         mailbox: this.mbox
                     });
                 }
-                e.detail.stop();
+                e.detail.preventDefault();
+                e.detail.stopPropagation();
             }
             break;
         }

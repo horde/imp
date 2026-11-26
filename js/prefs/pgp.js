@@ -17,7 +17,7 @@ var ImpPgp = {
 
     clickHandler: function(e)
     {
-        var elt = e.detail.element();
+        var elt = e.detail.target;
 
         switch (elt.id) {
         case 'generate_expire':
@@ -28,7 +28,8 @@ var ImpPgp = {
         default:
             if (elt.classList.contains('calendarImg')) {
                 Horde_Calendar.open(elt.id, new Date(Number(document.getElementById('generate_expire_date').value)));
-                e.detail.stop();
+                e.detail.preventDefault();
+                e.detail.stopPropagation();
             }
             break;
         }
